@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"账户"))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"更多")).initialise();
 
-        
+
 
     }
 }
