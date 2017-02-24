@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/common_title_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FF9999"
+    android:layout_alignParentTop="true"
+    android:paddingTop="25dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_commonTitle_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="17dp"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/tv_commonTitle_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/ic_commonr_hei"/>
+
+        <TextView
+            android:id="@+id/tv_commonTitle_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:padding="4dp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:textSize="16dp"
+            tools:text="功能" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

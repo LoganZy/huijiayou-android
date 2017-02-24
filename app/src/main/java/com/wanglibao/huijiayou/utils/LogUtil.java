@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class LogUtil {
     private static final boolean DEBUG = com.wanglibao.huijiayou.config.Config.DEBUG;
-    public static final String TAG = "huangjinhezi";
+    public static final String TAG = "HuiJiaYou";
 
     public static void e(String msg) {
         if (DEBUG)
