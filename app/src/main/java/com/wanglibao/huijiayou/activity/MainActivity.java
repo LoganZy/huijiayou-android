@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
+        String ac = "abc";
 
         bottom_navigation_bar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"会加油"))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"账户"))
