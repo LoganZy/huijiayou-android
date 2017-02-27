@@ -25,9 +25,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
+        //final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
-        msgApi.registerApp("wxd930ea5d5a258f4f");
+       // msgApi.registerApp("wx9bcf508fbe5af427");
     }
 
     public static Context getContext(){

@@ -66,4 +66,11 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/WXLogin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信登录"/>
 </RelativeLayout>
