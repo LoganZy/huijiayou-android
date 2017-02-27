@@ -24,4 +24,14 @@ public class GasFragment extends Fragment {
         ButterKnife.bind(this, view);
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

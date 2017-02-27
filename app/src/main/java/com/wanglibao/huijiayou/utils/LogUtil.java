@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class LogUtil {
-    private static final boolean DEBUG = com.wanglibao.huijiayou.config.Config.DEBUG;
+    private static final boolean DEBUG = com.wanglibao.huijiayou.config.Constans.DEBUG;
     public static final String TAG = "HuiJiaYou";
 
     public static void e(String msg) {

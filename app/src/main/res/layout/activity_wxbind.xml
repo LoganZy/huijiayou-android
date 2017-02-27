@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login"
+    android:id="@+id/activity_wxbind"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanglibao.huijiayou.activity.LoginActivity">
+    tools:context="com.wanglibao.huijiayou.activity.WXBindActivity">
 
     <include layout="@layout/common_title"/>
 
     <EditText
-        android:id="@+id/edit_activityLogin_phone"
+        android:id="@+id/edit_activityWXBind_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:hint="请输入手机号码"/>
 
     <RelativeLayout
-        android:id="@+id/rl_activityLogin_phoneCode"
+        android:id="@+id/rl_activityWXBind_phoneCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_activityLogin_phone">
+        android:layout_below="@+id/edit_activityWXBind_phone">
 
         <EditText
-            android:id="@+id/edit_activityLogin_phoneCode"
+            android:id="@+id/edit_activityWXBind_phoneCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入手机验证码"/>
 
         <TextView
-            android:id="@+id/tv_activityLogin_sendPhoneCode"
+            android:id="@+id/tv_activityWXBind_sendPhoneCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -38,11 +38,11 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btn_activityLogin_login"
+        android:id="@+id/btn_activityWXBind_WXBind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_activityLogin_phoneCode"
-        android:text="登录"/>
+        android:layout_below="@+id/rl_activityWXBind_phoneCode"
+        android:text="綁定"/>
 
 
     <LinearLayout

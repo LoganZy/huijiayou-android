@@ -77,8 +77,6 @@ public class MainActivity extends BaseActivity {
             }
         });
         bottom_navigation_bar.selectTab(0);
-
-
     }
 
 

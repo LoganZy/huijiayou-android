@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|fontScale"></activity>
+            android:configChanges="orientation|screenSize|keyboardHidden|fontScale" />
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|fontScale"
@@ -35,7 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.WXBindActivity"></activity>
     </application>
 
 </manifest>

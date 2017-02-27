@@ -8,6 +8,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 public class Constans {
 
+    public final static boolean DEBUG = true;
+
     public static final String APP_ID = "wx8afbd309ff35e712";
     public static IWXAPI wx_api;
+
 }
