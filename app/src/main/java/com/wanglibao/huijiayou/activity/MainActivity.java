@@ -48,9 +48,12 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.fl_mainActivity_fragmentShell,gasFragment)
                 .commit();
 
-        bottom_navigation_bar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"会加油"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"账户"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher,"更多")).initialise();
+        bottom_navigation_bar.addItem(new BottomNavigationItem(R.mipmap.ic_tabar_home_h,"会加油")
+                        .setInactiveIconResource(R.mipmap.ic_tabar_home_n))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_tabar_me_h,"账户")
+                        .setInactiveIconResource(R.mipmap.ic_tabar_me_n))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_tabar_more_h,"更多")
+                        .setInactiveIconResource(R.mipmap.ic_tabar_more_n)).initialise();
 
 
         bottom_navigation_bar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
