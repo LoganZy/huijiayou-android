@@ -8,25 +8,30 @@ import android.widget.Toast;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wanglibao.huijiayou.Bean.WeiXIn;
 import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.config.Constans;
+import com.wanglibao.huijiayou.request.RequestInterface;
+import com.wanglibao.huijiayou.utils.LogUtil;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LoginActivity extends BaseActivity {
-    // public static BaseResp resp;
-    // public static IWXAPI WXapi;
-    //public static String WX_APP_ID = "wx9bcf508fbe5af427";
-    //public static String AppSecret = "a33465db152afd3bdd86c2fb38b7712b";
     private String weixinCode;
-    private final static int LOGIN_WHAT_INIT = 1;
-    private static String get_access_token = "";
+    private String WXBaseUrl = "https://api.weixin.qq.com/";
+    // private static String get_access_token = "";
     // 获取第一步的code后，请求以下链接获取access_token
-    public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+    //public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     //获取用户个人信息
-    public static String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+   // public static String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,61 +76,40 @@ public class LoginActivity extends BaseActivity {
         if (null != Constans.resp && Constans.resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
             // code返回
             weixinCode = ((SendAuth.Resp) Constans.resp).code;
-            /*
-			 * 将你前面得到的AppID、AppSecret、code，拼接成URL
-			 */
-            get_access_token = getCodeRequest(weixinCode);
-            Thread thread = new Thread(downloadRun);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            WXGetAccessToken(weixinCode);
+
         }
     }
-    /*
-    * 获取 token的URL的拼接
-    *
-    * */
-    private String getCodeRequest(String weixinCode)  {
-        String result = null;
-        try {
-            GetCodeRequest = GetCodeRequest.replace("APPID", URLEncoder.encode(Constans.WX_APP_ID,"UTF8")
-                    );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        try {
-            GetCodeRequest = GetCodeRequest.replace("SECRET",
-                    URLEncoder.encode(Constans.AppSecret,"UTF8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        try {
-            GetCodeRequest = GetCodeRequest.replace("CODE",URLEncoder.encode(weixinCode,"UTF8") );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        result = GetCodeRequest;
-        return result;
-    }
-
-    public  Runnable downloadRun = new Runnable() {
-
-        @Override
-        public void run() {
-            //获取token的方法
-            WXGetAccessToken();
-
-        }
-    };
     /*
     * 获取微信的token等信息
     *
     * */
-    private void WXGetAccessToken() {
+    private void WXGetAccessToken(String weixinCode) {
 
+        Retrofit retrofit = new Retrofit.Builder()
+                //注意，服务器主机应该以/结束，
+                .baseUrl(WXBaseUrl)//设置服务器主机
+                .addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
+                .build();
+        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+        Map<String,String> map = new LinkedHashMap<>();
+        map.put("appid",Constans.WX_APP_ID);
+        map.put("secret",Constans.AppSecret);
+        map.put("code",weixinCode);
+        map.put("grant_type","authorization_code");
+        Call<WeiXIn> order = requestInterface.getAccess_token(map);
+        order.enqueue(new Callback<WeiXIn>() {
+            @Override
+            public void onResponse(Call<WeiXIn> call, Response<WeiXIn> response) {
+                WeiXIn weiXIn  = response.body();
+                String token =  weiXIn.access_token;
+                String openId = weiXIn.openid;
+            }
+
+            @Override
+            public void onFailure(Call<WeiXIn> call, Throwable t) {
+                LogUtil.i(t.getMessage());
+            }
+        });
     }
 }

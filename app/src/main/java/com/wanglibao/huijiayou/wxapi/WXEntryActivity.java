@@ -12,7 +12,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wanglibao.huijiayou.activity.LoginActivity;
 import com.wanglibao.huijiayou.config.Constans;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
@@ -33,8 +32,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 //    微信请求第三方登录时，回回调该方法
     @Override
     public void onReq(BaseReq baseReq) {
-//        请求服务器
 
+        finish();
     }
 //      微信返回给第三方的请求结果
     @Override
@@ -45,7 +44,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                result ="发送成功";
+                result ="分享成功";
                 ToastUtils.createNormalToast(this,result);
                 //		      可用以下两种方法获得code
                 //      resp.toBundle(bundle);
@@ -58,18 +57,18 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = "发送取消";
+                result = "取消分享";
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show();
                 ToastUtils.createLongToast(this,result);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = "发送被拒绝";
+                result = "分享被拒绝";
                 ToastUtils.createLongToast(this,result);
                 finish();
                 break;
             default:
-                result = "发送返回";
+                result = "已经返回";
                 ToastUtils.createLongToast(this,result);
                 finish();
                 break;
