@@ -38,6 +38,7 @@ public class BaseActivity extends AppCompatActivity {
                 rl_common_title.setPadding(0, 0, 0, 0);
             }
         }
+
     }
 
     protected void initTitle(){

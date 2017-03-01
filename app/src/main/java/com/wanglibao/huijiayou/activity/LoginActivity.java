@@ -50,7 +50,6 @@ public class LoginActivity extends BaseActivity {
                 WetLogin();
             }
         });
-
     }
 
     private void WetLogin() {

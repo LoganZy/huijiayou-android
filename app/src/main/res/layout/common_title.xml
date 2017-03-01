@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="#FF9999"
     android:layout_alignParentTop="true"
-    android:paddingTop="25dp">
+    android:paddingTop="23dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/title_color"
             android:textSize="17dp"
             tools:text="标题" />
 
