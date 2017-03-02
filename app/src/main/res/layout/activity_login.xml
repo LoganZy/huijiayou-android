@@ -17,6 +17,7 @@
         />
     <LinearLayout
         android:id="@+id/ll_activity_login_phone"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,8 +35,10 @@
             android:layout_weight="7"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:inputType="phone"
             android:background="@drawable/line_login_selector"
-            android:hint="请输入手机号码"/>
+            android:hint="请输入手机号码"
+            android:maxLines="1" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -120,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_activity_login_invit"
-        android:background="#F3B93E"
+        android:background="@drawable/round_button"
         android:text="登录/注册"/>
     <LinearLayout
         android:id="@+id/ll_activity_line"
@@ -154,9 +157,10 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_login_wechat"
+        android:background="@mipmap/ic_login_wechat"
         />
     <TextView
+        android:id="@+id/text_weixin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/WXLogin"
@@ -167,7 +171,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/text_weixin"
         android:layout_alignParentBottom="true"
+        android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"
         android:gravity="center"
         android:orientation="horizontal"
