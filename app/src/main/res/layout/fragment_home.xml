@@ -118,13 +118,15 @@
                 android:background="@color/transparent"
                 android:src="@drawable/slector_homefragment_min"/>
 
-            <EditText
+            <com.wanglibao.huijiayou.utils.MyEditText
                 android:id="@+id/edit_fragmentHome_money"
                 android:layout_width="195dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="19dp"
-                android:hint="元/月"/>
+                android:lines="1"
+                android:maxLength="7"
+                android:inputType="number"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"/>
 
             <ImageButton
                 android:id="@+id/imgBtn_fragmentHome_add"
