@@ -16,5 +16,8 @@ import retrofit2.http.QueryMap;
 
 public interface RequestInterface {
     @GET("sns/oauth2/access_token")
-    Call<WeiXIn> getAccess_token(@QueryMap Map<String,String> map);
+    Call getAccess_token(@QueryMap Map<String,String> map);
+
+    @GET("sns/userinfo")
+    Call getImformation(@QueryMap Map<String,String> map2);
 }

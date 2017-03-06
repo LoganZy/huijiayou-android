@@ -1,5 +1,7 @@
 package com.wanglibao.huijiayou.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -15,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.utils.ToastUtils;
 
@@ -43,7 +48,7 @@ public class WXBindActivity extends BaseActivity {
     LinearLayout llActivityWxbindInvit;
     private String telephone;
     private String SMScode;
-    private String invite;
+   // private String invite;
     private int time = 60;
     private Handler handler = new Handler();
 
@@ -118,6 +123,38 @@ public class WXBindActivity extends BaseActivity {
 
             }
         });
+        Intent intent = getIntent();
+
+        //接收用户的信息
+        getUserInformation(intent);
+    }
+
+    private void getUserInformation(Intent intent) {
+       String nickname =  intent.getStringExtra("nickname");
+        String headimgurl = intent.getStringExtra("headimgurl");
+        tvActivityWxbindName.setText(nickname);
+        //ImageSize mImageSize = new ImageSize(150,150)
+        ImageLoader.getInstance().loadImage(headimgurl, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                imgActivityWxbind.setImageBitmap(loadedImage);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        });
     }
 
     @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind})
@@ -141,11 +178,11 @@ public class WXBindActivity extends BaseActivity {
         SMScode = editActivityBindSms.getText().toString().trim();
 
         if(TextUtils.isEmpty(telephone)||telephone==null){
-            ToastUtils.createLongToast(WXBindActivity.this, "请输入手机号！");
+            ToastUtils.createNormalToast(WXBindActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
-            ToastUtils.createLongToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
+            ToastUtils.createNormalToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
         }else if(TextUtils.isEmpty(SMScode)){
-            ToastUtils.createLongToast(WXBindActivity.this, "请输入短信接收到的验证码");
+            ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
         }else{
             //请求网络
             ToastUtils.createLongToast(WXBindActivity.this, "手机正确，谢谢输入！");
@@ -154,14 +191,14 @@ public class WXBindActivity extends BaseActivity {
 
     public void getSMScode() {
         telephone = editActivityBindPhone.getText().toString().trim();
-        SMScode = editActivityBindSms.getText().toString().trim();
+        editActivityBindSms.setText(" ");
 
         if(TextUtils.isEmpty(telephone)||telephone==null){
-            ToastUtils.createLongToast(WXBindActivity.this, "请输入手机号！");
+            ToastUtils.createNormalToast(WXBindActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
-            ToastUtils.createLongToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
+            ToastUtils.createNormalToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
         }else if(TextUtils.isEmpty(SMScode)) {
-            ToastUtils.createLongToast(WXBindActivity.this, "请输入短信接收到的验证码");
+            ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
             llActivityWxbindInvit.setVisibility(View.VISIBLE);
             time = 60;
             //向服务器请求

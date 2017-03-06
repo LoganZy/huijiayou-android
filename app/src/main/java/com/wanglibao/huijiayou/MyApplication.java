@@ -5,6 +5,8 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -28,6 +30,11 @@ public class MyApplication extends Application {
         //final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
        // msgApi.registerApp("wx9bcf508fbe5af427");
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                .createDefault(this);
+
+
+        ImageLoader.getInstance().init(configuration);
     }
 
     public static Context getContext(){

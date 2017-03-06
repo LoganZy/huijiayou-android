@@ -17,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wanglibao.huijiayou.Bean.WeiXIn;
 import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.config.Constans;
 import com.wanglibao.huijiayou.jsonrpc.JsonRPCAsyncTask;
@@ -28,6 +28,7 @@ import com.wanglibao.huijiayou.request.RequestInterface;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 
 public class LoginActivity extends BaseActivity {
@@ -64,6 +65,8 @@ public class LoginActivity extends BaseActivity {
     private String telephone;
     private String SMScode;
     private String invite;
+    private RequestInterface requestInterface;
+
     // private static String get_access_token = "";
     // 获取第一步的code后，请求以下链接获取access_token
     //public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
@@ -172,13 +175,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 telephone = editActivityLoginPhone.getText().toString().trim();
-                SMScode = editActivityLoginPhoneCode.getText().toString().trim();
+                editActivityLoginPhoneCode.setText(" ");
+
                 if(TextUtils.isEmpty(telephone)||telephone==null){
-                    ToastUtils.createLongToast(LoginActivity.this, "请输入手机号！");
+                    ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
                 }else if (!telephone.startsWith("1") || telephone.length() != 13) {
-                    ToastUtils.createLongToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
+                    ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 }else if(TextUtils.isEmpty(SMScode)) {
-                    ToastUtils.createLongToast(LoginActivity.this, "请输入短信接收到的验证码");
+                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
                     ll_login_invit.setVisibility(View.VISIBLE);
                     time = 60;
                     //向服务器请求
@@ -250,31 +254,80 @@ public class LoginActivity extends BaseActivity {
     * */
     private void WXGetAccessToken(String weixinCode) {
 
-        Retrofit retrofit = new Retrofit.Builder()
+         Retrofit retrofit = new Retrofit.Builder()
                 //注意，服务器主机应该以/结束，
                 .baseUrl(WXBaseUrl)//设置服务器主机
-                .addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
+                //.addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
                 .build();
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+        requestInterface = retrofit.create(RequestInterface.class);
         Map<String, String> map = new LinkedHashMap<>();
         map.put("appid", Constans.WX_APP_ID);
         map.put("secret", Constans.AppSecret);
         map.put("code", weixinCode);
         map.put("grant_type", "authorization_code");
-        Call<WeiXIn> order = requestInterface.getAccess_token(map);
-        order.enqueue(new Callback<WeiXIn>() {
+        Call order = requestInterface.getAccess_token(map);
+        order.enqueue(new Callback() {
+            private String accessToken;
+            private String openid;
             @Override
-            public void onResponse(Call<WeiXIn> call, Response<WeiXIn> response) {
-                WeiXIn weiXIn = response.body();
-                String token = weiXIn.access_token;
-                String openId = weiXIn.openid;
+            public void onResponse(Call call, Response response) {
+
+               JsonObject jsonObject =(JsonObject) response.body();
+                accessToken = jsonObject.get("access_token").toString();
+
+                openid = jsonObject.get("open_id").toString();
+
+                WXGetUserInfo(accessToken ,openid);
             }
 
+
+
+
             @Override
-            public void onFailure(Call<WeiXIn> call, Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 LogUtil.i(t.getMessage());
             }
         });
+
+    }
+
+    /*
+    * 获取用户的基本信息
+    *
+    * */
+    private void WXGetUserInfo(String accessToken, String openid) {
+
+            Map<String ,String> map2 = new LinkedHashMap<String, String>();
+            map2.put("access_token",accessToken);
+            map2.put("openid",openid);
+            Call order2 = requestInterface.getImformation(map2);
+            order2.enqueue(new Callback() {
+            public String headimgurl;
+            public String nickname;
+          //  public String openid;
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                JsonObject json  = (JsonObject) response.body();
+
+                //openid = (String) json.get("openid").toString();
+                nickname = (String) json.get("nickname").toString();
+                headimgurl=(String)json.get("headimgurl").toString();
+                Intent intent = new  Intent();
+                //intent.putExtra("opendi",openid);
+                intent.setClass(LoginActivity.this,WXBindActivity.class);
+                intent.putExtra("nickname",nickname);
+                intent.putExtra("headimgurl",headimgurl);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     /**
@@ -304,14 +357,14 @@ public class LoginActivity extends BaseActivity {
         SMScode = editActivityLoginPhoneCode.getText().toString().trim();
         invite  =editActivityLoginInvit.getText().toString().trim();
         if(TextUtils.isEmpty(telephone)||telephone==null){
-                ToastUtils.createLongToast(LoginActivity.this, "请输入手机号！");
+                ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
                 ToastUtils.createLongToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
         }else if(TextUtils.isEmpty(SMScode)){
-            ToastUtils.createLongToast(LoginActivity.this, "请输入短信接收到的验证码");
+            ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
         }else{
             //请求网络
-            ToastUtils.createLongToast(LoginActivity.this, "手机正确，谢谢输入！");
+            ToastUtils.createNormalToast(LoginActivity.this, "手机正确，谢谢输入！");
         }
 
     }
