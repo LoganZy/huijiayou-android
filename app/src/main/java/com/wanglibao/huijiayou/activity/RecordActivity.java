@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.adapter.RecordAdapter;
 import com.wanglibao.huijiayou.bean.Record;
 
