@@ -1,6 +1,6 @@
 package com.wanglibao.huijiayou.request;
 
-import com.wanglibao.huijiayou.Bean.WeiXIn;
+import com.wanglibao.huijiayou.bean.WeiXIn;
 
 import java.util.Map;
 
