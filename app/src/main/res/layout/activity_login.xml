@@ -171,7 +171,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_weixin"
+        android:layout_below="@id/text_weixin"
         android:layout_alignParentBottom="true"
         android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"

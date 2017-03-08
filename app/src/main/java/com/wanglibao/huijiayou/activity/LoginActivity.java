@@ -10,14 +10,14 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -28,7 +28,6 @@ import com.wanglibao.huijiayou.request.RequestInterface;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -52,20 +51,18 @@ public class LoginActivity extends BaseActivity {
     LinearLayout ll_login_invit;
     @Bind(R.id.edit_activityLogin_phone)
     EditText editActivityLoginPhone;
-    @Bind(R.id.btn_activityLogin_login)
-    Button btnActivityLoginLogin;
     @Bind(R.id.edit_activityLogin_phoneCode)
     EditText editActivityLoginPhoneCode;
     @Bind(R.id.edit_activityLogin_invit)
     EditText editActivityLoginInvit;
     private String weixinCode;
-    private String WXBaseUrl = "https://api.weixin.qq.com/";
     private Handler handler = new Handler();
     private int time = 60;
     private String telephone;
     private String SMScode;
     private String invite;
     private RequestInterface requestInterface;
+    private Retrofit retrofit;
 
     // private static String get_access_token = "";
     // 获取第一步的code后，请求以下链接获取access_token
@@ -254,11 +251,14 @@ public class LoginActivity extends BaseActivity {
     * */
     private void WXGetAccessToken(String weixinCode) {
 
-         Retrofit retrofit = new Retrofit.Builder()
-                //注意，服务器主机应该以/结束，
-                .baseUrl(WXBaseUrl)//设置服务器主机
-                //.addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
-                .build();
+        //注意，服务器主机应该以/结束，
+//设置服务器主机
+//.addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
+        retrofit = new Retrofit.Builder()
+               //注意，服务器主机应该以/结束，
+               .baseUrl(Constans.WXBaseUrl)//设置服务器主机
+               //.addConverterFactory(GsonConverterFactory.create())//配置Gson作为json的解析器
+               .build();
         requestInterface = retrofit.create(RequestInterface.class);
         Map<String, String> map = new LinkedHashMap<>();
         map.put("appid", Constans.WX_APP_ID);
@@ -272,10 +272,16 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) {
 
-               JsonObject jsonObject =(JsonObject) response.body();
-                accessToken = jsonObject.get("access_token").toString();
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.toString());
+                    accessToken = jsonObject.getString("access_token");
 
-                openid = jsonObject.get("open_id").toString();
+                    openid = jsonObject.getString("open_id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
                 WXGetUserInfo(accessToken ,openid);
             }
@@ -308,17 +314,25 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) {
-                JsonObject json  = (JsonObject) response.body();
+             // String result =   response.body().toString();
+                JSONObject json  = null;
+                try {
+                    json = new JSONObject(response.toString());
+                    nickname = (String) json.getString("nickname");
+                    headimgurl=(String)json.getString("headimgurl");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 //openid = (String) json.get("openid").toString();
-                nickname = (String) json.get("nickname").toString();
-                headimgurl=(String)json.get("headimgurl").toString();
+
                 Intent intent = new  Intent();
                 //intent.putExtra("opendi",openid);
                 intent.setClass(LoginActivity.this,WXBindActivity.class);
                 intent.putExtra("nickname",nickname);
                 intent.putExtra("headimgurl",headimgurl);
                 startActivity(intent);
+
             }
 
             @Override

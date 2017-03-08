@@ -1,4 +1,4 @@
-package com.wanglibao.huijiayou.Bean;
+package com.wanglibao.huijiayou.bean;
 
 /**
  * Created by Administrator on 2017/2/27 0027.
