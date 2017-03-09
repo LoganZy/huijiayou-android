@@ -4,15 +4,13 @@
     android:id="@+id/common_title_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FF9999"
-    android:layout_alignParentTop="true"
-    android:paddingTop="23dp">
+    android:background="@color/white"
+    android:layout_alignParentTop="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_commonTitle_title"

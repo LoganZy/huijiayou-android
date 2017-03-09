@@ -1,7 +1,6 @@
 package com.wanglibao.huijiayou.wxapi;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.weixin.callback.WXCallbackActivity;
 import com.wanglibao.huijiayou.config.Constans;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
@@ -20,7 +20,7 @@ import com.wanglibao.huijiayou.utils.ToastUtils;
 /**
  * Created by ntop on 15/9/4.
  */
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
 
     private IWXAPI api;
     @Override

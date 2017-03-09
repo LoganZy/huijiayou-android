@@ -1,152 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:weightSum="100"
-    android:orientation="vertical">
+    android:background="@color/bg_color">
 
-    <LinearLayout
-        android:id="@+id/ll_fragmentHome_title"
+    <RelativeLayout
+        android:id="@+id/rl_fragmentHome_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:background="#CBCAC7" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_commonTitle_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:gravity="center"
-                android:textColor="@color/title_color"
-                android:textSize="17dp"
-                android:text="会加油" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="12dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/title_color"
-                android:drawableRight="@mipmap/ic_navbar_arrow_up"
-                android:text="中国石油 | 全国"/>
-
-            <ImageButton
-                android:id="@+id/imgBtn_fragmentHome_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/slector_homefragment_news"
-                android:background="@color/transparent"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@mipmap/ic_navbar_bg"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="64"
+        android:layout_height="40dp"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginBottom="5dp">
+        android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/tv_commonTitle_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:text="会加油"
+            android:textColor="@color/title_color"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/tv_fragmentHome_openRegionChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:drawableRight="@mipmap/ic_navbar_arrow_up"
+            android:gravity="center"
+            android:text="中国石油 | 全国"
+            android:textColor="@color/title_color"
+            android:textSize="12dp" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_fragmentHome_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="指针拨动 选择充值月数"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@mipmap/ic_home_tag_left"
-            android:drawableRight="@mipmap/ic_home_tag_right"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColor="#999999"
-            android:layout_marginTop="10dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@color/transparent"
+            android:src="@drawable/slector_homefragment_news" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="26"
-        android:background="@color/white"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginBottom="5dp">
+        android:layout_below="@+id/rl_fragmentHome_title"
+        android:weightSum="100">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="请输入或选择充值金额"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@mipmap/ic_home_tag_left"
-            android:drawableRight="@mipmap/ic_home_tag_right"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColor="#999999"
-            android:layout_marginTop="10dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@mipmap/ic_navbar_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="64"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:drawableRight="@mipmap/ic_home_tag_right"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="指针拨动 选择充值月数"
+                android:textColor="#999999" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="26"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:drawableRight="@mipmap/ic_home_tag_right"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="请输入或选择充值金额"
+                android:textColor="#999999" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imgBtn_fragmentHome_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/slector_homefragment_min" />
+
+                <com.wanglibao.huijiayou.widget.MyEditText
+                    android:id="@+id/edit_fragmentHome_money"
+                    android:layout_width="195dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="6"
+                    android:textColor="@color/orange_FF7320"
+                    android:textSize="20dp" />
+
+                <ImageButton
+                    android:id="@+id/imgBtn_fragmentHome_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/slector_homefragment_add" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="10"
+            android:background="@color/white"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imgBtn_fragmentHome_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:src="@drawable/slector_homefragment_min"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="18dp">
 
-            <com.wanglibao.huijiayou.utils.MyEditText
-                android:id="@+id/edit_fragmentHome_money"
-                android:layout_width="195dp"
-                android:layout_height="50dp"
-                android:lines="1"
-                android:maxLength="7"
-                android:inputType="number"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"/>
+                <TextView
+                    android:id="@+id/tv_fragmentHome_totalAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="金额："
+                    android:textSize="13dp" />
 
-            <ImageButton
-                android:id="@+id/imgBtn_fragmentHome_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:src="@drawable/slector_homefragment_add"/>
-            
+                <TextView
+                    android:id="@+id/tv_fragmentHome_discountAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_fragmentHome_totalAmount"
+                    android:text="折后金额："
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_saveAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_fragmentHome_totalAmount"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tv_fragmentHome_discountAmount"
+                    android:text="节省：" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_fragmentHome_addGasoline"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/orange_FF7320"
+                android:gravity="center"
+                android:text="去加油"
+                android:textColor="@color/white"
+                android:textSize="19dp" />
+
         </LinearLayout>
 
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/ll_fragmentHome_region"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:layout_marginBottom="1dp"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/rl_fragmentHome_title"
+        android:background="#66000000">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="请选择加油卡所在地区"
+            android:textSize="12dp"
+            android:gravity="center"
+            android:background="#EADFCC"
+            android:textColor="#666666"/>
+
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="5dp"
+            android:onClick="colseOilCardType"
+            android:background="@color/transparent"
+            android:src="@mipmap/ic_popover_close_n"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

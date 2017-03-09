@@ -1,4 +1,4 @@
-package com.wanglibao.huijiayou.utils;
+package com.wanglibao.huijiayou.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.wanglibao.huijiayou.R;
+
+import static com.ashokvarma.bottomnavigation.utils.Utils.dp2px;
 
 /**
  * Created by lugg on 2017/3/1.
@@ -27,7 +29,6 @@ public class MyEditText extends EditText {
         super(context);
         if (isInEditMode()) { return; }
         this.context = context;
-        setPadding(dp2px(context,8),0,dp2px(context,8),0);
         initPaint();
     }
 
@@ -36,7 +37,6 @@ public class MyEditText extends EditText {
         super(context, attrs);
         if (isInEditMode()) { return; }
         this.context = context;
-        setPadding(dp2px(context,8),0,dp2px(context,8),0);
         initPaint();
     }
 
@@ -47,6 +47,8 @@ public class MyEditText extends EditText {
         height = MeasureSpec.getSize(heightMeasureSpec);
     }
 
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         paint.setAntiAlias(true);
@@ -55,6 +57,7 @@ public class MyEditText extends EditText {
         int startX = dp2px(context,6);
         int startY = dp2px(context,6);
         int textSize = dp2px(context,12);
+        paint.setTextSize(textSize);
         float textWidth = paint.measureText(text);
         float textStartX = width-dp2px(context,20)-textWidth;
 
@@ -77,7 +80,6 @@ public class MyEditText extends EditText {
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-        paint.setTextSize(textSize);
         canvas.drawText(text,textStartX,height-5,paint);
         super.onDraw(canvas);
     }
@@ -88,19 +90,5 @@ public class MyEditText extends EditText {
         paint.setStyle(Paint.Style.STROKE);
     }
 
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    private int dp2px(Context context, float dpValue) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
 
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    private int px2dp(Context context, float pxValue) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
 }
