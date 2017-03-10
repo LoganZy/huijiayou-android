@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -20,6 +24,7 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends Application {
 
     private static Context context;
+    public static SharedPreferences preferences;
 
     public List<Activity> activityList = new LinkedList<Activity>();
 
@@ -34,6 +39,14 @@ public class MyApplication extends Application {
         UMShareAPI.get(this);
         PlatformConfig.setWeixin("wx8afbd309ff35e712", "80564228d4bb7ce52d462cf80c996476");//ok
         PlatformConfig.setQQZone("1105947235", "0VBI1ejZjatqOTOo"); //ok
+        //final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
+        // 将该app注册到微信
+       // msgApi.registerApp("wx9bcf508fbe5af427");
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                .createDefault(this);
+        ImageLoader.getInstance().init(configuration);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static Context getContext(){

@@ -1,10 +1,12 @@
 package com.wanglibao.huijiayou.wxapi;
 
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -12,6 +14,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.weixin.callback.WXCallbackActivity;
+import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.config.Constans;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
@@ -26,6 +29,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.pay_result);
         api = WXAPIFactory.createWXAPI(this, Constans.WX_APP_ID, false);
         api.handleIntent(getIntent(), this);
     }
@@ -42,7 +46,16 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
         if (baseResp != null) {
             Constans.resp = baseResp;
         }
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("微信支付结果码:" + baseResp.errCode);
+            builder.show();
+
+            //请求服务器
+        }
         switch(baseResp.errCode) {
+
             case BaseResp.ErrCode.ERR_OK:
                 result ="分享成功";
                 ToastUtils.createNormalToast(this,result);

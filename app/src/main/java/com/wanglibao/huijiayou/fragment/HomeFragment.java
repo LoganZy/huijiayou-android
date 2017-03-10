@@ -12,6 +12,15 @@ import android.widget.TextView;
 
 import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.activity.PaymentActivity;
+import com.wanglibao.huijiayou.config.Constans;
+import com.wanglibao.huijiayou.net.MessageEntity;
+import com.wanglibao.huijiayou.net.NewHttpRequest;
+import com.wanglibao.huijiayou.utils.LogUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by lugg on 2017/2/24.
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends Fragment implements View.OnClickListener,NewHttpRequest.RequestCallback{
 
     @Bind(R.id.tv_fragmentHome_openRegionChoice)
     TextView tv_fragmentHome_openRegionChoice;
@@ -60,7 +69,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_fragmentHome_openRegionChoice:
-
+                HashMap<String,Object> map = new HashMap<>();
+                map.put("mobile","13552408894");
+                new NewHttpRequest(getActivity(), Constans.URL+Constans.ACCOUNT, "messageAuth", "jsonObject",1,map,false,this).executeTask();
                 break;
             case R.id.imgBtn_fragmentHome_message:
 
@@ -69,5 +80,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), PaymentActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void netWorkError() {
+        LogUtil.i("netWorkError");
+    }
+
+    @Override
+    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        LogUtil.i("requestSuccess");
+    }
+
+    @Override
+    public void requestError(int code, MessageEntity msg, int taskId) {
+        LogUtil.i("requestError");
     }
 }

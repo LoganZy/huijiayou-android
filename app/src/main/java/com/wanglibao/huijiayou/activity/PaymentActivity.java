@@ -1,6 +1,7 @@
 package com.wanglibao.huijiayou.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +17,7 @@ import com.wanglibao.huijiayou.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PaymentActivity extends BaseActivity {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.iv_activityPayment_suc)
     ImageView iv_activityPayment_suc;  //支付成功后 显示
@@ -94,6 +95,8 @@ public class PaymentActivity extends BaseActivity {
     Button btn_activityPayment_payment_payment;  //下一步按钮
     //-----------end------------第三部  选择支付方式
 
+    @Bind(R.id.rl_activityPayment_success)
+    RelativeLayout rl_activityPayment_success; //第四步  支付完成
 
 
 //    @Bind(R.id.tv_activityPayment_agreement)
@@ -109,6 +112,7 @@ public class PaymentActivity extends BaseActivity {
         initTitle();
         tvTitle.setText("确认订单");
 
+        init();
 //        tv_activityPayment_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 //        tv_activityPayment_agreement.getPaint().setAntiAlias(true);
 
@@ -247,5 +251,45 @@ public class PaymentActivity extends BaseActivity {
 //        });
     }
 
+    private void init(){
+        if (true){ // 判断是否有油卡
+            edit_activityPayment_card.setEnabled(false);
+        }
 
+        imgBtn_activityPayment_next.setOnClickListener(this);
+        btn_activityPayment_coupon_payment.setOnClickListener(this);
+        btn_activityPayment_payment_payment.setOnClickListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (rl_activityPayment_inputCard.isShown() || rl_activityPayment_success.isShown()){
+            super.onBackPressed();
+        }else if (rl_activityPayment_coupon.isShown()){
+            rl_activityPayment_coupon.setVisibility(View.GONE);
+            rl_activityPayment_inputCard.setVisibility(View.VISIBLE);
+        }else if (rl_activityPayment_payment.isShown()){
+            rl_activityPayment_payment.setVisibility(View.GONE);
+            rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.imgBtn_activityPayment_next:
+                rl_activityPayment_inputCard.setVisibility(View.GONE);
+                rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_activityPayment_coupon_payment:
+                rl_activityPayment_coupon.setVisibility(View.GONE);
+                rl_activityPayment_payment.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_activityPayment_payment_payment:
+                rl_activityPayment_payment.setVisibility(View.GONE);
+                rl_activityPayment_success.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 }

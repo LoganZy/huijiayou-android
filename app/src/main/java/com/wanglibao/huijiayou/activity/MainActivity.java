@@ -44,16 +44,17 @@ public class MainActivity extends BaseActivity {
         gasFragment = new GasFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
-                .add(R.id.fl_mainActivity_fragmentShell,userFragment)
                 .add(R.id.fl_mainActivity_fragmentShell,gasFragment)
+                .add(R.id.fl_mainActivity_fragmentShell,userFragment)
                 .commit();
 
         bottom_navigation_bar.addItem(new BottomNavigationItem(R.mipmap.ic_tabar_home_h,"会加油")
                         .setInactiveIconResource(R.mipmap.ic_tabar_home_n))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_tabar_more_h,"订单")
+                        .setInactiveIconResource(R.mipmap.ic_tabar_more_n))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_tabar_me_h,"账户")
                         .setInactiveIconResource(R.mipmap.ic_tabar_me_n))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_tabar_more_h,"更多")
-                        .setInactiveIconResource(R.mipmap.ic_tabar_more_n)).initialise();
+                .initialise();
 
 
         bottom_navigation_bar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
@@ -64,10 +65,10 @@ public class MainActivity extends BaseActivity {
                         fragmentManager.beginTransaction().attach(homeFragment).detach(userFragment).detach(gasFragment).commit();
                         break;
                     case 1:
-                        fragmentManager.beginTransaction().attach(userFragment).detach(homeFragment).detach(gasFragment).commit();
+                        fragmentManager.beginTransaction().attach(gasFragment).detach(userFragment).detach(homeFragment).commit();
                         break;
                     case 2:
-                        fragmentManager.beginTransaction().attach(gasFragment).detach(userFragment).detach(homeFragment).commit();
+                        fragmentManager.beginTransaction().attach(userFragment).detach(homeFragment).detach(gasFragment).commit();
                         break;
                 }
             }
