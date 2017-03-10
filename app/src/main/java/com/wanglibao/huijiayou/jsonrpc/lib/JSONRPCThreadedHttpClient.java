@@ -41,6 +41,7 @@ public class JSONRPCThreadedHttpClient extends JSONRPCThreadedClient
  	/**
 	 * Construct a JsonRPCClient with the given httpClient and service uri
 	 *
+     * @param client
      *            httpClient to use
 	 * @param uri
 	 *            uri of the service

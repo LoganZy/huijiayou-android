@@ -1,6 +1,12 @@
 package com.wanglibao.huijiayou.jsonrpc.lib;
 
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.wanglibao.huijiayou.MyApplication;
+import com.wanglibao.huijiayou.net.DeviceUtils;
+import com.wanglibao.huijiayou.utils.LogUtil;
+import com.wanglibao.huijiayou.utils.PreferencesUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -8,6 +14,8 @@ import org.apache.http.ProtocolVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -19,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Implementation of JSON-RPC over HTTP/POST
@@ -60,11 +69,19 @@ public class JSONRPCHttpClient extends JSONRPCClient {
     protected JSONObject doJSONRequest(JSONObject jsonRequest) throws JSONRPCException {
         // Create HTTP/POST request with a JSON entity containing the request
         HttpPost request = new HttpPost(serviceUri);
-//        String head = SharedPreferenceUtil.getToket(WanglibaoApplication.getInstance());
-        //LogUtil.e("jsonrpc------head---->" + head);
-//        if (!TextUtils.isEmpty(head)) {
-//            request.setHeader("Authorization", "Token " + head);
-//        }
+ /*       String head = SharedPreferenceUtil.getToket(WanglibaoApplication.getInstance());
+        if (!TextUtils.isEmpty(head)) {
+            request.setHeader("Authorization", "Token " + head);
+        }*/
+        String lastSessionId = PreferencesUtil.getPreferences("session_id","");
+        LogUtil.e("jsonrpc------session_id---->" + lastSessionId);
+        if (!TextUtils.isEmpty(lastSessionId)) {
+            request.setHeader("Cookie", lastSessionId);
+        }
+        String headInfo = DeviceUtils.getHeadInfo(MyApplication.getContext());
+        LogUtil.e("jsonrpc------headInfo---->" + headInfo);
+        request.setHeader("User-Agent", headInfo);
+
         HttpParams params = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(params, getConnectionTimeout());
         HttpConnectionParams.setSoTimeout(params, getSoTimeout());
@@ -87,7 +104,9 @@ public class JSONRPCHttpClient extends JSONRPCClient {
             throw new JSONRPCException("Unsupported encoding", e1);
         }
         request.setEntity(entity);
-
+//        if (_debug) {
+//            Log.i(HttpEntity.class.toString(), "HttpEntity: " + entity.toString());
+//        }
         try {
             // Execute the request and try to decode the JSON Response
             long t = System.currentTimeMillis();
@@ -102,6 +121,33 @@ public class JSONRPCHttpClient extends JSONRPCClient {
             if (_debug) {
                 Log.i(JSONRPCHttpClient.class.toString(), "Response: " + responseString);
             }
+
+            String cookieName = "";
+            String cookieValue = "";
+
+            // 获取cookie
+            List<Cookie> cookies = ((AbstractHttpClient) httpClient).getCookieStore().getCookies();
+            if (cookies.isEmpty()) {
+                LogUtil.e("cookies is  null");
+            } else {
+                // 有cookie 再进行存储
+                for (int i = 0; i < cookies.size(); i++) {
+                    LogUtil.e("cookies is not  null");
+//                    LogUtil.e("cookies------>" + cookies.get(i).toString());
+                    cookieName = cookies.get(i).getName();
+                    cookieValue = cookies.get(i).getValue();
+                }
+                if(lastSessionId.contains(cookieName)) {
+                    // 保存cookie   替换之前的cooke
+                    PreferencesUtil.putPreferences("session_id",cookieName + "=" + cookieValue);
+                } else {
+                    // 用户cooke + 运营...
+                    PreferencesUtil.putPreferences("session_id",lastSessionId + "; "+cookieName + "=" + cookieValue);
+                }
+            }
+
+
+
 
             JSONObject jsonResponse = new JSONObject(responseString);
             // Check for remote errors
@@ -125,6 +171,7 @@ public class JSONRPCHttpClient extends JSONRPCClient {
             throw new JSONRPCException("HTTP error", e);
         } catch (IOException e) {
             throw new JSONRPCException("IO error", e);
+            //TODO 超时回调
         } catch (JSONException e) {
             throw new JSONRPCException("Invalid JSON response", e);
         }

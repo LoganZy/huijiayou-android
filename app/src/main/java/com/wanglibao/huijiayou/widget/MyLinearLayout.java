@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -73,30 +72,30 @@ public class MyLinearLayout extends LinearLayout {
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-        RectF rectF = new RectF(startX,startY,width-startX,height-startY);
-        canvas.drawRoundRect(rectF,dp2px(context,5),dp2px(context,5),paint);
+//        RectF rectF = new RectF(startX,startY,width-startX,height-startY);
+//        canvas.drawRoundRect(rectF,dp2px(context,5),dp2px(context,5),paint);
 
-//        paint.setStrokeWidth(2);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-//        canvas.drawCircle(textStartX-36,textSize/2,5,paint);
-//
-//        paint.setStrokeWidth(2);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-//        canvas.drawCircle(textEndX+36,textSize/2,5,paint);
-//
-//        paint.setStrokeWidth(5);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setColor(getResources().getColor(R.color.bg_color));
-//        canvas.drawLine(textStartX-36+5,textSize/2,textEndX+36-5,textSize/2,paint);
-//
-//        paint.setStrokeWidth(2);
-//        paint.setStyle(Paint.Style.STROKE);
-//        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-//        canvas.drawText(text,textStartX,textSize-3,paint);
+        paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
+        canvas.drawCircle(textStartX-36,textSize/2,5,paint);
 
-        setPadding(dp2px(context,15),dp2px(context,15),dp2px(context,15),dp2px(context,15));
+        paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
+        canvas.drawCircle(textEndX+36,textSize/2,5,paint);
+
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.bg_color));
+        canvas.drawLine(textStartX-36+5,textSize/2,textEndX+36-5,textSize/2,paint);
+
+        paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
+        canvas.drawText(text,textStartX,textSize-3,paint);
+
+//        setPadding(dp2px(context,15),dp2px(context,15),dp2px(context,15),dp2px(context,15));
         super.onDraw(canvas);
     }
 

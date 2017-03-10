@@ -31,6 +31,7 @@ public class Constans {
 
 
     public final static String ACCOUNT = "/service.php?c=account";
+    public final static String OILCARD = "/index.php?c=oilcard";
 
 
 
@@ -41,6 +42,10 @@ public class Constans {
     public final static String SIGNOUT = "signout"; //撤销登录
     public final static String LOGINSTATUS = "loginStatus"; //获取登录状态
     public final static String WEIXIN_AUTH_POST = "weixin_auth_post"; //微信登录
+
+
+    public final static String productList = "productList"; //产品列表
+
 
 
 

@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:background="@color/transparent"
-            android:src="@drawable/slector_homefragment_news" />
+            android:src="@drawable/animation_messsage" />
 
     </RelativeLayout>
 
@@ -200,8 +200,8 @@
         android:id="@+id/ll_fragmentHome_region"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:layout_below="@+id/rl_fragmentHome_title"
+        android:visibility="gone"
         android:background="#66000000">
 
         <TextView

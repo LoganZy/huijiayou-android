@@ -1,5 +1,7 @@
 package com.wanglibao.huijiayou.jsonrpc.lib;
 
+import com.wlibao.xxtea.ParamHanding;
+
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
@@ -11,7 +13,8 @@ import java.io.UnsupportedEncodingException;
 /**
  * Provides a HttpEntity for json content
  */
-class JSONEntity extends StringEntity {
+class JSONEntity extends StringEntity
+{
 	/**
 	 * Basic constructor
 	 * @param jsonObject		
@@ -19,7 +22,8 @@ class JSONEntity extends StringEntity {
 	 */
 	public JSONEntity(JSONObject jsonObject) throws UnsupportedEncodingException
 	{
-		super(jsonObject.toString());
+//		super(jsonObject.toString());
+		super(ParamHanding.paramJsonHanding(jsonObject));
 	}
 
 	/**
@@ -30,7 +34,8 @@ class JSONEntity extends StringEntity {
 	 */
 	public JSONEntity(JSONObject jsonObject, String encoding) throws UnsupportedEncodingException
 	{
-		super(jsonObject.toString(), encoding);
+//		super(jsonObject.toString(), encoding);
+		super(ParamHanding.paramJsonHanding(jsonObject), encoding);
 		setContentEncoding(encoding);
 	}
 
