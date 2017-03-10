@@ -16,18 +16,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wanglibao.huijiayou.R;
+import com.wanglibao.huijiayou.bean.Data;
 import com.wanglibao.huijiayou.config.Constans;
-import com.wanglibao.huijiayou.jsonrpc.JsonRPCAsyncTask;
+import com.wanglibao.huijiayou.net.MessageEntity;
+import com.wanglibao.huijiayou.net.NewHttpRequest;
 import com.wanglibao.huijiayou.request.RequestInterface;
 import com.wanglibao.huijiayou.utils.LogUtil;
 import com.wanglibao.huijiayou.utils.ToastUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,7 +47,7 @@ import retrofit2.Retrofit;
 
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements NewHttpRequest.RequestCallback{
 
     @Bind(R.id.WXLogin)
     ImageButton WXLogin;
@@ -55,12 +61,11 @@ public class LoginActivity extends BaseActivity {
     EditText editActivityLoginPhoneCode;
     @Bind(R.id.edit_activityLogin_invit)
     EditText editActivityLoginInvit;
-    private String weixinCode;
+
     private Handler handler = new Handler();
     private int time = 60;
     private String telephone;
     private String SMScode;
-    private String invite;
     private RequestInterface requestInterface;
     private Retrofit retrofit;
 
@@ -86,7 +91,7 @@ public class LoginActivity extends BaseActivity {
         super.onResume();
         if (null != Constans.resp && Constans.resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
             // code返回
-            weixinCode = ((SendAuth.Resp) Constans.resp).code;
+            String weixinCode = ((SendAuth.Resp) Constans.resp).code;
             WXGetAccessToken(weixinCode);
 
         }
@@ -191,14 +196,7 @@ public class LoginActivity extends BaseActivity {
 
             }
 
-           private void getVerificationCode(String callNumber){
 
-               //发送网络请求，请求短信验证码
-
-
-
-
-           }
 
 
             /*
@@ -226,6 +224,15 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
+    private void getVerificationCode(String callNumber){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("mobile",callNumber);
+        new NewHttpRequest(this,Constans.URL+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",1,map,false,this).executeTask();
+
+
+    }
+
     /*
     * 微信登录逻辑
     *
@@ -372,7 +379,7 @@ public class LoginActivity extends BaseActivity {
     public void onClick() {
         telephone = editActivityLoginPhone.getText().toString().trim();
         SMScode = editActivityLoginPhoneCode.getText().toString().trim();
-        invite  =editActivityLoginInvit.getText().toString().trim();
+        String invite = editActivityLoginInvit.getText().toString().trim();
         if(TextUtils.isEmpty(telephone)||telephone==null){
                 ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
@@ -385,4 +392,25 @@ public class LoginActivity extends BaseActivity {
         }
 
     }
+
+    @Override
+    public void netWorkError() {
+        LogUtil.i("错误了");
+    }
+
+    @Override
+    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        Gson gosn = new Gson();
+        Data  data = gosn.fromJson(jsonObject.toString(),Data.class);
+        String key =  data.getKey();
+        int code = data.getCode();
+
+    }
+
+    @Override
+    public void requestError(int code, MessageEntity msg, int taskId) {
+        LogUtil.i("失败");
+    }
+
+
 }
