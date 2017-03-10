@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_color"
+    tools:context="com.wanglibao.huijiayou.activity.PaymentActivity">
+
+    <include layout="@layout/common_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:background="@mipmap/ic_pay_background"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/iv_activityPayment_suc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            android:src="@mipmap/ic_pay_suc"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                tools:text="500"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:text="元/月"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="X"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                tools:text="6"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:text="个月"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_discountMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E2BC85"
+                android:textSize="13dp"
+                android:drawablePadding="2dp"
+                android:layout_marginRight="15dp"
+                android:drawableLeft="@mipmap/ic_home_price"
+                tools:text="折后金额:2900元"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_saveMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#E2BC85"
+                android:textSize="13dp"
+                android:drawablePadding="2dp"
+                android:drawableLeft="@mipmap/ic_home_rmb"
+                tools:text="节省:300元"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_activityPayment_paymentDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E2BC85"
+            android:layout_gravity="center_horizontal"
+            android:text="充值明细 >"
+            android:textSize="10dp"
+            android:background="@drawable/shape_activitypayment_paymentdetail"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_activityPayment_inputCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/edit_activityPayment_card"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:drawableLeft="@mipmap/ic_pay_gas"
+            android:paddingLeft="15dp"
+            android:hint="请输入加油卡卡号"
+            android:textSize="13dp"
+            android:inputType="number"
+            android:maxLength="30"
+            android:layout_toLeftOf="@+id/imgBtn_activityPayment_next"
+            android:textColorHint="#CCCCCC"
+            android:drawablePadding="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"/>
+
+        <!--<com.example.library.BandCardEditText-->
+        <!--android:id="@+id/edit_activityPayment_card"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:drawableLeft="@mipmap/ic_pay_gas"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:hint="请输入加油卡卡号"-->
+        <!--android:textSize="13dp"-->
+        <!--android:inputType="number"-->
+        <!--android:maxLines="19"-->
+        <!--android:layout_toLeftOf="@+id/imgBtn_activityPayment_next"-->
+        <!--android:textColorHint="#CCCCCC"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:gravity="center_vertical">-->
+
+        <!--</com.example.library.BandCardEditText>-->
+
+        <ImageButton
+            android:id="@+id/imgBtn_activityPayment_next"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:background="@color/white"
+            android:src="@drawable/slector_payment_next"/>
+
+        <View
+            android:id="@+id/view_activityPayment_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@+id/edit_activityPayment_card"
+            android:background="@mipmap/ic_navbar_bg" />
+
+        <TextView
+            android:id="@+id/tv_activityPayment_cardTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="15dp"
+            tools:text="请输入正确的加油卡卡号"
+            android:textSize="11dp"
+            android:textColor="#FF7320"
+            android:layout_below="@+id/view_activityPayment_shadow"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_activityPayment_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_activityPayment_coupon_card"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white"
+            android:textColor="@color/textColor_51586A"
+            android:text="123456789123456789"
+            android:layout_marginBottom="1dp"
+            android:drawableRight="@mipmap/ic_popover_cnpc"/>
+
+        <RelativeLayout
+            android:id="@+id/ll_activityPayment_coupon_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_activityPayment_coupon_card"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_userNameTag"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
+                android:textColor="@color/textColor_51586A"
+                android:text="持卡人姓名"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_userName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="鲁耿耿"
+                android:textSize="13dp"
+                android:layout_toRightOf="@+id/tv_activityPayment_coupon_userNameTag"
+                android:textColor="@color/textColor_51586A"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#E5E5E5"
+                android:layout_below="@+id/tv_activityPayment_coupon_userNameTag"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ll_activityPayment_coupon_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_activityPayment_coupon_userName"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_invoiceTag"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
+                android:textColor="@color/textColor_51586A"
+                android:text="发票备注"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="代充服务，不提供发票"
+                android:textSize="13dp"
+                android:layout_toRightOf="@+id/tv_activityPayment_coupon_invoiceTag"
+                android:textColor="@color/textColor_51586A"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#E5E5E5"
+                android:layout_below="@+id/tv_activityPayment_coupon_invoiceTag"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ll_activityPayment_coupon_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_activityPayment_coupon_invoice"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_coupon_Tag"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:textSize="13dp"
+                android:textColor="@color/textColor_51586A"
+                android:text="优惠券"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                tools:text="暂无优惠券可用"
+                android:textSize="13dp"
+                android:paddingRight="15dp"
+                android:drawableRight="@mipmap/ic_pay_arrow_h"
+                android:layout_toRightOf="@+id/tv_activityPayment_coupon_coupon_Tag"
+                android:textColor="@color/textColor_51586A"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_activityPayment_coupon_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@+id/btn_activityPayment_coupon_payment"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/rb_activityPayment_coupon_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:button="@null"
+                android:layout_marginRight="3dp"
+                android:background="@color/transparent"
+                android:drawableLeft="@drawable/slector_payment_option"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:textColor="#C8A556"
+                android:text="@string/agreement"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_activityPayment_coupon_payment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="确认支付2900元"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:background="@color/orange_FF7320"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_activityPayment_payment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_activityPayment_payment_tag"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="请选择"
+            android:textColor="#C8A556"
+            android:textSize="10dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_activityPayment_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_activityPayment_payment_tag"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_activityPayment_wechat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/white"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@mipmap/ic_pay_wechat"
+                android:drawablePadding="20dp"
+                android:drawableRight="@drawable/slector_payment_option"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="微信支付"
+                android:textColor="@color/textColor_51586A" />
+
+            <RadioButton
+                android:id="@+id/rb_activityPayment_alipay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:button="@null"
+                android:drawableLeft="@mipmap/ic_pay_alipay"
+                android:drawablePadding="20dp"
+                android:drawableRight="@drawable/slector_payment_option"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="支付宝支付"
+                android:textColor="@color/textColor_51586A" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/ll_activityPayment_payment_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_activityPayment_payment_payment"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/rb_activityPayment_payment_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/slector_payment_option" />
+
+            <TextView
+                android:id="@+id/tv_activityPayment_payment_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agreement"
+                android:textColor="#C8A556"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_activityPayment_payment_payment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange_FF7320"
+            android:text="确认支付2900元"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_activityPayment_success"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:paddingTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/btn_activityPayment_share">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@drawable/ic_pay_frame"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="充值详情"
+                    android:textSize="13dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#666666"/>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_activityPayment_share"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="召唤好友赚油滴"
+            android:layout_alignParentBottom="true"
+            android:background="@color/orange_FF7320"
+            android:textColor="@color/white"
+            android:textSize="17dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

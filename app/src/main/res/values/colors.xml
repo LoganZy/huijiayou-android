@@ -11,4 +11,9 @@
     <color name="status_color">#51586A</color>
     <color name="bg_color">#F5F5F5</color>
     <color name="title_color">#51586A</color>
+
+    <color name="my_edittext_frame_color">#D8BD99</color>
+    <color name="orange_FF7320">#FF7320</color>
+
+    <color name="textColor_51586A">#51586A</color>
 </resources>

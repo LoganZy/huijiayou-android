@@ -26,4 +26,12 @@ public class Constans {
         public static final String BAThumbData = "showmsg_thumb_data";
     }
 
+
+    public final static String URL = "http://wyh.oil.user.passport.com";
+
+
+    public final static String ACCOUNT = "/service.php?c=account";
+
+
+
 }

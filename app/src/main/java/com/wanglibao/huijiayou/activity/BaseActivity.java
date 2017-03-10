@@ -2,11 +2,9 @@ package com.wanglibao.huijiayou.activity;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,14 +29,13 @@ public class BaseActivity extends AppCompatActivity {
         myApplication = (MyApplication) getApplication();
         myApplication.addActivity(this);
 
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }else{
-            if (rl_common_title != null){
-                rl_common_title.setPadding(0, 0, 0, 0);
-            }
-        }
-
+//        if (Build.VERSION.SDK_INT >= 19) {
+////            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        }else{
+//            if (rl_common_title != null){
+//                rl_common_title.setPadding(0, 0, 0, 0);
+//            }
+//        }
     }
 
     protected void initTitle(){
