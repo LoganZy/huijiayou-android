@@ -202,24 +202,6 @@ public class LoginActivity extends BaseActivity {
 
 
             /*
-            * 短信验证的功能
-            *
-            * */
-            private void SMSVerify(String code) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("mobile",code);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String loginUrl = "http://wyh.oil.user.passport.com/service.php?c=account";
-                JsonRPCAsyncTask jsonRPCAsyncTask = new JsonRPCAsyncTask(LoginActivity.this, loginUrl, "messageAuth", null, "jsonObject", 1, jsonObject);
-                jsonRPCAsyncTask.execute();
-            }
-
-
-
-            /*
             *
             * 发送定时消息的方法
             *

@@ -40,7 +40,7 @@
         <!-- 渠道 -->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="huijiayou"></meta-data>
+            android:value="huijiayou" />
 
         <activity
             android:name=".activity.MainActivity"
@@ -101,7 +101,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -149,12 +149,12 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="79468ebd591877434f63fc88" /> <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name=".activity.PaymentActivity"></activity>
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".activity.PaymentActivity" />
+        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.RecordActivity" />
         <activity android:name=".activity.DetailsActivity" />
         <activity android:name=".activity.CloseDealActivity" />
-        <activity android:name=".activity.NoPayActivity"></activity>
+        <activity android:name=".activity.NoPayActivity" />
     </application>
 
 </manifest>
