@@ -62,8 +62,8 @@
             android:id="@+id/rl_activityClose_Deail"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:layout_marginBottom="20dp"
-            android:layout_margin="30dp">
+            android:layout_margin="30dp"
+            android:layout_marginBottom="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,21 +117,21 @@
 
         <TextView
             android:id="@+id/tv_activityClose_wire"
-            android:layout_below="@+id/rl_activityClose_Deail"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_below="@+id/rl_activityClose_Deail"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="#F5F5F5" />
 
         <LinearLayout
             android:id="@+id/ll_activityClose_code"
-            android:layout_below="@+id/tv_activityClose_wire"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_activityClose_wire"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -150,12 +150,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/ll_activityClose_code"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginLeft="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_activityClose_code"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -174,13 +174,13 @@
         </LinearLayout>
 
         <Button
-            android:background="@color/white"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:text="重新购买"
             android:textColor="#FF7320"
-            android:textSize="20dp"
-            android:text="重新购买"/>
+            android:textSize="20dp" />
 
     </RelativeLayout>
 

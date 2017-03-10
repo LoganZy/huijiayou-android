@@ -76,8 +76,6 @@ public class LoginActivity extends BaseActivity {
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        initTitle();
-        tvTitle.setText("");
         initView();
 
 
@@ -100,7 +98,7 @@ public class LoginActivity extends BaseActivity {
         WXLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //WetLogin();
+                WetLogin();
                 startActivity(new Intent(LoginActivity.this,WXBindActivity.class));
             }
         });
@@ -167,7 +165,10 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-
+        /*
+        * 点击获取验证码
+        *
+        * */
         tvActivityLoginSendPhoneCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,18 +185,35 @@ public class LoginActivity extends BaseActivity {
                     time = 60;
                     //向服务器请求
                     startTime();
+                    telephone = telephone.replaceAll(" ","");
+                    getVerificationCode( telephone);
                 }
 
             }
+
+           private void getVerificationCode(String callNumber){
+
+               //发送网络请求，请求短信验证码
+
+
+
+
+           }
+
 
             /*
             * 短信验证的功能
             *
             * */
             private void SMSVerify(String code) {
-
-                String loginUrl = "";
-                JsonRPCAsyncTask jsonRPCAsyncTask = new JsonRPCAsyncTask(LoginActivity.this, loginUrl, "messageAuth", null, "jsonObject", 1, code);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("mobile",code);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String loginUrl = "http://wyh.oil.user.passport.com/service.php?c=account";
+                JsonRPCAsyncTask jsonRPCAsyncTask = new JsonRPCAsyncTask(LoginActivity.this, loginUrl, "messageAuth", null, "jsonObject", 1, jsonObject);
                 jsonRPCAsyncTask.execute();
             }
 
@@ -226,7 +244,10 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
-
+    /*
+    * 微信登录逻辑
+    *
+    * */
     private void WetLogin() {
         Constans.WXapi = WXAPIFactory.createWXAPI(LoginActivity.this, Constans.WX_APP_ID, true);
         if (!Constans.WXapi.isWXAppInstalled()) {

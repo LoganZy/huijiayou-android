@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">会加油</string>
-
+    <string name="zhucexieyi"><u>  注册登录表示您已同意 《会加油注册协议》</u></string>
 </resources>

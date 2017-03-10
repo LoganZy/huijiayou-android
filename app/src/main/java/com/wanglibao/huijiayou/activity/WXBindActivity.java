@@ -57,8 +57,6 @@ public class WXBindActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxbind);
         ButterKnife.bind(this);
-        initTitle();
-        tvTitle.setText("账号绑定");
         initView();
     }
 
