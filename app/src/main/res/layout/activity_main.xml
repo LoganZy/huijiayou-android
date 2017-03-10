@@ -21,6 +21,7 @@
         app:bnbBackgroundColor="@color/white"
         app:bnbActiveColor="#E2BC85"
         app:bnbInactiveColor="#E2BC85"
+        app:paddingStart="10dp"
         android:id="@+id/bottom_navigation_bar"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

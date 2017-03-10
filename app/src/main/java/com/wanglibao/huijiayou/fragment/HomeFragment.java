@@ -18,6 +18,7 @@ import com.wanglibao.huijiayou.net.NewHttpRequest;
 import com.wanglibao.huijiayou.utils.LogUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -69,9 +70,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_fragmentHome_openRegionChoice:
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("mobile","13552408894");
-                new NewHttpRequest(getActivity(), Constans.URL+Constans.ACCOUNT, "messageAuth", "jsonObject",1,map,false,this).executeTask();
+                long currentTime = System.currentTimeMillis();
+                String token = "token";
+                test();
                 break;
             case R.id.imgBtn_fragmentHome_message:
 
@@ -81,6 +82,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 break;
         }
     }
+    private int getMessageAuthTaskId = 1;
+    private int loginTaskId = 2;
+    private int productListTaskId = 3;
+
+    private String key;
+    private int code;
+    private void test(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("mobile","13552408894");
+        new NewHttpRequest(getActivity(), Constans.URL+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",
+                getMessageAuthTaskId,hashMap,false,this).executeTask();
+    }
 
     @Override
     public void netWorkError() {
@@ -89,7 +102,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        LogUtil.i("requestSuccess");
+        if (taskId == getMessageAuthTaskId){
+            try {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                key = (String) jsonObject1.get("key");
+                code = (int) jsonObject1.get("code");
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("username","13552408894");
+                hashMap.put("sms_key",key);
+                hashMap.put("sms_code",code);
+
+                new NewHttpRequest(getActivity(),Constans.URL+Constans.ACCOUNT,Constans.SIGNIN,"jsonObject",loginTaskId,
+                        hashMap,false,this).executeTask();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if (taskId == loginTaskId){
+
+
+        }else if (taskId == productListTaskId){
+
+        }
     }
 
     @Override
