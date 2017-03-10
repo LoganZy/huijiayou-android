@@ -5,8 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wanglibao.huijiayou.activity.LoginActivity">
-
-    <include layout="@layout/common_title"/>
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/ic_login_return"/>
     <ImageView
         android:id="@+id/img_activity_login_phone_logo"
         android:layout_width="wrap_content"
@@ -119,7 +123,10 @@
     </LinearLayout>
     <Button
         android:id="@+id/btn_activityLogin_login"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_activity_login_invit"
@@ -130,7 +137,9 @@
         android:layout_below="@id/btn_activityLogin_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
@@ -152,6 +161,7 @@
             android:background="#D6D7D7"/>
     </LinearLayout>
     <ImageButton
+        android:layout_marginTop="10dp"
         android:id="@+id/WXLogin"
         android:layout_below="@id/ll_activity_line"
         android:layout_centerHorizontal="true"
@@ -168,34 +178,49 @@
         android:layout_centerHorizontal="true"
         android:text="微信登录"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_weixin"
+        android:layout_height="120dp"
         android:layout_alignParentBottom="true"
         android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            android:src="@mipmap/ic_login_check"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册登录表示您已同意"/>
-
-        <TextView
-            android:layout_margin="2dp"
-            android:layout_width="wrap_content"
+            />
+        <LinearLayout
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="openAgreement"
-            android:text="《会加油注册协议》"/>
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/iv_activityLogin_check"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_login_check"/>
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:clickable="true"
+                android:autoLink="all"
+                android:text="@string/zhucexieyi"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

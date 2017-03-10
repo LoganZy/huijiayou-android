@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+=======
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
@@ -83,4 +86,5 @@
       </state>
     </states>
   </component>
+>>>>>>> fb914b624d1b36f1ba4089a7f6f1bc4c8c77dbe5
 </project>
