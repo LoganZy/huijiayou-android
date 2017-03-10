@@ -118,7 +118,8 @@
     <RelativeLayout
         android:id="@+id/rl_activityPayment_inputCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/edit_activityPayment_card"
@@ -440,34 +441,26 @@
     <RelativeLayout
         android:id="@+id/rl_activityPayment_success"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:paddingTop="15dp"
-            android:layout_centerHorizontal="true"
             android:layout_above="@+id/btn_activityPayment_share">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="200dp"
+                android:background="@drawable/ic_pay_bg"
+                android:layout_margin="15dp">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:background="@drawable/ic_pay_frame"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="充值详情"
-                    android:textSize="13dp"
-                    android:layout_marginTop="-10dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="#666666"/>
+                    android:layout_height="100dp"
+                    android:text="1236"
+                    android:layout_marginTop="10dp"
+                    android:background="#FF5566"/>
 
             </RelativeLayout>
 
