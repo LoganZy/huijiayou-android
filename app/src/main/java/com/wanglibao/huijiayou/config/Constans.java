@@ -34,4 +34,16 @@ public class Constans {
 
 
 
+
+    //method
+    public final static String MESSAGEAUTH = "messageAuth"; //获取手机验证码
+    public final static String SIGNIN = "signin"; //登录
+    public final static String SIGNOUT = "signout"; //撤销登录
+    public final static String LOGINSTATUS = "loginStatus"; //获取登录状态
+    public final static String WEIXIN_AUTH_POST = "weixin_auth_post"; //微信登录
+
+
+
+
+
 }
