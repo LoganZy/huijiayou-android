@@ -68,6 +68,9 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
     private String SMScode;
     private RequestInterface requestInterface;
     private Retrofit retrofit;
+    private String key;
+    private int code;
+
 
     // private static String get_access_token = "";
     // 获取第一步的code后，请求以下链接获取access_token
@@ -104,7 +107,7 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
             @Override
             public void onClick(View v) {
                 WetLogin();
-                startActivity(new Intent(LoginActivity.this,WXBindActivity.class));
+            //    startActivity(new Intent(LoginActivity.this,WXBindActivity.class));
             }
         });
 
@@ -226,9 +229,9 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
     }
 
     private void getVerificationCode(String callNumber){
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object>  map = new HashMap<>();
         map.put("mobile",callNumber);
-        new NewHttpRequest(this,Constans.URL+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",1,map,false,this).executeTask();
+        new NewHttpRequest(this,Constans.URL+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",1, map,false,this).executeTask();
 
 
     }
@@ -389,6 +392,11 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
         }else{
             //请求网络
             ToastUtils.createNormalToast(LoginActivity.this, "手机正确，谢谢输入！");
+            HashMap<String, Object> map= new HashMap<>();
+            map.put("username",telephone);
+            map.put("sms_key",key);
+            map.put("sms_code",code);
+            new NewHttpRequest(this,Constans.URL+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
         }
 
     }
@@ -400,10 +408,17 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        Gson gosn = new Gson();
-        Data  data = gosn.fromJson(jsonObject.toString(),Data.class);
-        String key =  data.getKey();
-        int code = data.getCode();
+        switch (taskId){
+            case 1:
+                Gson gosn = new Gson();
+                Data  data = gosn.fromJson(jsonObject.toString(),Data.class);
+                key = data.getKey();
+                code = data.getCode();
+                String callNum = data.getCall_num();
+                ToastUtils.createNormalToast("您已经获取了"+callNum+"次验证码");
+            case 2:
+
+        }
 
     }
 
