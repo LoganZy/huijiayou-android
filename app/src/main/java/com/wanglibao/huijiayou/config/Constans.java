@@ -25,6 +25,10 @@ public class Constans {
         public static final String SMessage = "showmsg_message";
         public static final String BAThumbData = "showmsg_thumb_data";
     }
+    //请求的类型
+    public final static String JSONOBJECT = "jsonObject";
+    public final static String JSONOARRAY= "jsonArray";
+
 
 
     public final static String URL = "http://wyh.oil.user.passport.com";
