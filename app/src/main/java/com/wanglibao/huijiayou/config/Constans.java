@@ -50,5 +50,8 @@ public class Constans {
 
 
 
+    public static final String CODE = "code";
+    public static final String DATA = "data";
+    public static final String ERROR_MESSAGE = "message";
 
 }

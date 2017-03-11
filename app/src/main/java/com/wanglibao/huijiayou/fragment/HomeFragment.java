@@ -70,8 +70,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_fragmentHome_openRegionChoice:
-                long currentTime = System.currentTimeMillis();
-                String token = "token";
+
                 test();
                 break;
             case R.id.imgBtn_fragmentHome_message:
@@ -118,7 +117,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 e.printStackTrace();
             }
         }else if (taskId == loginTaskId){
+                HashMap<String,Object> hashMap = new HashMap<>();
+                long currentTime = System.currentTimeMillis();
+                hashMap.put("time",currentTime);
+                hashMap.put("sign","test");
 
+                new NewHttpRequest(getActivity(),Constans.URL+Constans.OILCARD,Constans.productList,"jsonObject",productListTaskId,
+                        hashMap,false,this).executeTask();
 
         }else if (taskId == productListTaskId){
 

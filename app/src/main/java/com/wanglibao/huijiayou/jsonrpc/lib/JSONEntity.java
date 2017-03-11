@@ -1,6 +1,6 @@
 package com.wanglibao.huijiayou.jsonrpc.lib;
 
-import com.wlibao.xxtea.ParamHanding;
+import com.wanglibao.huijiayou.xxtea.ParamHanding;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
