@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="gray">#999999</color>
     
     <color name="status_color">#51586A</color>
     <color name="bg_color">#F5F5F5</color>
@@ -14,6 +15,9 @@
 
     <color name="my_edittext_frame_color">#D8BD99</color>
     <color name="orange_FF7320">#FF7320</color>
+    <color name="orange_FFA302">#FFA302</color>
 
     <color name="textColor_51586A">#51586A</color>
+
+    <color name="color_E2BC85">#E2BC85</color>
 </resources>

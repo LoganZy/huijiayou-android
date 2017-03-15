@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_itemFragmentHomeProduct_productName"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        tools:text="中国石油"
+        android:textColor="@color/textColor_51586A"
+        android:gravity="center"
+        android:drawableRight="@mipmap/ic_popover_cnpc"
+        android:drawablePadding="24dp"
+        android:textSize="12dp"/>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#E5E5E5"/>
+
+</LinearLayout>
