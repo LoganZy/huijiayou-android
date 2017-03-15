@@ -16,62 +16,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_login_logo"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         />
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/ll_activity_login_phone"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/img_activity_login_phone_logo"
         >
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_account"/>
         <EditText
+            android:layout_marginLeft="20dp"
             android:id="@+id/edit_activityLogin_phone"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:inputType="phone"
             android:background="@drawable/line_login_selector"
             android:hint="请输入手机号码"
+            android:textSize="13dp"
+            android:textColor="#CCCCCC"
             android:maxLines="1" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/ll_activity_login_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/ll_activity_login_phone"
         >
+
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:id="@+id/imageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_login_password"/>
+            android:src="@mipmap/ic_login_password" />
+
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_marginLeft="20dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content">
             <EditText
-                android:layout_width="match_parent"
+                android:textColor="#CCCCCC"
+                android:layout_width="230dp"
                 android:id="@+id/edit_activityLogin_phoneCode"
                 android:layout_height="wrap_content"
                 android:background="@drawable/line_login_selector"
                 android:hint="请输入手机验证码"
+                android:textSize="13dp"
                 android:inputType="phone"
                 android:maxLength="11"
                 android:maxLines="1"/>
@@ -83,58 +86,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:textSize="13dp"
                 android:textColor="#F3B93E"
                 android:text="获取验证码"
                 />
 
         </RelativeLayout>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
+
     <LinearLayout
+        android:visibility="gone"
+        android:gravity="center"
         android:id="@+id/ll_activity_login_invit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
+        android:layout_marginTop="30dp"
+
         android:layout_below="@id/ll_activity_login_sms"
         >
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_invitation"/>
         <EditText
+            android:layout_marginLeft="20dp"
+            android:textSize="13dp"
+            android:textColor="#CCCCCC"
             android:id="@+id/edit_activityLogin_invit"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/line_login_selector"
             android:hint="若无邀请码请忽略"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_activityLogin_login"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+    <RelativeLayout
+        android:id="@+id/rl_activityLogin_login"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/ll_activity_login_invit"
-        android:background="@drawable/round_button"
-        android:text="登录/注册"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_activityLogin_login"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button"
+            android:textSize="17dp"
+            android:textColor="@color/white"
+            android:text="登录/注册"/>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ll_activity_line"
-        android:layout_below="@id/btn_activityLogin_login"
+        android:layout_below="@id/rl_activityLogin_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -142,31 +150,35 @@
         android:layout_marginRight="30dp"
         android:orientation="horizontal">
         <TextView
+            android:layout_marginRight="5dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="1dp"
             android:layout_gravity="center_vertical"
-            android:background="#D6D7D7"/>
+            android:background="#D8D8D8"/>
         <TextView
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:textColor="#51586A"
             android:text="关联社交账户快速登录"/>
         <TextView
+            android:layout_marginLeft="5dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="1dp"
             android:layout_gravity="center_vertical"
-            android:background="#D6D7D7"/>
+            android:background="#D8D8D8"/>
     </LinearLayout>
     <ImageButton
         android:layout_marginTop="10dp"
         android:id="@+id/WXLogin"
         android:layout_below="@id/ll_activity_line"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@mipmap/ic_login_wechat"
         />
     <TextView
@@ -176,11 +188,17 @@
         android:layout_below="@id/WXLogin"
         android:layout_marginTop="2dp"
         android:layout_centerHorizontal="true"
+        android:textSize="10dp"
         android:text="微信登录"/>
-
+    <Button
+        android:id="@+id/btn_get_acesstoken"
+        android:layout_below="@+id/text_weixin"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="获取图啃"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"
@@ -205,6 +223,7 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/ic_login_check"/>
             <TextView
+                android:textSize="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

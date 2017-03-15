@@ -15,7 +15,6 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.wanglibao.huijiayou.R;
 import com.wanglibao.huijiayou.activity.LoginActivity;
 import com.wanglibao.huijiayou.config.Constans;
-import com.wanglibao.huijiayou.request.RequestInterface;
 import com.wanglibao.huijiayou.utils.ToastUtils;
 
 import org.json.JSONException;
@@ -79,7 +78,7 @@ public class GasFragment extends Fragment {
     }
 
     private void WXpay() {
-        Retrofit retorfit = new Retrofit.Builder()
+/*        Retrofit retorfit = new Retrofit.Builder()
                 .baseUrl(Constans.WXBaseUrl)
                 .build();
         RequestInterface requestInterface = retorfit.create(RequestInterface.class);
@@ -94,7 +93,7 @@ public class GasFragment extends Fragment {
                 public void onFailure(Call call, Throwable t) {
 
                 }
-            });
+            });*/
     }
 
     private void wechatPay(Response response) {
