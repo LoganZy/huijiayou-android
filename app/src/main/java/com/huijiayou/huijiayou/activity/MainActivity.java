@@ -68,13 +68,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
                     case R.id.rb_activityMain_home:
-                        fragmentManager.beginTransaction().attach(homeFragment).detach(userFragment).detach(OrderFragment).commit();
+                        fragmentManager.beginTransaction().show(homeFragment).hide(userFragment).hide(OrderFragment).commit();
                         break;
                     case R.id.rb_activityMain_order:
-                        fragmentManager.beginTransaction().attach(OrderFragment).detach(userFragment).detach(homeFragment).commit();
+                        fragmentManager.beginTransaction().show(OrderFragment).hide(userFragment).hide(homeFragment).commit();
                         break;
                     case R.id.rb_activityMain_user:
-                        fragmentManager.beginTransaction().attach(userFragment).detach(homeFragment).detach(OrderFragment).commit();
+                        fragmentManager.beginTransaction().show(userFragment).hide(homeFragment).hide(OrderFragment).commit();
                         break;
                 }
             }

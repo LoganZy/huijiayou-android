@@ -21,10 +21,11 @@ import butterknife.ButterKnife;
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
     Context context;
     ArrayList<City> cityArrayList;
-
-    public CityAdapter(Context context, ArrayList<City> cityArrayList) {
+    View.OnClickListener onClickListener;
+    public CityAdapter(Context context, ArrayList<City> cityArrayList, View.OnClickListener onClickListener) {
         this.context = context;
         this.cityArrayList = cityArrayList;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -38,9 +39,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
         String text = cityArrayList.get(position).getName();
         int index = text.indexOf("|");
         if (index >= 0){
-            text = text.substring(index);
+            text = text.substring(index+1);
         }
         holder.tv_itemFragmentHomeCity_cityName.setText(text);
+        holder.tv_itemFragmentHomeCity_cityName.setOnClickListener(onClickListener);
+        holder.tv_itemFragmentHomeCity_cityName.setTag(position);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
         return cityArrayList.size();
     }
 
-    public class City {
+    public static class City {
         private String name;
         private String city_id;
         private String belong;
@@ -78,6 +81,15 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
         }
     }
 
+    public static ArrayList<City> findCityByBelong(String belong,ArrayList<City> cityArrayList){
+        ArrayList<City> arrayList = new ArrayList<>();
+        for (int i = 0; i < cityArrayList.size(); i++){
+            if (cityArrayList.get(i).getBelong().equals(belong)){
+                arrayList.add(cityArrayList.get(i));
+            }
+        }
+        return arrayList;
+    }
 
     class CityHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.tv_itemFragmentHomeCity_cityName)
