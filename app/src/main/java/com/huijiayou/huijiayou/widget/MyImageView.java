@@ -1,4 +1,4 @@
-package com.wanglibao.huijiayou.widget;
+package com.huijiayou.huijiayou.widget;
 
 
 /**
@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 public class MyImageView extends ScrollView{

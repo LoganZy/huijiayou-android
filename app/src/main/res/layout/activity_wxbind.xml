@@ -4,7 +4,7 @@
     android:id="@+id/activity_wxbind"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanglibao.huijiayou.activity.WXBindActivity">
+    tools:context="com.huijiayou.huijiayou.activity.WXBindActivity">
 
     <ImageView
         android:layout_marginLeft="10dp"
@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:background="@mipmap/ic_login_return"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_activity_wxbind"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:background="@mipmap/ic_login_default_avatar"/>
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/ic_login_default_avatar"/>
     <TextView
         android:id="@+id/tv_activity_wxbind_name"
         android:layout_width="1dp"
@@ -50,7 +50,7 @@
     <LinearLayout
         android:gravity="center"
         android:id="@+id/ll_activity_wxbind_phone"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -141,7 +141,7 @@
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_activityLogin_login"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:layout_below="@+id/ll_activity_wxbind_invit"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.wanglibao.huijiayou.activity.OilCardActivity">
+    tools:context="com.huijiayou.huijiayou.activity.OilCardActivity">
 
     <include layout="@layout/common_title"/>
 

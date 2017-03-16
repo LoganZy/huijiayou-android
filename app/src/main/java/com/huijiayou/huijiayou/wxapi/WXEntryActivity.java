@@ -1,29 +1,31 @@
-package com.wanglibao.huijiayou.wxapi;
+package com.huijiayou.huijiayou.wxapi;
 
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
+import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wanglibao.huijiayou.R;
-import com.wanglibao.huijiayou.activity.LoginActivity;
-import com.wanglibao.huijiayou.config.Constans;
-import com.wanglibao.huijiayou.utils.LogUtil;
-import com.wanglibao.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.utils.LogUtil;
+import com.huijiayou.huijiayou.utils.ToastUtils;
 
 
 /**
  * Created by ntop on 15/9/4.
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-
     private IWXAPI api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         String result = "";
         if (baseResp != null) {
             LoginActivity.resp= baseResp;
+            LogUtil.i(baseResp.errCode+"+++++++++++++++++++++++++++++++++++++++++++++++");
         }
        /* if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -54,7 +57,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             //请求服务器
         }*/
         switch(baseResp.errCode) {
-
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
                 ToastUtils.createNormalToast(this,result);
@@ -66,6 +68,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 String code = ((SendAuth.Resp) baseResp).code;
                 //上面的code就是接入指南里要拿到的code
                 LogUtil.i(code+"+++++++++++++++++++++++++++++++++++++++++++++++");
+                startActivity(new Intent(this,WXBindActivity.class));
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -80,7 +83,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
                 break;
             default:
-                result = "发送返回";
+                result = "网络异常";
                 ToastUtils.createLongToast(this,result);
                 finish();
                 break;
@@ -91,6 +94,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        LoginActivity.WXapi.handleIntent(intent,this);
+        api.handleIntent(intent, this);
+        finish();
     }
 }

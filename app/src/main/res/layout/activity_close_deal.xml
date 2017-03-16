@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context="com.wanglibao.huijiayou.activity.CloseDealActivity">
+    tools:context="com.huijiayou.huijiayou.activity.CloseDealActivity">
     <include layout="@layout/common_title"/>
     <LinearLayout
         android:gravity="center"

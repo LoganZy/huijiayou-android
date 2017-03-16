@@ -4,7 +4,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanglibao.huijiayou.activity.LoginActivity">
+    tools:context="com.huijiayou.huijiayou.activity.LoginActivity">
     <ImageView
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
@@ -190,12 +190,6 @@
         android:layout_centerHorizontal="true"
         android:textSize="10dp"
         android:text="微信登录"/>
-    <Button
-        android:id="@+id/btn_get_acesstoken"
-        android:layout_below="@+id/text_weixin"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="获取图啃"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"

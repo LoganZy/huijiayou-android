@@ -17,22 +17,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.net.MessageEntity;
+import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class WXBindActivity extends BaseActivity {
+public class WXBindActivity extends BaseActivity implements NewHttpRequest.RequestCallback{
 
     @Bind(R.id.img_activity_wxbind)
     ImageView imgActivityWxbind;
-    @Bind(R.id.tv_activity_wxbind_name)
+    @Bind(R.id.tv_activity_wxbind_name2)
     TextView tvActivityWxbindName;
     @Bind(R.id.edit_activity_bind_phone)
     EditText editActivityBindPhone;
@@ -49,6 +59,8 @@ public class WXBindActivity extends BaseActivity {
     private String telephone;
     private String SMScode;
    // private String invite;
+    private String key;
+    private int code;
     private int time = 60;
     private Handler handler = new Handler();
 
@@ -62,10 +74,7 @@ public class WXBindActivity extends BaseActivity {
 
     private void initView() {
         setEditTextInhibitInputSpace(editActivityBindPhone);
-        // ImageButton WXLogin = (ImageButton) findViewById(R.id.WXLogin);
-        // TextView tv_SMSVerify = (TextView) findViewById(R.id.tv_activityLogin_sendPhoneCode);
-        // EditText et_Telephone = (EditText) findViewById(R.id.edit_activityLogin_phoneCode);
-//        edittext 关于电话号码的逻辑
+
         editActivityBindPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,15 +130,13 @@ public class WXBindActivity extends BaseActivity {
 
             }
         });
-        Intent intent = getIntent();
-
-        //接收用户的信息
-        getUserInformation(intent);
+        //获取用户的头像和姓名展示
+        getUserInformation();
     }
 
-    private void getUserInformation(Intent intent) {
-       String nickname =  intent.getStringExtra("nickname");
-        String headimgurl = intent.getStringExtra("headimgurl");
+    private void getUserInformation() {
+       String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
+        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");
         tvActivityWxbindName.setText(nickname);
         //ImageSize mImageSize = new ImageSize(150,150)
         ImageLoader.getInstance().loadImage(headimgurl, new ImageLoadingListener() {
@@ -201,8 +208,22 @@ public class WXBindActivity extends BaseActivity {
             time = 60;
             //向服务器请求
             startTime();
+            telephone = telephone.replaceAll(" ","");
+            getVerificationCode( telephone);
         }
     }
+    /*
+    *
+    * 获取短信验证码
+    * */
+    private void getVerificationCode(String callNumber){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("mobile",callNumber);
+        new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",1, map,false,this).executeTask();
+
+
+    }
+
 
     /*
     *
@@ -246,5 +267,32 @@ public class WXBindActivity extends BaseActivity {
             }
         };
         editText.setFilters(new InputFilter[]{filter});
+    }
+
+    @Override
+    public void netWorkError() {
+
+    }
+
+    @Override
+    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        switch (taskId) {
+            case 1:
+
+                try {
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                    String callNum = jsonObject1.getString("call_num");
+                    key = jsonObject1.getString("key");
+                    code = jsonObject1.getInt("code");
+                    ToastUtils.createNormalToast("您已经获取了" + callNum + "次验证码");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    @Override
+    public void requestError(int code, MessageEntity msg, int taskId) {
+
     }
 }

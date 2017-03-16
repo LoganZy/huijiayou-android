@@ -99,8 +99,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         imgBtn_fragmentHome_closeRegion.setOnClickListener(this);
         tv_fragmentHome_botton.setOnClickListener(this);
 
-        getProductList();
-        getCity();
+        /*getProductList();
+        getCity();*/
     }
 
     private void getProductList(){

@@ -1,4 +1,4 @@
-package com.wanglibao.huijiayou.widget;
+package com.huijiayou.huijiayou.widget;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.widget.TextView;
 
-import com.wanglibao.huijiayou.R;
+import com.huijiayou.huijiayou.R;
 
 /**
  * Created by hexinhai 2017/3/14 0014.

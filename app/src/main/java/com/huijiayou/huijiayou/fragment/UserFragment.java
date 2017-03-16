@@ -1,4 +1,4 @@
-package com.wanglibao.huijiayou.fragment;
+package com.huijiayou.huijiayou.fragment;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 
-import com.wanglibao.huijiayou.R;
-import com.wanglibao.huijiayou.utils.ToastUtils;
-import com.wanglibao.huijiayou.widget.MyImageView;
-import com.wanglibao.huijiayou.widget.PopuDialog;
+import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.widget.MyImageView;
+import com.huijiayou.huijiayou.widget.PopuDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

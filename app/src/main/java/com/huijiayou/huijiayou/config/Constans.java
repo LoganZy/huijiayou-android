@@ -11,13 +11,14 @@ public class Constans {
 
 
     public final static boolean DEBUG = true;
+    //微信相关
     public static String WXBaseUrl = "https://api.weixin.qq.com/";
     public static String WX_APP_ID = "wxc77febc13d61d07b";
-    public static IWXAPI WXapi;
-  //  public static BaseResp resp;
     public static String AppSecret = "4c7582669eb3db8ec0bf8a2f22163397";
-
-
+    public static String NICKNAME = "nickname";
+    public static String HEADIMGURL= "headimgurl";
+    public static String ACCESSTOKEN = "accesstoken";
+    public static String OPENID = "openid";
   // public static final String APP_ID = "wxd930ea5d5a258f4f";
 
     public static class ShowMsgActivity {
@@ -32,7 +33,7 @@ public class Constans {
 
 
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-    public final static String URL_zxg = "http://oil_product.dev.wanglibao.com";//张孝国
+    public final static String URL_zxg = "http://oil_product.dev.huijiayou.com";//张孝国
 
 
     public final static String ACCOUNT = "/service.php?c=account";

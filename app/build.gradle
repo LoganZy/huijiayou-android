@@ -51,5 +51,6 @@ dependencies {
     compile 'com.mcxiaoke.gradle:packer-helper:1.0.8'
     //    testCompile 'junit:junit:4.12'
     compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'com.android.support:support-v4:24.2.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    testCompile 'junit:junit:4.12'
 }

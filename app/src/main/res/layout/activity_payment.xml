@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/bg_color"
-    tools:context="com.wanglibao.huijiayou.activity.PaymentActivity">
+    tools:context="com.huijiayou.huijiayou.activity.PaymentActivity">
 
     <include layout="@layout/common_title" />
 

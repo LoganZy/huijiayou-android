@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/ll_fragment_user"
     >
-    <com.wanglibao.huijiayou.widget.MyImageView
+    <com.huijiayou.huijiayou.widget.MyImageView
         android:id="@+id/my_image_head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -247,7 +247,7 @@
 
         </LinearLayout>
 
-    </com.wanglibao.huijiayou.widget.MyImageView>
+    </com.huijiayou.huijiayou.widget.MyImageView>
     <RelativeLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
