@@ -18,7 +18,7 @@
         android:textColor="@color/white"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:background="@color/white"
@@ -38,14 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+                android:textColor="#666666"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01000000000000000"/>
+
             <TextView
-                android:layout_marginTop="10dp"
+                android:textColor="#666666"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小明"/>
+                android:layout_marginTop="10dp"
+                android:text="小明" />
 
         </LinearLayout>
     </LinearLayout>
@@ -75,22 +79,27 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="#666666"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textSize="13dp"
                     android:text="充值金额" />
 
                 <TextView
+                    android:textColor="#2A2A2A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
 
                 <TextView
+                    android:textSize="13dp"
+                    android:textColor="#666666"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -98,13 +107,14 @@
                     android:text="实际支付" />
 
                 <TextView
+                    android:textColor="#2A2A2A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
-                    android:textSize="20dp" />
+                    android:textSize="18dp" />
             </LinearLayout>
 
             <TextView
@@ -112,8 +122,8 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:text="中石化6月加油套餐"
-                android:textColor="@color/black"
-                android:textSize="15dp" />
+                android:textColor="#666666"
+                android:textSize="14dp" />
         </RelativeLayout>
 
         <TextView
@@ -136,12 +146,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="#999999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="订单编号"
                 android:textSize="10dp" />
 
             <TextView
+                android:textColor="#999999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -160,12 +172,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="#999999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="下单时间"
                 android:textSize="10dp" />
 
             <TextView
+                android:textColor="#999999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -178,9 +192,9 @@
             android:background="@color/white"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textColor="#FF7320"
-            android:textSize="20dp"
+            android:textSize="17dp"
             android:text="马上支付"/>
 
     </RelativeLayout>

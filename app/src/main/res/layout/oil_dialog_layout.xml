@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:background="@color/transparent"
+        android:gravity="center_horizontal"
+       >
+
+        <TextView
+            android:layout_alignParentTop="true"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_centerInParent="true"
+            android:text="欢迎老司机送你"
+            android:textColor="@color/white"
+            android:textSize="13dp" />
+        <ImageView
+            android:background="@color/transparent"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/ic_me_popover"/>
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/tv_activity_oil_num"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:drawableLeft="@mipmap/ic_me_popover_add"
+            android:drawableRight="@mipmap/ic_me_popover_text"
+            android:textColor="#FFEC02"
+            android:textSize="45dp"/>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

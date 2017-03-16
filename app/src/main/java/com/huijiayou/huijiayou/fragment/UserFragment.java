@@ -7,12 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
-
+import android.widget.ImageView;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.utils.LogUtil;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -21,18 +19,36 @@ import butterknife.ButterKnife;
 
 public class UserFragment extends Fragment {
 
-    @Bind(R.id.imbtn_fragmet_user)
-    ImageButton imbtnFragmetUser;
 
+    private ImageButton imbtnFragmetUser;
+    private ImageButton imbtnAward;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtil.i("UserFragment.onCreateView");
         View view = inflater.inflate(R.layout.fragment_user, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        com.huijiayou.huijiayou.widget.MyImageView myImageView = (com.huijiayou.huijiayou.widget.MyImageView) view.findViewById(R.id.my_image_head);
+        myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
+        imbtnFragmetUser = (ImageButton) view.findViewById(R.id.imgbt_fragmentUser_message);
+        imbtnAward = (ImageButton) view.findViewById(R.id.imgBtn_fragmentUser_award);
+        imbtnAward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // ToastUtils.createNormalToast(getActivity(),"哈哈哈哈被点到了");
+                com.huijiayou.huijiayou.widget.PopuDialog popuDialog = new com.huijiayou.huijiayou.widget.PopuDialog(getActivity());
+                popuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                popuDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                popuDialog.show();
 
+            }
+        });
+
+           return view;
     }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
 
     //判断是否登录
     @Override
@@ -48,4 +64,7 @@ public class UserFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
+
 }

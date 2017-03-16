@@ -10,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.huijiayou.huijiayou.utils.LogUtil;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.request.RequestInterface;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,10 +23,7 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by lugg on 2017/2/24.
@@ -44,7 +39,6 @@ public class OrderFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtil.i("OrderFragment.onCreateView");
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -81,7 +75,7 @@ public class OrderFragment extends Fragment {
     }
 
     private void WXpay() {
-        Retrofit retorfit = new Retrofit.Builder()
+/*        Retrofit retorfit = new Retrofit.Builder()
                 .baseUrl(Constans.WXBaseUrl)
                 .build();
         RequestInterface requestInterface = retorfit.create(RequestInterface.class);
@@ -96,7 +90,7 @@ public class OrderFragment extends Fragment {
                 public void onFailure(Call call, Throwable t) {
 
                 }
-            });
+            });*/
     }
 
     private void wechatPay(Response response) {

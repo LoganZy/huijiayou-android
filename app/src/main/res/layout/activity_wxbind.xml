@@ -4,7 +4,7 @@
     android:id="@+id/activity_wxbind"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanglibao.huijiayou.activity.WXBindActivity">
+    tools:context="com.huijiayou.huijiayou.activity.WXBindActivity">
 
     <ImageView
         android:layout_marginLeft="10dp"
@@ -15,14 +15,14 @@
 
     <ImageView
         android:id="@+id/img_activity_wxbind"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:background="@mipmap/ic_login_default_avatar"/>
     <TextView
         android:id="@+id/tv_activity_wxbind_name"
-        android:layout_width="wrap_content"
+        android:layout_width="1dp"
         android:layout_height="1dp"
         android:layout_below="@id/img_activity_wxbind"
         android:layout_centerHorizontal="true"
@@ -33,6 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_activity_wxbind_name"
         android:layout_centerHorizontal="true"
+        android:textColor="#51586A"
+        android:textSize="13dp"
         android:text="昵称"/>
     <TextView
         android:id="@+id/tv_activity_wxbind"
@@ -41,9 +43,12 @@
         android:layout_below="@id/tv_activity_wxbind_name2"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
+        android:textSize="13dp"
+        android:textColor="#51586A"
         android:text="账号绑定，即可通过微信快速登录"/>
 
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/ll_activity_wxbind_phone"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
@@ -52,25 +57,22 @@
         android:layout_below="@id/tv_activity_wxbind"
         >
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_account"/>
         <EditText
+            android:textSize="13dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/edit_activity_bind_phone"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/line_login_selector"
             android:hint="请输入手机号码"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/ll_activity_wxbind_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,16 +81,16 @@
         android:layout_below="@+id/ll_activity_wxbind_phone"
         >
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_password"/>
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_marginLeft="20dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content">
             <EditText
+                android:textSize="13dp"
                 android:layout_width="match_parent"
                 android:id="@+id/edit_activity_bind_sms"
                 android:layout_height="wrap_content"
@@ -106,57 +108,60 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:textColor="#F3B93E"
+                android:textSize="13dp"
                 android:text="获取验证码"
                 />
 
         </RelativeLayout>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
+        android:gravity="center"
         android:id="@+id/ll_activity_wxbind_invit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
         android:layout_below="@id/ll_activity_wxbind_sms"
         >
         <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_invitation"/>
         <EditText
+            android:layout_marginLeft="20dp"
             android:id="@+id/edit_activity_bind_invit"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/line_login_selector"
+            android:textSize="13dp"
             android:hint="若无邀请码请忽略"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_activity_wxbind_Bind"
-        android:layout_margin="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_activityLogin_login"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/ll_activity_wxbind_invit"
-        android:background="@drawable/round_button"
-        android:textColor="@color/white"
-        android:text="确定绑定"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_activity_wxbind_Bind"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button"
 
+            android:textSize="17dp"
+            android:textColor="@color/white"
+            android:text="确定绑定"/>
+
+    </RelativeLayout>
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"
         android:gravity="center"
@@ -180,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/ic_login_check"/>
             <TextView
+                android:textSize="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
