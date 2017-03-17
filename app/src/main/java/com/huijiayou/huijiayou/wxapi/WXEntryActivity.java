@@ -321,7 +321,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
         map.put("openid",id);
         map.put("access_token",Token);
         LogUtil.i("--------------"+id+"++++"+Token+"---------------");
-        new NewHttpRequest(this, Constans.URL_TEST + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, "jsonObject", 1, map, false, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, "jsonObject", 1, map, false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
