@@ -5,22 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.MyImageView;
 import com.huijiayou.huijiayou.widget.PopuDialog;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
+
 
 /**
  * Created by lugg on 2017/2/24.
@@ -50,7 +46,6 @@ public class UserFragment extends Fragment {
 
             }
         });
-
            return view;
     }
     @Override

@@ -48,13 +48,15 @@ public class ParamUtil {
             }
         }
         try {
-            Object time = jsonObject.get("time");
             Object sign = jsonObject.get("sign");
-            if (!TextUtils.isEmpty(time.toString()) && TextUtils.isEmpty(sign.toString())){
+            if (TextUtils.isEmpty(sign.toString())){
                 String session_id = PreferencesUtil.getPreferences("session_id","");
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1 = jsonObject;
+                jsonObject1.remove("sign");
                 if (!TextUtils.isEmpty(session_id) && session_id.indexOf("=") >= 0){
                     session_id = session_id.substring(session_id.indexOf("=")+1);
-                    jsonObject.put("sign", MD5.md5(time.toString()+"&"+session_id +"&"+jsonObject.toString()));
+                    jsonObject.put("sign", MD5.md5(jsonObject1.toString() +"&"+session_id));
                 }
             }
         } catch (JSONException e) {

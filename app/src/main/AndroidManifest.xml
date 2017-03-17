@@ -157,7 +157,8 @@
         <activity android:name=".activity.NoPayActivity" />
         <activity android:name=".activity.OilCardActivity" />
         <activity android:name=".activity.CouponActivity" />
-        <activity android:name=".activity.MessageActivity"></activity>
+        <activity android:name=".activity.MessageActivity" />
+        <activity android:name=".activity.AddOilCardActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,5 @@
 package com.huijiayou.huijiayou.config;
 
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 /**
  * Created by lugg on 2017/2/24.
  */
@@ -34,7 +31,7 @@ public class Constans {
 
 
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-    public final static String URL_zxg = "http://oil_product.dev.huijiayou.com";//张孝国
+    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
 
 
     public final static String ACCOUNT = "/service.php?c=account";
@@ -53,9 +50,10 @@ public class Constans {
 //weixin_auth_post
 
     public final static String productList = "productList"; //产品列表
-    public final static String getOilcardInfo = "getOilcardInfo"; //油卡列表
+    public final static String getOilCardList = "getOilCardList"; //油卡列表
     public final static String getCity = "getCity"; //可充油城市的列表
     public final static String bindCard = "bindCard"; //绑卡
+    public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
 
 
 

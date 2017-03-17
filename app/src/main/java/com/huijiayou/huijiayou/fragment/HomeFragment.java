@@ -18,9 +18,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.MainActivity;
+import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
+import com.huijiayou.huijiayou.adapter.CityAdapter.City;
 import com.huijiayou.huijiayou.adapter.ProductAdapter;
+import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -33,6 +36,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,25 +64,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Bind(R.id.imgBtn_fragmentHome_closeRegion)
     ImageButton imgBtn_fragmentHome_closeRegion;
 
-    @Bind(R.id.recyclerView_fragmentHome_oil)
-    RecyclerView recyclerView_fragmentHome_oil;
+    @Bind(R.id.recyclerView_fragmentHome_product)
+    RecyclerView recyclerView_fragmentHome_product;
 
-    @Bind(R.id.recyclerView_fragmentHome_region)
-    RecyclerView recyclerView_fragmentHome_region;
+    @Bind(R.id.recyclerView_fragmentHome_city)
+    RecyclerView recyclerView_fragmentHome_city;
 
     @Bind(R.id.tv_fragmentHome_botton)
     TextView tv_fragmentHome_botton;
 
     private int productListTaskId = 4;
-    private int getCity = 5;
+    private int getCityTaskId = 5;
 
     ArrayList<ProductAdapter.Product> productArrayList = new ArrayList<>();
-    ArrayList<CityAdapter.City> cityArrayList = new ArrayList<>();
+    ArrayList<CityAdapter.City> cityTotalArrayList = new ArrayList<>();
+    ArrayList<CityAdapter.City> cityCurrentArrayList = new ArrayList<>();
     ProductAdapter productAdapter;
     CityAdapter cityAdapter;
     Drawable up,down;
+    public TextView lastSelectedProductTextView,lastSelectedCityTextView;
+    public City lastSelectedCity = new City();
+    public Product lastSelectedProduct = new Product();
+    public Product temporarySelectedProduct = new Product();
 
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+    final int productCityShowType_complete = 2;//有产品 城市
+    final int productCityShowType_noCity = 1;//有产品 但没城市
+    final int productCityShowType_noProductCity = 0;//产品只有一个，而且没有城市
+    int productCityShowType = productCityShowType_complete;
+
+    LinearLayoutManager linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
+    LinearLayoutManager linearLayoutManagerCity = new LinearLayoutManager(getActivity());
 
     MainActivity mainActivity;
     @Nullable
@@ -99,19 +115,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         imgBtn_fragmentHome_closeRegion.setOnClickListener(this);
         tv_fragmentHome_botton.setOnClickListener(this);
 
-        /*getProductList();
-        getCity();*/
+        linearLayoutManagerCity = new LinearLayoutManager(getActivity());
+        recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
+        linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
+        recyclerView_fragmentHome_product.setLayoutManager(linearLayoutManagerProduct);
+        getCity();
+        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
     }
 
-    private void getProductList(){
-        HashMap<String,Object> hashMap = new HashMap<>();
-        long time = System.currentTimeMillis();
-        hashMap.put("time",time);
-        hashMap.put("sign","");
-
-        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
-                "jsonObject",productListTaskId,hashMap,false,this).executeTask();
-    }
+//    private void getProductList(){
+//        HashMap<String,Object> hashMap = new HashMap<>();
+//        long time = System.currentTimeMillis();
+//        hashMap.put("time",time);
+//        hashMap.put("sign","");
+//
+//        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
+//                "jsonObject",productListTaskId,hashMap,false,this).executeTask();
+//    }
     private void getCity(){
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
@@ -119,17 +139,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         hashMap.put("sign","");
 
         new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.PRODUCT,Constans.getCity,
-                "jsonObject",getCity,hashMap,false,this).executeTask();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+                "jsonObject",getCityTaskId,hashMap,false,this).executeTask();
     }
 
     @Override
@@ -143,7 +153,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
+//                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
+                startActivity(new Intent(getActivity(), OilCardActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
                 startActivity(new Intent(getActivity(), PaymentActivity.class));
@@ -176,9 +187,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     }
 
     @Override
-    public void netWorkError() {
-
-    }
+    public void netWorkError() {}
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
@@ -195,37 +204,116 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             }else if (taskId == 1){
                 ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
             }else if (taskId == 2){
-//                if(jsonObject.getInt("status") == 0){
+                if(jsonObject.getInt("status") == 0){
                     HashMap<String,Object> hashMap = new HashMap<>();
                     hashMap.put("mobile","13552408894");
                     new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,false,this).executeTask();
-//                }else{
+                }else{
                     ToastUtils.createLongToast(getActivity(),"已登录");
-//                }
-            }else if (taskId == productListTaskId){
-                productArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
-                        new TypeToken<ArrayList<ProductAdapter.Product>>() {}.getType());
-                linearLayoutManager = new LinearLayoutManager(getActivity());
-                recyclerView_fragmentHome_oil.setLayoutManager(linearLayoutManager);
+                }
+            }else if (taskId == getCityTaskId){
+                cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
+                        new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());
+                initProductCityData(cityTotalArrayList); //将获取到的数据拆分成两部分
                 productAdapter = new ProductAdapter(getActivity(), productArrayList, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        int position = (int) v.getTag();
+                        temporarySelectedProduct = productArrayList.get(position);
+                        updateCityData(position);
+                        if (productCityShowType == productCityShowType_noCity){
+                            lastSelectedProduct = temporarySelectedProduct;
+                            lastSelectedCity = null;
+                            initTextProductCity(lastSelectedProduct.getName(),"全国");
+                            hideCover();
+                        }
+                        if (lastSelectedProductTextView != null){
+                            lastSelectedProductTextView.setTextColor(getResources().getColor(R.color.textColor_51586A));
+                            lastSelectedProductTextView.getTextColors();
+                        }
+                        lastSelectedProductTextView = (TextView) v;
+                        lastSelectedProductTextView.setTextColor(getResources().getColor(R.color.textColor_F3844A));
                     }
-                });
-                recyclerView_fragmentHome_oil.setAdapter(productAdapter);
-//                recyclerView_fragmentHome_oil.setOn
-            }else if (taskId == getCity){
-                cityArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
-                        new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());
-                linearLayoutManager = new LinearLayoutManager(getActivity());
-                recyclerView_fragmentHome_region.setLayoutManager(linearLayoutManager);
-                cityAdapter = new CityAdapter(getActivity(),cityArrayList);
-                recyclerView_fragmentHome_region.setAdapter(cityAdapter);
+                },this);
+                recyclerView_fragmentHome_product.setAdapter(productAdapter);
+                lastSelectedProduct = productArrayList.get(0);
+                updateCityData(0);
+                if (productArrayList.size() == 1 && cityCurrentArrayList.size() == 0){
+                    productCityShowType = productCityShowType_noProductCity;
+                    tv_fragmentHome_openRegionChoice.setOnClickListener(null);
+                    lastSelectedProduct = productArrayList.get(0);
+                    lastSelectedCity = null;
+                    initTextProductCity(lastSelectedProduct.getName(),"全国");
+                }
+                if (cityCurrentArrayList == null || cityCurrentArrayList.size() == 0){
+                    initTextProductCity(lastSelectedProduct.getName(),"全国");
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initProductCityData(ArrayList<City> cityArrayList){
+        ArrayList<City> cityes = new ArrayList<>();
+        Product product = null;
+        HashMap<String,String> hashMap = new HashMap<>();
+        for (int i = 0; i < cityArrayList.size(); i++){
+            City city = cityArrayList.get(i);
+            String name = city.getName();
+            int index = name.indexOf("|");
+            if (index >= 0){
+                hashMap.put(name.substring(0,index),city.getBelong());
+                city.setName(name.substring(index+1));
+                cityes.add(city);
+            }
+        }
+        cityTotalArrayList = cityes;
+        Iterator<Map.Entry<String, String>> iterator = hashMap.entrySet().iterator();
+        productArrayList = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            product = new Product();
+            product.setName(entry.getKey());
+            product.setBelong(entry.getValue());
+            productArrayList.add(product);
+        }
+    }
+
+    public void initTextProductCity(String product,String city){
+        tv_fragmentHome_openRegionChoice.setText(product+" | "+ city);
+    }
+
+    private void updateCityData(int position){
+        cityCurrentArrayList = CityAdapter.findCityByBelong(productArrayList.get(position).getBelong(),cityTotalArrayList);
+        if (cityCurrentArrayList.size() == 0){
+            recyclerView_fragmentHome_city.setVisibility(View.GONE);
+            productCityShowType = productCityShowType_noCity;
+        }else{
+            recyclerView_fragmentHome_city.setVisibility(View.VISIBLE);
+            productCityShowType = productCityShowType_complete;
+        }
+//        if (cityAdapter == null){
+            cityAdapter = new CityAdapter(getActivity(), cityCurrentArrayList, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int) v.getTag();
+                    lastSelectedCity = cityCurrentArrayList.get(position);
+                    lastSelectedProduct = temporarySelectedProduct;
+                    initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
+                    hideCover();
+                    if (lastSelectedCityTextView != null){
+                        lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_51586A));
+                    }
+                    lastSelectedCityTextView = (TextView) v;
+                    lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_F3844A));
+                }
+            });
+            recyclerView_fragmentHome_city.setAdapter(cityAdapter);
+//        }else {
+//            cityAdapter.notifyDataSetChanged();
+//            recyclerView_fragmentHome_city.setAdapter(cityAdapter);
+//        }
     }
 
     @Override

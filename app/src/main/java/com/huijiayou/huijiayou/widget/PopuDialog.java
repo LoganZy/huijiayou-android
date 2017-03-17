@@ -25,8 +25,6 @@ public class PopuDialog extends Dialog {
 
     public PopuDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, R.style.MyDialog);
-
-
     }
 
     protected PopuDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {

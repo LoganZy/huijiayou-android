@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@mipmap/ic_commonr_hei"/>
+            android:drawableLeft="@mipmap/ic_pay_return"/>
 
         <TextView
             android:id="@+id/tv_commonTitle_right"
