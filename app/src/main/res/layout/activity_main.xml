@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanglibao.huijiayou.activity.MainActivity">
+    tools:context="com.huijiayou.huijiayou.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/fl_mainActivity_fragmentShell"

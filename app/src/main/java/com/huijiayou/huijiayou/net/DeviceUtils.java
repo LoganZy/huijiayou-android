@@ -42,7 +42,7 @@ public class DeviceUtils {
         if(!TextUtils.isEmpty(CHANNEL_ID)) {
             sb.append(CHANNEL_ID).append("/");
         } else {
-            // 默认渠道wanglibao
+            // 默认渠道huijiayou
             CHANNEL_ID = "huijiayou/";
             sb.append(CHANNEL_ID);
         }

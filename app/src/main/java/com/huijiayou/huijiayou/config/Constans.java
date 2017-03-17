@@ -1,8 +1,5 @@
 package com.huijiayou.huijiayou.config;
 
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 /**
  * Created by lugg on 2017/2/24.
  */
@@ -11,13 +8,14 @@ public class Constans {
 
 
     public final static boolean DEBUG = true;
+    //微信相关
     public static String WXBaseUrl = "https://api.weixin.qq.com/";
     public static String WX_APP_ID = "wxc77febc13d61d07b";
-    public static IWXAPI WXapi;
-  //  public static BaseResp resp;
     public static String AppSecret = "4c7582669eb3db8ec0bf8a2f22163397";
-
-
+    public static String NICKNAME = "nickname";
+    public static String HEADIMGURL= "headimgurl";
+    public static String ACCESSTOKEN = "accesstoken";
+    public static String OPENID = "openid";
   // public static final String APP_ID = "wxd930ea5d5a258f4f";
 
     public static class ShowMsgActivity {
@@ -32,7 +30,7 @@ public class Constans {
 
 
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-    public final static String URL_zxg = "http://oil_product.dev.wanglibao.com";//张孝国
+    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
 
 
     public final static String ACCOUNT = "/service.php?c=account";
@@ -51,9 +49,10 @@ public class Constans {
 
 
     public final static String productList = "productList"; //产品列表
-    public final static String getOilcardInfo = "getOilcardInfo"; //油卡列表
+    public final static String getOilCardList = "getOilCardList"; //油卡列表
     public final static String getCity = "getCity"; //可充油城市的列表
     public final static String bindCard = "bindCard"; //绑卡
+    public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
 
 
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_color"
-    tools:context="com.wanglibao.huijiayou.activity.CouponActivity">
+    tools:context="com.huijiayou.huijiayou.activity.CouponActivity">
 
     <include layout="@layout/common_title"/>
 

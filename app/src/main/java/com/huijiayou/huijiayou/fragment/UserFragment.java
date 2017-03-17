@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.widget.MyImageView;
+import com.huijiayou.huijiayou.widget.PopuDialog;
+
 import butterknife.ButterKnife;
+
 
 /**
  * Created by lugg on 2017/2/24.
@@ -26,7 +31,7 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
-        com.huijiayou.huijiayou.widget.MyImageView myImageView = (com.huijiayou.huijiayou.widget.MyImageView) view.findViewById(R.id.my_image_head);
+        MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         imbtnFragmetUser = (ImageButton) view.findViewById(R.id.imgbt_fragmentUser_message);
         imbtnAward = (ImageButton) view.findViewById(R.id.imgBtn_fragmentUser_award);
@@ -34,14 +39,13 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                // ToastUtils.createNormalToast(getActivity(),"哈哈哈哈被点到了");
-                com.huijiayou.huijiayou.widget.PopuDialog popuDialog = new com.huijiayou.huijiayou.widget.PopuDialog(getActivity());
+                PopuDialog popuDialog = new PopuDialog(getActivity());
                 popuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 popuDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 popuDialog.show();
 
             }
         });
-
            return view;
     }
     @Override

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color"
+    tools:context="com.huijiayou.huijiayou.activity.AddOilCardActivity">
+
+    <include layout="@layout/common_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@mipmap/ic_navbar_bg" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_activityAddOilCard_cardTag"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:textSize="13dp"
+            android:text="加油卡号"/>
+
+        <EditText
+            android:id="@+id/edit_activityAddOilCard_inputCard"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:textSize="13dp"
+            android:layout_toRightOf="@+id/tv_activityAddOilCard_cardTag"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_activityAddOilCard_cardTag"
+            android:background="@color/line_color"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_activityAddOilCard_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_activityAddOilCard_nameTag"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:textSize="13dp"
+            android:text="持卡人姓名"/>
+
+        <TextView
+            android:id="@+id/tv_activityAddOilCard_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="13dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            tools:text="鲁耿耿"
+            android:layout_toRightOf="@+id/tv_activityAddOilCard_nameTag"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_activityAddOilCard_nameTag"
+            android:background="@color/line_color"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_activityAddOilCard_cardPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="15dp"
+        tools:text="请输入正确的加油卡卡号"
+        android:textSize="11dp"
+        android:textColor="#CCCCCC"
+        android:visibility="invisible"
+        android:layout_below="@+id/view_activityPayment_shadow"/>
+
+    <Button
+        android:id="@+id/btn_activityAddOilCard_add"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="确认添加"
+        android:textSize="17dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:onClick="bindCard"
+        android:background="@drawable/shape_activity_add_oil_card_add"
+        android:textColor="@color/orange_FF7320"/>
+
+</LinearLayout>

@@ -36,7 +36,7 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_activity_oil_card,parent));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_activity_oil_card,parent,false));
     }
 
     @Override
@@ -47,13 +47,16 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
             holder.imgView_itemActivityOilCard_selected.setVisibility(View.GONE);
         }
 
-        holder.tv_itemActivityOilCard_card.setText(oilCardEntityList.get(position).getOil_card_number());
+        holder.tv_itemActivityOilCard_card.setText(addSpace(oilCardEntityList.get(position).getOil_card_number()));
         holder.tv_itemActivityOilCard_nameAndType.setText(oilCardEntityList.get(position).getUser_name());
 
         Drawable drawable = null;
-        if ("中石化".equals(oilCardEntityList.get(position).getName())){
+
+        if (oilCardEntityList.get(position).getName().contains("石化")){
             drawable = context.getResources().getDrawable(R.mipmap.ic_pay_sinopec);
-        }else if ("中石油".equals(oilCardEntityList.get(position).getName())){
+        }else if (oilCardEntityList.get(position).getName().contains("石油")){
+            drawable = context.getResources().getDrawable(R.mipmap.ic_pay_cnpc);
+        }else{
             drawable = context.getResources().getDrawable(R.mipmap.ic_pay_cnpc);
         }
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
@@ -63,6 +66,20 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
     @Override
     public int getItemCount() {
         return oilCardEntityList.size();
+    }
+
+    private String addSpace(String text){
+        StringBuffer spaceText = new StringBuffer();
+        while (text.length() > 0){
+            if (text.length() >= 4){
+                spaceText.append(text.substring(0,4)+" ");
+                text = text.substring(4,text.length());
+            }else {
+                spaceText.append(text);
+                break;
+            }
+        }
+        return spaceText.toString();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -83,12 +100,12 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
     public class OilCardEntity{
         private String name;  //油卡类型名字  中石化  or  中石油
         private String oil_card_number;  //卡号
-        private String user_name;  //用户的名字
+        private String oil_user_name;  //用户的名字
 
         public OilCardEntity(String name, String oil_card_number, String user_name) {
             this.name = name;
             this.oil_card_number = oil_card_number;
-            this.user_name = user_name;
+            this.oil_user_name = user_name;
         }
 
         public OilCardEntity() {}
@@ -110,11 +127,11 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
         }
 
         public String getUser_name() {
-            return user_name;
+            return oil_user_name;
         }
 
         public void setUser_name(String user_name) {
-            this.user_name = user_name;
+            this.oil_user_name = user_name;
         }
     }
 }

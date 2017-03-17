@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
@@ -19,11 +20,11 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
+
 /**
  * Created by ntop on 15/9/4.
  */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-
     private IWXAPI api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             //请求服务器
         }*/
         switch(baseResp.errCode) {
-
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
                 ToastUtils.createNormalToast(this,result);
@@ -66,6 +66,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 String code = ((SendAuth.Resp) baseResp).code;
                 //上面的code就是接入指南里要拿到的code
                 LogUtil.i(code+"+++++++++++++++++++++++++++++++++++++++++++++++");
+                startActivity(new Intent(this,WXBindActivity.class));
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -80,7 +81,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
                 break;
             default:
-                result = "发送返回";
+                result = "网络异常";
                 ToastUtils.createLongToast(this,result);
                 finish();
                 break;
@@ -90,7 +91,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        setIntent(intent);
-        LoginActivity.WXapi.handleIntent(intent,this);
+        setIntent(intent);//// TODO: 2017/3/16
+        api.handleIntent(intent, this);
+        finish();
     }
 }

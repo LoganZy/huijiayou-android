@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 
-
 /**
  * Created by hexinhai 2017/3/14 0014.
  */

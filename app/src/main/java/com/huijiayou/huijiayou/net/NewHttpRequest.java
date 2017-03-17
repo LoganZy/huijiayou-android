@@ -10,6 +10,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.jsonrpc.lib.JSONRPCClient;
 import com.huijiayou.huijiayou.jsonrpc.lib.JSONRPCException;
 import com.huijiayou.huijiayou.jsonrpc.lib.JSONRPCParams;
+import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.GsonUtil;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
@@ -42,7 +43,7 @@ public class NewHttpRequest implements Runnable {
     private WeakReference<Activity> mactivityWeakReference;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
-    private Dialog dialog;
+    private DialogLoading dialog;
     private boolean isShowLoad = true;
     private Dialog loggin_overdue_dialog;
     private Dialog loggin_invalid_dialog;
@@ -420,53 +421,15 @@ public class NewHttpRequest implements Runnable {
      * 显示加载动画
      */
     private void showLoadingDialog() {
-//        dialog = new Dialog(mactivityWeakReference.get(), R.style.MyDialogStyle);
-//        dialog.setCancelable(false);
-//        Window window = dialog.getWindow();
-//        window.setContentView(R.layout.dialog_loading3_layout);
-//
-//        WindowManager.LayoutParams params = window.getAttributes();
-//        int widthPixels = mactivityWeakReference.get().getResources().getDisplayMetrics().widthPixels;
-//        params.width = widthPixels / 10 * 8;
-//        window.setAttributes(params);
-//
-//        final ImageView iv_loading = (ImageView) window.findViewById(R.id.iv_loading);
-//        final Animation animationUtils = AnimationUtils.loadAnimation(mactivityWeakReference.get(), R.anim.loading_circle_new);
-//        iv_loading.startAnimation(animationUtils);
-//        TextView tv_content = (TextView) window.findViewById(R.id.tv_content);
-//        TextView tv_dismiss = (TextView) window.findViewById(R.id.tv_dismiss);
-//        final JumpingBeans jumpingBeans = JumpingBeans.with(tv_content).appendJumpingDots().build();
-//
-//        tv_dismiss.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (dialog.isShowing()) {
-//                    iv_loading.clearAnimation();
-//                    animationUtils.cancel();
-//                    jumpingBeans.stopJumping();
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialog) {
-//                iv_loading.clearAnimation();
-//                animationUtils.cancel();
-//                jumpingBeans.stopJumping();
-//            }
-//        });
-//        dialog.show();
-
-
+        dialog = new DialogLoading(mactivityWeakReference.get());
+        dialog.show();
     }
 
     /**
      * 加载动画消失
      */
     private void loadingDialogDismiss() {
-        if (dialog != null && dialog.isShowing()) {
+        if (dialog != null) {
             dialog.dismiss();
         }
     }

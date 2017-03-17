@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.huijiayou.huijiayou.MyApplication;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,12 +97,12 @@ public class OrderFragment extends Fragment {
 
     private void wechatPay(Response response) {
 
-        boolean isPaySupported = Constans.WXapi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+        boolean isPaySupported = MyApplication.msgApi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
         if (!isPaySupported) {
             ToastUtils.createLongToast(getActivity(),"您没有安装微信或者微信版本太低");
             return;
         }
-        Constans.WXapi.registerApp(Constans.WX_APP_ID);
+        MyApplication.msgApi.registerApp(Constans.WX_APP_ID);
         JSONObject json = null;
         try {
             json = new JSONObject(response.toString());
@@ -119,7 +121,7 @@ public class OrderFragment extends Fragment {
                 req.extData			= "app data"; // optional
                 ToastUtils.createNormalToast(getActivity(),"正常调起支付");
                 // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                Constans.WXapi.sendReq(req);
+                MyApplication.msgApi.sendReq(req);
             }else{
                 Log.d("PAY_GET", "返回错误"+json.getString("retmsg"));
                 ToastUtils.createNormalToast(getActivity(),"返回错误"+json.getString("retmsg"));

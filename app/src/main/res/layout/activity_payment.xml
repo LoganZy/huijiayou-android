@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/bg_color"
-    tools:context="com.wanglibao.huijiayou.activity.PaymentActivity">
+    tools:context="com.huijiayou.huijiayou.activity.PaymentActivity">
 
     <include layout="@layout/common_title" />
 
@@ -235,7 +235,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="#E5E5E5"
+                android:background="@color/line_color"
                 android:layout_below="@+id/tv_activityPayment_coupon_userNameTag"/>
         </RelativeLayout>
 
@@ -268,7 +268,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="#E5E5E5"
+                android:background="@color/line_color"
                 android:layout_below="@+id/tv_activityPayment_coupon_invoiceTag"/>
         </RelativeLayout>
 

@@ -49,6 +49,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.yuyh.bankcardformat:library:1.0.2'
     compile 'com.mcxiaoke.gradle:packer-helper:1.0.8'
-        testCompile 'junit:junit:4.12'
     compile 'com.j256.ormlite:ormlite-android:5.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    testCompile 'junit:junit:4.12'
 }

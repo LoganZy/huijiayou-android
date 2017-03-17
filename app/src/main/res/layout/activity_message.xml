@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wanglibao.huijiayou.activity.MessageActivity">
+    tools:context="com.huijiayou.huijiayou.activity.MessageActivity">
 
     <include layout="@layout/common_title"/>
 
