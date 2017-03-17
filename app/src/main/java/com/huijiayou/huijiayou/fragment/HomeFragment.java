@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_product.setLayoutManager(linearLayoutManagerProduct);
         getCity();
-        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
+        //new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
     }
 
 //    private void getProductList(){

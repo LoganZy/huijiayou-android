@@ -66,6 +66,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private String unionid;
     private String nickname;
     private String headimgurl;
+    private String invit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +186,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     * 绑定
     * */
     private void bindTelephone() {
-
         telephone = editActivityBindPhone.getText().toString().trim();
         SMScode = editActivityBindSms.getText().toString().trim();
-
+        invit =editActivityBindInvit.getText().toString().trim();
         if(TextUtils.isEmpty(telephone)||telephone==null){
             ToastUtils.createNormalToast(WXBindActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
@@ -203,6 +203,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             map.put("username",telephone);
             map.put("sms_key",key);
             map.put("sms_code",SMScode);
+            map.put("invite_code",invit);
             map.put("weixin_unionid",unionid);
             map.put("weixin_head",headimgurl);
             map.put("weixin_name",nickname);
@@ -314,7 +315,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String c_time= jsonObject1.getString("c_time");
                     String weixin_unionid= jsonObject1.getString("weixin_unionid");
 
-                    ToastUtils.createNormalToast("您的姓名"+realname);
+                    ToastUtils.createNormalToast("您的账号"+phone);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

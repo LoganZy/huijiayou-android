@@ -137,6 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/line_login_selector"
+            android:inputType="phone"
             android:textSize="13dp"
             android:hint="若无邀请码请忽略"/>
     </LinearLayout>

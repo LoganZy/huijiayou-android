@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.R;
@@ -91,9 +92,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
     @Override
     public void onResp(BaseResp baseResp) {
         String result = "";
-        if (baseResp != null) {
+       /* if (baseResp != null) {
             LoginActivity.resp= baseResp;
-        }
+        }*/
        /* if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示");
@@ -127,7 +128,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
                     e.printStackTrace();
                 }
-     */
+     */         finish();
 
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -320,7 +321,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
         map.put("openid",id);
         map.put("access_token",Token);
         LogUtil.i("--------------"+id+"++++"+Token+"---------------");
-        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, "jsonObject", 1, map, false, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(this, Constans.URL_TEST + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, "jsonObject", 1, map, false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -329,18 +330,24 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                 switch (taskId){
                     case 1:
-                        JSONObject jsonObject1 = null;
-                        try {
-                            jsonObject1 = jsonObject.getJSONObject("data");
-                            String isbind = jsonObject1.getString("is_bind");
-                            LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
-                            if(isbind=="1"){
-                                isBand = true;
-                                //如果已经绑定  获取到的数据 存储到本地   当打开我的界面的时候从 本地获取头像昵称
 
+                        try {
+                           // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            String isbind = jsonObject.getString("is_bind");
+
+                            if(TextUtils.equals("1",isbind)){
+                               // startActivity(new Intent(WXEntryActivity.this, RecordActivity.class));
+                                //finish();
+                                LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             }else{
-                                String message =  jsonObject1.getString("msg");
-                                isBand = false;
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String get_user_info_url=getUserInfo(Token,id);
+                                        WXGetUserInfo(get_user_info_url);
+                                    }
+                                }).start();
+                                String message =  jsonObject.getString("msg");
                                 ToastUtils.createNormalToast(message);
                             }
                         } catch (JSONException e) {
@@ -357,25 +364,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             }
         }).executeTask();
-
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String get_user_info_url=getUserInfo(Token,id);
-                WXGetUserInfo(get_user_info_url);
-            }
-        }).start();
-*/
-
-
-        if(isBand){
-            //已经绑定
-            startActivity(new Intent(this, RecordActivity.class));
-            finish();
-        }else{
-            //请求服务器是否绑定
-
-        }
 
     }
 

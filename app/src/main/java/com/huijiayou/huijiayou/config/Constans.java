@@ -29,7 +29,7 @@ public class Constans {
     public final static String JSONOARRAY= "jsonArray";
 
 
-
+    public final static String URL_TEST = "http://test.1huangjin.cn/passport/";//王远航
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
     public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
 

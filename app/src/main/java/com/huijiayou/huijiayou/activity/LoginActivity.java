@@ -1,13 +1,8 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Selection;
@@ -29,27 +24,15 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,54 +58,9 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private String telephone;
     private String SMScode;
     private String key;
-    private static String get_access_token = "";
-    private String weixinCode;
-    public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
-    public static String GetUserInfo="https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
-    public static BaseResp resp;
-    private String accessToken;
-    private String openid;
-    private  boolean isBand;
-    private IntentFilter intentFilter;
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what){
-                case 1:
-                    //请求服务器
-                    login();
-            }
-            return false;
-        }
-    });
+    private Handler handler = new Handler(){};
+    private String invit;
 
-    private void login() {
-         //请求服务器是否绑定
-        HashMap<String, Object>  map = new HashMap<>();
-        map.put("openid",openid);
-        map.put("access_token",accessToken);
-        new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.WEIXIN_AUTH_POST,"jsonObject",3, map,false,this).executeTask();
-
-            //未绑定
-
-
-
-        if(isBand){
-            //已经绑定
-            startActivity(new Intent(this, RecordActivity.class));
-            finish();
-        }else{
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String get_user_info_url=getUserInfo(accessToken,openid);
-                        WXGetUserInfo(get_user_info_url);
-                    }
-                }).start();
-
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,14 +150,14 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             @Override
             public void onClick(View v) {
                 telephone = editActivityLoginPhone.getText().toString().trim();
-                editActivityLoginPhoneCode.setText(" ");
+                //editActivityLoginPhoneCode.setText(" ");
 
                 if(TextUtils.isEmpty(telephone)||telephone==null){
                     ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
                 }else if (!telephone.startsWith("1") || telephone.length() != 13) {
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 }else if(TextUtils.isEmpty(SMScode)) {
-                    //ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
+                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
                     ll_login_invit.setVisibility(View.VISIBLE);
                     time = 60;
                     //向服务器请求
@@ -263,14 +201,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         super.onResume();
 
     }
-    public  Runnable downloadRun = new Runnable() {
 
-        @Override
-        public void run() {
-            WXGetAccessToken();
-
-        }
-    };
 
 
     /*
@@ -285,41 +216,37 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             ToastUtils.createLongToast(LoginActivity.this,"您没有安装微信或者微信版本太低");
             return;
         }
+/*        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
 
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        MyApplication.msgApi.sendReq(req);
-        finish();
-    }
-    public static String getUserInfo(String access_token,String openid){
-        String result = null;
-        GetUserInfo = GetUserInfo.replace("ACCESS_TOKEN",
-                urlEnodeUTF8(access_token));
-        GetUserInfo = GetUserInfo.replace("OPENID",
-                urlEnodeUTF8(openid));
-        result = GetUserInfo;
-        return result;
-    }
-    public static String getCodeRequest(String code) {
-        String result = null;
-        GetCodeRequest = GetCodeRequest.replace("APPID",
-                urlEnodeUTF8(Constans.WX_APP_ID));
-        GetCodeRequest = GetCodeRequest.replace("SECRET",
-                urlEnodeUTF8(Constans.AppSecret));
-        GetCodeRequest = GetCodeRequest.replace("CODE",urlEnodeUTF8( code));
-        result = GetCodeRequest;
-        return result;
-    }
-    public static String urlEnodeUTF8(String str) {
-        String result = str;
-        try {
-            result = URLEncoder.encode(str, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
+        };*/
+        boolean i  = PreferencesUtil.getPreferences("WeiXinSwith",false);
+        if(i){
+            SendAuth.Req req1 = new SendAuth.Req();
+            req1.scope = "snsapi_userinfo";
+            req1.state = "wechat_sdk_demo_test";
+            MyApplication.msgApi.sendReq(req1);
+            finish();
+            i= false;
+            PreferencesUtil.putPreferences("WeiXinSwith",i);
+        }else{
+
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            MyApplication.msgApi.sendReq(req);
+            finish();
+            i=true;
+            PreferencesUtil.putPreferences("WeiXinSwith",i);
         }
-        return result;
+
+
+
     }
+
 
     /*
     * 获取短信验证码
@@ -333,100 +260,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     }
 
-    /*
-    * 获取微信的token等信息
-    *
-    * */
-    private  void WXGetAccessToken(){
-        HttpClient get_access_token_httpClient = new DefaultHttpClient();
 
-        try {
-            HttpGet postMethod = new HttpGet(get_access_token);
-            HttpResponse response = get_access_token_httpClient.execute(postMethod); // 执行POST方法
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                InputStream is = response.getEntity().getContent();
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(is));
-                String str = "";
-                StringBuffer sb = new StringBuffer();
-                while ((str = br.readLine()) != null) {
-                    sb.append(str);
-                }
-                is.close();
-                String josn = sb.toString();
-                JSONObject json1 = new JSONObject(josn);
-                accessToken = (String) json1.get("access_token");
-                openid = (String) json1.get("openid");
-                PreferencesUtil.putPreferences(Constans.ACCESSTOKEN,accessToken);
-                PreferencesUtil.putPreferences(Constans.OPENID,openid);
-            } else {
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }  catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /*
-    * 获取用户的基本信息
-    *
-    * */
-    private  void WXGetUserInfo(String get_user_info_url){
-        HttpClient get_user_info_httpClient = new DefaultHttpClient();
-        String openid="";
-        String nickname="";
-        String headimgurl="";
-        String unionid = "";
-        try {
-            HttpGet getMethod = new HttpGet(get_user_info_url);
-            HttpResponse response = get_user_info_httpClient.execute(getMethod); // 执行GET方法
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                InputStream is = response.getEntity().getContent();
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(is));
-                String str = "";
-                StringBuffer sb = new StringBuffer();
-                while ((str = br.readLine()) != null) {
-                    sb.append(str);
-                }
-                is.close();
-                String josn = sb.toString();
-                JSONObject json1 = new JSONObject(josn);
-                openid = (String) json1.get("openid");
-                nickname = (String) json1.get("nickname");
-                headimgurl=(String)json1.get("headimgurl");
-                unionid = json1.getString("unionid");
-                PreferencesUtil.putPreferences(Constans.UNIONID,unionid);
-                PreferencesUtil.putPreferences(Constans.NICKNAME,nickname);
-                PreferencesUtil.putPreferences(Constans.HEADIMGURL,headimgurl);
-                //发送广播
-                Intent intent =new Intent();
-                //intent.setAction("getUserInfo");
-                intent.putExtra(Constans.UNIONID,unionid);
-                intent.putExtra(Constans.NICKNAME,nickname);
-                intent.putExtra(Constans.HEADIMGURL,headimgurl);
-                intent.setClass(this,WXBindActivity.class);
-                startActivity(intent);
-                //finish();
-                //sendBroadcast(intent);
-                PreferencesUtil.putPreferences("NUMBER",2);
-                LogUtil.i("返回的json:+++++++++++++++++++++++++++++++++++++++"+josn);
-            } else {
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 禁止EditText输入空格
@@ -451,9 +285,13 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     * */
     @OnClick(R.id.btn_activityLogin_login)
     public void onClick() {
+        invit= editActivityLoginInvit.getText().toString().trim();
+        if(TextUtils.isEmpty(invit)||invit==null){
+            invit = "";
+        }
         telephone = editActivityLoginPhone.getText().toString().trim();
         SMScode = editActivityLoginPhoneCode.getText().toString().trim();
-        String invite = editActivityLoginInvit.getText().toString().trim();
+       // invit = editActivityLoginInvit.getText().toString().trim();
         if(TextUtils.isEmpty(telephone)||telephone==null){
                 ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
@@ -468,6 +306,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             map.put("username",telephone);
             map.put("sms_key",key);
             map.put("sms_code",SMScode);
+            map.put("invite_code",invit);
             new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
 
         }
@@ -498,32 +337,16 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 try {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String userId = jsonObject1.getString("id");
-                    String  weixinCode =  jsonObject1.getString("weixin");
+                    String Phone = jsonObject1.getString("phone");
                     String  registerMode = jsonObject1.getString("register_mode");
                     String  weixinUninid =  jsonObject1.getString("weixin_unionid");
                     String  wixinHead = jsonObject1.getString("weixin_head");
                     String  weixinName =  jsonObject1.getString("weixin_name");
+                    ToastUtils.createNormalToast(Phone);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            case 3:
-                try {
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                    String isbind = jsonObject1.getString("is_bind");
-                    if(isbind=="1"){
-                        isBand = true;
-                        //如果已经绑定  获取到的数据 存储到本地   当打开我的界面的时候从 本地获取头像昵称
 
-                    }else{
-                        String message =  jsonObject1.getString("msg");
-                        isBand = false;
-                        ToastUtils.createNormalToast(message);
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
 
         }
