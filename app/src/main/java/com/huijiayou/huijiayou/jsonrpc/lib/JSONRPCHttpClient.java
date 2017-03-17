@@ -139,6 +139,7 @@ public class JSONRPCHttpClient extends com.huijiayou.huijiayou.jsonrpc.lib.JSONR
                     cookieName = cookies.get(i).getName();
                     cookieValue = cookies.get(i).getValue();
                 }
+                LogUtil.e("sessionId++++++++++++++++++++++++"+cookies.toString());
                 if(lastSessionId.contains(cookieName)) {
                     // 保存cookie   替换之前的cooke
                     PreferencesUtil.putPreferences("session_id",cookieName + "=" + cookieValue);

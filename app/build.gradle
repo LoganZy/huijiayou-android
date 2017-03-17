@@ -51,5 +51,6 @@ dependencies {
     compile 'com.mcxiaoke.gradle:packer-helper:1.0.8'
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.zhy:magic-viewpager:1.0.1'
     testCompile 'junit:junit:4.12'
 }

@@ -64,4 +64,6 @@ public class Constans {
 
     public static final String ID_ZHONGSHIHUA = "1";
     public static final String ID_ZHONGSHIYOU = "2";
+
+    public static int lunHui = 1;
 }

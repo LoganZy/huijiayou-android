@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
+import com.huijiayou.huijiayou.adapter.HomePageAdapter;
 import com.huijiayou.huijiayou.adapter.ProductAdapter;
 import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
@@ -29,6 +32,7 @@ import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,6 +77,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Bind(R.id.tv_fragmentHome_botton)
     TextView tv_fragmentHome_botton;
 
+    @Bind(R.id.viewPager_fragmentHome_product)
+    ViewPager viewPager_fragmentHome_product;
+
     private int productListTaskId = 4;
     private int getCityTaskId = 5;
 
@@ -95,6 +102,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     LinearLayoutManager linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
     LinearLayoutManager linearLayoutManagerCity = new LinearLayoutManager(getActivity());
 
+    HomePageAdapter homePageAdapter;
+    ArrayList<HomePageAdapter.Product> homeProductArrayList = new ArrayList<>();
+
     MainActivity mainActivity;
     @Nullable
     @Override
@@ -115,23 +125,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         imgBtn_fragmentHome_closeRegion.setOnClickListener(this);
         tv_fragmentHome_botton.setOnClickListener(this);
 
+        viewPager_fragmentHome_product.setPageMargin(50);
+        viewPager_fragmentHome_product.setOffscreenPageLimit(3);
+        viewPager_fragmentHome_product.setPageTransformer(true, new
+                ScaleInTransformer());
+
+        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_product.setLayoutManager(linearLayoutManagerProduct);
         getCity();
-        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
     }
 
-//    private void getProductList(){
-//        HashMap<String,Object> hashMap = new HashMap<>();
-//        long time = System.currentTimeMillis();
-//        hashMap.put("time",time);
-//        hashMap.put("sign","");
-//
-//        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
-//                "jsonObject",productListTaskId,hashMap,false,this).executeTask();
-//    }
+    private void getProductList(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        long time = System.currentTimeMillis();
+        hashMap.put("time",time);
+        hashMap.put("sign","");
+        hashMap.put("belong",lastSelectedProduct.getBelong());
+        if (lastSelectedCity != null && !TextUtils.isEmpty(lastSelectedCity.getCity_id())){
+            hashMap.put("city_id",lastSelectedCity.getCity_id());
+        }
+        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
+                "jsonObject",productListTaskId,hashMap,false,this).executeTask();
+    }
     private void getCity(){
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
@@ -226,6 +244,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                             lastSelectedCity = null;
                             initTextProductCity(lastSelectedProduct.getName(),"全国");
                             hideCover();
+                            getProductList();
                         }
                         if (lastSelectedProductTextView != null){
                             lastSelectedProductTextView.setTextColor(getResources().getColor(R.color.textColor_51586A));
@@ -244,10 +263,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                     lastSelectedProduct = productArrayList.get(0);
                     lastSelectedCity = null;
                     initTextProductCity(lastSelectedProduct.getName(),"全国");
-                }
-                if (cityCurrentArrayList == null || cityCurrentArrayList.size() == 0){
+                }else if (cityCurrentArrayList == null || cityCurrentArrayList.size() == 0){
                     initTextProductCity(lastSelectedProduct.getName(),"全国");
+                }else {
+                    lastSelectedCity = cityCurrentArrayList.get(0);
+                    initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
                 }
+                getProductList();
+            }else if (taskId == productListTaskId){
+                homeProductArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
+                        new TypeToken<ArrayList<HomePageAdapter.Product>>() {}.getType());
+                homePageAdapter = new HomePageAdapter(homeProductArrayList,getActivity());
+                viewPager_fragmentHome_product.setAdapter(homePageAdapter);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -294,22 +321,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             productCityShowType = productCityShowType_complete;
         }
 //        if (cityAdapter == null){
-            cityAdapter = new CityAdapter(getActivity(), cityCurrentArrayList, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = (int) v.getTag();
-                    lastSelectedCity = cityCurrentArrayList.get(position);
-                    lastSelectedProduct = temporarySelectedProduct;
-                    initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
-                    hideCover();
-                    if (lastSelectedCityTextView != null){
-                        lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_51586A));
-                    }
-                    lastSelectedCityTextView = (TextView) v;
-                    lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_F3844A));
+        cityAdapter = new CityAdapter(getActivity(), cityCurrentArrayList, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (int) v.getTag();
+                lastSelectedCity = cityCurrentArrayList.get(position);
+                lastSelectedProduct = temporarySelectedProduct;
+                initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
+                hideCover();
+                if (lastSelectedCityTextView != null){
+                    lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_51586A));
                 }
-            });
-            recyclerView_fragmentHome_city.setAdapter(cityAdapter);
+                lastSelectedCityTextView = (TextView) v;
+                lastSelectedCityTextView.setTextColor(getResources().getColor(R.color.textColor_F3844A));
+
+                getProductList();
+            }
+        },this);
+        recyclerView_fragmentHome_city.setAdapter(cityAdapter);
 //        }else {
 //            cityAdapter.notifyDataSetChanged();
 //            recyclerView_fragmentHome_city.setAdapter(cityAdapter);
@@ -319,5 +348,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
         ToastUtils.createLongToast(getActivity(),msg.getMessage());
+    }
+
+
+    class ZoomOutPageTransformer implements ViewPager.PageTransformer {
+        private static final float MAX_SCALE = 1.2f;
+        private static final float MIN_SCALE = 1.0f;//0.85f
+
+        @Override
+        public void transformPage(View view, float position) {
+            //setScaleY只支持api11以上
+            if (position < -1){
+                view.setScaleX(MIN_SCALE);
+                view.setScaleY(MIN_SCALE);
+            } else if (position <= 1) //a页滑动至b页 ； a页从 0.0 -1 ；b页从1 ~ 0.0
+            { // [-1,1]
+//              Log.e("TAG", view + " , " + position + "");
+                float scaleFactor =  MIN_SCALE+(1-Math.abs(position))*(MAX_SCALE-MIN_SCALE);
+                view.setScaleX(scaleFactor);
+                //每次滑动后进行微小的移动目的是为了防止在三星的某些手机上出现两边的页面为显示的情况
+                if(position>0){
+                    view.setTranslationX(-scaleFactor*2);
+                }else if(position<0){
+                    view.setTranslationX(scaleFactor*2);
+                }
+                view.setScaleY(scaleFactor);
+
+            } else
+            { // (1,+Infinity]
+
+                view.setScaleX(MIN_SCALE);
+                view.setScaleY(MIN_SCALE);
+
+            }
+        }
+
     }
 }

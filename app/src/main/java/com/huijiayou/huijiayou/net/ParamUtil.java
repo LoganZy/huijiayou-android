@@ -2,6 +2,7 @@ package com.huijiayou.huijiayou.net;
 
 import android.text.TextUtils;
 
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.MD5;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
@@ -55,9 +56,10 @@ public class ParamUtil {
                 jsonObject1 = jsonObject;
                 jsonObject1.remove("sign");
                 if (!TextUtils.isEmpty(session_id) && session_id.indexOf("=") >= 0){
-                    session_id = session_id.substring(session_id.indexOf("=")+1);
+//                    session_id = session_id.substring(session_id.indexOf("=")+1);
                     jsonObject.put("sign", MD5.md5(jsonObject1.toString() +"&"+session_id));
                 }
+                LogUtil.e("requestParams=================>"+jsonObject1.toString() +"&"+session_id);
             }
         } catch (JSONException e) {
             e.printStackTrace();

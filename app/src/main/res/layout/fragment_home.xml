@@ -63,20 +63,31 @@
             android:layout_marginBottom="5dp"
             android:layout_weight="64"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:clipChildren="false">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:drawableLeft="@mipmap/ic_home_tag_left"
                 android:drawableRight="@mipmap/ic_home_tag_right"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="指针拨动 选择充值月数"
+                android:text="滑动卡片 选择充值月数"
                 android:textColor="#999999" />
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager_fragmentHome_product"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:clipChildren="false">
+
+            </android.support.v4.view.ViewPager>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.fragment.HomeFragment;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
     Context context;
     ArrayList<City> cityArrayList;
     View.OnClickListener onClickListener;
-    public CityAdapter(Context context, ArrayList<City> cityArrayList, View.OnClickListener onClickListener) {
+    HomeFragment homeFragment;
+    public CityAdapter(Context context, ArrayList<City> cityArrayList, View.OnClickListener onClickListener, HomeFragment homeFragment) {
         this.context = context;
         this.cityArrayList = cityArrayList;
         this.onClickListener = onClickListener;
+        this.homeFragment = homeFragment;
     }
 
     @Override
@@ -36,6 +39,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder>{
 
     @Override
     public void onBindViewHolder(CityHolder holder, int position) {
+//        if (position == 0){
+//            holder.tv_itemFragmentHomeCity_cityName.setTextColor(context.getResources().getColor(R.color.textColor_F3844A));
+//            homeFragment.lastSelectedCityTextView =  holder.tv_itemFragmentHomeCity_cityName;
+//        }else {
+//            holder.tv_itemFragmentHomeCity_cityName.setTextColor(context.getResources().getColor(R.color.textColor_51586A));
+//
+//        }
         String text = cityArrayList.get(position).getName();
         int index = text.indexOf("|");
         if (index >= 0){
