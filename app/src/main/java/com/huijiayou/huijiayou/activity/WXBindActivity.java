@@ -63,6 +63,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private int code;
     private int time = 60;
     private Handler handler = new Handler();
+    private String unionid;
+    private String nickname;
+    private String headimgurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +138,12 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     }
 
     private void getUserInformation() {
-       String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
-        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");
+        Intent intent =  getIntent();
+        nickname = intent.getStringExtra(Constans.NICKNAME);
+        headimgurl = intent.getStringExtra(Constans.HEADIMGURL);
+        unionid = intent.getStringExtra(Constans.UNIONID);
+       /*String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
+        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");*/
         tvActivityWxbindName.setText(nickname);
         //ImageSize mImageSize = new ImageSize(150,150)
         ImageLoader.getInstance().loadImage(headimgurl, new ImageLoadingListener() {
@@ -190,7 +197,16 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
         }else{
             //请求网络
-            ToastUtils.createLongToast(WXBindActivity.this, "手机正确，谢谢输入！");
+            //ToastUtils.createLongToast(WXBindActivity.this, "手机正确，谢谢输入！");
+            telephone = telephone.replaceAll(" ","");
+            HashMap<String, Object> map= new HashMap<>();
+            map.put("username",telephone);
+            map.put("sms_key",key);
+            map.put("sms_code",SMScode);
+            map.put("weixin_unionid",unionid);
+            map.put("weixin_head",headimgurl);
+            map.put("weixin_name",nickname);
+            new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
         }
     }
 
@@ -288,11 +304,31 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+            case 2:
+                try {
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                    String id= jsonObject1.getString("id");
+                    String phone= jsonObject1.getString("phone");
+                    String realname= jsonObject1.getString("realname");
+                    String is_bind= jsonObject1.getString("is_bind");
+                    String c_time= jsonObject1.getString("c_time");
+                    String weixin_unionid= jsonObject1.getString("weixin_unionid");
+
+                    ToastUtils.createNormalToast("您的姓名"+realname);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }
         }
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
+        ToastUtils.createNormalToast(msg.getMessage());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
     }
 }

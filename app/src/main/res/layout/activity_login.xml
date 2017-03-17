@@ -173,14 +173,13 @@
             android:background="#D8D8D8"/>
     </LinearLayout>
     <ImageButton
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="13dp"
         android:id="@+id/WXLogin"
-        android:layout_below="@id/ll_activity_line"
-        android:layout_centerHorizontal="true"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@mipmap/ic_login_wechat"
-        />
+        android:layout_below="@+id/ll_activity_line"
+        android:layout_centerHorizontal="true" />
     <TextView
         android:id="@+id/text_weixin"
         android:layout_width="wrap_content"
@@ -234,6 +233,5 @@
 
 
     </RelativeLayout>
-
 
 </RelativeLayout>

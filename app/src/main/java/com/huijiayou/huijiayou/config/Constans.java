@@ -19,7 +19,8 @@ public class Constans {
     public static String HEADIMGURL= "headimgurl";
     public static String ACCESSTOKEN = "accesstoken";
     public static String OPENID = "openid";
-  // public static final String APP_ID = "wxd930ea5d5a258f4f";
+    public static String UNIONID ="unionid";
+    // public static final String APP_ID = "wxd930ea5d5a258f4f";
 
     public static class ShowMsgActivity {
         public static final String STitle = "showmsg_title";
@@ -49,7 +50,7 @@ public class Constans {
     public final static String SIGNOUT = "signout"; //撤销登录
     public final static String LOGINSTATUS = "loginStatus"; //获取登录状态
     public final static String WEIXIN_AUTH_POST = "weixin_auth_post"; //微信登录
-
+//weixin_auth_post
 
     public final static String productList = "productList"; //产品列表
     public final static String getOilcardInfo = "getOilcardInfo"; //油卡列表

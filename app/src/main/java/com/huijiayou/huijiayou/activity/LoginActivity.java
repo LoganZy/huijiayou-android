@@ -1,8 +1,13 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Selection;
@@ -51,7 +56,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends BaseActivity implements NewHttpRequest.RequestCallback{
+public class LoginActivity extends Activity implements NewHttpRequest.RequestCallback{
 
     @Bind(R.id.WXLogin)
     ImageButton WXLogin;
@@ -66,12 +71,10 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
     @Bind(R.id.edit_activityLogin_invit)
     EditText editActivityLoginInvit;
 
-    private Handler handler = new Handler();
     private int time = 60;
     private String telephone;
     private String SMScode;
     private String key;
-    private int code;
     private static String get_access_token = "";
     private String weixinCode;
     public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
@@ -79,6 +82,48 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
     public static BaseResp resp;
     private String accessToken;
     private String openid;
+    private  boolean isBand;
+    private IntentFilter intentFilter;
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    //请求服务器
+                    login();
+            }
+            return false;
+        }
+    });
+
+    private void login() {
+         //请求服务器是否绑定
+        HashMap<String, Object>  map = new HashMap<>();
+        map.put("openid",openid);
+        map.put("access_token",accessToken);
+        new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.WEIXIN_AUTH_POST,"jsonObject",3, map,false,this).executeTask();
+
+            //未绑定
+
+
+
+        if(isBand){
+            //已经绑定
+            startActivity(new Intent(this, RecordActivity.class));
+            finish();
+        }else{
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String get_user_info_url=getUserInfo(accessToken,openid);
+                        WXGetUserInfo(get_user_info_url);
+                    }
+                }).start();
+
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +219,7 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
                 }else if (!telephone.startsWith("1") || telephone.length() != 13) {
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 }else if(TextUtils.isEmpty(SMScode)) {
-                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
+                    //ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
                     ll_login_invit.setVisibility(View.VISIBLE);
                     time = 60;
                     //向服务器请求
@@ -217,20 +262,6 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
     protected void onResume() {
         super.onResume();
 
-        if (null != resp && resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
-            // code返回
-            weixinCode = ((SendAuth.Resp) resp).code;
-            LogUtil.i(weixinCode+"------------------------------------------------------");
-            get_access_token = getCodeRequest(weixinCode);
-            Thread thread=new Thread(downloadRun);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
     }
     public  Runnable downloadRun = new Runnable() {
 
@@ -259,6 +290,7 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         MyApplication.msgApi.sendReq(req);
+        finish();
     }
     public static String getUserInfo(String access_token,String openid){
         String result = null;
@@ -337,8 +369,6 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
             e.printStackTrace();
         }
 
-        String get_user_info_url=getUserInfo(accessToken,openid);
-        WXGetUserInfo(get_user_info_url);
     }
 
     /*
@@ -350,6 +380,7 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
         String openid="";
         String nickname="";
         String headimgurl="";
+        String unionid = "";
         try {
             HttpGet getMethod = new HttpGet(get_user_info_url);
             HttpResponse response = get_user_info_httpClient.execute(getMethod); // 执行GET方法
@@ -368,13 +399,21 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
                 openid = (String) json1.get("openid");
                 nickname = (String) json1.get("nickname");
                 headimgurl=(String)json1.get("headimgurl");
+                unionid = json1.getString("unionid");
+                PreferencesUtil.putPreferences(Constans.UNIONID,unionid);
                 PreferencesUtil.putPreferences(Constans.NICKNAME,nickname);
                 PreferencesUtil.putPreferences(Constans.HEADIMGURL,headimgurl);
                 //发送广播
                 Intent intent =new Intent();
-                intent.setAction("getUserInfo");
+                //intent.setAction("getUserInfo");
+                intent.putExtra(Constans.UNIONID,unionid);
                 intent.putExtra(Constans.NICKNAME,nickname);
                 intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                intent.setClass(this,WXBindActivity.class);
+                startActivity(intent);
+                //finish();
+                //sendBroadcast(intent);
+                PreferencesUtil.putPreferences("NUMBER",2);
                 LogUtil.i("返回的json:+++++++++++++++++++++++++++++++++++++++"+josn);
             } else {
             }
@@ -428,8 +467,9 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
             HashMap<String, Object> map= new HashMap<>();
             map.put("username",telephone);
             map.put("sms_key",key);
-            map.put("sms_code",code);
+            map.put("sms_code",SMScode);
             new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
+
         }
 
     }
@@ -448,7 +488,7 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
                     JSONObject jsonObject1= jsonObject.getJSONObject("data");
                    String callNum = jsonObject1.getString("call_num");
                     key =  jsonObject1.getString("key");
-                    code = jsonObject1.getInt("code");
+                    int code = jsonObject1.getInt("code");
                     ToastUtils.createNormalToast("您已经获取了"+callNum+"次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -461,9 +501,31 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
                     String  weixinCode =  jsonObject1.getString("weixin");
                     String  registerMode = jsonObject1.getString("register_mode");
                     String  weixinUninid =  jsonObject1.getString("weixin_unionid");
+                    String  wixinHead = jsonObject1.getString("weixin_head");
+                    String  weixinName =  jsonObject1.getString("weixin_name");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            case 3:
+                try {
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                    String isbind = jsonObject1.getString("is_bind");
+                    if(isbind=="1"){
+                        isBand = true;
+                        //如果已经绑定  获取到的数据 存储到本地   当打开我的界面的时候从 本地获取头像昵称
+
+                    }else{
+                        String message =  jsonObject1.getString("msg");
+                        isBand = false;
+                        ToastUtils.createNormalToast(message);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
         }
 
     }
@@ -477,6 +539,4 @@ public class LoginActivity extends BaseActivity implements NewHttpRequest.Reques
                 ToastUtils.createNormalToast(LoginActivity.this,msg.getMessage());
         }
     }
-
-
 }
