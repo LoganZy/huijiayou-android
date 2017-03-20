@@ -19,11 +19,12 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2017/3/8 0008.
  */
 public class RecordAdapter extends BaseAdapter {
-    private final List<Record> list;
+   // private final List<Record> list;
+    List list;
     private final Context context;
 
-    public RecordAdapter(Context context, List<Record> recordList) {
-        this.list = recordList;
+    public RecordAdapter(Context context,List recordlist/* List<Record> recordList*/) {
+        this.list = recordlist;
         this.context = context;
 
     }
@@ -33,7 +34,7 @@ public class RecordAdapter extends BaseAdapter {
         return list.size();
     }
 
-    @Override
+/*    @Override
     public int getItemViewType(int position) {
         return list.get(position).getType();
     }
@@ -41,7 +42,7 @@ public class RecordAdapter extends BaseAdapter {
     @Override
     public int getViewTypeCount() {
         return 2;
-    }
+    }*/
 
     @Override
     public Object getItem(int position) {
@@ -55,7 +56,7 @@ public class RecordAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+       /* ViewHolder holder = null;
         ViewHolder2 holder2 = null;
         Record record = (Record) getItem(position);
         int type = getItemViewType(position);
@@ -82,7 +83,8 @@ public class RecordAdapter extends BaseAdapter {
 
         }
 
-        return convertView;
+        return convertView;*/
+       return View.inflate(context, R.layout.item2_activity_record_message, null);
     }
 
 

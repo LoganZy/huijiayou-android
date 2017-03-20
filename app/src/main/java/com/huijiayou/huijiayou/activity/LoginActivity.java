@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,7 +60,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private Handler handler = new Handler(){};
     private String invit;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,9 +81,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
 
         setEditTextInhibitInputSpace(editActivityLoginPhone);
-        // ImageButton WXLogin = (ImageButton) findViewById(R.id.WXLogin);
-        // TextView tv_SMSVerify = (TextView) findViewById(R.id.tv_activityLogin_sendPhoneCode);
-        // EditText et_Telephone = (EditText) findViewById(R.id.edit_activityLogin_phoneCode);
+
 //        edittext 关于电话号码的逻辑
         editActivityLoginPhone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -221,25 +219,12 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
             }
         };*/
-        boolean i  = PreferencesUtil.getPreferences("WeiXinSwith",false);
-        if(i){
-            SendAuth.Req req1 = new SendAuth.Req();
-            req1.scope = "snsapi_userinfo";
-            req1.state = "wechat_sdk_demo_test";
-            MyApplication.msgApi.sendReq(req1);
-            finish();
-            i= false;
-            PreferencesUtil.putPreferences("WeiXinSwith",i);
-        }else{
 
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";
             MyApplication.msgApi.sendReq(req);
             finish();
-            i=true;
-            PreferencesUtil.putPreferences("WeiXinSwith",i);
-        }
 
 
 
@@ -330,16 +315,18 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                    break;
             case 2:
                 try {
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                    String userId = jsonObject1.getString("id");
-                    String Phone = jsonObject1.getString("phone");
-                    String  registerMode = jsonObject1.getString("register_mode");
-                    String  weixinUninid =  jsonObject1.getString("weixin_unionid");
-                    String  wixinHead = jsonObject1.getString("weixin_head");
-                    String  weixinName =  jsonObject1.getString("weixin_name");
+                    JSONObject jsonObject2 = jsonObject.getJSONObject("data");
+                   // String userId = jsonObject2.getString("id");
+                    String Phone = jsonObject2.getString("phone");
+                    String  registerMode = jsonObject2.getString("register_mode");
+                    String  weixinUninid =  jsonObject2.getString("weixin_unionid");
+                   // String  wixinHead = jsonObject2.getString("weixin_head");
+                    String  weixinName =  jsonObject2.getString("weixin_name");
+                    String token = (String) jsonObject2.get("token");
+                    PreferencesUtil.putPreferences("token",token);
                     ToastUtils.createNormalToast(Phone);
                 } catch (JSONException e) {
                     e.printStackTrace();

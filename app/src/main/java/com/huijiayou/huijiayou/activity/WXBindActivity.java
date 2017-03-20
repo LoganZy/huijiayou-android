@@ -21,6 +21,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -304,6 +305,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
             case 2:
                 try {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
@@ -313,7 +315,8 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String is_bind= jsonObject1.getString("is_bind");
                     String c_time= jsonObject1.getString("c_time");
                     String weixin_unionid= jsonObject1.getString("weixin_unionid");
-
+                    String token = (String) jsonObject1.get("token");
+                    PreferencesUtil.putPreferences("token",token);
                     ToastUtils.createNormalToast("您的账号"+phone);
                 } catch (JSONException e) {
                     e.printStackTrace();

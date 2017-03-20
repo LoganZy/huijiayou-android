@@ -9,18 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
+import com.huijiayou.huijiayou.adapter.RecordAdapter;
+import com.huijiayou.huijiayou.bean.Record;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,16 +39,26 @@ import retrofit2.Response;
 
 public class OrderFragment extends Fragment {
 
-    @Bind(R.id.bt_fragment_gas_login)
+    @Bind(R.id.bt_fragment_order_login)
     Button btFragmentGasLogin;
     @Bind(R.id.bt_fragment_gas_pay)
     Button btFragmentGasPay;
+    @Bind(R.id.tv_activityRecord_money)
+    TextView tvActivityRecordMoney;
+    @Bind(R.id.tv_activityRecord_cent)
+    TextView tvActivityRecordCent;
+    @Bind(R.id.lv_activity_record_bill)
+    ListView lvActivityRecordBill;
 
+    private List<Record> recordList ;
+    private String Url;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.bind(this, view);
+        initData();
+        initView();
         return view;
     }
 
@@ -62,10 +78,10 @@ public class OrderFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.bt_fragment_gas_login, R.id.bt_fragment_gas_pay})
+    @OnClick({R.id.bt_fragment_order_login, R.id.bt_fragment_gas_pay})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_fragment_gas_login:
+            case R.id.bt_fragment_order_login:
                 startActivity(new Intent(getActivity(), LoginActivity.class));
 
                 break;
@@ -132,5 +148,32 @@ public class OrderFragment extends Fragment {
 
     }
 
+
+
+    private void initView() {
+        List list = new ArrayList();
+        for (int i=0;i<20;i++){
+            list.add("hahhah"+i);
+        }
+        RecordAdapter recordAdapter = new RecordAdapter(getActivity(),list);
+        lvActivityRecordBill.setAdapter(recordAdapter);
+    }
+
+
+    private void initData() {
+        //获取头部节省的钱数
+        getSaveMoney();
+        //获取列表需要展示的加油记录
+        recordList = getRecord(Url);
+    }
+
+    private List<Record> getRecord(String url) {
+
+        return null;
+    }
+
+    private void getSaveMoney() {
+
+    }
 
 }

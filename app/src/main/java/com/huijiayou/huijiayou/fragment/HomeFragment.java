@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             public void onPageScrollStateChanged(int state) {}
         });
 
-        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
+       // new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
