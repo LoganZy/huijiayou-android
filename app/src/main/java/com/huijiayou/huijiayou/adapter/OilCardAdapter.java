@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
@@ -27,11 +28,12 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
     private int showType;
     public static final int SHOWTYPE_MYOILCARD = 1;
     public static final int SHOWTYPE_SELECTOILCARD = 2;
-
-    public OilCardAdapter(Context context, List<OilCardEntity> list,int showType){
+    View.OnClickListener onClickListener;
+    public OilCardAdapter(Context context, List<OilCardEntity> list,int showType,View.OnClickListener onClickListener){
         this.context = context;
         this.oilCardEntityList = list;
         this.showType = showType;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -41,12 +43,8 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (position == 0 && showType == SHOWTYPE_SELECTOILCARD){
-            holder.imgView_itemActivityOilCard_selected.setVisibility(View.VISIBLE);
-        }else{
-            holder.imgView_itemActivityOilCard_selected.setVisibility(View.GONE);
-        }
-
+        holder.rl_itemActivityOilCard_view.setTag(position);
+        holder.rl_itemActivityOilCard_view.setOnClickListener(onClickListener);
         holder.tv_itemActivityOilCard_card.setText(addSpace(oilCardEntityList.get(position).getOil_card_number()));
         holder.tv_itemActivityOilCard_nameAndType.setText(oilCardEntityList.get(position).getUser_name());
 
@@ -90,6 +88,8 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
         TextView tv_itemActivityOilCard_nameAndType;
         @Bind(R.id.tv_itemActivityOilCard_card)
         TextView tv_itemActivityOilCard_card;
+        @Bind(R.id.rl_itemActivityOilCard_view)
+        RelativeLayout rl_itemActivityOilCard_view;
 
         MyViewHolder(View view) {
             super(view);

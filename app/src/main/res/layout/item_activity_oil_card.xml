@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp"
+    android:id="@+id/rl_itemActivityOilCard_view"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/shape_item_activity_oil_card_bg">
 
@@ -23,7 +24,7 @@
         android:layout_marginRight="20dp"
         android:gravity="right|center_vertical"
         android:textSize="12dp"
-        android:textColor="@color/title_color"
+        android:textColor="@color/textColor_51586A"
         android:text="娜娜"/>
 
     <TextView
@@ -32,7 +33,7 @@
         android:layout_height="match_parent"
         android:textSize="25dp"
         android:layout_below="@+id/tv_itemActivityOilCard_nameAndType"
-        android:textColor="@color/title_color"
+        android:textColor="@color/textColor_51586A"
         android:gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

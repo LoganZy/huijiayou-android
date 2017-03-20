@@ -170,10 +170,10 @@ public class HomePageAdapter extends PagerAdapter {
                 BigDecimal bigDecimal = new BigDecimal(discount);
                 discount = bigDecimal.setScale(1,BigDecimal.ROUND_DOWN).doubleValue();
                 tvDiscount.setText(String.valueOf(discount));
-                product.setProduct_discount(String.valueOf(discount));
+//                product.setProduct_discount(String.valueOf(discount));
             }else if (discount == 10){
                 tvDiscount.setText(String.valueOf((int) discount));
-                product.setProduct_discount(String.valueOf((int) discount));
+//                product.setProduct_discount(String.valueOf((int) discount));
             }
             ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imgView_itemFragmentHomeProductMain_sale);
             if ("2".equals(product.getIs_trade())){
@@ -186,27 +186,28 @@ public class HomePageAdapter extends PagerAdapter {
         }
     }
     private int getBackgroundId(){
+        int id = 0;
         if (Constans.lunHui == 1){
-            return R.mipmap.ic_home_pic1;
+            id = R.mipmap.ic_home_pic1;
         }else if (Constans.lunHui == 2){
-            return R.mipmap.ic_home_pic2;
+            id = R.mipmap.ic_home_pic2;
         }else if (Constans.lunHui == 3){
-            return R.mipmap.ic_home_pic3;
+            id = R.mipmap.ic_home_pic3;
         }else if (Constans.lunHui == 4){
-            return R.mipmap.ic_home_pic4;
+            id = R.mipmap.ic_home_pic4;
         }else if (Constans.lunHui == 5){
-            return R.mipmap.ic_home_pic5;
+            id = R.mipmap.ic_home_pic5;
         }else if (Constans.lunHui == 6){
-            return R.mipmap.ic_home_pic6;
+            id = R.mipmap.ic_home_pic6;
         }else if (Constans.lunHui == 7){
-            return R.mipmap.ic_home_pic7;
+            id = R.mipmap.ic_home_pic7;
         }
         if (Constans.lunHui == 7){
             Constans.lunHui = 1;
         }else {
             Constans.lunHui++;
         }
-        return  Constans.lunHui;
+        return  id;
     }
 
 }

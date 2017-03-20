@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_color">
 
     <RelativeLayout
@@ -19,7 +20,7 @@
             android:layout_marginRight="50dp"
             android:gravity="center"
             android:text="会加油"
-            android:textColor="@color/title_color"
+            android:textColor="@color/textColor_51586A"
             android:textSize="17dp" />
 
         <TextView
@@ -30,7 +31,7 @@
             android:drawableRight="@mipmap/ic_navbar_arrow_up"
             android:gravity="center"
             android:text="中国石油 | 全国"
-            android:textColor="@color/title_color"
+            android:textColor="@color/textColor_51586A"
             android:textSize="12dp" />
 
         <ImageButton
@@ -67,13 +68,13 @@
             android:clipChildren="false">
 
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="33dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:drawableLeft="@mipmap/ic_home_tag_left"
                 android:drawableRight="@mipmap/ic_home_tag_right"
+                android:gravity="center"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:text="滑动卡片 选择充值月数"
@@ -89,6 +90,95 @@
 
             </android.support.v4.view.ViewPager>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_money_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/orange_FF7320"
+                    android:textSize="25dp"
+                    tools:text="500" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="元/月"
+                    android:textColor="@color/orange_FF7320"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:text="X"
+                    android:textColor="@color/color_E2BC85"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/orange_FF7320"
+                    android:textSize="25dp"
+                    tools:text="6" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="个月"
+                    android:textColor="@color/orange_FF7320"
+                    android:textSize="10dp" />
+
+                <ImageButton
+                    android:id="@+id/imgBtn_fragmentHome_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/transparent"
+                    android:padding="3dp"
+                    android:src="@mipmap/ic_home_info" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="@color/gray"
+                    tools:text="充值金额:3000元"
+                    android:drawablePadding="3dp"
+                    android:layout_marginRight="18dp"
+                    android:drawableLeft="@mipmap/ic_home_price"/>
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_rmb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="节省:300元"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@mipmap/ic_home_rmb"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -101,20 +191,21 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
                 android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:gravity="center"
                 android:drawableRight="@mipmap/ic_home_tag_right"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="请输入或选择充值金额"
+                android:text="请选择充值金额"
                 android:textColor="#999999" />
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -146,7 +237,9 @@
                     android:background="@color/transparent"
                     android:src="@drawable/slector_homefragment_add" />
 
-            </LinearLayout>
+            </LinearLayout>-->
+
+            <include layout="@layout/layout_fragment_home_money"/>
 
         </LinearLayout>
 
@@ -163,32 +256,47 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:paddingLeft="18dp">
+                android:paddingLeft="15dp">
 
                 <TextView
-                    android:id="@+id/tv_fragmentHome_totalAmount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_fragmentHome_discountAmount_tag"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:text="金额："
-                    android:textSize="13dp" />
+                    android:textColor="@color/textColor_51586A"
+                    android:text="折后金额：¥ "
+                    android:layout_marginBottom="5dp"
+                    android:gravity="right"
+                    android:textSize="11dp" />
 
                 <TextView
                     android:id="@+id/tv_fragmentHome_discountAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_fragmentHome_totalAmount"
-                    android:text="折后金额："
-                    android:textSize="13dp" />
+                    android:textSize="11dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/textColor_51586A"
+                    android:layout_toRightOf="@+id/tv_fragmentHome_discountAmount_tag"
+                    tools:text="2900"/>
+
+                <TextView
+                    android:id="@+id/tv_fragmentHome_saveAmount_tag"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textSize="11dp"
+                    android:textColor="@color/textColor_51586A"
+                    android:layout_below="@+id/tv_fragmentHome_discountAmount_tag"
+                    android:text="节省：¥ " />
 
                 <TextView
                     android:id="@+id/tv_fragmentHome_saveAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_fragmentHome_totalAmount"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tv_fragmentHome_discountAmount"
-                    android:text="节省：" />
+                    android:textSize="11dp"
+                    android:textColor="@color/textColor_51586A"
+                    android:layout_below="@+id/tv_fragmentHome_discountAmount_tag"
+                    android:layout_toRightOf="@+id/tv_fragmentHome_saveAmount_tag"
+                    tools:text="300" />
 
             </RelativeLayout>
 

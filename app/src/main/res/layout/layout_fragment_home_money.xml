@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rg_fragmentHome_money"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_100"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="7dp"
+        android:drawablePadding="2dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 100"/>
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_200"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tv_fragmentHomeMmoney_100"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="7dp"
+        android:drawablePadding="2dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 200"/>
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_500"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tv_fragmentHomeMmoney_200"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:layout_marginLeft="14dp"
+        android:gravity="center"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="7dp"
+        android:drawablePadding="2dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 500"/>
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_1000"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_fragmentHomeMmoney_100"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:drawablePadding="2dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 1000"/>
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_2000"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_fragmentHomeMmoney_100"
+        android:layout_toRightOf="@+id/tv_fragmentHomeMmoney_1000"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:drawablePadding="2dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 2000"/>
+
+    <TextView
+        android:id="@+id/tv_fragmentHomeMmoney_3000"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_below="@+id/tv_fragmentHomeMmoney_100"
+        android:layout_toRightOf="@+id/tv_fragmentHomeMmoney_2000"
+        android:background="@drawable/slector_homefragment_money"
+        android:textSize="17dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:textColor="@drawable/slector_homefragment_textcolor"
+        android:text="¥ 3000"/>
+
+</RelativeLayout>

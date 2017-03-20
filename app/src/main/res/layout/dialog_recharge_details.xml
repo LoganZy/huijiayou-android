@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
@@ -68,18 +68,27 @@
 
 
             </LinearLayout>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="#D8D8D8"
+                android:layout_marginBottom="14dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_dialogRechargeDetails_time"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="210dp">
 
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:id="@+id/imgBtn_dialogRechargeDetails_close"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:layout_below="@+id/ll_dialogRechargeDetails"

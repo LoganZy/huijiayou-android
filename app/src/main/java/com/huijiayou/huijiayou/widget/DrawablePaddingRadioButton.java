@@ -5,18 +5,18 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.widget.TextView;
+import android.widget.RadioButton;
 
 /**
  * Created by lugg on 2017/3/4.
  */
 
-public class DrawablePaddingTextView extends TextView {
-    public DrawablePaddingTextView(Context context) {
+public class DrawablePaddingRadioButton extends RadioButton {
+    public DrawablePaddingRadioButton(Context context) {
         super(context);
     }
 
-    public DrawablePaddingTextView(Context context, AttributeSet attrs) {
+    public DrawablePaddingRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

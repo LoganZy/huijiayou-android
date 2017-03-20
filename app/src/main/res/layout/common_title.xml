@@ -20,7 +20,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:gravity="center"
-            android:textColor="@color/title_color"
+            android:textColor="@color/textColor_51586A"
             android:textSize="17dp"
             tools:text="标题" />
 

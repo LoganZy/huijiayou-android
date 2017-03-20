@@ -1,5 +1,6 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +13,27 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.adapter.OilCardAdapter;
+import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.net.MessageEntity;
+import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.widget.PaymentActivityOilCarDialog;
+import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PaymentActivity extends BaseActivity implements View.OnClickListener {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener,NewHttpRequest.RequestCallback {
 
     @Bind(R.id.iv_activityPayment_suc)
     ImageView iv_activityPayment_suc;  //支付成功后 显示
@@ -98,12 +114,19 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.rl_activityPayment_success)
     RelativeLayout rl_activityPayment_success; //第四步  支付完成
 
+    PaymentActivityOilCarDialog paymentActivityOilCarDialog;
 
-//    @Bind(R.id.tv_activityPayment_agreement)
-//    TextView tv_activityPayment_agreement;
+    int moneyMonth,product_id,month;
+    double total,discountTotal,saveMoney;
+    public String oilCard;
 
+    int getOilCardListTaskId = 1;
+    int getOilCardInfoTaskId = 2;
+    int bindCardTaskId = 3;
 
-    private boolean shouldStopChange = false;
+    public int addOilCarRequestCode = 100;
+
+    private ArrayList<OilCardAdapter.OilCardEntity> oilCardEntityList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,150 +134,23 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         ButterKnife.bind(this);
         initTitle();
         tvTitle.setText("确认订单");
-
         init();
-//        tv_activityPayment_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-//        tv_activityPayment_agreement.getPaint().setAntiAlias(true);
-
-//        edit_activityPayment_card.addTextChangedListener(new TextWatcher() {
-////            int after;
-////            CharSequence beforeText;
-//            int beforeStart,beforeCount;
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-////                this.after = after;
-////                this.beforeText = s.toString();
-//
-////                beforeCount = count;
-//            }
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                beforeStart = start;
-////                if (s == null) {
-////                    return;
-////                }
-////                if (after == 1 || after == 0){
-////                    if (after == 0){
-////                        String value = beforeText.toString().substring(beforeStart,beforeStart+beforeCount);
-////                        if (" ".equals(value)){
-////                            value = beforeText.toString().substring(0,beforeStart-1);
-////                            if (s.length() > start){
-////                                value = value + s.toString().substring(beforeStart);
-////                            }
-////                            s = value;
-////                        }
-////                    }
-////                    StringBuffer stringBuffer = new StringBuffer();
-////                    String text = s.toString().replace(" ","");
-////                    boolean isAdd = false;
-////                    while (text.length() != 0){
-////                        if (text.length() >= 4){
-////                            stringBuffer.append(text.substring(0,4)+" ");
-////                        }else{
-//////                            stringBuffer.append()
-////                        }
-////                        text = text.substring(4,text.length());
-////                        isAdd = true;
-////                    }
-////                    if (isAdd){
-////                        edit_activityPayment_card.setText(stringBuffer);
-////                    }
-////                }else {
-////                    edit_activityPayment_card.setSelection(s.length());
-////                }
-//
-//            }
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                format(s);
-//            }
-//            private void format(Editable editable) {
-//                if (shouldStopChange) {
-//                    shouldStopChange = false;
-//                    return;
-//                }
-//
-//                shouldStopChange = true;
-//
-//                String str = editable.toString().trim().replaceAll(" ", "");
-//                int len = str.length();
-//                int courPos;
-//
-//                StringBuilder builder = new StringBuilder();
-//                for (int i = 0; i < len; i++) {
-//                    builder.append(str.charAt(i));
-//                    if (i == 3 || i == 7 || i == 11 || i == 15 || i == 19) {
-//                        if (i != len - 1)
-//                            builder.append(" ");
-//                    }
-//                }
-//                courPos = builder.length();
-//                edit_activityPayment_card.setText(builder.toString());
-//
-//                edit_activityPayment_card.setSelection(courPos);
-//            }
-//        });
-
-
-
-
-//        edit_activityPayment_card.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (s == null || s.length() == 0)
-//                    return;
-//                StringBuilder sb = new StringBuilder();
-//                for (int i = 0; i < s.length(); i++) {
-//                    if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-//                        continue;
-//                    } else {
-//                        sb.append(s.charAt(i));
-//                        if ((sb.length() == 4 || sb.length() == 9)
-//                                && sb.charAt(sb.length() - 1) != ' ') {
-//                            sb.insert(sb.length() - 1, ' ');
-//                        }
-//                    }
-//                }
-//                if (!sb.toString().equals(s.toString())) {
-//                    int index = start + 1;
-//                    if (sb.charAt(start) == ' ') {
-//                        if (before == 0) {
-//                            index++;
-//                        } else {
-//                            index--;
-//                        }
-//                    } else {
-//                        if (before == 1) {
-//                            index--;
-//                        }
-//                    }
-//                    edit_activityPayment_card.setText(sb.toString());
-//                    edit_activityPayment_card.setSelection(index);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-////                int len = edit_activityPayment_card.getText().length();
-////                if (len > 13) {
-////                    int selEndIndex = Selection.getSelectionEnd(edit_activityPayment_card.getText());
-////                    String str = edit_activityPayment_card.getText().toString();
-////                    //截取新字符串
-////                    String newStr = str.substring(0, 13);
-////                    edit_activityPayment_card.setText(newStr);
-////
-////                }
-//
-//            }
-//        });
     }
 
     private void init(){
-        if (true){ // 判断是否有油卡
-            edit_activityPayment_card.setEnabled(false);
-        }
+        Intent intent = getIntent();
+        moneyMonth = intent.getIntExtra("moneyMonth",0);
+        product_id = Integer.parseInt(intent.getStringExtra("product_id"));
+        month = Integer.parseInt(intent.getStringExtra("month"));
+        total = intent.getDoubleExtra("total",0);
+        discountTotal = intent.getDoubleExtra("discountTotal",0);
+        saveMoney = intent.getDoubleExtra("saveMoney",0);
+        tv_activityPayment_price.setText(moneyMonth+"");
+        tv_activityPayment_size.setText(month+"");
+        tv_activityPayment_discountMoney.setText("折后金额:"+discountTotal+"元");
+        tv_activityPayment_saveMoney.setText("节省:"+saveMoney+"元");
+        getOilCardList();
+
 
         imgBtn_activityPayment_next.setOnClickListener(this);
         btn_activityPayment_coupon_payment.setOnClickListener(this);
@@ -275,6 +171,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    public void rechargeDetailsDialog(View view){
+        new RechargeDetailsDialog(this,moneyMonth,month).create();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -290,6 +190,57 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 rl_activityPayment_payment.setVisibility(View.GONE);
                 rl_activityPayment_success.setVisibility(View.VISIBLE);
                 break;
+            case R.id.edit_activityPayment_card:
+                if (paymentActivityOilCarDialog == null){
+                    paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
+                }
+                paymentActivityOilCarDialog.show();
+                break;
+        }
+    }
+
+    public void setOilCard(String card){
+        edit_activityPayment_card.setText(card);
+    }
+
+    private void getOilCardList() {
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("time",System.currentTimeMillis());
+        hashMap.put("sign","");
+        new NewHttpRequest(this, Constans.URL_zxg+ Constans.OILCARD, Constans.getOilCardList,
+                "jsonObject", getOilCardListTaskId, hashMap,true, this).executeTask();
+    }
+
+    @Override
+    public void netWorkError() {}
+
+    @Override
+    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        try {
+            if (taskId == getOilCardListTaskId){
+                oilCardEntityList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(), new TypeToken<ArrayList<OilCardAdapter.OilCardEntity>>() {}.getType());
+                if (oilCardEntityList != null && oilCardEntityList.size() > 0){ // 有油卡
+                    edit_activityPayment_card.setFocusable(false);
+                    edit_activityPayment_card.setOnClickListener(this);
+                }
+            }else if (taskId == getOilCardInfoTaskId){
+
+            }else if (taskId == bindCardTaskId){
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void requestError(int code, MessageEntity msg, int taskId) {
+        if (taskId == getOilCardListTaskId){
+
+        }else if (taskId == getOilCardInfoTaskId){
+
+        }else if (taskId == bindCardTaskId){
+
         }
     }
 }

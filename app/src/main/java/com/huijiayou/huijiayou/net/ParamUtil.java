@@ -1,8 +1,5 @@
 package com.huijiayou.huijiayou.net;
 
-import android.text.TextUtils;
-
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.MD5;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
@@ -27,6 +24,7 @@ public class ParamUtil {
         if (params == null) {
             return null;
         }
+        boolean isMD5 = params.get("sign") == null ? false : true;
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < letters.length; i++){
             Iterator<Map.Entry<String, Object>> iterator = params.entrySet().iterator();
@@ -49,17 +47,18 @@ public class ParamUtil {
             }
         }
         try {
-            Object sign = jsonObject.get("sign");
-            if (TextUtils.isEmpty(sign.toString())){
-                String session_id = PreferencesUtil.getPreferences("session_id","");
+            if (isMD5){
                 JSONObject jsonObject1 = new JSONObject();
                 jsonObject1 = jsonObject;
                 jsonObject1.remove("sign");
-                if (!TextUtils.isEmpty(session_id) && session_id.indexOf("=") >= 0){
-//                    session_id = session_id.substring(session_id.indexOf("=")+1);
-                    jsonObject.put("sign", MD5.md5(jsonObject1.toString() +"&"+session_id));
+                Iterator<String> iterator = jsonObject1.keys();
+                StringBuffer value = new StringBuffer();
+                while (iterator.hasNext()){
+                    String key = iterator.next();
+                    value.append(jsonObject1.get(key)+"&");
                 }
-                LogUtil.e("requestParams=================>"+jsonObject1.toString() +"&"+session_id);
+                value.append(PreferencesUtil.getPreferences("token",""));
+                jsonObject.put("sign", MD5.md5(value.toString()));
             }
         } catch (JSONException e) {
             e.printStackTrace();

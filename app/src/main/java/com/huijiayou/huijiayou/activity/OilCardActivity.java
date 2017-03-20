@@ -80,7 +80,7 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
         if (taskId == 1){
             try {
                 oilCardEntityList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(), new TypeToken<ArrayList<OilCardAdapter.OilCardEntity>>() {}.getType());
-                oilCardAdapter = new OilCardAdapter(this,oilCardEntityList,OilCardAdapter.SHOWTYPE_MYOILCARD);
+                oilCardAdapter = new OilCardAdapter(this,oilCardEntityList,OilCardAdapter.SHOWTYPE_MYOILCARD,null);
                 recyclerView_activityOilCard_list.setAdapter(oilCardAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
