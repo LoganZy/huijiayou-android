@@ -349,7 +349,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
                 JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
                 String token = (String) jsonObject1.get("token");
+                String user_id = (String) jsonObject1.get("user_id");
                 PreferencesUtil.putPreferences("token",token);
+                PreferencesUtil.putPreferences("user_id",user_id);
             }else if (taskId == 2){
                 if(jsonObject.getInt("status") == 0){
                     HashMap<String,Object> hashMap = new HashMap<>();

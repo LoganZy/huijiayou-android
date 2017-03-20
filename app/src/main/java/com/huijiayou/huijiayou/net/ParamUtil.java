@@ -1,5 +1,7 @@
 package com.huijiayou.huijiayou.net;
 
+import android.text.TextUtils;
+
 import com.huijiayou.huijiayou.utils.MD5;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
@@ -48,8 +50,7 @@ public class ParamUtil {
         }
         try {
             if (isMD5){
-                JSONObject jsonObject1 = new JSONObject();
-                jsonObject1 = jsonObject;
+                JSONObject jsonObject1 = new JSONObject(jsonObject.toString());
                 jsonObject1.remove("sign");
                 Iterator<String> iterator = jsonObject1.keys();
                 StringBuffer value = new StringBuffer();
@@ -57,7 +58,11 @@ public class ParamUtil {
                     String key = iterator.next();
                     value.append(jsonObject1.get(key)+"&");
                 }
-                value.append(PreferencesUtil.getPreferences("token",""));
+                String token = PreferencesUtil.getPreferences("token","");
+                if (TextUtils.isEmpty(token)){
+                    token = "HUIJIAYOU_TOKEN";
+                }
+                value.append(token);
                 jsonObject.put("sign", MD5.md5(value.toString()));
             }
         } catch (JSONException e) {
