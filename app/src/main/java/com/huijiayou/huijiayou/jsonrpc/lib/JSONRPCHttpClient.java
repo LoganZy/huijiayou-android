@@ -138,14 +138,17 @@ public class JSONRPCHttpClient extends com.huijiayou.huijiayou.jsonrpc.lib.JSONR
                     LogUtil.e("cookies----------------->"+request.getMethod()+";;" + cookies.get(i).toString());
                     cookieName = cookies.get(i).getName();
                     cookieValue = cookies.get(i).getValue();
+                    if ("OIL_TOKEN".equals(cookieName)){
+                        PreferencesUtil.putPreferences("session_id",cookieName + "=" + cookieValue);
+                    }
                 }
-                if(lastSessionId.contains(cookieName)) {
-                    // 保存cookie   替换之前的cooke
-                    PreferencesUtil.putPreferences("session_id",cookieName + "=" + cookieValue);
-                } else {
-                    // 用户cooke + 运营...
-                    PreferencesUtil.putPreferences("session_id",lastSessionId + ";"+cookieName + "=" + cookieValue);
-                }
+//                if(lastSessionId.contains(cookieName)) {
+//                    // 保存cookie   替换之前的cooke
+//                    PreferencesUtil.putPreferences("session_id",cookieName + "=" + cookieValue);
+//                } else {
+//                    // 用户cooke + 运营...
+//                    PreferencesUtil.putPreferences("session_id",lastSessionId + ";"+cookieName + "=" + cookieValue);
+//                }
             }
 
 

@@ -32,7 +32,9 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import org.json.JSONArray;
@@ -179,7 +181,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             public void onPageScrollStateChanged(int state) {}
         });
 
-//        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
+        new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -230,7 +232,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 startActivity(new Intent(getActivity(), OilCardActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
-                startActivity(new Intent(getActivity(), PaymentActivity.class));
+                Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
+                intent.putExtra("moneyMonth",moneyMonth);
+                if (!TextUtils.isEmpty(currentProduct.getId())){
+                    intent.putExtra("product_id",currentProduct.getId());
+                    intent.putExtra("month",currentProduct.getProduct_time());
+                }
+                intent.putExtra("total",total);
+                intent.putExtra("discountTotal",discountTotal);
+                intent.putExtra("saveMoney",saveMoney);
+                startActivity(intent);
                 break;
             case R.id.imgBtn_fragmentHome_closeRegion:
             case R.id.tv_fragmentHome_botton:
@@ -261,7 +272,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 textViewChecked(tv_fragmentHomeMmoney_3000);
                 break;
             case R.id.imgBtn_fragmentHome_info:
-
+                if (!TextUtils.isEmpty(currentProduct.getProduct_time())){
+                    new RechargeDetailsDialog(getActivity(), moneyMonth, Integer.parseInt(currentProduct.getProduct_time())).create();
+                }
                 break;
         }
     }
@@ -272,17 +285,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
      */
     private void calculation(int moneyMonth){
         this.moneyMonth = moneyMonth;
-        int month = Integer.parseInt(currentProduct.getProduct_time());
-        double discount = Double.parseDouble(currentProduct.getProduct_discount());
-        total = moneyMonth * month;
-        saveMoney = total - total * discount;
-        discountTotal = total - saveMoney;
-        tv_fragmentHome_money_month.setText(moneyMonth+"");
-        tv_fragmentHome_month.setText(month+"");
-        tv_fragmentHome_price.setText("充值金额:"+total);
-        tv_fragmentHome_rmb.setText(Html.fromHtml("节省:<font color='#FF7320'>"+saveMoney+"</font>元"));
-        tv_fragmentHome_discountAmount.setText(discountTotal+"");
-        tv_fragmentHome_saveAmount.setText(saveMoney+"");
+        if (!TextUtils.isEmpty(currentProduct.getId())){
+            int month = Integer.parseInt(currentProduct.getProduct_time());
+            double discount = Double.parseDouble(currentProduct.getProduct_discount());
+            total = moneyMonth * month;
+            saveMoney = total - total * discount;
+            discountTotal = total - saveMoney;
+            tv_fragmentHome_money_month.setText(moneyMonth+"");
+            tv_fragmentHome_month.setText(month+"");
+            tv_fragmentHome_price.setText("充值金额:"+total);
+            tv_fragmentHome_rmb.setText(Html.fromHtml("节省:<font color='#FF7320'>"+saveMoney+"</font>元"));
+            tv_fragmentHome_discountAmount.setText(discountTotal+"");
+            tv_fragmentHome_saveAmount.setText(saveMoney+"");
+        }
     }
 
     public void showCover(){
@@ -321,27 +336,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
-//            if (taskId == 0){
-//                JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
-//                HashMap<String,Object> hashMap = new HashMap<>();
-//                hashMap.put("username","13552408894");
-//                hashMap.put("sms_key",jsonObject1.getString("key"));
-//                hashMap.put("sms_code",jsonObject1.getString("code"));
-//                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,
-//                        "jsonObject",1,hashMap,false,this).executeTask();
-//
-//            }else if (taskId == 1){
-//                ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
-//            }else if (taskId == 2){
-//                if(jsonObject.getInt("status") == 0){
-//                    HashMap<String,Object> hashMap = new HashMap<>();
-//                    hashMap.put("mobile","13552408894");
-//                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,false,this).executeTask();
-//                }else{
-//                    ToastUtils.createLongToast(getActivity(),"已登录");
-//                }
-//            }
-            if (taskId == getCityTaskId){
+            if (taskId == 0){
+                JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("username","13552408894");
+                hashMap.put("sms_key",jsonObject1.getString("key"));
+                hashMap.put("sms_code",jsonObject1.getString("code"));
+                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,
+                        "jsonObject",1,hashMap,false,this).executeTask();
+
+            }else if (taskId == 1){
+                ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
+                JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
+                String token = (String) jsonObject1.get("token");
+                PreferencesUtil.putPreferences("token",token);
+            }else if (taskId == 2){
+                if(jsonObject.getInt("status") == 0){
+                    HashMap<String,Object> hashMap = new HashMap<>();
+                    hashMap.put("mobile","13552408894");
+                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,false,this).executeTask();
+                }else{
+                    ToastUtils.createLongToast(getActivity(),"已登录");
+                }
+            }else if (taskId == getCityTaskId){
 
                 cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
                         new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());
@@ -377,13 +394,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                     lastSelectedProduct = productArrayList.get(0);
                     lastSelectedCity = null;
                     initTextProductCity(lastSelectedProduct.getName(),"全国");
+                }else if (cityCurrentArrayList == null || cityCurrentArrayList.size() == 0){
+                    initTextProductCity(lastSelectedProduct.getName(),"全国");
+                    lastSelectedCity = null;
+                }else {
+                    lastSelectedCity = cityCurrentArrayList.get(0);
+                    initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
                 }
-//                else if (cityCurrentArrayList == null || cityCurrentArrayList.size() == 0){
-//                    initTextProductCity(lastSelectedProduct.getName(),"全国");
-//                }else {
-//                    lastSelectedCity = cityCurrentArrayList.get(0);
-//                    initTextProductCity(lastSelectedProduct.getName(),lastSelectedCity.getName());
-//                }
                 getProductList();
 
             }else if (taskId == productListTaskId){
@@ -391,6 +408,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                         new TypeToken<ArrayList<HomePageAdapter.Product>>() {}.getType());
                 homePageAdapter = new HomePageAdapter(homeProductArrayList,getActivity());
                 viewPager_fragmentHome_product.setAdapter(homePageAdapter);
+                if (homeProductArrayList != null && homeProductArrayList.size() > 0)
                 currentProduct = homeProductArrayList.get(0);
                 calculation(500);
                 textViewChecked(tv_fragmentHomeMmoney_500);

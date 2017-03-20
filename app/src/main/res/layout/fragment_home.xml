@@ -20,7 +20,7 @@
             android:layout_marginRight="50dp"
             android:gravity="center"
             android:text="会加油"
-            android:textColor="@color/title_color"
+            android:textColor="@color/textColor_51586A"
             android:textSize="17dp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:drawableRight="@mipmap/ic_navbar_arrow_up"
             android:gravity="center"
             android:text="中国石油 | 全国"
-            android:textColor="@color/title_color"
+            android:textColor="@color/textColor_51586A"
             android:textSize="12dp" />
 
         <ImageButton
@@ -93,8 +93,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -119,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
                     android:text="X"
                     android:textColor="@color/color_E2BC85"
                     android:textSize="15dp" />
@@ -261,7 +262,7 @@
                     android:id="@+id/tv_fragmentHome_discountAmount_tag"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/textColor_51586A"
                     android:text="折后金额：¥ "
                     android:layout_marginBottom="5dp"
                     android:gravity="right"
@@ -273,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="11dp"
                     android:layout_marginBottom="5dp"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/textColor_51586A"
                     android:layout_toRightOf="@+id/tv_fragmentHome_discountAmount_tag"
                     tools:text="2900"/>
 
@@ -283,7 +284,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:textSize="11dp"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/textColor_51586A"
                     android:layout_below="@+id/tv_fragmentHome_discountAmount_tag"
                     android:text="节省：¥ " />
 
@@ -292,7 +293,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="11dp"
-                    android:textColor="@color/title_color"
+                    android:textColor="@color/textColor_51586A"
                     android:layout_below="@+id/tv_fragmentHome_discountAmount_tag"
                     android:layout_toRightOf="@+id/tv_fragmentHome_saveAmount_tag"
                     tools:text="300" />

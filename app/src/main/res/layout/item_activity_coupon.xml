@@ -70,7 +70,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="9dp"
         android:layout_marginBottom="10dp"
-        android:textColor="@color/title_color"
+        android:textColor="@color/textColor_51586A"
         android:layout_toLeftOf="@+id/ll_itemActivityCoupon_right"/>
 
     <TextView

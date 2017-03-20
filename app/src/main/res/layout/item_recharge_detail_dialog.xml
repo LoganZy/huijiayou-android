@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="33dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_itemRechargeDetailDialog_money"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/textColor_51586A"
+        tools:text="500 (1/6)"/>
+
+    <TextView
+        android:id="@+id/tv_itemRechargeDetailDialog_time"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/textColor_51586A"
+        tools:text="支付后2小时内"/>
+
+</LinearLayout>

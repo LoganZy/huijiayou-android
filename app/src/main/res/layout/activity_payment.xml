@@ -110,6 +110,7 @@
             android:textColor="#E2BC85"
             android:layout_gravity="center_horizontal"
             android:text="充值明细 >"
+            android:onClick="rechargeDetailsDialog"
             android:textSize="10dp"
             android:background="@drawable/shape_activitypayment_paymentdetail"/>
 
@@ -118,8 +119,7 @@
     <RelativeLayout
         android:id="@+id/rl_activityPayment_inputCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/edit_activityPayment_card"
@@ -131,29 +131,12 @@
             android:textSize="13dp"
             android:inputType="number"
             android:maxLength="30"
+            android:clickable="true"
             android:layout_toLeftOf="@+id/imgBtn_activityPayment_next"
             android:textColorHint="#CCCCCC"
             android:drawablePadding="10dp"
             android:background="@color/white"
             android:gravity="center_vertical"/>
-
-        <!--<com.example.library.BandCardEditText-->
-        <!--android:id="@+id/edit_activityPayment_card"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:drawableLeft="@mipmap/ic_pay_gas"-->
-        <!--android:paddingLeft="15dp"-->
-        <!--android:hint="请输入加油卡卡号"-->
-        <!--android:textSize="13dp"-->
-        <!--android:inputType="number"-->
-        <!--android:maxLines="19"-->
-        <!--android:layout_toLeftOf="@+id/imgBtn_activityPayment_next"-->
-        <!--android:textColorHint="#CCCCCC"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:gravity="center_vertical">-->
-
-        <!--</com.example.library.BandCardEditText>-->
 
         <ImageButton
             android:id="@+id/imgBtn_activityPayment_next"
@@ -441,7 +424,8 @@
     <RelativeLayout
         android:id="@+id/rl_activityPayment_success"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="237dp"

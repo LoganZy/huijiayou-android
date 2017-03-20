@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
+import com.huijiayou.huijiayou.MyApplication;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,12 +24,11 @@ public class SPUtil {
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
-     * @param context
      * @param key
      * @param object
      */
-    public static <T>void put(Context context, String key, T object) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+    public static <T>void put(String key, T object) {
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         if (object == null) return;
@@ -47,8 +48,8 @@ public class SPUtil {
         SharedPreferencesCompat.apply(editor);
     }
 
-    public static <T> T get(Context context, String key, T defaultObject) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+    public static <T> T get(String key, T defaultObject) {
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         Object o = null;
         if (defaultObject instanceof String) {
@@ -69,11 +70,10 @@ public class SPUtil {
     /**
      * 移除某个key值已经对应的值
      *
-     * @param context
      * @param key
      */
-    public static void remove(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+    public static void remove(String key) {
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
@@ -86,7 +86,7 @@ public class SPUtil {
      * @param context
      */
     public static void clear(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
@@ -96,12 +96,11 @@ public class SPUtil {
     /**
      * 查询某个key是否已经存在
      *
-     * @param context
      * @param key
      * @return
      */
-    public static boolean contains(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+    public static boolean contains(String key) {
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         return sp.contains(key);
     }
@@ -120,11 +119,10 @@ public class SPUtil {
 
     /**
      * 保存对象
-     * @param context
      * @param classData
      * @param key
      */
-    public static void saveClassData(Context context, Object classData, String key){
+    public static void saveClassData(Object classData, String key){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try {
@@ -134,7 +132,7 @@ public class SPUtil {
             oos.close();
             baos.close();
 
-            SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+            SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                     Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putString(key,base64Str);
@@ -144,9 +142,9 @@ public class SPUtil {
         }
     }
 
-    public static Object getClassData(Context context, String key){
+    public static Object getClassData(String key){
         Object object = null;
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+        SharedPreferences sp = MyApplication.getContext().getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         String base64Str = sp.getString(key, "");
 
