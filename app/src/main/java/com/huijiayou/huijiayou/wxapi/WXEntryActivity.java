@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -331,7 +332,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
         map.put("openid",id);
         map.put("access_token",Token);
         LogUtil.i("--------------"+id+"++++"+Token+"---------------");
-        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, "jsonObject", 1, map, false, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 1, map, true, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -346,10 +347,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                             String isbind = jsonObject.getString("is_bind");
                             LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             if(TextUtils.equals("1",isbind)){
-                               // startActivity(new Intent(WXEntryActivity.this, RecordActivity.class));
-                                //finish();
+                                startActivity(new Intent(WXEntryActivity.this, CloseDealActivity.class));
+                                finish();
                                 LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
-                            }else{
+                            }else if(TextUtils.equals("0",isbind)){
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -374,7 +375,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             }
         }).executeTask();
-
+      /*  new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String get_user_info_url=getUserInfo(Token,id);
+                WXGetUserInfo(get_user_info_url);
+            }
+        }).start();*/
     }
 
 }
