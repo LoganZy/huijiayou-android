@@ -1,29 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <FrameLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="50dp"
-            android:gravity="center"
-            android:text="Gas"/>
-        <Button
-            android:id="@+id/bt_fragment_gas_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="登录"/>
-        <Button
-            android:id="@+id/bt_fragment_gas_pay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信支付"/>
+        <!--详情界面-->
+        <RelativeLayout
 
-    </LinearLayout>
+            android:id="@+id/Fragment_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:id="@+id/tv_commonTitle_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:textColor="#51586A"
+                android:textSize="17dp"
+                android:background="@color/white"
+                android:text="加油记录" />
+            <LinearLayout
+                android:id="@+id/ll_activity_head"
+                android:gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:orientation="vertical"
+                android:background="@mipmap/ic_details_background_org"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/bg_color"
+                    android:text="省钱即赚钱，我为国家省资源"/>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_recording_tab"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_activityRecord_money"
+                        android:drawableLeft="@mipmap/ic_recording_recharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:text="5000."/>
+                    <TextView
+                        android:id="@+id/tv_activityRecord_cent"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="00"/>
+                </LinearLayout>
+            </LinearLayout>
+            <ListView
+                android:id="@+id/lv_activity_record_bill"
+                android:layout_below="@id/ll_activity_head"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F5F5F5"></ListView>
+
+        </RelativeLayout>
+
+        <!--登录界面-->
+        <LinearLayout
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/common_title"/>
+            <TextView
+                android:layout_marginTop="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:textColor="#666666"
+                android:text="省钱即赚钱，登录查看节省多少油钱"/>
+            <Button
+                android:background="@drawable/login_button"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/bt_fragment_order_login"
+                android:textSize="17dp"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:textColor="#F18B30"
+                android:text="登录/注册"/>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/bt_fragment_gas_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信支付"/>
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_details_no"/>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="#666666"
+                android:text="没有订单数据呢"/>
+        </LinearLayout>
+
+
+
+    </FrameLayout>
+
 
 
 </LinearLayout>

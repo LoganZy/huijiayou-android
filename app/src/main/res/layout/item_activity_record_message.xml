@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="128dp"
     android:orientation="vertical">
     <LinearLayout
+        android:padding="10dp"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-        android:id="@+id/tv_activityRecord_company"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="中国石化 充值套餐"/>
+            android:textSize="13dp"
+            android:textColor="#51586A"
+            android:id="@+id/tv_activityRecord_company"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中国石化 充值套餐"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,8 +33,9 @@
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="2dp" />
+        android:layout_height="1dp" />
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -44,12 +49,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:textSize="13dp"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
                     android:text="卡号"/>
                 <TextView
+                    android:textSize="13dp"
+                    android:textColor="#999999"
                     android:gravity="center_horizontal"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -68,6 +77,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="#51586A"
                     android:text="11999999"/>
                 <TextView
                     android:id="@+id/tv_activityRecord_cardtype"
@@ -75,6 +86,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:textColor="#51586A"
                     android:text="6个月"/>
 
             </LinearLayout>
@@ -101,10 +114,11 @@
 
             <Button
                 android:id="@+id/bt_activityRecord_gotoPay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:background="@drawable/pay_button"
+                android:textSize="13dp"
                 android:text="去支付"
 
                 android:textColor="#F3B93E"/>

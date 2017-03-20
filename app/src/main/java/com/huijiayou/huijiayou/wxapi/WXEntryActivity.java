@@ -14,6 +14,7 @@ import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
@@ -72,6 +73,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
             }
         }
     };
+    private DialogLoading dialogLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +86,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 //    微信请求第三方登录时，回回调该方法
     @Override
     public void onReq(BaseReq baseReq) {
-
         finish();
     }
 //      微信返回给第三方的请求结果
@@ -93,7 +95,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
        /* if (baseResp != null) {
             LoginActivity.resp= baseResp;
         }*/
-       /* if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+    /*  if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示");
             builder.setMessage("微信支付结果码:" + baseResp.errCode);
@@ -101,7 +103,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             //请求服务器
         }*/
+          /*  dialogLoading = new DialogLoading(this);
+            dialogLoading.show();
+            handler.postDelayed(new Runnable() {
+             @Override
+              public void run() {
+                 dialogLoading.dismiss();
+              }
+            },6000);*/
         switch(baseResp.errCode) {
+
+
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
                 ToastUtils.createNormalToast(this,result);
@@ -120,13 +132,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                     Thread thread=new Thread(downloadRun);
 
                     thread.start();
-  /*              try {
+            try {
                     thread.join();
                 } catch (InterruptedException e) {
 
                     e.printStackTrace();
                 }
-     */         finish();
+                finish();
 
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -332,7 +344,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                         try {
                            // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                             String isbind = jsonObject.getString("is_bind");
-
+                            LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             if(TextUtils.equals("1",isbind)){
                                // startActivity(new Intent(WXEntryActivity.this, RecordActivity.class));
                                 //finish();
@@ -351,7 +363,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        break;
 
                 }
 

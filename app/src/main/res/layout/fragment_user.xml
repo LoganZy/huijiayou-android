@@ -21,30 +21,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_marginTop="-120dp"
+                    android:layout_marginTop="-110dp"
                     android:id="@+id/img_fragmentUser_backgroud"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="290dp"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_me_background"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="180dp"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
                     <ImageView
                         android:id="@+id/img_fragment_head"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="40dp"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
                         android:src="@mipmap/ic_login_default_avatar"/>
                     <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_fragmentUser_name"
                         android:gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="13dp"
                         android:text="sdddsssss"/>
+                    <Button
+                        android:id="@+id/bt_fragmentUser_login"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:textSize="13dp"
+                        android:text="登录/注册 "
+                        android:textColor="@color/white"
+                        android:background="@drawable/user_login_button"/>
                 </LinearLayout>
                 
             </FrameLayout>
@@ -249,7 +259,7 @@
 
     </com.huijiayou.huijiayou.widget.MyImageView>
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
