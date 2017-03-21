@@ -421,7 +421,9 @@ public class NewHttpRequest implements Runnable {
      * 显示加载动画
      */
     private void showLoadingDialog() {
-        dialog = new DialogLoading(mactivityWeakReference.get());
+        if (dialog == null){
+            dialog = new DialogLoading(mactivityWeakReference.get());
+        }
         dialog.show();
     }
 

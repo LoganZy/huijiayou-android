@@ -30,6 +30,7 @@ public class MyApplication extends Application {
     public static SharedPreferences preferences;
     public static IWXAPI msgApi;
     public List<Activity> activityList = new LinkedList<Activity>();
+    public static boolean isLogin = false;
 
     @Override
     public void onCreate() {

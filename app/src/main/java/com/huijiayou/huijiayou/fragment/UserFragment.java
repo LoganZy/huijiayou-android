@@ -12,10 +12,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.MainActivity;
+import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -48,6 +52,10 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
     ImageButton imgbtFragmentUserMessage;
     @Bind(R.id.tv_fragmentUser_name)
     TextView tvFragmentName;
+    @Bind(R.id.ll_fragmentUser_oilCard)
+    LinearLayout ll_fragmentUser_oilCard;
+    @Bind(R.id.ll_fragmentUser_coupon)
+    LinearLayout ll_fragmentUser_coupon;
     private int status;
 
     @Nullable
@@ -91,7 +99,7 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
     }
 
 
-    @OnClick({R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
+    @OnClick({R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message, R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon})
     public void onClick(View view) {
         if(status==0){
             startActivity(new Intent(getActivity(),LoginActivity.class));
@@ -108,6 +116,15 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
                 popuDialog.show();
                 break;
             case R.id.imgbt_fragmentUser_message:
+                break;
+            case R.id.ll_fragmentUser_oilCard:
+                Intent intent = new Intent(getActivity(),OilCardActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_fragmentUser_coupon:
+                Intent intentCoupon = new Intent(getActivity(),CouponActivity.class);
+                intentCoupon.putExtra("type",CouponActivity.NORMAL_TYPE);
+                startActivityForResult(intentCoupon, MainActivity.requestCode_coupon);
                 break;
         }
     }

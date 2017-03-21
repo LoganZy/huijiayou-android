@@ -125,7 +125,7 @@
             android:id="@+id/edit_activityPayment_card"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:drawableLeft="@mipmap/ic_pay_gas"
+            android:drawableLeft="@mipmap/ic_pay_oil"
             android:paddingLeft="15dp"
             android:hint="请输入加油卡卡号"
             android:textSize="13dp"
@@ -184,7 +184,7 @@
             android:paddingRight="15dp"
             android:background="@color/white"
             android:textColor="@color/textColor_51586A"
-            android:text="123456789123456789"
+            tools:text="123456789123456789"
             android:layout_marginBottom="1dp"
             android:drawableRight="@mipmap/ic_popover_cnpc"/>
 
@@ -209,7 +209,7 @@
                 android:id="@+id/tv_activityPayment_coupon_userName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="鲁耿耿"
+                tools:text="鲁耿耿"
                 android:textSize="13dp"
                 android:layout_toRightOf="@+id/tv_activityPayment_coupon_userNameTag"
                 android:textColor="@color/textColor_51586A"
@@ -276,7 +276,7 @@
                 android:id="@+id/tv_activityPayment_coupon_coupon"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                tools:text="暂无优惠券可用"
+                android:text="暂无优惠券可用"
                 android:textSize="13dp"
                 android:paddingRight="15dp"
                 android:drawableRight="@mipmap/ic_pay_arrow_h"
@@ -286,12 +286,25 @@
 
         </RelativeLayout>
 
+        <Switch
+            android:id="@+id/seitch_activityPayment_coupon_oil"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            tools:text="可使用油滴550抵5.5元"
+            android:textSize="13dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/textColor_51586A"
+            android:background="@color/white"
+            android:layout_below="@+id/ll_activityPayment_coupon_coupon"
+            android:gravity="center_vertical"/>
+
         <LinearLayout
             android:id="@+id/ll_activityPayment_coupon_agreement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_above="@+id/btn_activityPayment_coupon_payment"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/ll_activityPayment_coupon_payment"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -315,15 +328,34 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_activityPayment_coupon_payment"
+        <LinearLayout
+            android:id="@+id/ll_activityPayment_coupon_payment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="确认支付2900元"
-            android:textColor="@color/white"
-            android:textSize="17dp"
+            android:orientation="vertical"
+            android:gravity="center"
             android:background="@color/orange_FF7320"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_payment_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="支付2899元"
+                android:textColor="@color/white"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="5dp"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/tv_activityPayment_coupon_oil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="油滴已抵用2元"
+                android:textColor="@color/white"
+                android:textSize="10dp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

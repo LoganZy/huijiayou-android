@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -43,7 +42,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-
 
 
 /**
@@ -96,7 +94,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
        /* if (baseResp != null) {
             LoginActivity.resp= baseResp;
         }*/
-    /*  if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+ /*    if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示");
             builder.setMessage("微信支付结果码:" + baseResp.errCode);
@@ -104,14 +102,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             //请求服务器
         }*/
-          /*  dialogLoading = new DialogLoading(this);
-            dialogLoading.show();
-            handler.postDelayed(new Runnable() {
-             @Override
-              public void run() {
-                 dialogLoading.dismiss();
-              }
-            },6000);*/
         switch(baseResp.errCode) {
 
 
@@ -335,7 +325,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
         new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 1, map, true, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
-
+                ToastUtils.createNormalToast("网络错误");
             }
             @Override
             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
@@ -347,8 +337,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                             String isbind = jsonObject.getString("is_bind");
                             LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             if(TextUtils.equals("1",isbind)){
-                                startActivity(new Intent(WXEntryActivity.this, CloseDealActivity.class));
-                                finish();
+                                String token = (String) jsonObject.get("token");
+                                PreferencesUtil.putPreferences("token",token);
+                                ToastUtils.createNormalToast("已经绑定");
+                                //finish();
                                 LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             }else if(TextUtils.equals("0",isbind)){
                                 new Thread(new Runnable() {
@@ -358,8 +350,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                                         WXGetUserInfo(get_user_info_url);
                                     }
                                 }).start();
-                                String message =  jsonObject.getString("msg");
-                                ToastUtils.createNormalToast(message);
+                                //String message =  jsonObject.getString("msg");
+                                //ToastUtils.createNormalToast(message);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -372,7 +364,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             @Override
             public void requestError(int code, MessageEntity msg, int taskId) {
-
+                ToastUtils.createNormalToast(msg.getMessage());
             }
         }).executeTask();
       /*  new Thread(new Runnable() {

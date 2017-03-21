@@ -32,9 +32,8 @@ public class Constans {
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
     public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
 
-    /*public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
-*/
+//    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+//    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
@@ -56,6 +55,9 @@ public class Constans {
     public final static String getCity = "getCity"; //可充油城市的列表
     public final static String bindCard = "bindCard"; //绑卡
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
+    public final static String UserPacketsInfo = "UserPacketsInfo"; //获取用户所有红包
+    public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
+
 
 
 

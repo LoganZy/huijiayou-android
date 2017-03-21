@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
-import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
@@ -31,7 +31,6 @@ import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
@@ -151,7 +150,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtil.i("HomeFragment.onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
@@ -180,8 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-
-       // new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
+        new NewHttpRequest(getActivity(), Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -228,8 +225,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-//                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
-                startActivity(new Intent(getActivity(), OilCardActivity.class));
+                startActivity(new Intent(getActivity(), CouponActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
                 Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
@@ -343,24 +339,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 hashMap.put("sms_key",jsonObject1.getString("key"));
                 hashMap.put("sms_code",jsonObject1.getString("code"));
                 new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,
-                        "jsonObject",1,hashMap,false,this).executeTask();
+                        "jsonObject",1,hashMap,true,this).executeTask();
 
             }else if (taskId == 1){
                 ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
                 JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
                 String token = (String) jsonObject1.get("token");
-                String user_id = (String) jsonObject1.get("user_id");
+                String user_id = (String) jsonObject1.get("id");
                 PreferencesUtil.putPreferences("token",token);
                 PreferencesUtil.putPreferences("user_id",user_id);
             }else if (taskId == 2){
                 if(jsonObject.getInt("status") == 0){
                     HashMap<String,Object> hashMap = new HashMap<>();
                     hashMap.put("mobile","13552408894");
-                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,false,this).executeTask();
+                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
                 }else{
                     ToastUtils.createLongToast(getActivity(),"已登录");
                 }
-            }else if (taskId == getCityTaskId){
+            }else  if (taskId == getCityTaskId){
 
                 cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
                         new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());
