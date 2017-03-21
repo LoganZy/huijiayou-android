@@ -1,10 +1,12 @@
 package com.huijiayou.huijiayou.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +21,12 @@ import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.MyImageView;
 import com.huijiayou.huijiayou.widget.PopuDialog;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +54,10 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
     ImageButton imgbtFragmentUserMessage;
     @Bind(R.id.tv_fragmentUser_name)
     TextView tvFragmentName;
+    @Bind(R.id.tv_activity_wxbind_oil)
+    TextView tvActivityWxbindOil;
+    @Bind(R.id.img_fragment_head)
+    ImageView imgFragmentHead;
     private int status;
 
     @Nullable
@@ -57,6 +67,8 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
         MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         ButterKnife.bind(this, view);
+
+
         return view;
     }
 
@@ -73,8 +85,10 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
 
         AnimationDrawable animationDrawable = (AnimationDrawable) imgbtFragmentUserMessage.getBackground();
         animationDrawable.start();
-        HashMap<String,Object> map = new HashMap<>();
-        new NewHttpRequest(getActivity(), Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,Constans.JSONOBJECT,1,map,this).executeTask();
+        HashMap<String, Object> map = new HashMap<>();
+        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, map, this).executeTask();
+
+
     }
 
     @Override
@@ -93,8 +107,8 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
 
     @OnClick({R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
     public void onClick(View view) {
-        if(status==0){
-            startActivity(new Intent(getActivity(),LoginActivity.class));
+        if (status == 0) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
             return;
         }
         switch (view.getId()) {
@@ -119,16 +133,103 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        switch (taskId){
+        switch (taskId) {
             case 1:
                 try {
                     status = jsonObject.getInt("status");
-                    if (status ==0){
+                    if (status == 0) {
                         tvFragmentName.setVisibility(View.GONE);
                         btFragmentUserLogin.setVisibility(View.VISIBLE);
-                    }else if(status ==1){
+                    } else if (status == 1) {
+                        String name = PreferencesUtil.getPreferences(Constans.NICKNAME,"nickname");
+                        String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"false");
+                        if(TextUtils.equals(user_head,"false")){
+                           imgFragmentHead.setImageResource(R.mipmap.ic_login_default_avatar);
+                        }else {
+                            ImageLoader.getInstance().loadImage(user_head, new ImageLoadingListener() {
+                                @Override
+                                public void onLoadingStarted(String imageUri, View view) {
+
+                                }
+
+                                @Override
+                                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                                }
+
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    imgFragmentHead.setImageBitmap(loadedImage);
+                                }
+
+                                @Override
+                                public void onLoadingCancelled(String imageUri, View view) {
+
+                                }
+                            });
+                        }
+                        tvFragmentName.setText(name);
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
+                        HashMap<String, Object> map = new HashMap<>();
+                        //请求签到油滴的数量并显示出来
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2, map, true, new NewHttpRequest.RequestCallback() {
+                            @Override
+                            public void netWorkError() {
+
+                            }
+
+                            @Override
+                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                                if (taskId == 2) {
+                                    try {
+                                        JSONObject jsonObject1 = jsonObject.getJSONObject("result");
+                                        String oil = jsonObject1.getString("oildrop_num");
+                                        //显示油滴
+                                        showOil(oil);
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void requestError(int code, MessageEntity msg, int taskId) {
+
+                            }
+                        });
+
+                        //显示可用的油滴数量
+                        String id = PreferencesUtil.getPreferences("id", "-1");
+                        HashMap<String, Object> map1 = new HashMap<>();
+                        map1.put("user_id", id);
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.USERENABLEOIL, Constans.JSONOBJECT, 3, map1, true, new NewHttpRequest.RequestCallback() {
+                            @Override
+                            public void netWorkError() {
+
+                            }
+
+                            @Override
+                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                                if (taskId == 3) {
+                                    try {
+                                        JSONObject jsonObject1 = jsonObject.getJSONObject("result");
+                                        String oilNum = jsonObject1.getString("enableOil");
+                                        tvActivityWxbindOil.setText(oilNum);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void requestError(int code, MessageEntity msg, int taskId) {
+
+                            }
+                        });
 
                     }
 
@@ -136,6 +237,15 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
                     e.printStackTrace();
                 }
         }
+    }
+
+    private void showOil(String oil) {
+        PopuDialog popuDialog = new PopuDialog(getActivity());
+        popuDialog.setMessage(oil);
+        popuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        popuDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        popuDialog.show();
+
     }
 
     @Override

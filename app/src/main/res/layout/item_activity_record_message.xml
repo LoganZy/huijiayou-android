@@ -106,13 +106,15 @@
             android:layout_height="match_parent">
            <TextView
                android:id="@+id/tv_activityRecord_indentClose"
-               android:visibility="gone"
+               android:textSize="13dp"
+               android:textColor="#999999"
                android:layout_gravity="center"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="订单关闭"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/bt_activityRecord_gotoPay"
                 android:layout_width="70dp"
                 android:layout_height="25dp"

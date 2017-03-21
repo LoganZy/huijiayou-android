@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:orientation="vertical"
                 android:background="@mipmap/ic_details_background_org"
                 >

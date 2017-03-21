@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CloseDealActivity;
+import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -69,6 +70,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                     String openid = bundle.getString(Constans.OPENID);
                     /*String get_user_info_url = getUserInfo(accessToken, openid);
                     WXGetUserInfo(get_user_info_url);*/
+                    //ToastUtils.createNormalToast("accessToken="+accessToken+"openid"+openid);
                     login(openid,accessToken);
                     break;
             }
@@ -93,7 +95,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
     @Override
     public void onResp(BaseResp baseResp) {
         String result = "";
-       /* if (baseResp != null) {
+     /*   if (baseResp != null) {
             LoginActivity.resp= baseResp;
         }*/
     /*  if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
@@ -125,9 +127,24 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                 //      或者
                 String code = ((SendAuth.Resp) baseResp).code;
                 //上面的code就是接入指南里要拿到的code
+                 String conde1= PreferencesUtil.getPreferences("CODE","1");
+                if(TextUtils.equals(conde1,"1")){
+                    PreferencesUtil.putPreferences("CODE",code);
+                    get_access_token = getCodeRequest(code);
+                }else if(TextUtils.equals(code,conde1)){
+                    Intent intent =new Intent();
+                    //intent.setAction("getUserInfo");
+                    String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+                    String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
+                    String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+                    intent.putExtra(Constans.UNIONID,unionid);
+                    intent.putExtra(Constans.NICKNAME,nickname);
+                    intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                    intent.setClass(this,WXBindActivity.class);
+                    startActivity(intent);
+                    //WXEntryActivity.this.finish();
+                }
 
-
-                get_access_token = getCodeRequest(code);
 
 
                     Thread thread=new Thread(downloadRun);
@@ -347,9 +364,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
                             String isbind = jsonObject.getString("is_bind");
                             LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                             if(TextUtils.equals("1",isbind)){
-                                startActivity(new Intent(WXEntryActivity.this, CloseDealActivity.class));
-                                finish();
-                                LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                String token = (String) jsonObject.get("token");
+                                PreferencesUtil.putPreferences("token",token);
+                                ToastUtils.createLongToast(WXEntryActivity.this,"已经绑定");
+                                String id= jsonObject.getString("id");
+                                String weixin_unionid= jsonObject.getString("weixin_unionid");
+                                String weixin_head = jsonObject.getString("weixin_head");
+                                String weixin_name = jsonObject.getString("weixin_name");
+                                PreferencesUtil.putPreferences("id",id);
+                                PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
+                                PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
                             }else if(TextUtils.equals("0",isbind)){
                                 new Thread(new Runnable() {
                                     @Override
@@ -375,13 +399,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler  {
 
             }
         }).executeTask();
-      /*  new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 String get_user_info_url=getUserInfo(Token,id);
                 WXGetUserInfo(get_user_info_url);
             }
-        }).start();*/
+        }).start();
     }
 
 }

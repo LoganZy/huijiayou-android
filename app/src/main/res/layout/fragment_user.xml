@@ -32,7 +32,7 @@
                     android:layout_height="180dp"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/img_fragment_head"
                         android:layout_marginTop="40dp"
                         android:layout_width="75dp"
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#FF7320"
                         android:textSize="26dp"
-                        android:text="500"/>
+                        android:text="- - -"/>
                 </LinearLayout>
 
                 <ImageButton

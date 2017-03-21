@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.json.JSONArray;
@@ -31,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,12 +54,14 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Bind(R.id.edit_activityLogin_invit)
     EditText editActivityLoginInvit;
 
+    public static BaseResp resp;
     private int time = 60;
     private String telephone;
     private String SMScode;
     private String key;
     private Handler handler = new Handler(){};
     private String invit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +198,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Override
     protected void onResume() {
         super.onResume();
-
+        //code = ((SendAuth.Resp) resp).code;
     }
 
 
@@ -212,19 +215,65 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             ToastUtils.createLongToast(LoginActivity.this,"您没有安装微信或者微信版本太低");
             return;
         }
-/*        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
 
-            }
-        };*/
+                String openid = PreferencesUtil.getPreferences(Constans.OPENID,"1");
+                if(TextUtils.equals(openid,"1")){
+                    SendAuth.Req req = new SendAuth.Req();
+                    req.scope = "snsapi_userinfo";
+                    req.state = "wechat_sdk_demo_test";
+                    MyApplication.msgApi.sendReq(req);
+                    finish();
+                }
+                String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN,"1");
 
-            SendAuth.Req req = new SendAuth.Req();
-            req.scope = "snsapi_userinfo";
-            req.state = "wechat_sdk_demo_test";
-            MyApplication.msgApi.sendReq(req);
-            finish();
+                HashMap<String,Object> map =new HashMap<>();
+                map.put(Constans.ACCESSTOKEN,token);
+                map.put(Constans.OPENID,openid);
+                new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,3, map, true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
+
+                    }
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        switch (taskId){
+                            case 1:
+
+                                try {
+                                    // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                    String isbind = jsonObject.getString("is_bind");
+                                    LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                    if(TextUtils.equals("1",isbind)){
+                                        LoginActivity.this.finish();
+                                    }else if(TextUtils.equals("0",isbind)){
+                                        Intent intent =new Intent();
+                                        //intent.setAction("getUserInfo");
+                                        String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+                                        String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
+                                        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+                                        intent.putExtra(Constans.UNIONID,unionid);
+                                        intent.putExtra(Constans.NICKNAME,nickname);
+                                        intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                                        intent.setClass(LoginActivity.this,WXBindActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+
+                    }
+                }).executeTask();
+
+
 
 
 

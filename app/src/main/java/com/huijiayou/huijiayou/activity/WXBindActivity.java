@@ -310,14 +310,21 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 try {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String id= jsonObject1.getString("id");
+
                     String phone= jsonObject1.getString("phone");
                     String realname= jsonObject1.getString("realname");
                     String is_bind= jsonObject1.getString("is_bind");
                     String c_time= jsonObject1.getString("c_time");
                     String weixin_unionid= jsonObject1.getString("weixin_unionid");
+                    String weixin_head = jsonObject1.getString("weixin_head");
+                    String weixin_name = jsonObject1.getString("weixin_name");
+                    //登录自己服务器的token
                     String token = (String) jsonObject1.get("token");
                     PreferencesUtil.putPreferences("token",token);
                     ToastUtils.createNormalToast("您的账号"+phone);
+                    PreferencesUtil.putPreferences("id",id);
+                    PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
+                    PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
