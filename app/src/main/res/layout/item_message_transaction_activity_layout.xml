@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+
+    <TextView
+        android:id="@+id/tv_itemMessageTransactionActivityLayout_time"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/gray"
+        android:textSize="10dp"
+        android:gravity="center"
+        tools:text="2017年02月10日 13:30"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_itemMessageTransactionActivityLayout_title"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:textColor="@color/textColor_51586A"
+            android:textSize="13dp"
+            android:gravity="center"
+            tools:text="福利到"/>
+
+        <TextView
+            android:id="@+id/tv_itemMessageTransactionActivityLayout_content"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:textColor="@color/gray"
+            android:textSize="12dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:maxLines="4"
+            android:ellipsize="end"
+            tools:text="100元红包已飞速存入您的帐户，用了就是赚钱，快去充值加油吧！"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/line_color"/>
+
+        <TextView
+            android:id="@+id/tv_itemMessageTransactionActivityLayout_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="13dp"
+            tools:text="去加油"
+            android:gravity="center"
+            android:textColor="#F3B93E"/>
+    </LinearLayout>
+
+</LinearLayout>

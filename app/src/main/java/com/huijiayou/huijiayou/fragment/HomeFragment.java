@@ -19,9 +19,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
+import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
@@ -53,6 +54,8 @@ import butterknife.ButterKnife;
  */
 
 public class HomeFragment extends Fragment implements View.OnClickListener,NewHttpRequest.RequestCallback{
+
+    public static final String TAG = "HomeFragment";
 
     @Bind(R.id.tv_fragmentHome_openRegionChoice)
     TextView tv_fragmentHome_openRegionChoice;
@@ -225,7 +228,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                startActivity(new Intent(getActivity(), CouponActivity.class));
+//                startActivity(new Intent(getActivity(), CouponActivity.class));
+//                startActivity(new Intent(getActivity(), OilCardActivity.class));
+//                startActivity(new Intent(getActivity(), OilActivity.class));
+                startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
                 Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
@@ -348,6 +354,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 String user_id = (String) jsonObject1.get("id");
                 PreferencesUtil.putPreferences("token",token);
                 PreferencesUtil.putPreferences("user_id",user_id);
+                MyApplication.isLogin = true;
             }else if (taskId == 2){
                 if(jsonObject.getInt("status") == 0){
                     HashMap<String,Object> hashMap = new HashMap<>();
@@ -410,6 +417,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 currentProduct = homeProductArrayList.get(0);
                 calculation(500);
                 textViewChecked(tv_fragmentHomeMmoney_500);
+            }else if (taskId == 10){
+                ToastUtils.createNormalToast(getActivity(),jsonObject.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();

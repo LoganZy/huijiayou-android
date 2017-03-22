@@ -38,6 +38,7 @@ import retrofit2.Response;
  */
 
 public class OrderFragment extends Fragment {
+    public static final String TAG = "OrderFragment";
 
     @Bind(R.id.bt_fragment_order_login)
     Button btFragmentGasLogin;

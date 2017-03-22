@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.R;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,10 +51,17 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         holder.tv_itemActivityCoupon_name.setText(coupon.getPackets_name());
         Drawable drawable = null;
         if ("0".equals(coupon.getPackets_type())){//0直抵
+            double amount = Double.parseDouble(coupon.getAmount());
+            BigDecimal bigDecimal = new BigDecimal(amount);
+            amount = bigDecimal.setScale(2,BigDecimal.ROUND_DOWN).doubleValue();
+            holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
             holder.tv_itemActivityCoupon_condition.setText("满"+coupon.getLimit_money()+"元可用"); //TODO + 限几期可用
             holder.tv_itemActivityCoupon_moneyTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list);
         }else if ("1".equals(coupon.getPackets_type())){//1折扣 绿色
+            double rate = Double.parseDouble(coupon.getRate()) * 10;
+            BigDecimal bigDecimal = new BigDecimal(rate);
+            holder.tv_itemActivityCoupon_moneyNumber.setText(bigDecimal.setScale(2,BigDecimal.ROUND_DOWN).doubleValue()+"");
             holder.tv_itemActivityCoupon_condition.setVisibility(View.INVISIBLE);
             holder.tv_itemActivityCoupon_discountTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list_green);

@@ -42,7 +42,7 @@ import butterknife.OnClick;
  */
 
 public class UserFragment extends Fragment implements NewHttpRequest.RequestCallback {
-
+    public static final String TAG = "UserFragment";
 
     @Bind(R.id.bt_fragmentUser_login)
     Button btFragmentUserLogin;

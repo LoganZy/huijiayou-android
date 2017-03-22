@@ -131,7 +131,6 @@
             android:textSize="13dp"
             android:inputType="number"
             android:maxLength="30"
-            android:clickable="true"
             android:layout_toLeftOf="@+id/imgBtn_activityPayment_next"
             android:textColorHint="#CCCCCC"
             android:drawablePadding="10dp"
@@ -284,6 +283,12 @@
                 android:textColor="@color/textColor_51586A"
                 android:gravity="center_vertical"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color"
+                android:layout_below="@+id/tv_activityPayment_coupon_coupon_Tag"/>
+
         </RelativeLayout>
 
         <Switch
@@ -352,6 +357,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="油滴已抵用2元"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="10dp"/>
 
@@ -409,6 +415,7 @@
                 android:drawableRight="@drawable/slector_payment_option"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:visibility="gone"
                 android:text="支付宝支付"
                 android:textColor="@color/textColor_51586A" />
         </RadioGroup>
@@ -448,7 +455,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="@color/orange_FF7320"
-            android:text="确认支付2900元"
+            android:text="确认支付"
             android:textColor="@color/white"
             android:textSize="17dp" />
     </RelativeLayout>

@@ -12,15 +12,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.fragment.OrderFragment;
+import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
+import com.huijiayou.huijiayou.fragment.OrderFragment;
 import com.huijiayou.huijiayou.fragment.UserFragment;
+import com.huijiayou.huijiayou.net.MessageEntity;
+import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener ,NewHttpRequest.RequestCallback{
 
     @Bind(R.id.fl_mainActivity_fragmentShell)
     FrameLayout fl_mainActivity_fragmentShell;
@@ -48,6 +57,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int requestCode_login = 0;
     public static final int requestCode_coupon = 1;
+    public static final int requestCode_Oil = 2;
+
+    int checkNewMsgTaskId = 1;
 
     private long exitTime = 0; // 按返回键的间隔
     @Override
@@ -86,6 +98,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tv_activityMain_cover.setOnClickListener(this);
     }
 
+    //从别的页面跳转到首页 根据传的type值 选择某页
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String type = intent.getStringExtra("type");
+        if (HomeFragment.TAG.equals(type)){
+            rg_activityMain_menu.check(R.id.rb_activityMain_home);
+        }else if (UserFragment.TAG.equals(type)){
+            rg_activityMain_menu.check(R.id.rb_activityMain_user);
+        }else if (OrderFragment.TAG.equals(type)){
+            rg_activityMain_menu.check(R.id.rb_activityMain_order);
+        }else{
+            rg_activityMain_menu.check(R.id.rb_activityMain_home);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkNewMsg();
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -120,11 +153,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    private void checkNewMsg(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        String userId = PreferencesUtil.getPreferences("user_id","");
+        hashMap.put("user_id",userId);
+        new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == requestCode_coupon && resultCode == RESULT_OK){
             rg_activityMain_menu.check(R.id.rb_activityMain_home);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void netWorkError() {
+
+    }
+
+    @Override
+    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        if (taskId == checkNewMsgTaskId){
+
+        }
+    }
+
+    @Override
+    public void requestError(int code, MessageEntity msg, int taskId) {
+        if (taskId == checkNewMsgTaskId){
+            ToastUtils.createNormalToast(this,msg.getMessage());
+        }
     }
 }

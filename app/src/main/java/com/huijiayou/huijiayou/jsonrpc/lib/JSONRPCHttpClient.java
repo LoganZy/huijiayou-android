@@ -90,7 +90,7 @@ public class JSONRPCHttpClient extends com.huijiayou.huijiayou.jsonrpc.lib.JSONR
         request.setParams(params);
 
         if (_debug) {
-            Log.i(JSONRPCHttpClient.class.toString(), "Request: " + jsonRequest.toString());
+            Log.i(JSONRPCHttpClient.class.toString(), "====jsonRequest: " + jsonRequest.toString());
         }
 
         HttpEntity entity;
@@ -121,7 +121,7 @@ public class JSONRPCHttpClient extends com.huijiayou.huijiayou.jsonrpc.lib.JSONR
             responseString = responseString.trim();
 
             if (_debug) {
-                Log.i(JSONRPCHttpClient.class.toString(), "Response: " + responseString);
+                Log.i(JSONRPCHttpClient.class.toString(), "====Response: " + responseString);
             }
 
             String cookieName = "";

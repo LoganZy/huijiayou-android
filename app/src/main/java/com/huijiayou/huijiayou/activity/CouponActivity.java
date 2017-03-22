@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
@@ -117,6 +118,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     }
 
     private void codeSelected(){
+        tv_activityCoupon_noUseTag.setVisibility(View.GONE);
         ll_activityCoupon_use.setVisibility(View.GONE);
         tv_activityCoupon_useTag.setVisibility(View.GONE);
         recyclerView_activityCoupon_use.setVisibility(View.GONE);
@@ -126,8 +128,8 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
 
     public void useCoupon(View view){
         Intent intent = new Intent();
-        intent.putExtra("type","home");
-        setResult(RESULT_OK,intent);
+        intent.putExtra("type", HomeFragment.TAG);
+        startActivity(intent);
         finish();
     }
 
@@ -189,7 +191,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                 if (size == 0){
                     ll_activityCoupon_use.setVisibility(View.GONE);
                 }else {
-                    tv_activityCoupon_use_size.setText(Html.fromHtml("可使用优惠券:<font color='#FF7320' size='50px'>" +size+ "</font>张"));
+                    tv_activityCoupon_use_size.setText(Html.fromHtml("可使用优惠券:<font color='#FF7320' size='50dp'>" +size+ "</font>张"));
                 }
             }
         } catch (JSONException e) {

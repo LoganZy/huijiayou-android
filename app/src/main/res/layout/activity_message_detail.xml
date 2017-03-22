@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color"
+    tools:context="com.huijiayou.huijiayou.activity.MessageDetailActivity">
+
+    <include layout="@layout/common_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@mipmap/ic_navbar_bg" />
+
+    <TextView
+        android:id="@+id/tv_ActivityMessageDetail_time"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/gray"
+        android:textSize="10dp"
+        android:gravity="center"
+        tools:text="2017年02月10日 13:30"/>
+
+    <TextView
+        android:id="@+id/tv_ActivityMessageDetail_title"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:textColor="@color/textColor_51586A"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="13dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:text="福利到"/>
+
+    <TextView
+        android:id="@+id/tv_ActivityMessageDetail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/white"
+        tools:text="100元红包已飞速存入您的帐户，用了就是赚钱，快去充值加油吧！"/>
+
+
+
+</LinearLayout>

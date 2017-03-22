@@ -43,7 +43,7 @@ public class NewHttpRequest implements Runnable {
     private WeakReference<Activity> mactivityWeakReference;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
-    private DialogLoading dialog;
+    private Dialog loadingDialog;
     private boolean isShowLoad = true;
     private Dialog loggin_overdue_dialog;
     private Dialog loggin_invalid_dialog;
@@ -421,18 +421,20 @@ public class NewHttpRequest implements Runnable {
      * 显示加载动画
      */
     private void showLoadingDialog() {
-        if (dialog == null){
-            dialog = new DialogLoading(mactivityWeakReference.get());
+        if (loadingDialog == null){
+            loadingDialog = new DialogLoading(mactivityWeakReference.get()).GetDialog();
         }
-        dialog.show();
+        if (!loadingDialog.isShowing()){
+            loadingDialog.show();
+        }
     }
 
     /**
      * 加载动画消失
      */
     private void loadingDialogDismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
         }
     }
 

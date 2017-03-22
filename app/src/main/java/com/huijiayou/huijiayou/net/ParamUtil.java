@@ -2,6 +2,7 @@ package com.huijiayou.huijiayou.net;
 
 import android.text.TextUtils;
 
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.MD5;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
@@ -64,6 +65,8 @@ public class ParamUtil {
                 }
                 value.append(token);
                 jsonObject.put("sign", MD5.md5(value.toString()));
+                LogUtil.e("request================="+value.toString());
+                LogUtil.e("================="+jsonObject.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
