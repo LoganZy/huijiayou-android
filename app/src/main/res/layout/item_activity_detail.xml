@@ -22,7 +22,7 @@
         android:textColor="#6DC152"
         android:text="2017/03/15"/>
     <LinearLayout
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="60dp"
@@ -30,19 +30,19 @@
         <TextView
             android:id="@+id/tv_item_detail_up"
             android:layout_width="1dp"
-            android:layout_height="22dp"
+            android:layout_height="19dp"
             android:background="#E7E7E7"/>
 
         <ImageView
             android:id="@+id/img_item_detail"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:src="@mipmap/ic_details_option_h"/>
+            android:layout_height="18dp"
+            android:background="@mipmap/ic_details_option_h"/>
         <TextView
             android:id="@+id/tv_item_detail_down"
             android:layout_width="1dp"
-            android:layout_height="22dp"
+            android:layout_height="19dp"
             android:background="#E7E7E7"/>
     </LinearLayout>
 

@@ -43,7 +43,7 @@
             android:background="@drawable/line_login_selector"
             android:hint="请输入手机号码"
             android:textSize="13dp"
-            android:textColor="#CCCCCC"
+            android:textColor="@color/textColor_51586A"
             android:maxLines="1" />
     </LinearLayout>
     <LinearLayout
@@ -68,7 +68,6 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content">
             <EditText
-                android:textColor="#CCCCCC"
                 android:layout_width="230dp"
                 android:id="@+id/edit_activityLogin_phoneCode"
                 android:layout_height="wrap_content"
@@ -76,6 +75,7 @@
                 android:hint="请输入手机验证码"
                 android:textSize="13dp"
                 android:inputType="phone"
+                android:textColor="@color/textColor_51586A"
                 android:maxLength="11"
                 android:maxLines="1"/>
             <TextView
@@ -113,7 +113,7 @@
         <EditText
             android:layout_marginLeft="20dp"
             android:textSize="13dp"
-            android:textColor="#CCCCCC"
+            android:textColor="@color/textColor_51586A"
             android:id="@+id/edit_activityLogin_invit"
             android:layout_width="230dp"
             android:layout_height="wrap_content"

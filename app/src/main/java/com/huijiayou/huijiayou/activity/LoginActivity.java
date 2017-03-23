@@ -433,6 +433,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     String token = (String) jsonObject2.get("token");
                     PreferencesUtil.putPreferences(USER_ID,userId);
                     PreferencesUtil.putPreferences(USER_TOKEN,token);
+                    PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);

@@ -105,7 +105,7 @@
                         android:textColor="#666666"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="13dp"
@@ -134,7 +134,7 @@
                         android:id="@+id/tv_activityDetail_after"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:drawableLeft="@mipmap/ic_details_recharge"
                         android:text="3000"
@@ -206,26 +206,30 @@
                             />
                     </LinearLayout>
                 </LinearLayout>
-                <ListView
+<!--                <ListView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </ListView>
+                </ListView>-->
                 <com.huijiayou.huijiayou.widget.SVListView
                     android:id="@+id/myLv_activityDetail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
 
                 </com.huijiayou.huijiayou.widget.SVListView>
             </LinearLayout>
             <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="#F5F5F5"
                 android:layout_width="match_parent"
                 android:layout_height="2dp" />
             <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -248,6 +252,8 @@
 
             </LinearLayout>
             <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -269,6 +275,8 @@
 
             </LinearLayout>
             <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

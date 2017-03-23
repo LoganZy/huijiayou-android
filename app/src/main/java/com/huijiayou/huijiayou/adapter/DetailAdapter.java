@@ -77,13 +77,15 @@ public class DetailAdapter extends BaseAdapter {
         }
 
         //特殊要求
+        if(position==list.size()-1){
+            holder.tvItemDetailDown.setVisibility(View.INVISIBLE);
+        }
         if(position==0){
-            holder.tvItemDetailUp.setVisibility(View.GONE);
+            holder.tvItemDetailUp.setVisibility(View.INVISIBLE);
+            holder.tvItemDetailDown.setVisibility(View.VISIBLE);
             holder.tvItemDetailTime.setText("支付后2小时内");
         }
-        if(position==list.size()-1){
-            holder.tvItemDetailDown.setVisibility(View.GONE);
-        }
+
 
 
         return convertView;
