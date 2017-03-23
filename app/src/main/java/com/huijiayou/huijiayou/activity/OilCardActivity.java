@@ -14,6 +14,7 @@ import com.huijiayou.huijiayou.adapter.OilCardAdapter;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.widget.SpaceItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +51,7 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_activityOilCard_list.setLayoutManager(linearLayoutManager);
+        recyclerView_activityOilCard_list.addItemDecoration(new SpaceItemDecoration(20));
     }
 
     @Override

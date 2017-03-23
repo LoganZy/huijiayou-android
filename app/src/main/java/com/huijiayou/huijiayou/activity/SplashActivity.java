@@ -24,6 +24,8 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     ImageView iv_welcome;
 
     Handler handler = new Handler();
+    boolean isGetLoginStatus = false;
+    boolean isCountDown = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +38,12 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-            SplashActivity.this.finish();
+            isCountDown = true;
+            if (isCountDown && isGetLoginStatus){
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                SplashActivity.this.finish();
+            }
         }
     };
 
@@ -63,6 +68,12 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
                 }else{
                     MyApplication.isLogin = true;
                 }
+                isGetLoginStatus = true;
+                if (isCountDown && isGetLoginStatus){
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -71,6 +82,11 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
-
+        isGetLoginStatus = true;
+        if (isCountDown && isGetLoginStatus){
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            SplashActivity.this.finish();
+        }
     }
 }

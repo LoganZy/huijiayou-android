@@ -36,6 +36,9 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:textSize="13dp"
+            android:digits=" 0123456789"
+            android:maxLength="23"
+            android:inputType="number"
             android:layout_toRightOf="@+id/tv_activityAddOilCard_cardTag"/>
 
         <View

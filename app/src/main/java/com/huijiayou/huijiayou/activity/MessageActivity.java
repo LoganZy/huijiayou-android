@@ -65,7 +65,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     TextView lastSelectedTextView;
     View lastSelectedView;
 
-    int page = 1;
+    int page = 0;
     String type_all = "all";
     String type_system = "system";
     String type_activity = "activity";
@@ -83,7 +83,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         initTitle();
         tvTitle.setText("消息中心");
         tvRight.setText("全部已读");
-        tvRight.setVisibility(View.GONE);
+        tvRight.setVisibility(View.VISIBLE);
 
         initView();
     }
@@ -125,7 +125,9 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    @OnClick({R.id.tv_commonTitle_right})
+    @OnClick({R.id.tv_commonTitle_right,R.id.tv_activityMessage_all,
+            R.id.tv_activityMessage_transaction,R.id.tv_activityMessage_system,
+            R.id.tv_activityMessage_activity})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -133,22 +135,22 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 markAll();
                 break;
             case R.id.tv_activityMessage_all:
-                page = 1;
+                page = 0;
                 type = type_all;
                 updateState(tv_activityMessage_all,view_activityMessage_all);
                 break;
             case R.id.tv_activityMessage_transaction:
-                page = 1;
+                page = 0;
                 type = type_transaction;
                 updateState(tv_activityMessage_transaction,view_activityMessage_transaction);
                 break;
             case R.id.tv_activityMessage_activity:
-                page = 1;
+                page = 0;
                 type = type_activity;
                 updateState(tv_activityMessage_activity,view_activityMessage_activity);
                 break;
             case R.id.tv_activityMessage_system:
-                page = 1;
+                page = 0;
                 type = type_system;
                 updateState(tv_activityMessage_system,view_activityMessage_system);
                 break;
@@ -164,16 +166,9 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
             if (taskId == lstTaskId){
-                messageArrayList = new Gson().fromJson(jsonObject.get("lst").toString(),
+                messageArrayList = new Gson().fromJson(jsonObject.getJSONObject("data").get("lst").toString(),
                         new TypeToken<ArrayList<Message>>() {}.getType());
                 messageAdapter = new MessageAdapter(messageArrayList, this, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Message message = messageArrayList.get((Integer) v.getTag());
-                        Intent intent = new Intent(MessageActivity.this,MessageDetailActivity.class);
-                        intent.putExtra("message",message);
-                        startActivity(intent);
-                    }}, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Message message = messageArrayList.get((Integer) v.getTag());
@@ -190,6 +185,14 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                             Intent intent = new Intent(MessageActivity.this, InvitationActivity.class);
                             startActivity(intent);
                         }
+
+                    }}, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Message message = messageArrayList.get((Integer) v.getTag());
+                        Intent intent = new Intent(MessageActivity.this,MessageDetailActivity.class);
+                        intent.putExtra("message",message);
+                        startActivity(intent);
                     }
                 });
                 recyclerView_activityMessage_list.setAdapter(messageAdapter);

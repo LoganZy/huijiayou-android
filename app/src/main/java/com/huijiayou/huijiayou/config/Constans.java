@@ -45,6 +45,7 @@ public class Constans {
     public final static String message_lst = "lst";
     public final static String message_markAll = "markAll";
     public final static String message_checkNewMsg = "checkNewMsg";
+    public final static String message_mark = "mark";
 
 
     //method

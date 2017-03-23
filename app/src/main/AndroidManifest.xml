@@ -149,7 +149,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="79468ebd591877434f63fc88" /> <!-- </>值来自开发者平台取得的AppKey -->
+            android:value="9790cd6cd623bc4b58d4bdda" /> <!-- </>值来自开发者平台取得的AppKey -->
         <activity android:name=".activity.PaymentActivity" />
         android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.DetailsActivity" />
