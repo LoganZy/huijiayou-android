@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
@@ -43,7 +44,7 @@ import butterknife.OnClick;
  * Created by lugg on 2017/2/24.
  */
 
-public class UserFragment extends Fragment implements NewHttpRequest.RequestCallback {
+public class UserFragment extends Fragment {
 
 
     @Bind(R.id.bt_fragmentUser_login)
@@ -51,14 +52,14 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
     @Bind(R.id.imgBtn_fragmentUser_award)
     ImageButton imgBtnFragmentUserAward;
     @Bind(R.id.imgbt_fragmentUser_message)
-    ImageButton imgbtFragmentUserMessage;
+     ImageButton imgbtFragmentUserMessage;
     @Bind(R.id.tv_fragmentUser_name)
     TextView tvFragmentName;
     @Bind(R.id.tv_activity_wxbind_oil)
     TextView tvActivityWxbindOil;
     @Bind(R.id.img_fragment_head)
     ImageView imgFragmentHead;
-    private int status;
+    public  AnimationDrawable animationDrawable;
 
     @Nullable
     @Override
@@ -67,113 +68,60 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
         MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         ButterKnife.bind(this, view);
-
-
+        isLoginOrNo();
+        startAnimation();
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-
-    //判断是否登录
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        AnimationDrawable animationDrawable = (AnimationDrawable) imgbtFragmentUserMessage.getBackground();
+    public void startAnimation() {
+        // 动画
+        animationDrawable = (AnimationDrawable) imgbtFragmentUserMessage.getBackground();
         animationDrawable.start();
-        HashMap<String, Object> map = new HashMap<>();
-        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, map, this).executeTask();
-
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void isLoginOrNo() {
+        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1,true, new NewHttpRequest.RequestCallback() {
+            @Override
+            public void netWorkError() {
 
+            }
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-
-    @OnClick({R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
-    public void onClick(View view) {
-        if (status == 0) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            return;
-        }
-        switch (view.getId()) {
-            case R.id.bt_fragmentUser_login:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                break;
-            case R.id.imgBtn_fragmentUser_award:
-                PopuDialog popuDialog = new PopuDialog(getActivity());
-                popuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                popuDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                popuDialog.show();
-                break;
-            case R.id.imgbt_fragmentUser_message:
-                break;
-        }
-    }
-
-    @Override
-    public void netWorkError() {
-
-    }
-
-    @Override
-    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        switch (taskId) {
-            case 1:
+            @Override
+            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                 try {
-                    status = jsonObject.getInt("status");
-                    if (status == 0) {
-                        tvFragmentName.setVisibility(View.GONE);
-                        btFragmentUserLogin.setVisibility(View.VISIBLE);
-                    } else if (status == 1) {
-                        String name = PreferencesUtil.getPreferences(Constans.NICKNAME,"nickname");
-                        String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"false");
-                        if(TextUtils.equals(user_head,"false")){
-                           imgFragmentHead.setImageResource(R.mipmap.ic_login_default_avatar);
-                        }else {
-                            ImageLoader.getInstance().loadImage(user_head, new ImageLoadingListener() {
-                                @Override
-                                public void onLoadingStarted(String imageUri, View view) {
+                    int status =jsonObject.getInt("status");
+                    //判断是否登录
+                    if (status==1){
+                        String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
+                        String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
+                        ImageLoader.getInstance().loadImage(user_head, new ImageLoadingListener() {
+                            @Override
+                            public void onLoadingStarted(String imageUri, View view) {
 
-                                }
+                            }
 
-                                @Override
-                                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            @Override
+                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
-                                }
+                            }
 
-                                @Override
-                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                    imgFragmentHead.setImageBitmap(loadedImage);
-                                }
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                imgFragmentHead.setImageBitmap(loadedImage);
+                            }
 
-                                @Override
-                                public void onLoadingCancelled(String imageUri, View view) {
+                            @Override
+                            public void onLoadingCancelled(String imageUri, View view) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
+
                         tvFragmentName.setText(name);
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
-                        HashMap<String, Object> map = new HashMap<>();
                         //请求签到油滴的数量并显示出来
-                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2, map, true, new NewHttpRequest.RequestCallback() {
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                             @Override
                             public void netWorkError() {
 
@@ -219,6 +167,7 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
                                         JSONObject jsonObject1 = jsonObject.getJSONObject("result");
                                         String oilNum = jsonObject1.getString("enableOil");
                                         tvActivityWxbindOil.setText(oilNum);
+                                        getView().postInvalidate();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -231,13 +180,51 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
                             }
                         });
 
+                    } else {
+                        tvFragmentName.setVisibility(View.GONE);
+                        btFragmentUserLogin.setVisibility(View.VISIBLE);
+                        return;
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void requestError(int code, MessageEntity msg, int taskId) {
+
+            }
+        }).executeTask();
+
         }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
+
+
+    //判断是否登录
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isLoginOrNo();
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 
     private void showOil(String oil) {
         PopuDialog popuDialog = new PopuDialog(getActivity());
@@ -248,8 +235,39 @@ public class UserFragment extends Fragment implements NewHttpRequest.RequestCall
 
     }
 
-    @Override
-    public void requestError(int code, MessageEntity msg, int taskId) {
-
+    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
+    public void onClick(View view) {
+        if (!MyApplication.isLogin) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.ll_fragmentUser_oilCard:
+                break;
+            case R.id.ll_fragmentUser_coupon:
+                break;
+            case R.id.ll_fragment_frends:
+                break;
+            case R.id.ll_fragment_helps:
+                break;
+            case R.id.ll_fragment_setting:
+                break;
+            case R.id.bt_fragmentUser_login:
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                break;
+            case R.id.imgBtn_fragmentUser_award:
+                PopuDialog popuDialog = new PopuDialog(getActivity());
+                popuDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                popuDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                popuDialog.show();
+                break;
+            case R.id.imgbt_fragmentUser_message:
+                animationDrawable.stop();
+                break;
+        }
     }
+
+
+
+
 }

@@ -166,6 +166,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_fragment_frends"
                 android:layout_marginTop="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -197,6 +198,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_fragment_helps"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -227,6 +229,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_fragment_setting"
                 android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

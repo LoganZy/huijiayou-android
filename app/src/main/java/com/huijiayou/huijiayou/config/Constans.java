@@ -63,7 +63,7 @@ public class Constans {
 
 
     public final static String getOrderList = "getOrderList";//获取订单详情
-
+    public final static String getOrderInfo="getOrderInfo";//获取充值详情
 
 
 

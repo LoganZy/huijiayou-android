@@ -60,58 +60,63 @@ public class RecordAdapter extends BaseAdapter {
         ViewHolder holder = null;
         ViewHolder2 holder2 = null;
         Record record = (Record) getItem(position);
-        int type = getItemViewType(position);
+        int type = record.getType();
         if (convertView == null) {
             switch (type) {
                 case 1:
                     convertView = View.inflate(context, R.layout.item_activity_record_message, null);
                     holder = new ViewHolder(convertView);
-                    convertView.setTag(1,holder);
+                    convertView.setTag(holder);
                     break;
                 case 2:
                     convertView = View.inflate(context, R.layout.item2_activity_record_message, null);
                     holder2 = new ViewHolder2(convertView);
-                    convertView.setTag(2,holder2);
+                    convertView.setTag(holder2);
             }
         }else{
             switch (type){
                 case 1:
-                    holder = (ViewHolder) convertView.getTag(1);
-                    holder.tvActivityRecordCompany.setText(record.getProduct_name());
-                    holder.tvActivityRecordCardNumber.setText(record.getCard_number());
-                    holder.tvActivityRecordCardtype.setText(record.getTotal_time());
-                    String status = record.getStatus();
-                    if(TextUtils.equals(status,"4")){
+                    holder = (ViewHolder) convertView.getTag();
 
-                        holder.btActivityRecordGotoPay.setVisibility(View.GONE);
-                        holder.tvActivityRecordIndentClose.setVisibility(View.VISIBLE);
-                        holder.tvActivityRecordCompletionRate.setVisibility(View.GONE);
-                    }else {
-                        holder.btActivityRecordGotoPay.setVisibility(View.VISIBLE);
-                        holder.tvActivityRecordIndentClose.setVisibility(View.GONE);
-                        holder.tvActivityRecordCompletionRate.setVisibility(View.VISIBLE);
-                    }
                     break;
                 case 2:
-                    holder2 = (ViewHolder2) convertView.getTag(2);
-                    holder2.tvActivityRecordCompany2.setText(record.getProduct_name());
-                    holder2.tvActivityRecordCardNumber2.setText(record.getCard_number());
-                    holder2.tvActivityRecordCardtype2.setText(record.getTotal_time());
-                    holder2.tvActivityRecordPayNumber.setText(record.getDiscount_after_amount());
-                    if(TextUtils.equals(record.getCount(),record.getTotal_time())){
-                        holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.mipmap.ic_recording_red);
-                        holder2.tvActivityRecordCompletionRate2.setText("");
+                    holder2 = (ViewHolder2) convertView.getTag();
 
-
-                    }else {
-                        holder2.tvActivityRecordCompletionRate2.setText(record.getCount() + " / " + record.getTotal_time());
-                        holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.drawable.ic_recording_green);
-                    }
             }
 
-
-
         }
+        switch (type){
+            case 1:
+                holder.tvActivityRecordCompany.setText(record.getProduct_name());
+                holder.tvActivityRecordCardNumber.setText(record.getCard_number());
+                holder.tvActivityRecordCardtype.setText(record.getTotal_time());
+                String status = record.getStatus();
+                if(TextUtils.equals(status,"4")){
+                    holder.btActivityRecordGotoPay.setVisibility(View.GONE);
+                    holder.tvActivityRecordIndentClose.setVisibility(View.VISIBLE);
+                    holder.tvActivityRecordCompletionRate.setVisibility(View.GONE);
+                }else {
+                    holder.btActivityRecordGotoPay.setVisibility(View.VISIBLE);
+                    holder.tvActivityRecordIndentClose.setVisibility(View.GONE);
+                    holder.tvActivityRecordCompletionRate.setVisibility(View.VISIBLE);
+                }
+                break;
+            case 2:
+                holder2.tvActivityRecordCompany2.setText(record.getProduct_name());
+                holder2.tvActivityRecordCardNumber2.setText(record.getCard_number());
+                holder2.tvActivityRecordCardtype2.setText(record.getTotal_time());
+                holder2.tvActivityRecordPayNumber.setText(record.getDiscount_after_amount());
+                if(TextUtils.equals(record.getCount(),record.getTotal_time())){
+                    holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.mipmap.ic_recording_red);
+                    holder2.tvActivityRecordCompletionRate2.setText("");
+
+
+                }else {
+                    holder2.tvActivityRecordCompletionRate2.setText(record.getCount() + " / " + record.getTotal_time());
+                    holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.drawable.ic_recording_green);
+                }
+        }
+
 
         return convertView;
        //return View.inflate(context, R.layout.item2_activity_record_message, null);

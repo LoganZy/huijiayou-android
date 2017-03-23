@@ -325,6 +325,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences("id",id);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

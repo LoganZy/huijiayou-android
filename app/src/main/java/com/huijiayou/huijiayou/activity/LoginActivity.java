@@ -24,6 +24,7 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.wxapi.WXEntryActivity;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -78,7 +79,57 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             public void onClick(View v) {
                 WetLogin();
                 //  startActivity(new Intent(LoginActivity.this,WXBindActivity.class));
-            }
+               /* HashMap<String,Object> map =new HashMap<>();
+                map.put(Constans.ACCESSTOKEN,"IJ0Szdf2xCYrQXGEajmLLSgyRfCvaKWwvmNqOZYAeZ0N4ZmhRukJ6aodQy91zTqyw1x6-TaGRAbwEEGdE95ZWdgtzOZr3X5TO4DheipXBjY");
+                map.put(Constans.OPENID,"ogUonwBlxmQWUL_28HKCGH9M2Nv8");
+                new NewHttpRequest(LoginActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
+                        ToastUtils.createNormalToast("链接失败");
+                    }
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        switch (taskId){
+                            case 1:
+
+                                try {
+                                    // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                    int isbind = jsonObject.getInt("is_bind");
+                                    LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                    if(isbind==1){
+                                        String token = (String) jsonObject.get("token");
+                                        PreferencesUtil.putPreferences("token",token);
+                                        MyApplication.isLogin = true;
+                                        ToastUtils.createNormalToast(isbind+""+"hahahahahahahaha");
+                                        finish();
+                                    }else if(isbind==0){
+                                   *//* Intent intent =new Intent();
+                                    //intent.setAction("getUserInfo");
+                                    String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+                                    String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
+                                    String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+                                    intent.putExtra(Constans.UNIONID,unionid);
+                                    intent.putExtra(Constans.NICKNAME,nickname);
+                                    intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                                    intent.setClass(WXEntryActivity.this,WXBindActivity.class);
+                                    startActivity(intent);*//*
+                                        ToastUtils.createNormalToast("哇哈哈哈哈哈哈");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+                        ToastUtils.createNormalToast(msg.getMessage());
+                    }
+                }).executeTask();
+       */     }
         });
 
 
@@ -215,7 +266,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             ToastUtils.createLongToast(LoginActivity.this,"您没有安装微信或者微信版本太低");
             return;
         }
-
                 String openid = PreferencesUtil.getPreferences(Constans.OPENID,"1");
                 if(TextUtils.equals(openid,"1")){
                     SendAuth.Req req = new SendAuth.Req();
@@ -237,15 +287,19 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     @Override
                     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                         switch (taskId){
-                            case 1:
+                            case 3:
 
                                 try {
                                     // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                                    String isbind = jsonObject.getString("is_bind");
+                                    int isbind = jsonObject.getInt("is_bind");
                                     LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
-                                    if(TextUtils.equals("1",isbind)){
+                                    if(isbind==1){
+                                        String token = (String) jsonObject.get("token");
+                                        PreferencesUtil.putPreferences("token",token);
+                                        MyApplication.isLogin = true;
+                                        ToastUtils.createNormalToast(isbind+"");
                                         LoginActivity.this.finish();
-                                    }else if(TextUtils.equals("0",isbind)){
+                                    }else if(isbind==0){
                                         Intent intent =new Intent();
                                         //intent.setAction("getUserInfo");
                                         String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
@@ -269,7 +323,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
                     @Override
                     public void requestError(int code, MessageEntity msg, int taskId) {
-
+                        ToastUtils.createNormalToast(msg.getMessage());
                     }
                 }).executeTask();
 
@@ -368,15 +422,19 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             case 2:
                 try {
                     JSONObject jsonObject2 = jsonObject.getJSONObject("data");
-                   // String userId = jsonObject2.getString("id");
+                    String userId = jsonObject2.getString("id");
                     String Phone = jsonObject2.getString("phone");
                     String  registerMode = jsonObject2.getString("register_mode");
                     String  weixinUninid =  jsonObject2.getString("weixin_unionid");
-                   // String  wixinHead = jsonObject2.getString("weixin_head");
+                    String  weixinHead = jsonObject2.getString("weixin_head");
                     String  weixinName =  jsonObject2.getString("weixin_name");
                     String token = (String) jsonObject2.get("token");
+                    PreferencesUtil.putPreferences("id",userId);
                     PreferencesUtil.putPreferences("token",token);
+                    PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
+                    PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

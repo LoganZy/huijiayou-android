@@ -22,4 +22,9 @@
 
     <color name="line_color">#E5E5E5</color>
     <color name="color_E2BC85">#E2BC85</color>
+    
+    
+    <color name="sucsses">#6DC152</color>
+    <color name="fail">#666666</color>
+    <color name="loding">#B7DDAA</color>
 </resources>

@@ -43,26 +43,29 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         >
+
         <ImageView
+            android:id="@+id/img_activityClose_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_details_cnpc"
-            />
+            android:background="@mipmap/ic_details_cnpc" />
         <LinearLayout
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
-                android:textColor="#666666"
-                android:textSize="14dp"
+                android:id="@+id/tv_activityClose_cardNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01000000000000000"/>
+                android:text="01000000000000000"
+                android:textColor="#666666"
+                android:textSize="14dp" />
             <TextView
                 android:textColor="#666666"
                 android:textSize="14dp"
@@ -102,14 +105,14 @@
                     android:textSize="14dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="充值金额" />
 
                 <TextView
                     android:textColor="#2A2A2A"
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv_activityClose_befor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -127,10 +130,11 @@
                     android:text="实际支付" />
 
                 <TextView
+                    android:id="@+id/tv_activityClose_after"
                     android:textColor="#2A2A2A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
@@ -172,6 +176,7 @@
                 android:textSize="10dp" />
 
             <TextView
+                android:id="@+id/tv_activityClose_ordername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -196,6 +201,7 @@
                 android:textSize="10dp" />
 
             <TextView
+                android:id="@+id/tv_activityClose_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -205,6 +211,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/bt_activityClose_pay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
