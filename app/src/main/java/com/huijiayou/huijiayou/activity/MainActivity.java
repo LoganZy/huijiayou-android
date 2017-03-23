@@ -1,5 +1,6 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
@@ -45,7 +46,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     FragmentManager fragmentManager;
 
-    private static final int requestCode_login = 0;
+    public static final int requestCode_login = 0;
+    public static final int requestCode_coupon = 1;
 
     private long exitTime = 0; // 按返回键的间隔
     @Override
@@ -116,5 +118,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 homeFragment.hideCover();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == requestCode_coupon && resultCode == RESULT_OK){
+            rg_activityMain_menu.check(R.id.rb_activityMain_home);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

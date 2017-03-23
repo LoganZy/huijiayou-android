@@ -36,12 +36,15 @@ public class PaymentActivityOilCarDialog {
             @Override
             public void onClick(View v) {
                 paymentActivity.oilCard = oilCardEntities.get((Integer) v.getTag()).getOil_card_number();
+                paymentActivity.oilCardName = oilCardEntities.get((Integer) v.getTag()).getUser_name();
                 paymentActivity.setOilCard(paymentActivity.oilCard);
                 if (lastSelectedOilCard != null){
                     lastSelectedOilCard.setVisibility(View.GONE);
                 }
                 ImageView imageView = (ImageView) v.findViewById(R.id.imgView_itemActivityOilCard_selected);
                 imageView.setVisibility(View.VISIBLE);
+                paymentActivity.rl_activityPayment_inputCard.setVisibility(View.GONE);
+                paymentActivity.rl_activityPayment_coupon.setVisibility(View.VISIBLE);
                 lastSelectedOilCard = imageView;
                 dialog.dismiss();
             }

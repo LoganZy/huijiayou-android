@@ -102,7 +102,7 @@
             </LinearLayout>
 
             <LinearLayout
-
+                android:id="@+id/ll_fragmentUser_oilCard"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -134,6 +134,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_fragmentUser_coupon"
                 android:layout_marginTop="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"

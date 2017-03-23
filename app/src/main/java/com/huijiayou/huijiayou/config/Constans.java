@@ -58,6 +58,10 @@ public class Constans {
     public final static String getCity = "getCity"; //可充油城市的列表
     public final static String bindCard = "bindCard"; //绑卡
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
+    public final static String UserPacketsInfo = "UserPacketsInfo"; //获取用户所有红包
+    public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
+
+
     public final static String getOrderList = "getOrderList";//获取订单详情
 
 

@@ -1,78 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/bg_color"
     tools:context="com.huijiayou.huijiayou.activity.CouponActivity">
 
     <include layout="@layout/common_title"/>
 
     <View
+        android:id="@+id/view_activityCoupon_line"
+        android:layout_below="@+id/common_title_fragment"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="@mipmap/ic_navbar_bg" />
 
-    <Button
-        android:id="@+id/btn_activityCoupon_noUseCoupon"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:gravity="center"
-        android:textSize="12dp"
-        android:textColor="@color/textColor_51586A"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_above="@+id/ll_activityCoupon_use"
+        android:layout_below="@+id/view_activityCoupon_line">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_activityCoupon_noUseCoupon"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:textSize="12dp"
+                android:onClick="noUseCoupon"
+                android:textColor="@color/textColor_51586A"
+                android:background="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="不使用优惠券"/>
+
+            <TextView
+                android:id="@+id/tv_activityCoupon_noUseTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:textSize="12dp"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:drawableRight="@mipmap/ic_home_tag_right"
+                android:text="未使用"/>
+
+            <com.huijiayou.huijiayou.widget.SVRecyclerView
+                android:id="@+id/recyclerView_activityCoupon_noUse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+            </com.huijiayou.huijiayou.widget.SVRecyclerView>
+
+            <TextView
+                android:id="@+id/tv_activityCoupon_useTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:textSize="12dp"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="10dp"
+                android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:drawableRight="@mipmap/ic_home_tag_right"
+                android:layout_marginTop="15dp"
+                android:text="已使用"/>
+
+            <com.huijiayou.huijiayou.widget.SVRecyclerView
+                android:id="@+id/recyclerView_activityCoupon_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+            </com.huijiayou.huijiayou.widget.SVRecyclerView>
+
+            <TextView
+                android:id="@+id/tv_activityCoupon_over"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:textSize="12dp"
+                android:drawablePadding="5dp"
+                android:layout_marginBottom="10dp"
+                android:drawableLeft="@mipmap/ic_home_tag_left"
+                android:drawableRight="@mipmap/ic_home_tag_right"
+                android:layout_marginTop="15dp"
+                android:text="已失效"/>
+
+            <com.huijiayou.huijiayou.widget.SVRecyclerView
+                android:id="@+id/svRecyclerView_activityCoupon_over"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+            </com.huijiayou.huijiayou.widget.SVRecyclerView>
+
+        </LinearLayout>
+
+    </ScrollView>
+        
+    <LinearLayout
+        android:id="@+id/ll_activityCoupon_use"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:background="@color/white"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="不使用优惠券"/>
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <TextView
-        android:id="@+id/tv_activityCoupon_noUseTag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:layout_gravity="center_horizontal"
-        android:textSize="12dp"
-        android:drawablePadding="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:drawableLeft="@mipmap/ic_home_tag_left"
-        android:drawableRight="@mipmap/ic_home_tag_right"
-        android:text="未使用"/>
+        <TextView
+            android:id="@+id/tv_activityCoupon_use_size"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:text="可使用优惠券:50张"
+            android:layout_weight="1"
+            android:textSize="13dp"
+            android:textColor="@color/gray"
+            android:gravity="bottom"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_activityCoupon_noUse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@color/orange_FF7320"
+            android:textColor="@color/white"
+            android:onClick="useCoupon"
+            android:textSize="19dp"
+            android:text="立即使用"/>
 
-    </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_activityCoupon_useTag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:layout_gravity="center_horizontal"
-        android:textSize="12dp"
-        android:drawablePadding="5dp"
-        android:layout_marginBottom="10dp"
-        android:drawableLeft="@mipmap/ic_home_tag_left"
-        android:drawableRight="@mipmap/ic_home_tag_right"
-        android:layout_marginTop="15dp"
-        android:text="已使用"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_activityCoupon_use"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-    </android.support.v7.widget.RecyclerView>
-
-</LinearLayout>
+</RelativeLayout>

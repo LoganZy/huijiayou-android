@@ -34,4 +34,9 @@ public class DialogLoading {
             dialog.dismiss();
         }
     }
+
+    public boolean isShow(){
+        return dialog.isShowing();
+    }
+
 }

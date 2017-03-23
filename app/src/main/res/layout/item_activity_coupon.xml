@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="84dp"
+    android:id="@+id/rl_itemActivityCoupon_view"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
@@ -12,7 +13,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_alignParentRight="true"
-        android:background="@color/orange_FF7320">
+        android:background="@mipmap/ic_coupon_list">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,13 +50,14 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_itemActivityCoupon_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="10dp"
             android:gravity="center"
             android:layout_marginTop="5dp"
-            android:text="03.02/06.02"/>
+            tools:text="03.02-06.02"/>
 
     </LinearLayout>
 
@@ -81,6 +83,10 @@
         android:textColor="@color/gray"
         android:layout_marginLeft="9dp"
         android:layout_marginBottom="4dp"
+        android:layout_marginRight="5dp"
+        android:maxLines="1"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/imgView_itemActivityCoupon_oil"
         android:layout_below="@+id/tv_itemActivityCoupon_name"
         android:textSize="11dp"/>
 
@@ -90,13 +96,19 @@
         android:layout_height="wrap_content"
         tools:text="限中石化使用"
         android:textColor="@color/gray"
-        android:layout_marginLeft="9dp"
+        android:textSize="11dp"
         android:layout_below="@+id/tv_itemActivityCoupon_condition"
-        android:textSize="11dp"/>
+        android:layout_alignLeft="@+id/tv_itemActivityCoupon_condition"
+        android:layout_alignStart="@+id/tv_itemActivityCoupon_condition" />
 
-    <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src=""/>-->
+    <ImageView
+        android:id="@+id/imgView_itemActivityCoupon_oil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_coupon_gas"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/ll_itemActivityCoupon_right"/>
 
 </RelativeLayout>
