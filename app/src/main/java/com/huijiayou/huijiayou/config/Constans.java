@@ -71,10 +71,6 @@ public class Constans {
     public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议
 
 
-
-
-
-
     public static final String CODE = "code";
     public static final String DATA = "data";
     public static final String ERROR_MESSAGE = "message";
@@ -83,4 +79,7 @@ public class Constans {
     public static final String ID_ZHONGSHIYOU = "2";
 
     public static int lunHui = 1;
+
+    public final static String RSA256withRsa = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxr7xmcBWY9cEKowl/jtdL7Ap+Z0fZsUtNiLygvKjG6JCxSlRoEaaCYHeyVZfHgG7di+pfaL8Xnftp1KZlY/XSJLJjHrmTRGCkgs9dOpKvM+vRZ9Prj4mY/IXlBr8INu0UJOnbr+b8Tb1MeGuDIF5AizcO/uQ2rc6QPkqh9yfEdg5lQjmS+uhr1ldMn0OLRkQU8pqlEhZaT8FcdLrTbbLGywO4W1sPVrb2u6tv4hXY4u0d7jRb0b+6btUy+YwlYcJYDUHSCBbEjf5hWVULRV1aBJB4EbUYbw3IdlX4bvoUph65I7QZsAdB6kbgiYyAej+lwZQUinWO7rmh9oXkWPuQIDAQAB";
+
 }

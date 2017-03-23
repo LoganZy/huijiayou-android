@@ -179,7 +179,15 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
                 String username = jsonObject.getString("username");
                 showUserNameBind(username);
             }else if (taskId == bindCardTaskId){
-                finish();
+                String classs = getIntent().getComponent().getClassName();
+                if (classs.indexOf("OilCard") > 0){
+                    finish();
+                }else if (classs.indexOf("Payment") > 0){
+                    setResult(RESULT_OK);
+                    finish();
+                }else{
+                    finish();
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

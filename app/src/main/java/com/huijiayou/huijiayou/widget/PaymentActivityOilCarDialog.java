@@ -58,7 +58,9 @@ public class PaymentActivityOilCarDialog {
         btn_dialogPaymentActivityOilCar_addOilCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paymentActivity.startActivityForResult(new Intent(paymentActivity, AddOilCardActivity.class),paymentActivity.addOilCarRequestCode);
+                Intent intent = new Intent(paymentActivity, AddOilCardActivity.class);
+//                intent.putExtra("type","")
+                paymentActivity.startActivityForResult(intent,paymentActivity.addOilCarRequestCode);
                 dialog.dismiss();
             }
         });
