@@ -52,7 +52,6 @@ import retrofit2.Response;
  * Created by lugg on 2017/2/24.
  */
 
-public class OrderFragment extends Fragment implements NewHttpRequest.RequestCallback {
 public class OrderFragment extends Fragment {
     public static final String TAG = "OrderFragment";
 
@@ -92,65 +91,94 @@ public class OrderFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         isLoginOrno();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void isLoginOrno() {
-        if (MyApplication.isLogin) {
-            llFragmentUserLogin.setVisibility(View.GONE);
-            FragmentRecord.setVisibility(View.VISIBLE);
-            RecordAdapter recordAdapter = new RecordAdapter(getActivity(), recordList);
-            lvActivityRecordBill.setAdapter(recordAdapter);
-            lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Record record = recordList.get(position);
-                    String status = record.getStatus();
-                    Intent intent = new Intent();
-                    Bundle b = new Bundle();
-                    b.putString("id",record.getId());
-                    b.putString("card_number",record.getCard_number());
-                    b.putString("discount_before_amount",record.getDiscount_before_amount());
-                    b.putString("discount_after_amount",record.getDiscount_after_amount());
-                    b.putString("order_number",record.getOrder_number());
-                    b.putString("ctime",record.getCtime());
-                    b.putString("product_name",record.getProduct_name());
-                    b.putString("belong",record.getBelong());
-                    b.putString("count",record.getCount());
-                    b.putString("total_time",record.getTotal_time());
-                    switch (Integer.parseInt(status)){
-                        case 0:
+        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, true, new NewHttpRequest.RequestCallback() {
+            @Override
+            public void netWorkError() {
 
-                        case 2:
-                            intent.setClass(getActivity(), NoPayActivity.class);
-                            intent.putExtras(b);
-                            startActivity(intent);
-                            break;
-                        case 1:
-                            intent.setClass(getActivity(), DetailsActivity.class);
-                            intent.putExtras(b);
-                            startActivity(intent);
-                            break;
-                        case 3:
-                            intent.setClass(getActivity(), NoPayActivity.class);
-                            intent.putExtras(b);
-                            startActivity(intent);
-                            break;
-                        case 4:
-                            intent.setClass(getActivity(), CloseDealActivity.class);
-                            intent.putExtras(b);
-                            startActivity(intent);
-                            break;
+            }
+
+            @Override
+            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                try {
+                    int status =jsonObject.getInt("status");
+                    if (status==1) {
+                        llFragmentUserLogin.setVisibility(View.GONE);
+                        FragmentRecord.setVisibility(View.VISIBLE);
+                        RecordAdapter recordAdapter = new RecordAdapter(getActivity(), recordList);
+                        lvActivityRecordBill.setAdapter(recordAdapter);
+                        lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Record record = recordList.get(position);
+                                String status = record.getStatus();
+                                Intent intent = new Intent();
+                                Bundle b = new Bundle();
+                                b.putString("id", record.getId());
+                                b.putString("card_number", record.getCard_number());
+                                b.putString("discount_before_amount", record.getDiscount_before_amount());
+                                b.putString("discount_after_amount", record.getDiscount_after_amount());
+                                b.putString("order_number", record.getOrder_number());
+                                b.putString("ctime", record.getCtime());
+                                b.putString("product_name", record.getProduct_name());
+                                b.putString("belong", record.getBelong());
+                                b.putString("count", record.getCount());
+                                b.putString("total_time", record.getTotal_time());
+                                switch (Integer.parseInt(status)) {
+                                    case 0:
+
+                                    case 2:
+                                        intent.setClass(getActivity(), NoPayActivity.class);
+                                        intent.putExtras(b);
+                                        startActivity(intent);
+                                        break;
+                                    case 1:
+                                        intent.setClass(getActivity(), DetailsActivity.class);
+                                        intent.putExtras(b);
+                                        startActivity(intent);
+                                        break;
+                                    case 3:
+                                        intent.setClass(getActivity(), NoPayActivity.class);
+                                        intent.putExtras(b);
+                                        startActivity(intent);
+                                        break;
+                                    case 4:
+                                        intent.setClass(getActivity(), CloseDealActivity.class);
+                                        intent.putExtras(b);
+                                        startActivity(intent);
+                                        break;
+                                }
+                            }
+                        });
+
+                    } else {
+                        llFragmentUserLogin.setVisibility(View.VISIBLE);
+                        FragmentRecord.setVisibility(View.GONE);
                     }
-                }
-            });
 
-        }else {
-            llFragmentUserLogin.setVisibility(View.VISIBLE);
-            FragmentRecord.setVisibility(View.GONE);
-        }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void requestError(int code, MessageEntity msg, int taskId) {
+
+            }
+        }).executeTask();
+
 
     }
 
@@ -236,7 +264,7 @@ public class OrderFragment extends Fragment {
         for (int i=0;i<20;i++){
             list.add("hahhah"+i);
         }*/
-        isLoginOrno();
+        //isLoginOrno();
     }
 
 
@@ -250,7 +278,7 @@ public class OrderFragment extends Fragment {
 
         recordList = new ArrayList<>();
         String status = "0";
-        Record record = new Record();
+        final Record record = new Record();
         record.setStatus("0");
         record.setCard_number("1000000111");
         record.setDiscount_after_amount("35000");
@@ -267,7 +295,7 @@ public class OrderFragment extends Fragment {
             record.setType(2);
         }
         recordList.add(record);
-         status = "4";
+        status = "4";
         Record record1 = new Record();
         record1.setStatus("4");
         record1.setCard_number("1000000111");
@@ -285,12 +313,78 @@ public class OrderFragment extends Fragment {
             record1.setType(2);
         }
         recordList.add(record1);
-        HashMap<String, Object> map = new HashMap<>();
+
+        status = "1";
+        Record record2 = new Record();
+        record2.setStatus("1");
+        record2.setCard_number("1000000111");
+        record2.setDiscount_after_amount("35000");
+        record2.setTotal_time("6");
+        record2.setCount("3");
+        record2.setProduct_name("中国石油");
+        record2.setDiscount_before_amount("35000");
+        record2.setBelong("2");
+        record2.setCtime("20170612");
+        record2.setOrder_number("010000000000");
+        if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
+            record2.setType(1);
+        } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
+            record2.setType(2);
+        }
+        recordList.add(record2);
+
+       /* HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
         map.put("pages", 0);
-       // new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOARRAY, 1, map, true, this).executeTask();
-    }
+        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOARRAY, 1, map, true, new NewHttpRequest.RequestCallback() {
+             @Override
+             public void netWorkError() {
+
+             }
+
+             @Override
+             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                 if(taskId==1){
+
+                     recordList =new ArrayList<Record>();
+                     try {
+                         JSONArray jsonArray1=jsonObject.getJSONArray("list");
+                         for(int i =0;i<jsonArray1.length();i++){
+                             JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
+                             Record record = new Record();
+                             record.setId(jsonObject1.getString("id"));
+                             record.setDiscount_after_amount(jsonObject1.getString("discount_after_amount"));
+                             record.setCount(jsonObject1.getString("count"));
+                             record.setStatus(jsonObject1.getString("status"));
+                             record.setDiscount_before_amount(jsonObject1.getString("discount_before_amount"));
+                             record.setTotal_time(jsonObject1.getString("total_time"));
+                             record.setProduct_name(jsonObject1.getString("product_name"));
+                             record.setBelong(jsonObject1.getString("belong"));
+                             record.setCard_number(jsonObject1.getString("product_name"));
+                             record.setCard_number(jsonObject1.getString("card_number"));
+                             String status = jsonObject1.getString("status")
+                             if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
+                                 record.setType(1);
+                             } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
+                                 record.setType(2);
+                             }
+                             recordList.add(record);
+                         }
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                     }
+
+                 }
+
+             }
+
+             @Override
+             public void requestError(int code, MessageEntity msg, int taskId) {
+
+             }
+         }).executeTask();
+   */ }
 
     private void getSaveMoney() {
 

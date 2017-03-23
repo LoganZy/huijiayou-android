@@ -163,7 +163,8 @@
         <activity android:name=".activity.InvitationActivity" />
         <activity android:name=".activity.MessageDetailActivity" />
         <activity android:name=".activity.FeedbackActivity" />
-        <activity android:name=".activity.WebViewActivity"></activity>
+        <activity android:name=".activity.WebViewActivity" />
+        <activity android:name=".activity.CancelActivity"></activity>
     </application>
 
 </manifest>

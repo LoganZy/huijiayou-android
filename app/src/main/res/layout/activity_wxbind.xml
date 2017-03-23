@@ -63,6 +63,7 @@
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_account"/>
         <EditText
+            android:textColor="@color/textColor_51586A"
             android:textSize="13dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/edit_activity_bind_phone"
@@ -91,6 +92,7 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content">
             <EditText
+                android:textColor="@color/textColor_51586A"
                 android:textSize="13dp"
                 android:layout_width="match_parent"
                 android:id="@+id/edit_activity_bind_sms"
@@ -131,6 +133,7 @@
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_invitation"/>
         <EditText
+            android:textColor="@color/textColor_51586A"
             android:layout_marginLeft="20dp"
             android:id="@+id/edit_activity_bind_invit"
             android:layout_width="230dp"

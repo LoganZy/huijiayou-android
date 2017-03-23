@@ -38,8 +38,13 @@ public class Constans {
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
     public final static String PRODUCT = "/index.php?c=product";
+    public final static String ORDER = "index.php?c=order";
 
 
+    public final static String URL_MESSAGE = "http://wyh.oil.message.com/message.php?c=msg";
+    public final static String message_lst = "lst";
+    public final static String message_markAll = "markAll";
+    public final static String message_checkNewMsg = "checkNewMsg";
 
 
     //method
@@ -57,10 +62,15 @@ public class Constans {
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
     public final static String UserPacketsInfo = "UserPacketsInfo"; //获取用户所有红包
     public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
+    public final static String UserOildropInfo = "UserOildropInfo"; //返回油滴流水
+    public final static String order = "order"; //下单
 
+    public final static String getOrderList = "getOrderList";
+    public final static String getOrderInfo=  "getOrderInfo";
+    public final static String CHECKIN ="checkIn";//q签到的接口
 
-
-
+    public final static String registerAgreement = "/HJY/#/register_agreement"; //注册协议
+    public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议
 
 
     public static final String CODE = "code";

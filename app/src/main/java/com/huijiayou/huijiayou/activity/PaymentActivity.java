@@ -272,7 +272,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         HashMap<String,Object> hashMap = new HashMap<>();
         String userId = PreferencesUtil.getPreferences("user_id","");
         hashMap.put("user_id",userId);
-
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserEnableOil, "jsonObject", UserEnableOilTaskId, hashMap, true, this).executeTask();
     }
 

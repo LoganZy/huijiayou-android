@@ -1,10 +1,12 @@
 package com.huijiayou.huijiayou.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,11 @@ import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.MyImageView;
 import com.huijiayou.huijiayou.widget.PopuDialog;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -42,10 +46,9 @@ import butterknife.OnClick;
  * Created by lugg on 2017/2/24.
  */
 
-public class UserFragment extends Fragment implements NewHttpRequest.RequestCallback {
-    public static final String TAG = "UserFragment";
-public class UserFragment extends Fragment {
 
+public class UserFragment extends Fragment {
+    public static final String TAG = "UserFragment";
 
     @Bind(R.id.bt_fragmentUser_login)
     Button btFragmentUserLogin;
@@ -60,7 +63,9 @@ public class UserFragment extends Fragment {
     @Bind(R.id.img_fragment_head)
     ImageView imgFragmentHead;
     public  AnimationDrawable animationDrawable;
-
+    private int statusIsLogin;
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
+    DisplayImageOptions options;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +73,11 @@ public class UserFragment extends Fragment {
         MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         ButterKnife.bind(this, view);
-        isLoginOrNo();
         startAnimation();
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.mipmap.ic_login_default_avatar)
+                .showImageForEmptyUri(R.mipmap.ic_login_default_avatar)
+                .build();
         return view;
     }
 
@@ -90,33 +98,15 @@ public class UserFragment extends Fragment {
             @Override
             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                 try {
-                    int status =jsonObject.getInt("status");
+                    statusIsLogin = jsonObject.getInt("status");
                     //判断是否登录
-                    if (status==1){
+                    if (statusIsLogin ==1){
                         String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
                         String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
-                        ImageLoader.getInstance().loadImage(user_head, new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                imgFragmentHead.setImageBitmap(loadedImage);
-                            }
-
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-
-                            }
-                        });
-
+                        ImageLoader.getInstance().displayImage(user_head, imgFragmentHead,options);
+                        if (TextUtils.isEmpty(name)||name==null){
+                            name = "nickname";
+                        }
                         tvFragmentName.setText(name);
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
@@ -124,18 +114,17 @@ public class UserFragment extends Fragment {
                         new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                             @Override
                             public void netWorkError() {
-
+                                LogUtil.i("++++++++++++++++++++++++++++++++++");
                             }
 
                             @Override
                             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                                 if (taskId == 2) {
                                     try {
-                                        JSONObject jsonObject1 = jsonObject.getJSONObject("result");
-                                        String oil = jsonObject1.getString("oildrop_num");
+                                        String oil = jsonObject.getString("oildrop_num");
                                         //显示油滴
                                         showOil(oil);
-
+                                        LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -146,15 +135,15 @@ public class UserFragment extends Fragment {
 
                             @Override
                             public void requestError(int code, MessageEntity msg, int taskId) {
-
+                                LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
                             }
-                        });
+                        }).executeTask();
 
                         //显示可用的油滴数量
-                        String id = PreferencesUtil.getPreferences("id", "-1");
-                        HashMap<String, Object> map1 = new HashMap<>();
-                        map1.put("user_id", id);
-                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.USERENABLEOIL, Constans.JSONOBJECT, 3, map1, true, new NewHttpRequest.RequestCallback() {
+                        String id = PreferencesUtil.getPreferences("id", "0");
+                        HashMap<String, Object> map4 = new HashMap<>();
+                        map4.put("user_id", id);
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
                             @Override
                             public void netWorkError() {
 
@@ -162,23 +151,23 @@ public class UserFragment extends Fragment {
 
                             @Override
                             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                                if (taskId == 3) {
+                                if (taskId == 4) {
                                     try {
-                                        JSONObject jsonObject1 = jsonObject.getJSONObject("result");
-                                        String oilNum = jsonObject1.getString("enableOil");
-                                        tvActivityWxbindOil.setText(oilNum);
-                                        getView().postInvalidate();
+                                        String oil = jsonObject.getString("enableOil");
+                                        //显示油滴
+                                        // showOil(oil.toString());
+                                        tvActivityWxbindOil.setText(oil);
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+
                                 }
                             }
-
                             @Override
                             public void requestError(int code, MessageEntity msg, int taskId) {
-
                             }
-                        });
+                        }).executeTask();
 
                     } else {
                         tvFragmentName.setVisibility(View.GONE);
@@ -210,12 +199,13 @@ public class UserFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        isLoginOrNo();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        isLoginOrNo();
+
 
     }
 
@@ -237,7 +227,7 @@ public class UserFragment extends Fragment {
 
     @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
     public void onClick(View view) {
-        if (!MyApplication.isLogin) {
+        if (statusIsLogin ==0) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             return;
         }
@@ -249,8 +239,70 @@ public class UserFragment extends Fragment {
             case R.id.ll_fragment_frends:
                 break;
             case R.id.ll_fragment_helps:
+
+                //伪代码测试接口  可去掉
+                String id = PreferencesUtil.getPreferences("id", "0");
+                LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
+                HashMap<String, Object> map4 = new HashMap<>();
+                map4.put("user_id", id);
+                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
+
+                    }
+
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        if (taskId == 4) {
+                            try {
+                              Object oil = jsonObject.getString("enableOil");
+                                //显示油滴
+                               // showOil(oil.toString());
+                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+                    }
+                }).executeTask();
                 break;
             case R.id.ll_fragment_setting:
+
+                //伪代码测试接口 可去掉
+                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
+                        LogUtil.i("++++++++++++++++++++++++++++++++++");
+                    }
+
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        if (taskId == 2) {
+                            try {
+                                String oil = jsonObject.getString("oildrop_num");
+                                //显示油滴
+                                showOil(oil);
+                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+                    }
+                }).executeTask();
+
                 break;
             case R.id.bt_fragmentUser_login:
                 startActivity(new Intent(getActivity(), LoginActivity.class));
