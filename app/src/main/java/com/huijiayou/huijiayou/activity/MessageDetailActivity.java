@@ -49,8 +49,8 @@ public class MessageDetailActivity extends BaseActivity implements NewHttpReques
 
         if ("0".equals(message.getRead_status())){
             HashMap<String,Object> hashMap = new HashMap<>();
-            String userId = PreferencesUtil.getPreferences("user_id","");
-            hashMap.put("user_id",userId);
+            String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+            hashMap.put(Constans.USER_ID,userId);
             hashMap.put("msg_id",message.getId());
             new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_mark, "jsonObject", 1, hashMap, false, this).executeTask();
         }

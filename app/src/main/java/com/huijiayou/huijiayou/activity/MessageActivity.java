@@ -109,8 +109,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
     private void lst(){
         HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences("user_id","");
-        hashMap.put("user_id",userId);
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
         hashMap.put("mtype",type);
         hashMap.put("page",page);
         new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_lst, "jsonObject", lstTaskId, hashMap, true, this).executeTask();
@@ -118,8 +118,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
     private void markAll(){
         HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences("user_id","");
-        hashMap.put("user_id",userId);
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
         hashMap.put("mtype",type);
         new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_markAll, "jsonObject", markAllTaskId, hashMap, true, this).executeTask();
     }

@@ -9,14 +9,14 @@ public class Constans {
 
     public final static boolean DEBUG = true;
     //微信相关
-    public static String WXBaseUrl = "https://api.weixin.qq.com/";
-    public static String WX_APP_ID = "wxc77febc13d61d07b";
-    public static String AppSecret = "4c7582669eb3db8ec0bf8a2f22163397";
-    public static String NICKNAME = "nickname";
-    public static String HEADIMGURL= "headimgurl";
-    public static String ACCESSTOKEN = "accesstoken";
-    public static String OPENID = "openid";
-    public static String UNIONID ="unionid";
+    public final static String WXBaseUrl = "https://api.weixin.qq.com/";
+    public final static String WX_APP_ID = "wxc77febc13d61d07b";
+    public final static String AppSecret = "4c7582669eb3db8ec0bf8a2f22163397";
+    public final static String NICKNAME = "nickname";
+    public final static String HEADIMGURL= "headimgurl";
+    public final static String ACCESSTOKEN = "access_token";
+    public final static String OPENID = "openid";
+    public final static String UNIONID ="unionid";
     // public static final String APP_ID = "wxd930ea5d5a258f4f";
 
     public static class ShowMsgActivity {
@@ -29,11 +29,11 @@ public class Constans {
     public final static String JSONOARRAY= "jsonArray";
 
 
-    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
+/*    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国*/
 
-//    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-//    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
+    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
@@ -63,12 +63,10 @@ public class Constans {
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
     public final static String UserPacketsInfo = "UserPacketsInfo"; //获取用户所有红包
     public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
-    public final static String UserOildropInfo = "UserOildropInfo"; //返回油滴流水
+    public final static String checkIn = "checkIn"; //签到
     public final static String order = "order"; //下单
-
-
-    public final static String registerAgreement = "/HJY/#/register_agreement"; //注册协议
-    public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议
+    public final static String UserOildropInfo = "UserOildropInfo"; //油滴流水
+    public final static String getOrderInfo = "getOrderInfo"; //油滴流水
 
 
     public static final String CODE = "code";
@@ -81,5 +79,13 @@ public class Constans {
     public static int lunHui = 1;
 
     public final static String RSA256withRsa = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxr7xmcBWY9cEKowl/jtdL7Ap+Z0fZsUtNiLygvKjG6JCxSlRoEaaCYHeyVZfHgG7di+pfaL8Xnftp1KZlY/XSJLJjHrmTRGCkgs9dOpKvM+vRZ9Prj4mY/IXlBr8INu0UJOnbr+b8Tb1MeGuDIF5AizcO/uQ2rc6QPkqh9yfEdg5lQjmS+uhr1ldMn0OLRkQU8pqlEhZaT8FcdLrTbbLGywO4W1sPVrb2u6tv4hXY4u0d7jRb0b+6btUy+YwlYcJYDUHSCBbEjf5hWVULRV1aBJB4EbUYbw3IdlX4bvoUph65I7QZsAdB6kbgiYyAej+lwZQUinWO7rmh9oXkWPuQIDAQAB";
+
+
+
+
+    //------------final   PreferencesUtil  Key
+    public final static String USER_ID = "user_id";
+    public final static String USER_TOKEN = "token";
+
 
 }

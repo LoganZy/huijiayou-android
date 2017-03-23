@@ -25,23 +25,26 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         >
+
         <ImageView
-            android:layout_margin="20dp"
+            android:id="@+id/img_activityDetail_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_details_cnpc"
-            />
+            android:layout_margin="20dp"
+            android:background="@mipmap/ic_details_cnpc" />
         <LinearLayout
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
-                android:textSize="14dp"
-                android:textColor="#666666"
+                android:id="@+id/tv_activityDetail_cardNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01000000000000000"/>
+                android:text="01000000000000000"
+                android:textColor="#666666"
+                android:textSize="14dp" />
             <TextView
                 android:textSize="14dp"
                 android:textColor="#666666"
@@ -63,13 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
-                android:gravity="center"
+                android:id="@+id/tv_activityDetail_productName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="中石化6月加油套餐"
                 android:textColor="#666666"
-                android:textSize="14dp"
-                android:text="中石化6月加油套餐"/>
+                android:textSize="14dp" />
             <LinearLayout
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -77,13 +82,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
-                    android:textColor="#666666"
-                    android:background="@drawable/ic_recording_green"
+                    android:id="@+id/tv_activityDetail_process"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3/6"/>
+                    android:background="@drawable/ic_recording"
+                    android:gravity="center"
+
+                    android:text="3 / 6"
+                    android:textColor="#666666"
+                    android:textSize="13dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,12 +112,13 @@
                         android:text="充值金额" />
 
                     <TextView
-                        android:textColor="#2A2A2A"
+                        android:id="@+id/tv_activityDetail_befor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableLeft="@mipmap/ic_details_recharge"
                         android:text="3000"
+                        android:textColor="#2A2A2A"
                         android:textSize="18dp" />
 
                     <TextView
@@ -120,13 +131,14 @@
                         android:text="实际支付" />
 
                     <TextView
-                        android:textColor="#2A2A2A"
+                        android:id="@+id/tv_activityDetail_after"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="30dp"
                         android:layout_weight="1"
                         android:drawableLeft="@mipmap/ic_details_recharge"
                         android:text="3000"
+                        android:textColor="#2A2A2A"
                         android:textSize="18dp" />
                 </LinearLayout>
                 <LinearLayout
@@ -200,6 +212,7 @@
 
                 </ListView>
                 <com.huijiayou.huijiayou.widget.SVListView
+                    android:id="@+id/myLv_activityDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -223,13 +236,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="订单编号"/>
+
                 <TextView
-                    android:textColor="#999999"
-                    android:textSize="10dp"
-                    android:layout_marginLeft="30dp"
+                    android:id="@+id/tv_activityDetail_orderNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12222222222"/>
+                    android:layout_marginLeft="30dp"
+                    android:text="12222222222"
+                    android:textColor="#999999"
+                    android:textSize="10dp" />
 
             </LinearLayout>
             <LinearLayout
@@ -242,13 +257,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="下单时间"/>
+
                 <TextView
-                    android:textColor="#999999"
-                    android:textSize="10dp"
-                    android:layout_marginLeft="30dp"
+                    android:id="@+id/tv_activityDetail_ictime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018-06-12"/>
+                    android:layout_marginLeft="30dp"
+                    android:text="2018-06-12"
+                    android:textColor="#999999"
+                    android:textSize="10dp" />
 
             </LinearLayout>
             <LinearLayout
@@ -261,13 +278,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="成交时间"/>
+
                 <TextView
-                    android:textColor="#999999"
-                    android:textSize="10dp"
-                    android:layout_marginLeft="30dp"
+                    android:id="@+id/tv_activityDetail_recharge_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018-06-12"/>
+                    android:layout_marginLeft="30dp"
+                    android:text="2018-06-12"
+                    android:textColor="#999999"
+                    android:textSize="10dp" />
 
             </LinearLayout>
         </LinearLayout>

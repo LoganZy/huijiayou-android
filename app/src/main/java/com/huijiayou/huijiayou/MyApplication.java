@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -64,6 +65,7 @@ public class MyApplication extends Application {
     public void exit() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
+        PreferencesUtil.putPreferences(Constans.OPENID,"1");
         for (Activity activity : activityList) {
             activity.finish();
         }

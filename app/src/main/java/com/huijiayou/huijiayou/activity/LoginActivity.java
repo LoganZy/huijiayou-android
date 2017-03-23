@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.json.JSONArray;
@@ -31,11 +33,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.huijiayou.huijiayou.config.Constans.USER_ID;
+import static com.huijiayou.huijiayou.config.Constans.USER_TOKEN;
 
 
 public class LoginActivity extends Activity implements NewHttpRequest.RequestCallback{
@@ -53,12 +57,14 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Bind(R.id.edit_activityLogin_invit)
     EditText editActivityLoginInvit;
 
+    public static BaseResp resp;
     private int time = 60;
     private String telephone;
     private String SMScode;
     private String key;
     private Handler handler = new Handler(){};
     private String invit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,57 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             public void onClick(View v) {
                 WetLogin();
                 //  startActivity(new Intent(LoginActivity.this,WXBindActivity.class));
-            }
+               /* HashMap<String,Object> map =new HashMap<>();
+                map.put(Constans.ACCESSTOKEN,"IJ0Szdf2xCYrQXGEajmLLSgyRfCvaKWwvmNqOZYAeZ0N4ZmhRukJ6aodQy91zTqyw1x6-TaGRAbwEEGdE95ZWdgtzOZr3X5TO4DheipXBjY");
+                map.put(Constans.OPENID,"ogUonwBlxmQWUL_28HKCGH9M2Nv8");
+                new NewHttpRequest(LoginActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
+                        ToastUtils.createNormalToast("链接失败");
+                    }
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        switch (taskId){
+                            case 1:
+
+                                try {
+                                    // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                    int isbind = jsonObject.getInt("is_bind");
+                                    LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                    if(isbind==1){
+                                        String token = (String) jsonObject.get("token");
+                                        PreferencesUtil.putPreferences("token",token);
+                                        MyApplication.isLogin = true;
+                                        ToastUtils.createNormalToast(isbind+""+"hahahahahahahaha");
+                                        finish();
+                                    }else if(isbind==0){
+                                   *//* Intent intent =new Intent();
+                                    //intent.setAction("getUserInfo");
+                                    String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+                                    String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
+                                    String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+                                    intent.putExtra(Constans.UNIONID,unionid);
+                                    intent.putExtra(Constans.NICKNAME,nickname);
+                                    intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                                    intent.setClass(WXEntryActivity.this,WXBindActivity.class);
+                                    startActivity(intent);*//*
+                                        ToastUtils.createNormalToast("哇哈哈哈哈哈哈");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+                        ToastUtils.createNormalToast(msg.getMessage());
+                    }
+                }).executeTask();
+       */     }
         });
 
 
@@ -195,7 +251,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Override
     protected void onResume() {
         super.onResume();
-
+        //code = ((SendAuth.Resp) resp).code;
     }
 
 
@@ -212,19 +268,68 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             ToastUtils.createLongToast(LoginActivity.this,"您没有安装微信或者微信版本太低");
             return;
         }
-/*        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
+                String openid = PreferencesUtil.getPreferences(Constans.OPENID,"1");
+                if(TextUtils.equals(openid,"1")){
+                    SendAuth.Req req = new SendAuth.Req();
+                    req.scope = "snsapi_userinfo";
+                    req.state = "wechat_sdk_demo_test";
+                    MyApplication.msgApi.sendReq(req);
+                    finish();
+                }
+                String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN,"1");
 
-            }
-        };*/
+                HashMap<String,Object> map =new HashMap<>();
+                map.put(Constans.ACCESSTOKEN,token);
+                map.put(Constans.OPENID,openid);
+                new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,3, map, true, new NewHttpRequest.RequestCallback() {
+                    @Override
+                    public void netWorkError() {
 
-            SendAuth.Req req = new SendAuth.Req();
-            req.scope = "snsapi_userinfo";
-            req.state = "wechat_sdk_demo_test";
-            MyApplication.msgApi.sendReq(req);
-            finish();
+                    }
+                    @Override
+                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                        switch (taskId){
+                            case 3:
+
+                                try {
+                                    // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                    int isbind = jsonObject.getInt("is_bind");
+                                    LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                    if(isbind==1){
+                                        String token = (String) jsonObject.get("token");
+                                        PreferencesUtil.putPreferences("token",token);
+                                        MyApplication.isLogin = true;
+                                        ToastUtils.createNormalToast(isbind+"");
+                                        LoginActivity.this.finish();
+                                    }else if(isbind==0){
+                                        Intent intent =new Intent();
+                                        //intent.setAction("getUserInfo");
+                                        String unionid  = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+                                        String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
+                                        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+                                        intent.putExtra(Constans.UNIONID,unionid);
+                                        intent.putExtra(Constans.NICKNAME,nickname);
+                                        intent.putExtra(Constans.HEADIMGURL,headimgurl);
+                                        intent.setClass(LoginActivity.this,WXBindActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void requestError(int code, MessageEntity msg, int taskId) {
+                        ToastUtils.createNormalToast(msg.getMessage());
+                    }
+                }).executeTask();
+
+
 
 
 
@@ -319,15 +424,19 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             case 2:
                 try {
                     JSONObject jsonObject2 = jsonObject.getJSONObject("data");
-                   // String userId = jsonObject2.getString("id");
+                    String userId = jsonObject2.getString("id");
                     String Phone = jsonObject2.getString("phone");
                     String  registerMode = jsonObject2.getString("register_mode");
                     String  weixinUninid =  jsonObject2.getString("weixin_unionid");
-                   // String  wixinHead = jsonObject2.getString("weixin_head");
+                    String  weixinHead = jsonObject2.getString("weixin_head");
                     String  weixinName =  jsonObject2.getString("weixin_name");
                     String token = (String) jsonObject2.get("token");
-                    PreferencesUtil.putPreferences("token",token);
+                    PreferencesUtil.putPreferences(USER_ID,userId);
+                    PreferencesUtil.putPreferences(USER_TOKEN,token);
+                    PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
+                    PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

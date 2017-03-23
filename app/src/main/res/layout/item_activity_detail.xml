@@ -4,6 +4,7 @@
     android:layout_height="60dp"
     android:orientation="horizontal">
     <TextView
+        android:id="@+id/tv_item_detail_count"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -12,6 +13,7 @@
         android:textColor="#6DC152"
         android:text="500 (1/6)"/>
     <TextView
+        android:id="@+id/tv_item_detail_time"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -26,16 +28,19 @@
         android:layout_height="60dp"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_item_detail_up"
             android:layout_width="1dp"
             android:layout_height="22dp"
             android:background="#E7E7E7"/>
 
         <ImageView
+            android:id="@+id/img_item_detail"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:src="@mipmap/ic_details_option_h"/>
         <TextView
+            android:id="@+id/tv_item_detail_down"
             android:layout_width="1dp"
             android:layout_height="22dp"
             android:background="#E7E7E7"/>

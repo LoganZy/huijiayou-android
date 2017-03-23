@@ -116,7 +116,7 @@ public class JSONRPCHttpClient extends com.huijiayou.huijiayou.jsonrpc.lib.JSONR
 
             t = System.currentTimeMillis() - t;
             String responseString = EntityUtils.toString(response.getEntity());
-
+            LogUtil.i(responseString+"......................................");
             Header[] headers = response.getAllHeaders();
             responseString = responseString.trim();
 
