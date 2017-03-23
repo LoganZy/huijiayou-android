@@ -24,19 +24,20 @@ public class DialogLoading {
         }
     }
 
-    public void show(){
+    public Dialog GetDialog(){
         if (dialog != null && !dialog.isShowing()){
             dialog.show();
         }
+        return dialog;
     }
-    public void dismiss(){
-        if (dialog != null && dialog.isShowing()){
-            dialog.dismiss();
-        }
-    }
+//    public void dismiss(){
+//        if (dialog != null && dialog.isShowing()){
+//            dialog.dismiss();
+//        }
+//    }
 
-    public boolean isShow(){
-        return dialog.isShowing();
-    }
+//    public boolean isShow(){
+//        return dialog.isShowing();
+//    }
 
 }

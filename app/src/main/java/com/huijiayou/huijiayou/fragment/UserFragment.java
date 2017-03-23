@@ -1,12 +1,10 @@
 package com.huijiayou.huijiayou.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +42,8 @@ import butterknife.OnClick;
  * Created by lugg on 2017/2/24.
  */
 
+public class UserFragment extends Fragment implements NewHttpRequest.RequestCallback {
+    public static final String TAG = "UserFragment";
 public class UserFragment extends Fragment {
 
 

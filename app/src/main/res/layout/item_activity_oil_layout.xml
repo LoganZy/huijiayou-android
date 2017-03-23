@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="13dp">
+
+    <TextView
+        android:id="@+id/tv_itemActivityOilLayout_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="@color/textColor_51586A"
+        android:layout_toLeftOf="@+id/tv_itemActivityOilLayout_oildrop"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="13dp"
+        tools:text="签到"/>
+
+    <TextView
+        android:id="@+id/tv_itemActivityOilLayout_oildrop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange_FF7320"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        tools:text="+10"/>
+
+    <TextView
+        android:id="@+id/tv_itemActivityOilLayout_enableOilDrop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        android:layout_below="@+id/tv_itemActivityOilLayout_from"
+        tools:text="剩余: 500"/>
+
+    <TextView
+        android:id="@+id/tv_itemActivityOilLayout_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="2017-03-01"
+        android:layout_below="@+id/tv_itemActivityOilLayout_from"
+        android:textColor="@color/gray"
+        android:textSize="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line_color"/>
+
+</RelativeLayout>

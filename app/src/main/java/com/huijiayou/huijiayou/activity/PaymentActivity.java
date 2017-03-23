@@ -148,6 +148,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int bindCardTaskId = 3;
     int UserEnableOilTaskId = 4;
     int UserPacketsInfoTaskId = 5;
+    int orderTaskId = 6;
+
+    boolean isGetOilCardInfo = true;
 
     public int addOilCarRequestCode = 100;
     public int couponRequestCode = 200;
@@ -184,7 +187,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 if (isChecked){
                     isUseOil = true;
                     tv_activityPayment_coupon_oil.setVisibility(View.VISIBLE);
-                    tv_activityPayment_coupon_oil.setText("油滴已抵扣"+ oil / 100 +"元");
+                    tv_activityPayment_coupon_oil.setText("油滴已抵扣"+ ((double)oil)/100 +"元");
                 }else {
                     isUseOil = false;
                     tv_activityPayment_coupon_oil.setVisibility(View.GONE);
@@ -194,16 +197,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         });
         edit_activityPayment_card.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && (s.length() == 16 || s.length() == 19)){
+                if (isGetOilCardInfo && s != null && (s.length() == 16 || s.length() == 19)){
                     getOilCardInfo(s.toString());
                 }
             }
@@ -223,7 +222,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             }
         }
         if (isUseOil){
-            money = money - oil / 100;
+            money = money - ((double)oil)/100;
         }
         return money;
     }
@@ -289,6 +288,25 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 hashMap, true, this).executeTask();
     }
 
+    private void order(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("oil_card",oilCard);
+        hashMap.put("time",System.currentTimeMillis());
+        hashMap.put("sign","");
+        hashMap.put("product_id",product_id);
+        hashMap.put("money", moneyMonth);
+        if (currentCoupon != null){
+            hashMap.put("uuid", currentCoupon.getId());
+        }
+        if (isUseOil){
+            hashMap.put("oil_droplets", oil);
+        }
+
+        new NewHttpRequest(this, Constans.URL_zxg+Constans.ORDER, Constans.order, "jsonObject", orderTaskId,
+                hashMap, true, this).executeTask();
+
+    }
+
     @Override
     public void onBackPressed() {
         if (rl_activityPayment_inputCard.isShown() || rl_activityPayment_success.isShown()){
@@ -307,7 +325,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
    @OnClick({R.id.imgBtn_activityPayment_next, R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
-           , R.id.edit_activityPayment_card, R.id.tv_activityPayment_coupon_coupon})
+           , R.id.tv_activityPayment_coupon_coupon})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -320,8 +338,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 rl_activityPayment_payment.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_activityPayment_payment_payment:
-                rl_activityPayment_payment.setVisibility(View.GONE);
-                rl_activityPayment_success.setVisibility(View.VISIBLE);
+                order();
+//                rl_activityPayment_payment.setVisibility(View.GONE);
+//                rl_activityPayment_success.setVisibility(View.VISIBLE);
                 break;
             case R.id.edit_activityPayment_card:
                 if (paymentActivityOilCarDialog == null){
@@ -358,6 +377,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void setOilCard(String card){
+        isGetOilCardInfo = false;
+        tv_activityPayment_cardTag.setText("正确");
+        rl_activityPayment_inputCard.setVisibility(View.GONE);
+        rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+        UserEnableOil();
+        UserPacketsInfo();
+        tv_activityPayment_coupon_card.setText(oilCard);
+        tv_activityPayment_coupon_userName.setText(oilCardName);
         edit_activityPayment_card.setText(card);
     }
 
@@ -397,10 +424,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 if (enableOil != null){
                     oil = Integer.parseInt(enableOil.toString());
                     if (oil > 0){
-                        double oilPrice = oil / 100;
+                        double oilPrice = ((double)oil) / 100;
                         seitch_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
                         tv_activityPayment_coupon_oil.setText("油滴已抵扣"+oilPrice+"元");
-                        calculationMoney();
                     }else{
                         seitch_activityPayment_coupon_oil.setVisibility(View.GONE);
                         tv_activityPayment_coupon_oil.setVisibility(View.GONE);
@@ -424,6 +450,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     tv_activityPayment_coupon_coupon.setText("暂无优惠券可用");
                 }
                 tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
+            }else if (taskId == orderTaskId){
+                jsonObject.get("");
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

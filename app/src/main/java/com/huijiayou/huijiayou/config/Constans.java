@@ -38,7 +38,7 @@ public class Constans {
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
     public final static String PRODUCT = "/index.php?c=product";
-    public final static String ORDER="/index.php?c=order";
+
 
 
 
@@ -48,13 +48,10 @@ public class Constans {
     public final static String SIGNOUT = "signout"; //撤销登录
     public final static String LOGINSTATUS = "loginStatus"; //获取登录状态
     public final static String WEIXIN_AUTH_POST = "weixin_auth_post"; //微信登录
-    public final static String CHECKIN =  "checkIn";//获取签到信息
-    public final static String USERENABLEOIL = "UserEnableOil" ;
-
    //weixin_auth_post
 
     public final static String productList = "productList"; //产品列表
-    public final static String getOilCardList = "getOilCardList"; //油卡列表getOrderList
+    public final static String getOilCardList = "getOilCardList"; //油卡列表
     public final static String getCity = "getCity"; //可充油城市的列表
     public final static String bindCard = "bindCard"; //绑卡
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
@@ -62,8 +59,7 @@ public class Constans {
     public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
 
 
-    public final static String getOrderList = "getOrderList";//获取订单详情
-    public final static String getOrderInfo="getOrderInfo";//获取充值详情
+
 
 
 

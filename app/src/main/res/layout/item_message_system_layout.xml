@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_itemMessageSystemLayout_view"
+    android:background="@color/white"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp"
+    android:paddingTop="21dp">
+
+    <TextView
+        android:id="@+id/tv_itemMessageSystemLayout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13dp"
+        tools:text="福利到"
+        android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@+id/tv_itemMessageSystemLayout_time"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/textColor_51586A"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/tv_itemMessageSystemLayout_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="02-10"
+        android:textColor="@color/gray"/>
+    
+    <TextView
+        android:id="@+id/tv_itemMessageSystemLayout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_below="@+id/tv_itemMessageSystemLayout_title"
+        tools:text="100元红包已飞速存入您的帐户100元红包已飞速存入您的帐户，用了就是赚钱，快去充值加油吧！"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line_color"/>
+
+</RelativeLayout>

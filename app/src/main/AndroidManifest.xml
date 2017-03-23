@@ -44,7 +44,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|fontScale" />
+            android:configChanges="orientation|screenSize|keyboardHidden|fontScale"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|fontScale"
@@ -149,16 +150,20 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="79468ebd591877434f63fc88" /> <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name=".activity.PaymentActivity" /><![CDATA[
+        <activity android:name=".activity.PaymentActivity" />
         android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        ]]>
         <activity android:name=".activity.DetailsActivity" />
         <activity android:name=".activity.CloseDealActivity" />
         <activity android:name=".activity.NoPayActivity" />
         <activity android:name=".activity.OilCardActivity" />
         <activity android:name=".activity.CouponActivity" />
         <activity android:name=".activity.MessageActivity" />
-        <activity android:name=".activity.AddOilCardActivity"></activity>
+        <activity android:name=".activity.AddOilCardActivity" />
+        <activity android:name=".activity.OilActivity" />
+        <activity android:name=".activity.InvitationActivity" />
+        <activity android:name=".activity.MessageDetailActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity android:name=".activity.WebViewActivity"></activity>
     </application>
 
 </manifest>

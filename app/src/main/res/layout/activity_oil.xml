@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.huijiayou.huijiayou.activity.MessageActivity">
+    android:background="@color/white"
+    tools:context="com.huijiayou.huijiayou.activity.OilActivity">
 
     <include layout="@layout/common_title"/>
 
@@ -21,14 +20,14 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/ll_activityMessage_all"
+            android:id="@+id/ll_activityOil_all"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_activityMessage_all"
+                android:id="@+id/tv_activityOil_all"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:gravity="center"
@@ -36,7 +35,7 @@
                 android:text="全部"/>
 
             <View
-                android:id="@+id/view_activityMessage_all"
+                android:id="@+id/view_activityOil_all"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/orange_FF7320"/>
@@ -44,22 +43,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_activityMessage_transaction"
+            android:id="@+id/ll_activityOil_get"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_activityMessage_transaction"
+                android:id="@+id/tv_activityOil_get"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:gravity="center"
                 android:textColor="@color/textColor_51586A"
-                android:text="交易"/>
+                android:text="获得"/>
 
             <View
-                android:id="@+id/view_activityMessage_transaction"
+                android:id="@+id/view_activityOil_get"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color"/>
@@ -67,45 +66,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_activityMessage_activity"
+            android:id="@+id/ll_activityOil_consume"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_activityMessage_activity"
+                android:id="@+id/tv_activityOil_consume"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:gravity="center"
                 android:textColor="@color/textColor_51586A"
-                android:text="活动"/>
+                android:text="消费"/>
 
             <View
-                android:id="@+id/view_activityMessage_activity"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_color"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_activityMessage_system"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_activityMessage_system"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center"
-                android:textColor="@color/textColor_51586A"
-                android:text="系统消息"/>
-
-            <View
-                android:id="@+id/view_activityMessage_system"
+                android:id="@+id/view_activityOil_consume"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color"/>
@@ -115,11 +91,45 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_activityMessage_list"
+        android:id="@+id/recyclerView_ActivityOil_list"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_activityOil_jiayou"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/orange_FF7320"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="去加油"
+            android:layout_weight="2"
+            android:background="@color/white"/>
+
+        <Button
+            android:id="@+id/btn_activityOil_zanyoudi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="攒油滴"
+            android:textSize="17dp"
+            android:layout_weight="1"
+            android:background="@color/orange_FF7320"/>
+
+    </LinearLayout>
 
 </LinearLayout>

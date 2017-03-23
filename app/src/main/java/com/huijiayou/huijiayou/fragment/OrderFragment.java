@@ -17,6 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
+import com.huijiayou.huijiayou.adapter.RecordAdapter;
+import com.huijiayou.huijiayou.bean.Record;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.DetailsActivity;
@@ -49,6 +53,8 @@ import retrofit2.Response;
  */
 
 public class OrderFragment extends Fragment implements NewHttpRequest.RequestCallback {
+public class OrderFragment extends Fragment {
+    public static final String TAG = "OrderFragment";
 
     @Bind(R.id.bt_fragment_order_login)
     Button btFragmentGasLogin;
@@ -290,57 +296,4 @@ public class OrderFragment extends Fragment implements NewHttpRequest.RequestCal
 
     }
 
-    @Override
-    public void netWorkError() {
-
-    }
-
-    @Override
-    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        switch (taskId) {
-            case 1:
-                try {
-                   JSONArray jsonArray1 = jsonObject.getJSONArray("list");
-                    for (int i = 0; i < jsonArray1.length(); i++) {
-                        JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
-                        String status = jsonObject1.getString("status");
-                        String card_number = jsonObject1.getString("card_number");
-                        String total_time = jsonObject1.getString("total_time");
-                        String discount_after_amount = jsonObject1.getString("discount_after_amount");
-                        String count = jsonObject1.getString("count");
-                        String product_name = jsonObject1.getString("product_name");
-                        String belong = jsonObject1.getString("belong");
-                        String ctime = jsonObject1.getString("ctime");
-                        String order_number = jsonObject1.getString("order_number");
-                        String discount_before_amount = jsonObject1.getString("discount_before_amount");
-                        Record record = new Record();
-                        record.setStatus(status);
-                        record.setCard_number(card_number);
-                        record.setDiscount_after_amount(discount_after_amount);
-                        record.setTotal_time(total_time);
-                        record.setCount(count);
-                        record.setProduct_name(product_name);
-                        record.setBelong(belong);
-                        record.setCtime(ctime);
-                        record.setOrder_number(order_number);
-                        record.setDiscount_before_amount(discount_before_amount);
-                        if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-                            record.setType(1);
-                        } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-                            record.setType(2);
-                        }
-
-                        recordList.add(record);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-        }
-    }
-
-    @Override
-    public void requestError(int code, MessageEntity msg, int taskId) {
-
-    }
 }

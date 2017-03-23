@@ -43,8 +43,6 @@ public class PaymentActivityOilCarDialog {
                 }
                 ImageView imageView = (ImageView) v.findViewById(R.id.imgView_itemActivityOilCard_selected);
                 imageView.setVisibility(View.VISIBLE);
-                paymentActivity.rl_activityPayment_inputCard.setVisibility(View.GONE);
-                paymentActivity.rl_activityPayment_coupon.setVisibility(View.VISIBLE);
                 lastSelectedOilCard = imageView;
                 dialog.dismiss();
             }
