@@ -38,14 +38,14 @@ public class Constans {
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
     public final static String PRODUCT = "/index.php?c=product";
-    public final static String ORDER = "index.php?c=order";
+    public final static String ORDER = "/index.php?c=order";
 
 
     public final static String URL_MESSAGE = "http://wyh.oil.message.com/message.php?c=msg";
     public final static String message_lst = "lst";
     public final static String message_markAll = "markAll";
     public final static String message_checkNewMsg = "checkNewMsg";
-
+    public final static String message_mark = "mark";
 
     //method
     public final static String MESSAGEAUTH = "messageAuth"; //获取手机验证码
@@ -62,9 +62,9 @@ public class Constans {
     public final static String getOilCardInfo = "getOilCardInfo"; //油卡信息查询接口
     public final static String UserPacketsInfo = "UserPacketsInfo"; //获取用户所有红包
     public final static String UserEnableOil = "UserEnableOil"; //返回该用户的可用油滴
+    public final static String checkIn = "checkIn"; //签到
     public final static String UserOildropInfo = "UserOildropInfo"; //返回油滴流水
     public final static String order = "order"; //下单
-
     public final static String getOrderList = "getOrderList";
     public final static String getOrderInfo=  "getOrderInfo";
     public final static String CHECKIN ="checkIn";//q签到的接口
@@ -81,4 +81,15 @@ public class Constans {
     public static final String ID_ZHONGSHIYOU = "2";
 
     public static int lunHui = 1;
+
+    public final static String RSA256withRsa = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxr7xmcBWY9cEKowl/jtdL7Ap+Z0fZsUtNiLygvKjG6JCxSlRoEaaCYHeyVZfHgG7di+pfaL8Xnftp1KZlY/XSJLJjHrmTRGCkgs9dOpKvM+vRZ9Prj4mY/IXlBr8INu0UJOnbr+b8Tb1MeGuDIF5AizcO/uQ2rc6QPkqh9yfEdg5lQjmS+uhr1ldMn0OLRkQU8pqlEhZaT8FcdLrTbbLGywO4W1sPVrb2u6tv4hXY4u0d7jRb0b+6btUy+YwlYcJYDUHSCBbEjf5hWVULRV1aBJB4EbUYbw3IdlX4bvoUph65I7QZsAdB6kbgiYyAej+lwZQUinWO7rmh9oXkWPuQIDAQAB";
+
+
+
+
+    //------------final   PreferencesUtil  Key
+    public final static String USER_ID = "user_id";
+    public final static String USER_TOKEN = "token";
+
+
 }

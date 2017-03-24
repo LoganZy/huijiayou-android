@@ -51,13 +51,16 @@ public class PaymentActivityOilCarDialog {
         View view = LayoutInflater.from(paymentActivity).inflate(R.layout.dialog_payment_activity_oil_car, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_dialogPaymentActivityOilCar_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(paymentActivity));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(20));
         recyclerView.setAdapter(oilCardAdapter);
         Button btn_dialogPaymentActivityOilCar_addOilCard = (Button) view.findViewById(R.id.btn_dialogPaymentActivityOilCar_addOilCard);
         Button btn_dialogPaymentActivityOilCar_cancel = (Button) view.findViewById(R.id.btn_dialogPaymentActivityOilCar_cancel);
         btn_dialogPaymentActivityOilCar_addOilCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paymentActivity.startActivityForResult(new Intent(paymentActivity, AddOilCardActivity.class),paymentActivity.addOilCarRequestCode);
+                Intent intent = new Intent(paymentActivity, AddOilCardActivity.class);
+//                intent.putExtra("type","")
+                paymentActivity.startActivityForResult(intent,paymentActivity.addOilCarRequestCode);
                 dialog.dismiss();
             }
         });

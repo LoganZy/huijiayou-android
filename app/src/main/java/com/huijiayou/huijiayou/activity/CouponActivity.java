@@ -19,6 +19,7 @@ import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.SVRecyclerView;
+import com.huijiayou.huijiayou.widget.SpaceItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,19 +96,19 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_activityCoupon_use.setLayoutManager(linearLayoutManager);
-        recyclerView_activityCoupon_use.addItemDecoration(new CouponAdapter.SpaceItemDecoration(20));
+        recyclerView_activityCoupon_use.addItemDecoration(new SpaceItemDecoration(20));
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_activityCoupon_noUse.setLayoutManager(linearLayoutManager);
-        recyclerView_activityCoupon_noUse.addItemDecoration(new CouponAdapter.SpaceItemDecoration(20));
+        recyclerView_activityCoupon_noUse.addItemDecoration(new SpaceItemDecoration(20));
         linearLayoutManager = new LinearLayoutManager(this);
         svRecyclerView_activityCoupon_over.setLayoutManager(linearLayoutManager);
-        svRecyclerView_activityCoupon_over.addItemDecoration(new CouponAdapter.SpaceItemDecoration(20));
+        svRecyclerView_activityCoupon_over.addItemDecoration(new SpaceItemDecoration(20));
     }
 
     private void UserPacketsInfo(){
         HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences("user_id","");
-        hashMap.put("user_id",userId);
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
 
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserPacketsInfo, "jsonObject", UserPacketsInfoTaskId,
                 hashMap, true, this).executeTask();

@@ -2,6 +2,7 @@ package com.huijiayou.huijiayou.activity;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -54,25 +55,94 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
         tvTitle.setText("新增加油卡");
 
         edit_activityAddOilCard_inputCard.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            int beforeTextLength=0;
+            int onTextLength=0;
+            boolean isChanged = false;
+
+            int location=0;//记录光标的位置
+            private char[] tempChar;
+            private StringBuffer buffer = new StringBuffer();
+            int konggeNumberB = 0;
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforeTextLength = s.length();
+                if(buffer.length()>0){
+                    buffer.delete(0, buffer.length());
+                }
+                konggeNumberB = 0;
+                for (int i = 0; i < s.length(); i++) {
+                    if(s.charAt(i) == ' '){
+                        konggeNumberB++;
+                    }
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                onTextLength = s.length();
+                buffer.append(s.toString());
+                if(onTextLength == beforeTextLength || onTextLength <= 3 || isChanged){
+                    isChanged = false;
+                    return;
+                }
+                isChanged = true;
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && (s.length() == 16 || s.length() == 19)){
-                    getOilCardInfo(s.toString());
-                }else{
-                    hideUserNameBind("");
+                if(isChanged){
+                    String text = s.toString().replace(" ","");
+                    if (text != null && (text.length() == 16 || text.length() == 19)){
+                        getOilCardInfo(text);
+                    }else{
+                        hideUserNameBind("");
+                    }
+                    location = edit_activityAddOilCard_inputCard.getSelectionEnd();
+                    int index = 0;
+                    while (index < buffer.length()) {
+                        if(buffer.charAt(index) == ' '){
+                            buffer.deleteCharAt(index);
+                        }else{
+                            index++;
+                        }
+                    }
+
+                    index = 0;
+                    int konggeNumberC = 0;
+                    while (index < buffer.length()) {
+                        //银行卡号的话需要改这里
+                        if((index == 4 || index == 9 || index == 14 || index == 19 || index == 24)){
+                            buffer.insert(index, ' ');
+                            konggeNumberC++;
+                        }
+                        index++;
+                    }
+
+                    if(konggeNumberC>konggeNumberB){
+                        location+=(konggeNumberC-konggeNumberB);
+                    }
+
+                    tempChar = new char[buffer.length()];
+                    buffer.getChars(0, buffer.length(), tempChar, 0);
+                    String str = buffer.toString();
+                    if(location>str.length()){
+                        location = str.length();
+                    }else if(location < 0){
+                        location = 0;
+                    }
+
+                    edit_activityAddOilCard_inputCard.setText(str);
+                    Editable etable = edit_activityAddOilCard_inputCard.getText();
+                    Selection.setSelection(etable, location);
+                    isChanged = false;
                 }
             }
         });
     }
 
     public void bindCard(View view){
-        String cord = edit_activityAddOilCard_inputCard.getText().toString();
+        String cord = edit_activityAddOilCard_inputCard.getText().toString().replace(" ","");
         if (cord != null && (cord.length() == 16 || cord.length() == 19)){
             HashMap<String,Object> hashMap = new HashMap<>();
             hashMap.put("time",System.currentTimeMillis());
@@ -109,7 +179,15 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
                 String username = jsonObject.getString("username");
                 showUserNameBind(username);
             }else if (taskId == bindCardTaskId){
-                finish();
+                String classs = getIntent().getComponent().getClassName();
+                if (classs.indexOf("OilCard") > 0){
+                    finish();
+                }else if (classs.indexOf("Payment") > 0){
+                    setResult(RESULT_OK);
+                    finish();
+                }else{
+                    finish();
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

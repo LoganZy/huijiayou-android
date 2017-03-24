@@ -24,7 +24,6 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.huijiayou.huijiayou.wxapi.WXEntryActivity;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -38,6 +37,9 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.huijiayou.huijiayou.config.Constans.USER_ID;
+import static com.huijiayou.huijiayou.config.Constans.USER_TOKEN;
 
 
 public class LoginActivity extends Activity implements NewHttpRequest.RequestCallback{
@@ -429,8 +431,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     String  weixinHead = jsonObject2.getString("weixin_head");
                     String  weixinName =  jsonObject2.getString("weixin_name");
                     String token = (String) jsonObject2.get("token");
-                    PreferencesUtil.putPreferences("id",userId);
-                    PreferencesUtil.putPreferences("token",token);
+                    PreferencesUtil.putPreferences(USER_ID,userId);
+                    PreferencesUtil.putPreferences(USER_TOKEN,token);
                     PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);

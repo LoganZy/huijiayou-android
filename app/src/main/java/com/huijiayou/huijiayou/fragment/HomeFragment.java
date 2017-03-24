@@ -181,7 +181,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-       // new NewHttpRequest(getActivity(), Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,true,this).executeTask();
+//        if (!MyApplication.isLogin){
+//            HashMap<String,Object> hashMap = new HashMap<>();
+//            hashMap.put("mobile","13552408894");
+//            new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
+//        }
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -228,9 +232,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-//                startActivity(new Intent(getActivity(), CouponActivity.class));
-//                startActivity(new Intent(getActivity(), OilCardActivity.class));
-//                startActivity(new Intent(getActivity(), OilActivity.class));
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
@@ -338,7 +339,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
-            if (taskId == 0){
+            /*if (taskId == 0){
                 JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
                 HashMap<String,Object> hashMap = new HashMap<>();
                 hashMap.put("username","13552408894");
@@ -363,7 +364,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }else{
                     ToastUtils.createLongToast(getActivity(),"已登录");
                 }
-            }else  if (taskId == getCityTaskId){
+            }else*/  if (taskId == getCityTaskId){
 
                 cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
                         new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());

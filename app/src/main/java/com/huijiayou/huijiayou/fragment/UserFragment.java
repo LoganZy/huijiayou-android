@@ -19,7 +19,10 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CancelActivity;
+import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.MessageActivity;
+import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -56,7 +59,7 @@ public class UserFragment extends Fragment {
     @Bind(R.id.imgBtn_fragmentUser_award)
     ImageButton imgBtnFragmentUserAward;
     @Bind(R.id.imgbt_fragmentUser_message)
-     ImageButton imgbtFragmentUserMessage;
+    ImageButton imgbtFragmentUserMessage;
     @Bind(R.id.tv_fragmentUser_name)
     TextView tvFragmentName;
     @Bind(R.id.tv_activity_wxbind_oil)
@@ -112,7 +115,7 @@ public class UserFragment extends Fragment {
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
                         //请求签到油滴的数量并显示出来
-                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                             @Override
                             public void netWorkError() {
                                 LogUtil.i("++++++++++++++++++++++++++++++++++");
@@ -141,9 +144,9 @@ public class UserFragment extends Fragment {
                         }).executeTask();
 
                         //显示可用的油滴数量
-                        String id = PreferencesUtil.getPreferences("id", "0");
+                        String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
                         HashMap<String, Object> map4 = new HashMap<>();
-                        map4.put("user_id", id);
+                        map4.put(Constans.USER_ID, id);
                         new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
                             @Override
                             public void netWorkError() {
@@ -187,7 +190,7 @@ public class UserFragment extends Fragment {
             }
         }).executeTask();
 
-        }
+    }
 
 
     @Override
@@ -226,7 +229,7 @@ public class UserFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.tv_activity_wxbind_oil})
+    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
     public void onClick(View view) {
         if (statusIsLogin ==0) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -234,8 +237,10 @@ public class UserFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.ll_fragmentUser_oilCard:
+                startActivity(new Intent(getActivity(), OilCardActivity.class));
                 break;
             case R.id.ll_fragmentUser_coupon:
+                startActivity(new Intent(getActivity(), CouponActivity.class));
                 break;
             case R.id.ll_fragment_frends:
                 break;
@@ -316,6 +321,7 @@ public class UserFragment extends Fragment {
                 break;
             case R.id.imgbt_fragmentUser_message:
                 animationDrawable.stop();
+                startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.tv_activity_wxbind_oil:
 

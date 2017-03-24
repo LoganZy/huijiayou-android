@@ -18,6 +18,7 @@ import com.huijiayou.huijiayou.fragment.OrderFragment;
 import com.huijiayou.huijiayou.fragment.UserFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 
@@ -155,8 +156,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     private void checkNewMsg(){
         HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences("user_id","");
-        hashMap.put("user_id",userId);
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
         new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
     }
 
@@ -176,14 +177,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         if (taskId == checkNewMsgTaskId){
-
+            //{"code":0,"message":"success","data":"0"}
+            LogUtil.i("====checkNewMsg::::"+jsonObject);
         }
     }
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
         if (taskId == checkNewMsgTaskId){
-            ToastUtils.createNormalToast(this,msg.getMessage());
+            LogUtil.i("====checkNewMsg::::"+msg.getMessage());
         }
     }
 }

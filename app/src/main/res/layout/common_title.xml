@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
+            android:padding="8dp"
             android:background="@android:color/transparent"
             android:drawableLeft="@mipmap/ic_pay_return"/>
 

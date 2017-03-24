@@ -83,8 +83,8 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
 
     private void UserOildropInfo(){
         HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences("user_id","");
-        hashMap.put("user_id",userId);
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
         hashMap.put("type",type); //0全部，1获取，2消耗
         hashMap.put("page",page);
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserOildropInfo, "jsonObject", 1, hashMap, true, this).executeTask();

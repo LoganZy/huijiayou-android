@@ -24,8 +24,6 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.umeng.socialize.utils.DeviceConfig.context;
-
 public class CancelActivity extends BaseActivity {
 
     @Bind(R.id.bt_activityCancle_out)

@@ -8,12 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.adapter.DetailAdapter;
 import com.huijiayou.huijiayou.bean.OrderDetail;
-import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.widget.SVListView;
-import com.huijiayou.huijiayou.adapter.DetailAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
