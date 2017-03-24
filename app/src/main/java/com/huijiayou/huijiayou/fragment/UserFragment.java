@@ -325,6 +325,7 @@ public class UserFragment extends Fragment {
                 break;
             case R.id.tv_activity_wxbind_oil:
 
+
                 break;
         }
     }

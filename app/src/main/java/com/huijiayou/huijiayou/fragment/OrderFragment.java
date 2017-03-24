@@ -52,7 +52,6 @@ import retrofit2.Response;
 /**
  * Created by lugg on 2017/2/24.
  */
-
 public class OrderFragment extends Fragment {
     public static final String TAG = "OrderFragment";
 
@@ -150,7 +149,7 @@ public class OrderFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 3:
-                                        intent.setClass(getActivity(), PayingActivity.class);
+                                        intent.setClass(getActivity(), NoPayActivity.class);
                                         intent.putExtras(b);
                                         startActivity(intent);
                                         break;
