@@ -44,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
     <LinearLayout
+        android:paddingRight="12dp"
         android:background="@color/white"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -81,6 +82,7 @@
             android:text="支付金额"/>
     </LinearLayout>
     <LinearLayout
+        android:paddingRight="12dp"
         android:background="@color/white"
         android:paddingTop="8dp"
         android:paddingBottom="16dp"

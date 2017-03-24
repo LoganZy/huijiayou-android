@@ -95,10 +95,10 @@
                     android:textColor="#666666"
                     android:textSize="13dp" />
                 <LinearLayout
+                    android:id="@+id/ll_activityDetail_titlepay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
@@ -110,13 +110,17 @@
                         android:gravity="center"
                         android:textSize="13dp"
                         android:text="充值金额" />
-
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@mipmap/ic_details_recharge"
+                        />
                     <TextView
                         android:id="@+id/tv_activityDetail_befor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableLeft="@mipmap/ic_details_recharge"
+                        android:layout_weight="0.94"
                         android:text="3000"
                         android:textColor="#2A2A2A"
                         android:textSize="18dp" />
@@ -129,14 +133,18 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="实际支付" />
-
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@mipmap/ic_details_recharge"
+                        />
                     <TextView
                         android:id="@+id/tv_activityDetail_after"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:drawableLeft="@mipmap/ic_details_recharge"
                         android:text="3000"
                         android:textColor="#2A2A2A"
                         android:textSize="18dp" />

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -225,7 +226,7 @@ public class UserFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
+    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.tv_activity_wxbind_oil})
     public void onClick(View view) {
         if (statusIsLogin ==0) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -273,7 +274,7 @@ public class UserFragment extends Fragment {
                 }).executeTask();
                 break;
             case R.id.ll_fragment_setting:
-
+                startActivity(new Intent(getActivity(), CancelActivity.class));
                 //伪代码测试接口 可去掉
                 new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                     @Override
@@ -315,6 +316,9 @@ public class UserFragment extends Fragment {
                 break;
             case R.id.imgbt_fragmentUser_message:
                 animationDrawable.stop();
+                break;
+            case R.id.tv_activity_wxbind_oil:
+
                 break;
         }
     }

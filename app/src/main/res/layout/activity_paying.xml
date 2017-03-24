@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context="com.huijiayou.huijiayou.activity.NoPayActivity">
+    tools:context="com.huijiayou.huijiayou.activity.PayingActivity">
     <include layout="@layout/common_title"/>
     <TextView
-        android:background="@mipmap/ic_details_background_org"
+        android:background="@mipmap/ic_details_background"
         android:paddingTop="8dp"
         android:gravity="center"
-        android:drawableTop="@mipmap/ic_details_gas"
+        android:drawableTop="@mipmap/ic_pay_payments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="未支付 （15min）"
+        android:text="支付中..."
         android:textColor="@color/white"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         >
 
         <ImageView
-            android:id="@+id/img_activityPay_ioc"
+            android:id="@+id/img_activityPaying_ioc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -40,15 +40,15 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_activityPay_cardNum"
+                android:id="@+id/tv_activityPaying_cardNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01000000000000000"
                 android:textColor="#666666" />
 
             <TextView
-                android:id="@+id/tv_activityPay_username"
                 android:textColor="#666666"
+                android:id="@+id/tv_activityPaying_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -92,7 +92,7 @@
                     android:textSize="13dp" />
 
                 <TextView
-                    android:id="@+id/tv_activityPay_discount_before_amount"
+                    android:id="@+id/tv_activityPaying_discount_before_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -111,7 +111,7 @@
                     android:textSize="13dp" />
 
                 <TextView
-                    android:id="@+id/tv_activityPay_discount_after_amount"
+                    android:id="@+id/tv_activityPaying_discount_after_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -123,7 +123,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_activityPay_name"
+                android:id="@+id/tv_activityPaying_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"
@@ -159,7 +159,7 @@
                 android:textSize="10dp" />
 
             <TextView
-                android:id="@+id/tv_activityPay_orderNum"
+                android:id="@+id/tv_activityPaying_orderNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -186,7 +186,7 @@
                 android:textSize="10dp" />
 
             <TextView
-                android:id="@+id/tv_activityPay_time"
+                android:id="@+id/tv_activityPaying_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -196,17 +196,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/bt_activityPay_pay"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:text="马上支付"
-            android:textColor="#FF7320"
-            android:textSize="17dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

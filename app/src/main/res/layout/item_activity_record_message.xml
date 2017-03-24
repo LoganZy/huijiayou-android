@@ -109,7 +109,7 @@
 
         <FrameLayout
             android:descendantFocusability="blocksDescendants"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent">

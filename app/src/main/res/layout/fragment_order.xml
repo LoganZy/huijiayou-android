@@ -10,6 +10,7 @@
 
         <!--详情界面-->
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,7 +25,7 @@
                 android:textColor="#51586A"
                 android:textSize="17dp"
                 android:background="@color/white"
-                android:text="加油记录" />
+                android:text="我的订单" />
             <LinearLayout
                 android:id="@+id/ll_activity_head"
                 android:gravity="center"
@@ -83,11 +84,20 @@
         <!--登录界面-->
         <LinearLayout
             android:id="@+id/ll_fragmentUser_login"
-            android:visibility="gone"
+
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <include layout="@layout/common_title"/>
+            <TextView
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:textColor="#51586A"
+                android:textSize="17dp"
+                android:background="@color/white"
+                android:text="我的订单" />
             <TextView
                 android:layout_marginTop="60dp"
                 android:layout_gravity="center_horizontal"

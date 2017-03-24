@@ -36,8 +36,8 @@
         <ImageView
             android:id="@+id/img_item_detail"
             android:gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:background="@mipmap/ic_details_option_h"/>
         <TextView
             android:id="@+id/tv_item_detail_down"

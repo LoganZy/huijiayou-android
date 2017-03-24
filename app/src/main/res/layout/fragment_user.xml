@@ -5,263 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/ll_fragment_user"
     >
-    <com.huijiayou.huijiayou.widget.MyImageView
-        android:id="@+id/my_image_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-            android:orientation="vertical">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_marginTop="-110dp"
-                    android:id="@+id/img_fragmentUser_backgroud"
-                    android:layout_width="match_parent"
-                    android:layout_height="290dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_me_background"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_fragment_head"
-                        android:layout_marginTop="40dp"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
-                        android:src="@mipmap/ic_login_default_avatar"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/tv_fragmentUser_name"
-                        android:gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="13dp"
-                        android:text="sdddsssss"/>
-                    <Button
-                        android:id="@+id/bt_fragmentUser_login"
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        android:textSize="13dp"
-                        android:text="登录/注册 "
-                        android:textColor="@color/white"
-                        android:background="@drawable/user_login_button"/>
-                </LinearLayout>
-                
-            </FrameLayout>
-            
-            <LinearLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:id="@+id/ll_activity_wxbind_oil"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="60dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_marginLeft="15dp"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:textColor="#51586A"
-                        android:text="我的油滴"/>
-                    <TextView
-                        android:layout_marginLeft="15dp"
-                        android:drawableLeft="@mipmap/ic_me_oil"
-                        android:id="@+id/tv_activity_wxbind_oil"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF7320"
-                        android:textSize="26dp"
-                        android:text="- - -"/>
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/imgBtn_fragmentUser_award"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/ic_me_button"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_fragmentUser_oilCard"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_gas"/>
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:layout_height="wrap_content"
-                    android:textSize="13dp"
-                    android:textColor="#51586A"
-                    android:text="我的油卡"/>
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_pay_arrow_n"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_fragmentUser_coupon"
-                android:layout_marginTop="2dp"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_news_coupon"/>
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:textSize="13dp"
-                    android:textColor="#51586A"
-                    android:layout_height="wrap_content"
-                    android:text="优惠券"/>
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_pay_arrow_n"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_fragment_frends"
-                android:layout_marginTop="2dp"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_news_invite"/>
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:textSize="13dp"
-                    android:textColor="#51586A"
-                    android:layout_height="wrap_content"
-                    android:text="好友邀请"/>
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_pay_arrow_n"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_fragment_helps"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_news_calendar"/>
-                <TextView
-                    android:textSize="13dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:layout_height="wrap_content"
-                    android:text="帮助"/>
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_pay_arrow_n"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_fragment_setting"
-                android:layout_marginTop="2dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_me_news_calendar"/>
-                <TextView
-                    android:textSize="13dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:layout_height="wrap_content"
-                    android:text="设置"/>
-                <ImageView
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_pay_arrow_n"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </com.huijiayou.huijiayou.widget.MyImageView>
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -284,5 +28,287 @@
             android:layout_height="19dp"
             android:background="@drawable/animation_messsage"/>
     </RelativeLayout>
+
+    <com.huijiayou.huijiayou.widget.MyImageView
+        android:id="@+id/my_image_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_fragmentUser_backgroud"
+                    android:layout_width="match_parent"
+                    android:layout_height="290dp"
+                    android:layout_marginTop="-110dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_me_background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_fragment_head"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_marginTop="40dp"
+                        android:src="@mipmap/ic_login_default_avatar" />
+
+                    <TextView
+                        android:id="@+id/tv_fragmentUser_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="sdddsssss"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/bt_fragmentUser_login"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:background="@drawable/user_login_button"
+                        android:text="登录/注册 "
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_activity_wxbind_oil"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="6"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="我的油滴"
+                        android:textColor="#51586A"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_activity_wxbind_oil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:clickable="true"
+                        android:drawableLeft="@mipmap/ic_me_oil"
+                        android:text="- - -"
+                        android:textColor="#FF7320"
+                        android:textSize="26dp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/imgBtn_fragmentUser_award"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="3"
+                    android:background="@mipmap/ic_me_button" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fragmentUser_oilCard"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_me_gas" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:text="我的油卡"
+                    android:textColor="#51586A"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_pay_arrow_n" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fragmentUser_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_me_news_coupon" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:text="优惠券"
+                    android:textColor="#51586A"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_pay_arrow_n" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fragment_frends"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_me_news_invite" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:text="好友邀请"
+                    android:textColor="#51586A"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_pay_arrow_n" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fragment_helps"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_me_news_calendar" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:text="帮助"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_pay_arrow_n" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fragment_setting"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_me_news_calendar" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    android:text="设置"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_pay_arrow_n" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.huijiayou.huijiayou.widget.MyImageView>
 </FrameLayout>
 

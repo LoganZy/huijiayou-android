@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
+import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
 import com.huijiayou.huijiayou.bean.Record;
 import com.tencent.mm.opensdk.constants.Build;
@@ -149,7 +150,7 @@ public class OrderFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 3:
-                                        intent.setClass(getActivity(), NoPayActivity.class);
+                                        intent.setClass(getActivity(), PayingActivity.class);
                                         intent.putExtras(b);
                                         startActivity(intent);
                                         break;

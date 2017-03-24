@@ -3,6 +3,7 @@ package com.huijiayou.huijiayou.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,6 +58,12 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         ButterKnife.bind(this);
         initTitle();
         tvTitle.setText("交易详情");
+        tvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initView();
         initData();
     }
