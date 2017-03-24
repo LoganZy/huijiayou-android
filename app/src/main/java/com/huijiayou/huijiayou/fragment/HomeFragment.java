@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
@@ -32,7 +32,6 @@ import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
-import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
@@ -148,6 +147,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
 
     MainActivity mainActivity;
 
+    public AnimationDrawable animationDrawable;
+
     double total,saveMoney,discountTotal;
     int moneyMonth;
     @Nullable
@@ -165,6 +166,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         addOnClickListener(tv_fragmentHome_openRegionChoice,imgBtn_fragmentHome_message,tv_fragmentHome_addGasoline,imgBtn_fragmentHome_closeRegion,
                 tv_fragmentHome_botton,tv_fragmentHomeMmoney_100,tv_fragmentHomeMmoney_200,tv_fragmentHomeMmoney_500,
                 tv_fragmentHomeMmoney_1000,tv_fragmentHomeMmoney_2000,tv_fragmentHomeMmoney_3000,imgBtn_fragmentHome_info);
+
+        animationDrawable = (AnimationDrawable) imgBtn_fragmentHome_message.getBackground();
 
         viewPager_fragmentHome_product.setPageMargin(50);
         viewPager_fragmentHome_product.setOffscreenPageLimit(3);
@@ -232,6 +235,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
+                animationDrawable.stop();
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
@@ -489,5 +493,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void requestError(int code, MessageEntity msg, int taskId) {
         ToastUtils.createLongToast(getActivity(),msg.getMessage());
     }
-
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,6 +24,7 @@ import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -157,8 +159,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     private void checkNewMsg(){
         HashMap<String,Object> hashMap = new HashMap<>();
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-        hashMap.put(Constans.USER_ID,userId);
-        new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
+        if (!TextUtils.isEmpty(userId)){
+            hashMap.put(Constans.USER_ID,userId);
+            new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
+        }
     }
 
     @Override
@@ -176,9 +180,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        if (taskId == checkNewMsgTaskId){
-            //{"code":0,"message":"success","data":"0"}
-            LogUtil.i("====checkNewMsg::::"+jsonObject);
+        try {
+            if (taskId == checkNewMsgTaskId){
+                //{"code":0,"message":"success","data":"0"}
+                int data = Integer.parseInt(jsonObject.get("data").toString());
+                if (data > 0){
+                    userFragment.startAnimation();
+                    homeFragment.animationDrawable.start();
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
