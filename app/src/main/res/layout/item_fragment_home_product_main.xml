@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="@mipmap/ic_home_pic1">
 
+    <TextView
+        android:id="@+id/tv_itemFragmentHomeProductMain_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="欧非"/>
+
     <ImageView
         android:id="@+id/imgView_itemFragmentHomeProductMain_sale"
         android:layout_width="wrap_content"

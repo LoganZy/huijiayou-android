@@ -25,7 +25,6 @@ import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.MyImageView;
 import com.huijiayou.huijiayou.widget.PopuDialog;
@@ -114,63 +113,63 @@ public class UserFragment extends Fragment {
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
                         //请求签到油滴的数量并显示出来
-                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
-                            @Override
-                            public void netWorkError() {
-                                LogUtil.i("++++++++++++++++++++++++++++++++++");
-                            }
-
-                            @Override
-                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                                if (taskId == 2) {
-                                    try {
-                                        String oil = jsonObject.getString("oildrop_num");
-                                        //显示油滴
-                                        showOil(oil);
-                                        LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }
-
-                            @Override
-                            public void requestError(int code, MessageEntity msg, int taskId) {
-                                LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
-                            }
-                        }).executeTask();
+//                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+//                            @Override
+//                            public void netWorkError() {
+//                                LogUtil.i("++++++++++++++++++++++++++++++++++");
+//                            }
+//
+//                            @Override
+//                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+//                                if (taskId == 2) {
+//                                    try {
+//                                        String oil = jsonObject.getString("oildrop_num");
+//                                        //显示油滴
+//                                        showOil(oil);
+//                                        LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void requestError(int code, MessageEntity msg, int taskId) {
+//                                LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+//                            }
+//                        }).executeTask();
 
                         //显示可用的油滴数量
                         String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
                         HashMap<String, Object> map4 = new HashMap<>();
                         map4.put(Constans.USER_ID, id);
-                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
-                            @Override
-                            public void netWorkError() {
-
-                            }
-
-                            @Override
-                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                                if (taskId == 4) {
-                                    try {
-                                        String oil = jsonObject.getString("enableOil");
-                                        //显示油滴
-                                        // showOil(oil.toString());
-                                        tvActivityWxbindOil.setText(oil);
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }
-                            @Override
-                            public void requestError(int code, MessageEntity msg, int taskId) {
-                            }
-                        }).executeTask();
+//                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+//                            @Override
+//                            public void netWorkError() {
+//
+//                            }
+//
+//                            @Override
+//                            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+//                                if (taskId == 4) {
+//                                    try {
+//                                        String oil = jsonObject.getString("enableOil");
+//                                        //显示油滴
+//                                        // showOil(oil.toString());
+//                                        tvActivityWxbindOil.setText(oil);
+//
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//
+//                                }
+//                            }
+//                            @Override
+//                            public void requestError(int code, MessageEntity msg, int taskId) {
+//                            }
+//                        }).executeTask();
 
                     } else {
                         tvFragmentName.setVisibility(View.GONE);
@@ -245,68 +244,68 @@ public class UserFragment extends Fragment {
                 break;
             case R.id.ll_fragment_helps:
 
-                //伪代码测试接口  可去掉
-                String id = PreferencesUtil.getPreferences("id", "0");
-                LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
-                HashMap<String, Object> map4 = new HashMap<>();
-                map4.put("user_id", id);
-                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
-                    @Override
-                    public void netWorkError() {
-
-                    }
-
-                    @Override
-                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                        if (taskId == 4) {
-                            try {
-                              Object oil = jsonObject.getString("enableOil");
-                                //显示油滴
-                               // showOil(oil.toString());
-                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                    @Override
-                    public void requestError(int code, MessageEntity msg, int taskId) {
-                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
-                    }
-                }).executeTask();
+//                //伪代码测试接口  可去掉
+//                String id = PreferencesUtil.getPreferences("id", "0");
+//                LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
+//                HashMap<String, Object> map4 = new HashMap<>();
+//                map4.put("user_id", id);
+//                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+//                    @Override
+//                    public void netWorkError() {
+//
+//                    }
+//
+//                    @Override
+//                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+//                        if (taskId == 4) {
+//                            try {
+//                              Object oil = jsonObject.getString("enableOil");
+//                                //显示油滴
+//                               // showOil(oil.toString());
+//                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
+//                    @Override
+//                    public void requestError(int code, MessageEntity msg, int taskId) {
+//                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+//                    }
+//                }).executeTask();
                 break;
             case R.id.ll_fragment_setting:
                 startActivity(new Intent(getActivity(), CancelActivity.class));
                 //伪代码测试接口 可去掉
-                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
-                    @Override
-                    public void netWorkError() {
-                        LogUtil.i("++++++++++++++++++++++++++++++++++");
-                    }
-
-                    @Override
-                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                        if (taskId == 2) {
-                            try {
-                                String oil = jsonObject.getString("oildrop_num");
-                                //显示油滴
-                                showOil(oil);
-                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void requestError(int code, MessageEntity msg, int taskId) {
-                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
-                    }
-                }).executeTask();
+//                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.CHECKIN, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+//                    @Override
+//                    public void netWorkError() {
+//                        LogUtil.i("++++++++++++++++++++++++++++++++++");
+//                    }
+//
+//                    @Override
+//                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+//                        if (taskId == 2) {
+//                            try {
+//                                String oil = jsonObject.getString("oildrop_num");
+//                                //显示油滴
+//                                showOil(oil);
+//                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void requestError(int code, MessageEntity msg, int taskId) {
+//                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+//                    }
+//                }).executeTask();
 
                 break;
             case R.id.bt_fragmentUser_login:

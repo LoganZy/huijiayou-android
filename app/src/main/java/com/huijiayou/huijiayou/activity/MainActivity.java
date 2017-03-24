@@ -3,6 +3,7 @@ package com.huijiayou.huijiayou.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +56,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     HomeFragment homeFragment;
     UserFragment userFragment;
-    OrderFragment OrderFragment;
+    OrderFragment orderFragment;
 
     FragmentManager fragmentManager;
 
@@ -73,30 +75,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
         homeFragment = new HomeFragment();
         userFragment = new UserFragment();
-        OrderFragment = new OrderFragment();
+        orderFragment = new OrderFragment();
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
-                .add(R.id.fl_mainActivity_fragmentShell,OrderFragment)
-                .add(R.id.fl_mainActivity_fragmentShell,userFragment)
-                .commit();
 
         rg_activityMain_menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                List<Fragment> fragments = fragmentManager.getFragments();
                 switch (checkedId){
                     case R.id.rb_activityMain_home:
-                        fragmentManager.beginTransaction().show(homeFragment).hide(userFragment).hide(OrderFragment).commit();
+//                        if (fragments == null || !fragments.contains(homeFragment)){
+//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
+//                                    .attach(homeFragment)
+//                                    .detach(orderFragment)
+//                                    .detach(userFragment)
+//                                    .commit();
+//                        }else{
+                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,homeFragment).commit();
+//                        }
                         break;
                     case R.id.rb_activityMain_order:
-                        fragmentManager.beginTransaction().show(OrderFragment).hide(userFragment).hide(homeFragment).commit();
+//                        if (fragments == null || !fragments.contains(orderFragment)){
+//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,orderFragment)
+//                                    .attach(orderFragment)
+//                                    .detach(homeFragment)
+//                                    .detach(userFragment)
+//                                    .commit();
+//                        }else{
+                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
+//                        }
                         break;
                     case R.id.rb_activityMain_user:
-                        fragmentManager.beginTransaction().show(userFragment).hide(homeFragment).hide(OrderFragment).commit();
+//                        if (fragments == null || !fragments.contains(userFragment)){
+//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,userFragment)
+//                                    .attach(userFragment)
+//                                    .detach(homeFragment)
+//                                    .detach(orderFragment)
+//                                    .commit();
+//                        }else{
+                        fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,userFragment).commit();
+//                        }
                         break;
                 }
             }
         });
-        rg_activityMain_menu.check(R.id.rb_activityMain_home);
+        rb_activityMain_home.setChecked(true);
 
         tv_activityMain_cover.setOnClickListener(this);
     }
@@ -188,7 +211,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                     userFragment.startAnimation();
                     homeFragment.animationDrawable.start();
                 }
-
             }
         } catch (JSONException e) {
             e.printStackTrace();

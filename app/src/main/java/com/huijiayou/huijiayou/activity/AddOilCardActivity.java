@@ -46,6 +46,7 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
 
     int getOilCardInfoTaskId = 1;
     int bindCardTaskId = 2;
+    String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
         initTitle();
         tvTitle.setText("新增加油卡");
 
+        type = getIntent().getStringExtra("type");
         edit_activityAddOilCard_inputCard.addTextChangedListener(new TextWatcher() {
             int beforeTextLength=0;
             int onTextLength=0;
@@ -179,10 +181,9 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
                 String username = jsonObject.getString("username");
                 showUserNameBind(username);
             }else if (taskId == bindCardTaskId){
-                String classs = getIntent().getComponent().getClassName();
-                if (classs.indexOf("OilCard") > 0){
+                if ("OilCard".equals(type)){
                     finish();
-                }else if (classs.indexOf("Payment") > 0){
+                }else if ("Payment".equals(type)){
                     setResult(RESULT_OK);
                     finish();
                 }else{

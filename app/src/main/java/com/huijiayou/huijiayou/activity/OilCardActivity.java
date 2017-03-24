@@ -69,7 +69,9 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
     }
 
     public void addOilCard(View view){
-        startActivity(new Intent(this,AddOilCardActivity.class));
+        Intent intent = new Intent(this,AddOilCardActivity.class);
+        intent.putExtra("type","OilCard");
+        startActivity(intent);
     }
 
     @Override

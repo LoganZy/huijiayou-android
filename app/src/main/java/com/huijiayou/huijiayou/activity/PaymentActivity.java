@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.PaymentActivityOilCarDialog;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 
@@ -334,9 +336,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 order();
                 break;
             case R.id.edit_activityPayment_card:
-                if (paymentActivityOilCarDialog == null){
-                    paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
-                }
+                paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
                 paymentActivityOilCarDialog.show();
                 break;
             case R.id.tv_activityPayment_coupon_coupon:
@@ -351,8 +351,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == addOilCarRequestCode && resultCode == RESULT_OK){
-            getOilCardList();
             isOpenOilCardListDialog = true;
+            getOilCardList();
         }else if (requestCode == couponRequestCode && resultCode == RESULT_OK){
             Bundle bundle = data.getBundleExtra("coupon");
             if (bundle != null){
@@ -416,7 +416,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
             }else if (taskId == UserEnableOilTaskId){
                 Object enableOil = jsonObject.get("enableOil");
-                if (enableOil != null){
+                if (enableOil != null && !"null".equals(enableOil.toString()) && !TextUtils.isEmpty(enableOil.toString())){
                     oil = Integer.parseInt(enableOil.toString());
                     if (oil > 0){
                         double oilPrice = ((double)oil) / 100;
@@ -446,7 +446,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
                 tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
             }else if (taskId == orderTaskId){
-                jsonObject.get("");
+                ToastUtils.createNormalToast(this,jsonObject.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -461,6 +461,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             tv_activityPayment_cardTag.setText(msg.getMessage());
         }else if (taskId == bindCardTaskId){
             tv_activityPayment_cardTag.setText(msg.getMessage());
+        }else if (taskId == orderTaskId){
+            ToastUtils.createNormalToast(this,msg.getMessage());
         }
     }
 
