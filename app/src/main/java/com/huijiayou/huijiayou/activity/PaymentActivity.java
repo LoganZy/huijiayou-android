@@ -401,11 +401,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
             }else if (taskId == getOilCardInfoTaskId){
-
                 tv_activityPayment_cardTag.setText("正确");
                 oilCard = edit_activityPayment_card.getText().toString().replace(" ","");
                 oilCardName = jsonObject.getString("username");
                 bindCard();
+            }else if (taskId == bindCardTaskId){
                 UserEnableOil();
                 UserPacketsInfo();
                 tv_activityPayment_coupon_card.setText(oilCard);
@@ -413,7 +413,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
                 rl_activityPayment_inputCard.setVisibility(View.GONE);
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);
-            }else if (taskId == bindCardTaskId){
 
             }else if (taskId == UserEnableOilTaskId){
                 Object enableOil = jsonObject.get("enableOil");
@@ -448,7 +447,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
             }else if (taskId == orderTaskId){
                 jsonObject.get("");
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -462,7 +460,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }else if (taskId == getOilCardInfoTaskId){
             tv_activityPayment_cardTag.setText(msg.getMessage());
         }else if (taskId == bindCardTaskId){
-
+            tv_activityPayment_cardTag.setText(msg.getMessage());
         }
     }
 

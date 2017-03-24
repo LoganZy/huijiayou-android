@@ -22,6 +22,7 @@ import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
+import com.huijiayou.huijiayou.activity.OilActivity;
 import com.huijiayou.huijiayou.activity.OilCardActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -234,7 +235,7 @@ public class UserFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.tv_activity_wxbind_oil})
+    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
     public void onClick(View view) {
         if (statusIsLogin ==0) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -328,9 +329,8 @@ public class UserFragment extends Fragment {
                 animationDrawable.stop();
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
-            case R.id.tv_activity_wxbind_oil:
-
-
+            case tv_activity_wxbind_oil:
+                startActivity(new Intent(getActivity(), OilActivity.class));
                 break;
         }
     }

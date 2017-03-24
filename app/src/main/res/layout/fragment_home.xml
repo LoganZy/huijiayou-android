@@ -41,7 +41,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="@color/transparent"
+            android:background="@drawable/animation_home_fragment_message"
             android:src="@mipmap/ic_navbar_news" />
 
     </RelativeLayout>
