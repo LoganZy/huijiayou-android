@@ -24,8 +24,8 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:id="@+id/imgbt_fragmentUser_message"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/animation_messsage"/>
     </RelativeLayout>
 

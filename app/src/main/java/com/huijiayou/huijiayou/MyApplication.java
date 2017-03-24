@@ -66,6 +66,7 @@ public class MyApplication extends Application {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
         PreferencesUtil.putPreferences(Constans.OPENID,"1");
+        PreferencesUtil.putPreferences("sigincode",0);
         for (Activity activity : activityList) {
             activity.finish();
         }
