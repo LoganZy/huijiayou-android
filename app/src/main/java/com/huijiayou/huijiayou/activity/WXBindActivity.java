@@ -170,7 +170,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         });
     }
 
-    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind})
+    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind,R.id.imag_activityLogin_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_activity_wxbind_sendPhoneCode:
@@ -178,6 +178,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 break;
             case R.id.btn_activity_wxbind_Bind:
                 bindTelephone();
+                break;
+            case R.id.imag_activityLogin_back:
+                finish();
                 break;
         }
     }

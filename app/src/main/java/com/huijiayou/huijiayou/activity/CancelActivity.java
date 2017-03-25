@@ -70,7 +70,7 @@ public class CancelActivity extends BaseActivity {
                                 ToastUtils.createNormalToast("安全退出");
                                 MyApplication.isLogin=false;
                                // PreferencesUtil.putPreferences(Constans.OPENID,"1");
-                                PreferencesUtil.putPreferences("sigincode",0);
+                                //PreferencesUtil.putPreferences("sigincode",0);
                                 finish();
                             }
                         } catch (JSONException e) {

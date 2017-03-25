@@ -29,7 +29,9 @@ public class RecordAdapter extends BaseAdapter {
         this.context = context;
 
     }
-
+    public List<Record> getList(){
+        return list;
+    }
     @Override
     public int getCount() {
         return list.size();

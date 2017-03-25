@@ -15,6 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
@@ -33,8 +37,6 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,18 +61,23 @@ public class OrderFragment extends Fragment {
     Button btFragmentGasLogin;
     @Bind(R.id.bt_fragment_gas_pay)
     Button btFragmentGasPay;
-    @Bind(R.id.tv_activityRecord_money)
-    TextView tvActivityRecordMoney;
-    @Bind(R.id.tv_activityRecord_cent)
-    TextView tvActivityRecordCent;
-    @Bind(R.id.lv_activity_record_bill)
-    ListView lvActivityRecordBill;
+   // @Bind(R.id.tv_activityRecord_money)
+    //TextView tvActivityRecordMoney;
+    //@Bind(R.id.tv_activityRecord_cent)
+       // TextView tvActivityRecordCent;
+   // @Bind(R.id.lv_activity_record_bill)
+    //ListView lvActivityRecordBill;
     @Bind(R.id.Fragment_record)
     RelativeLayout FragmentRecord;
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
     private List<Record> recordList;
     private String Url;
+    private PullToRefreshListView putorefresh;
+    private ILoadingLayout headerView;
+    private ILoadingLayout footerView;
+    private RecordAdapter recordAdapter;
+    private ListView listView;
 
     @Nullable
     @Override
@@ -79,9 +86,36 @@ public class OrderFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initView();
-       // PullToRefreshListView putorefresh= (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
-
+        putorefresh = (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
+        putorefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        initHeaderViewAndFooterView();
+        listView = putorefresh.getRefreshableView();
+        View headview = View.inflate(getActivity(),R.layout.order_head_layout,null);
+        listView.addHeaderView(headview);
+        putorefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                initData();
+            }
+        });
         return view;
+    }
+
+    private void initHeaderViewAndFooterView() {
+        // 获取一个可以修改头部的HeaderView的代理
+        boolean includeStart = true;
+        boolean includeEnd = false;
+        headerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
+        headerView.setPullLabel("下拉以刷新");		// 设置头部未完全拉出来的时候的文本描述
+        headerView.setReleaseLabel("松开以刷新");	// 设置头部完全拉出来的时候的文本描述
+        headerView.setRefreshingLabel("正在刷新...");	// 设置正在刷新的时候显示的文本
+
+        includeStart = false;
+        includeEnd = true;
+        footerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
+        footerView.setPullLabel("上拉以加载更多");		// 设置头部未完全拉出来的时候的文本描述
+        footerView.setReleaseLabel("松开以加载更多");	// 设置头部完全拉出来的时候的文本描述
+        footerView.setRefreshingLabel("正在加载更多...");	// 设置正在刷新的时候显示的文本
     }
 
     @Override
@@ -115,9 +149,16 @@ public class OrderFragment extends Fragment {
                     if (status==1) {
                         llFragmentUserLogin.setVisibility(View.GONE);
                         FragmentRecord.setVisibility(View.VISIBLE);
-                        RecordAdapter recordAdapter = new RecordAdapter(getActivity(), recordList);
-                        lvActivityRecordBill.setAdapter(recordAdapter);
-                        lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        if(recordAdapter!=null){
+
+                            recordAdapter.getList().addAll(recordList);
+
+                            recordAdapter.notifyDataSetChanged();
+                        }
+
+                        recordAdapter = new RecordAdapter(getActivity(), recordList);
+                        listView.setAdapter(recordAdapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Record record = recordList.get(position);
@@ -276,7 +317,7 @@ public class OrderFragment extends Fragment {
 
     private void getRecord() {
         recordList =new ArrayList<Record>();
-     /*   recordList = new ArrayList<>();
+        recordList = new ArrayList<>();
         String status = "0";
         final Record record = new Record();
         record.setStatus("0");
@@ -331,13 +372,20 @@ public class OrderFragment extends Fragment {
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
             record2.setType(2);
         }
-        recordList.add(record2);*/
-
-        HashMap<String, Object> map = new HashMap<>();
+        recordList.add(record2);
+        int pages = 0;
+        if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
+            // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
+            pages = 0;
+        } else if (putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
+            // 如果是上拉加载更多
+            pages = recordAdapter.getCount();
+        }
+     /*   HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
-        map.put("pages", 0);
-        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOARRAY, 1, map, true, new NewHttpRequest.RequestCallback() {
+        map.put("pages", pages);
+        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOBJECT, 1, map, true, new NewHttpRequest.RequestCallback() {
              @Override
              public void netWorkError() {
 
@@ -349,7 +397,12 @@ public class OrderFragment extends Fragment {
 
 
                      try {
-                         JSONArray jsonArray1=jsonObject.getJSONArray("list");
+                         JSONArray jsonArray1 =  jsonObject.getJSONArray("list");
+                     *//*       Object object=jsonObject.get("list");
+                            if (object==null){
+                               JSONObject jsonObject1 =  jsonObject.getJSONObject("list");
+                            }
+                            JSONArray jsonArray1 = (JSONArray) object;*//*
                          LogUtil.i("请求成功");
                          for(int i =0;i<jsonArray1.length();i++){
                              JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
@@ -371,7 +424,9 @@ public class OrderFragment extends Fragment {
                                  record.setType(2);
                              }
                              recordList.add(record);
+
                          }
+                          putorefresh.onRefreshComplete();
                      } catch (JSONException e) {
                          e.printStackTrace();
                      }
@@ -383,8 +438,10 @@ public class OrderFragment extends Fragment {
              @Override
              public void requestError(int code, MessageEntity msg, int taskId) {
 
+                 putorefresh.onRefreshComplete();
+                ToastUtils.createNormalToast( msg.getMessage());
              }
-         }).executeTask();
+         }).executeTask();*/
     }
 
     private void getSaveMoney() {
