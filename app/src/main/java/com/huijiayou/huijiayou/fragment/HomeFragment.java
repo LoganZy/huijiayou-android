@@ -32,6 +32,7 @@ import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.CommitUtils;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
@@ -184,11 +185,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-//        if (!MyApplication.isLogin){
 //            HashMap<String,Object> hashMap = new HashMap<>();
-//            hashMap.put("mobile","13552408894");
+//            hashMap.put("mobile","12000000001");
 //            new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
-//        }
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -298,12 +297,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             total = moneyMonth * month;
             saveMoney = total - total * discount;
             discountTotal = total - saveMoney;
+            saveMoney = CommitUtils.bigDecimal2(saveMoney);
+            discountTotal = CommitUtils.bigDecimal2(discountTotal);
             tv_fragmentHome_money_month.setText(moneyMonth+"");
             tv_fragmentHome_month.setText(month+"");
             tv_fragmentHome_price.setText("充值金额:"+total);
+
+
             tv_fragmentHome_rmb.setText(Html.fromHtml("节省:<font color='#FF7320'>"+saveMoney+"</font>元"));
-            tv_fragmentHome_discountAmount.setText(discountTotal+"");
             tv_fragmentHome_saveAmount.setText(saveMoney+"");
+            tv_fragmentHome_discountAmount.setText(discountTotal+"");
+
         }
     }
 
@@ -346,7 +350,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             /*if (taskId == 0){
                 JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
                 HashMap<String,Object> hashMap = new HashMap<>();
-                hashMap.put("username","13552408894");
+                hashMap.put("username","12000000001");
                 hashMap.put("sms_key",jsonObject1.getString("key"));
                 hashMap.put("sms_code",jsonObject1.getString("code"));
                 new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,
@@ -363,12 +367,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             }else if (taskId == 2){
                 if(jsonObject.getInt("status") == 0){
                     HashMap<String,Object> hashMap = new HashMap<>();
-                    hashMap.put("mobile","13552408894");
-                  //  new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
+                    hashMap.put("mobile","12000000001");
+                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
                 }else{
                     ToastUtils.createLongToast(getActivity(),"已登录");
                 }
-            }else*/  if (taskId == getCityTaskId){
+            }else */ if (taskId == getCityTaskId){
 
                 cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
                         new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());

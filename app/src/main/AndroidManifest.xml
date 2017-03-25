@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -150,6 +151,23 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="9790cd6cd623bc4b58d4bdda" /> <!-- </>值来自开发者平台取得的AppKey -->
+
+        <!-- 支付宝 start-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <!-- 支付宝 end-->
+
+
         <activity android:name=".activity.PaymentActivity" />
         android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.DetailsActivity" />

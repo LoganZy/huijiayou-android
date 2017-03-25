@@ -182,17 +182,26 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                     if (couponAlreadyUseArrayList == null || couponAlreadyUseArrayList.size() == 0){
                         recyclerView_activityCoupon_use.setVisibility(View.GONE);
                         tv_activityCoupon_useTag.setVisibility(View.GONE);
+                    }else{
+                        recyclerView_activityCoupon_use.setVisibility(View.VISIBLE);
+                        tv_activityCoupon_useTag.setVisibility(View.VISIBLE);
                     }
                     if (couponOverArrayList == null || couponOverArrayList.size() == 0){
                         svRecyclerView_activityCoupon_over.setVisibility(View.GONE);
                         tv_activityCoupon_over.setVisibility(View.GONE);
+                    }else{
+                        svRecyclerView_activityCoupon_over.setVisibility(View.VISIBLE);
+                        tv_activityCoupon_over.setVisibility(View.VISIBLE);
                     }
                 }
-                int size = couponNoUseArrayList.size();
-                if (size == 0){
+                if (couponNoUseArrayList != null && couponNoUseArrayList.size() > 0){
+                    tv_activityCoupon_use_size.setText(Html.fromHtml("可使用优惠券:<font color='#FF7320',size='50px'>" +couponNoUseArrayList.size()+ "</font>张"));
+                    tv_activityCoupon_noUseTag.setVisibility(View.VISIBLE);
+                    recyclerView_activityCoupon_noUse.setVisibility(View.VISIBLE);
+                }else{
                     ll_activityCoupon_use.setVisibility(View.GONE);
-                }else {
-                    tv_activityCoupon_use_size.setText(Html.fromHtml("可使用优惠券:<font color='#FF7320' size='50dp'>" +size+ "</font>张"));
+                    tv_activityCoupon_noUseTag.setVisibility(View.GONE);
+                    recyclerView_activityCoupon_noUse.setVisibility(View.GONE);
                 }
             }
         } catch (JSONException e) {

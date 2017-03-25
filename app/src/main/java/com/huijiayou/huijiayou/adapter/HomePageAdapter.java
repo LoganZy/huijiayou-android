@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.utils.CommitUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -163,13 +163,13 @@ public class HomePageAdapter extends PagerAdapter {
             Drawable drawable = context.getResources().getDrawable(getBackgroundId());
             drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
             relativeLayout.setBackgroundDrawable(drawable);
-
+            TextView tvName = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_name);
+            tvName.setText(product.getProduct_name());
             TextView tvDiscount = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discount);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
-                BigDecimal bigDecimal = new BigDecimal(discount);
-                discount = bigDecimal.setScale(1,BigDecimal.ROUND_DOWN).doubleValue();
-                tvDiscount.setText(String.valueOf(discount));
+                discount = CommitUtils.bigDecimal2(discount);
+                tvDiscount.setText(discount+"");
 //                product.setProduct_discount(String.valueOf(discount));
             }else if (discount == 10){
                 tvDiscount.setText(String.valueOf((int) discount));

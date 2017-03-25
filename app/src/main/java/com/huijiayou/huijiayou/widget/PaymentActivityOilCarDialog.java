@@ -59,7 +59,7 @@ public class PaymentActivityOilCarDialog {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(paymentActivity, AddOilCardActivity.class);
-//                intent.putExtra("type","")
+                intent.putExtra("type","Payment");
                 paymentActivity.startActivityForResult(intent,paymentActivity.addOilCarRequestCode);
                 dialog.dismiss();
             }
