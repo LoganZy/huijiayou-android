@@ -5,22 +5,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.CloseDealActivity;
-import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
-import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
@@ -48,7 +42,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Timer;
 
 
 /**
@@ -64,50 +57,75 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Bundle b =  msg.getData();
-            id = b.getString(Constans.OPENID);
-            token = b.getString(Constans.ACCESSTOKEN);
-            LogUtil.i(id +"+++++++++++++++++++++"+ token);
-            HashMap<String,Object> map =new HashMap<>();
-            map.put(Constans.ACCESSTOKEN, token);
-            map.put(Constans.OPENID, id);
-            new NewHttpRequest(WXEntryActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
-                @Override
-                public void netWorkError() {
-                    ToastUtils.createNormalToast("链接失败");
-                }
-                @Override
-                public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                    switch (taskId){
-                        case 1:
+            switch (msg.what){
+                case 1:
+                    Bundle b =  msg.getData();
+                    id = b.getString(Constans.OPENID);
+                    token = b.getString(Constans.ACCESSTOKEN);
+                    unionid = b.getString(Constans.UNIONID);
+                    nickname = b.getString(Constans.NICKNAME);
+                    headimgurl = b.getString(Constans.HEADIMGURL);
+                    LogUtil.i(id +"+++++++++++++++++++++"+ token);
+                    HashMap<String,Object> map =new HashMap<>();
+                    map.put(Constans.ACCESSTOKEN, token);
+                    map.put(Constans.OPENID, id);
+                    new NewHttpRequest(WXEntryActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
+                        @Override
+                        public void netWorkError() {
+                            ToastUtils.createNormalToast("链接失败");
+                        }
+                        @Override
+                        public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                            switch (taskId){
+                                case 1:
 
-                            try {
-                                // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                                int isbind = jsonObject.getInt("is_bind");
-                                LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
-                                if(isbind==1){
-                                    String token = (String) jsonObject.get("token");
-                                    PreferencesUtil.putPreferences("token",token);
-                                    MyApplication.isLogin = true;
-                                    ToastUtils.createNormalToast("账号已经绑定");
-                                    finish();
-                                }else if(isbind==0){
-                                    login(id, token);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    try {
+                                        // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                        int isbind = jsonObject.getInt("is_bind");
+                                        LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
+                                        if(isbind==1){
+                                            String token = (String) jsonObject.get("token");
+                                            PreferencesUtil.putPreferences(Constans.USER_TOKEN,token);
+                                            MyApplication.isLogin = true;
+                                            ToastUtils.createNormalToast("账号已经绑定");
+                                            //发送广播
+                                            //startActivity(new Intent(WXEntryActivity.this, MainActivity.class));
+                                            finish();
+
+                                        }else if(isbind==0){
+
+                                            Message msg = new Message();
+                                            msg.what=2;
+                                            handler.sendMessage(msg);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+
                             }
-                            break;
 
-                    }
+                        }
 
-                }
+                        @Override
+                        public void requestError(int code, MessageEntity msg, int taskId) {
+                            ToastUtils.createNormalToast(msg.getMessage());
+                        }
+                    }).executeTask();
 
-                @Override
-                public void requestError(int code, MessageEntity msg, int taskId) {
-                    ToastUtils.createNormalToast(msg.getMessage());
-                }
-            }).executeTask();
+                    break;
+                case 2:
+                    Intent intent =new Intent();
+                    //intent.setAction("getUserInfo");
+                    intent.putExtra(Constans.UNIONID, unionid);
+                    intent.putExtra(Constans.NICKNAME, nickname);
+                    intent.putExtra(Constans.HEADIMGURL, headimgurl);
+                    intent.setClass(WXEntryActivity.this,WXBindActivity.class);
+                    startActivity(intent);
+                    WXEntryActivity.this.finish();
+                    break;
+
+            }
 
             //
 
@@ -115,16 +133,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     };
     private String id;
     private String token;
+    private String nickname;
+    private String unionid;
+    private String headimgurl;
 
-    private void login(final String id,final String token) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String get_user_info_url = getUserInfo(token, id);
-                WXGetUserInfo(get_user_info_url);
-            }
-        }).start();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +167,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 //      或者
                 String code = ((SendAuth.Resp) baseResp).code;
                 //上面的code就是接入指南里要拿到的code
-                ToastUtils.createNormalToast("请求到code了");
+                //ToastUtils.createNormalToast("请求到code了");
                     get_access_token=getCodeRequest(code);
                     Thread thread=new Thread(downloadRun);
 
@@ -167,7 +179,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     e.printStackTrace();
                 }*/
 
-               // finish();
+                /*handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                },6000);*/
+                // finish();
 
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -234,15 +252,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     String openid = (String) json1.get("openid");
                     PreferencesUtil.putPreferences(Constans.ACCESSTOKEN, accessToken);
                     PreferencesUtil.putPreferences(Constans.OPENID, openid);
-                    Message msg = new Message();
-                    Bundle b = new Bundle();
-                    b.putString(Constans.OPENID,openid);
-                    b.putString(Constans.ACCESSTOKEN,accessToken);
-                    msg.setData(b);
-                    handler.sendMessage(msg);
-
-                    //String get_user_info_url = getUserInfo(accessToken, openid);
-                    //WXGetUserInfo(get_user_info_url);
+                    String get_user_info_url = getUserInfo(accessToken, openid);
+                    WXGetUserInfo(get_user_info_url,accessToken,openid);
 
 
             } else {
@@ -290,7 +301,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
    * 获取用户的基本信息
    *
    * */
-    private  void   WXGetUserInfo(String get_user_info_url){
+    private  void   WXGetUserInfo(String get_user_info_url,String accessToken,String weixinid){
         HttpClient get_user_info_httpClient = new DefaultHttpClient();
         String openid="";
         String nickname="";
@@ -318,15 +329,19 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 PreferencesUtil.putPreferences(Constans.UNIONID,unionid);
                 PreferencesUtil.putPreferences(Constans.NICKNAME,nickname);
                 PreferencesUtil.putPreferences(Constans.HEADIMGURL,headimgurl);
-                //发送广播
-                Intent intent =new Intent();
-                //intent.setAction("getUserInfo");
-                intent.putExtra(Constans.UNIONID,unionid);
-                intent.putExtra(Constans.NICKNAME,nickname);
-                intent.putExtra(Constans.HEADIMGURL,headimgurl);
-                intent.setClass(this,WXBindActivity.class);
-                startActivity(intent);
-                WXEntryActivity.this.finish();
+
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                b.putString(Constans.OPENID,weixinid);
+                b.putString(Constans.ACCESSTOKEN,accessToken);
+                b.putString(Constans.UNIONID,unionid);
+                b.putString(Constans.NICKNAME,nickname);
+                b.putString(Constans.HEADIMGURL,headimgurl);
+                msg.setData(b);
+                msg.what=1;
+                handler.sendMessage(msg);
+
+
                 //sendBroadcast(intent);
                 //handler.sendEmptyMessage(2);
                 LogUtil.i("返回的json:+++++++++++++++++++++++++++++++++++++++"+josn);

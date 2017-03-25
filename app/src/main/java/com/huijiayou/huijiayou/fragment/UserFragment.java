@@ -94,7 +94,7 @@ public class UserFragment extends Fragment {
     }
 
     private void isLoginOrNo() {
-        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1,true, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1,false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -132,7 +132,7 @@ public class UserFragment extends Fragment {
                                             //显示油滴
                                             showOil(oil);
                                             LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-
+                                           getView().invalidate();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -180,8 +180,10 @@ public class UserFragment extends Fragment {
                         }).executeTask();
 
                     } else {
+                        tvActivityWxbindOil.setText("- - -");
                         tvFragmentName.setVisibility(View.GONE);
                         btFragmentUserLogin.setVisibility(View.VISIBLE);
+                        imgFragmentHead.setImageResource(R.mipmap.ic_login_default_avatar);
                         return;
                     }
 
@@ -209,13 +211,13 @@ public class UserFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        isLoginOrNo();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        isLoginOrNo();
 
     }
 
@@ -253,7 +255,7 @@ public class UserFragment extends Fragment {
             case R.id.ll_fragment_helps:
 
                 //伪代码测试接口  可去掉
-                String id = PreferencesUtil.getPreferences("id", "0");
+                String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
                 LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
                 HashMap<String, Object> map4 = new HashMap<>();
                 map4.put("user_id", id);
@@ -329,7 +331,7 @@ public class UserFragment extends Fragment {
                 animationDrawable.stop();
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
-            case tv_activity_wxbind_oil:
+            case R.id.tv_activity_wxbind_oil:
                 startActivity(new Intent(getActivity(), OilActivity.class));
                 break;
         }

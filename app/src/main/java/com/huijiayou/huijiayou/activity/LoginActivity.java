@@ -210,7 +210,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 }else if(TextUtils.isEmpty(SMScode)) {
                     ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
-                    ll_login_invit.setVisibility(View.VISIBLE);
+
                     time = 60;
                     //向服务器请求
                     startTime();
@@ -274,7 +274,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     req.scope = "snsapi_userinfo";
                     req.state = "wechat_sdk_demo_test";
                     MyApplication.msgApi.sendReq(req);
-                    finish();
+                    LoginActivity.this.finish();
                 }
                 String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN,"1");
 
@@ -415,6 +415,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     JSONObject jsonObject1= jsonObject.getJSONObject("data");
                    String callNum = jsonObject1.getString("call_num");
                     key =  jsonObject1.getString("key");
+                    int is_registed =jsonObject1.getInt("is_registed");
+                    if(is_registed==0){
+                        ll_login_invit.setVisibility(View.VISIBLE);
+                    }
                     int code = jsonObject1.getInt("code");
                     ToastUtils.createNormalToast("您已经获取了"+callNum+"次验证码");
                 } catch (JSONException e) {

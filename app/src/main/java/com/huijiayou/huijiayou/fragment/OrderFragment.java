@@ -15,11 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
 import com.huijiayou.huijiayou.bean.Record;
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
@@ -69,7 +69,6 @@ public class OrderFragment extends Fragment {
     RelativeLayout FragmentRecord;
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
-
     private List<Record> recordList;
     private String Url;
 
@@ -80,7 +79,7 @@ public class OrderFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initView();
-
+       // PullToRefreshListView putorefresh= (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
 
         return view;
     }
@@ -93,17 +92,17 @@ public class OrderFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        isLoginOrno();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        isLoginOrno();
     }
 
     private void isLoginOrno() {
-        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, true, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -265,6 +264,7 @@ public class OrderFragment extends Fragment {
             list.add("hahhah"+i);
         }*/
         //isLoginOrno();
+
     }
 
 
@@ -276,7 +276,7 @@ public class OrderFragment extends Fragment {
 
     private void getRecord() {
 
-        recordList = new ArrayList<>();
+     /*   recordList = new ArrayList<>();
         String status = "0";
         final Record record = new Record();
         record.setStatus("0");
@@ -331,9 +331,9 @@ public class OrderFragment extends Fragment {
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
             record2.setType(2);
         }
-        recordList.add(record2);
+        recordList.add(record2);*/
 
-       /* HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
         map.put("pages", 0);
@@ -350,6 +350,7 @@ public class OrderFragment extends Fragment {
                      recordList =new ArrayList<Record>();
                      try {
                          JSONArray jsonArray1=jsonObject.getJSONArray("list");
+                         LogUtil.i("请求成功");
                          for(int i =0;i<jsonArray1.length();i++){
                              JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
                              Record record = new Record();
@@ -361,9 +362,9 @@ public class OrderFragment extends Fragment {
                              record.setTotal_time(jsonObject1.getString("total_time"));
                              record.setProduct_name(jsonObject1.getString("product_name"));
                              record.setBelong(jsonObject1.getString("belong"));
-                             record.setCard_number(jsonObject1.getString("product_name"));
                              record.setCard_number(jsonObject1.getString("card_number"));
-                             String status = jsonObject1.getString("status")
+                             record.setOrder_number(jsonObject1.getString("order_number"));
+                             String status = jsonObject1.getString("status");
                              if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
                                  record.setType(1);
                              } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
@@ -384,7 +385,7 @@ public class OrderFragment extends Fragment {
 
              }
          }).executeTask();
-   */ }
+    }
 
     private void getSaveMoney() {
 
