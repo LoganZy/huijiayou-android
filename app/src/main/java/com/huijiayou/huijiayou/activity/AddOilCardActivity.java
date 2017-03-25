@@ -94,8 +94,11 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
             @Override
             public void afterTextChanged(Editable s) {
                 if(isChanged){
-                    String text = s.toString().replace(" ","");
-                    if (text != null && (text.length() == 16 || text.length() == 19)){
+                    String text = s != null && s.length() > 0 ? s.toString().replace(" ","") : "";
+                    String fristChar = s != null && s.length() > 0 ? s.toString().substring(0,1) : "";
+                    if ("1".equals(fristChar) && text.length() == 19){
+                        getOilCardInfo(text);
+                    }else if ("9".equals(fristChar) && text.length() == 16){
                         getOilCardInfo(text);
                     }else{
                         hideUserNameBind("");

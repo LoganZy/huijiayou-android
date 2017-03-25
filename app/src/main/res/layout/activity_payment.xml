@@ -401,6 +401,7 @@
                 android:drawablePadding="20dp"
                 android:drawableRight="@drawable/slector_payment_option"
                 android:paddingLeft="15dp"
+                android:visibility="gone"
                 android:paddingRight="15dp"
                 android:text="微信支付"
                 android:textColor="@color/textColor_51586A" />
@@ -411,12 +412,12 @@
                 android:layout_height="50dp"
                 android:background="@color/white"
                 android:button="@null"
+                android:checked="true"
                 android:drawableLeft="@mipmap/ic_pay_alipay"
                 android:drawablePadding="20dp"
                 android:drawableRight="@drawable/slector_payment_option"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:visibility="gone"
                 android:text="支付宝支付"
                 android:textColor="@color/textColor_51586A" />
         </RadioGroup>

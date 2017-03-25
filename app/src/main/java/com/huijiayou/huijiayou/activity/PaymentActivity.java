@@ -143,6 +143,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public String oilCard;
     public String oilCardName;
     private boolean isUseOil = false;
+    String orderId;
     CouponAdapter.Coupon currentCoupon;
 
 
@@ -237,8 +238,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void afterTextChanged(Editable s) {
                 if(isChanged){
-                    String text = s.toString().replace(" ","");
-                    if (isGetOilCardInfo && text != null && (text.length() == 16 || text.length() == 19)){
+                    String text = s != null && s.length() > 0 ? s.toString().replace(" ","") : "";
+                    String fristChar = s != null && s.length() > 0 ? s.toString().substring(0,1) : "";
+                    if (isGetOilCardInfo && "1".equals(fristChar) && text.length() == 19){
+                        getOilCardInfo(text);
+                    }else if (isGetOilCardInfo && "9".equals(fristChar) && text.length() == 16){
                         getOilCardInfo(text);
                     }
                     location = edit_activityPayment_card.getSelectionEnd();
@@ -329,11 +333,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);
                 break;
             case R.id.ll_activityPayment_coupon_payment:
-                rl_activityPayment_coupon.setVisibility(View.GONE);
-                rl_activityPayment_payment.setVisibility(View.VISIBLE);
+                order();
                 break;
             case R.id.btn_activityPayment_payment_payment:
-                order();
+
                 break;
             case R.id.edit_activityPayment_card:
                 paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
@@ -447,6 +450,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
             }else if (taskId == orderTaskId){
                 ToastUtils.createNormalToast(this,jsonObject.toString());
+
+                rl_activityPayment_coupon.setVisibility(View.GONE);
+                rl_activityPayment_payment.setVisibility(View.VISIBLE);
+                btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -527,6 +534,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 hashMap, true, this).executeTask();
     }
 
+    /**
+     * 下单
+     */
     private void order(){
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("oil_card",oilCard);
@@ -543,6 +553,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         new NewHttpRequest(this, Constans.URL_zxg+Constans.ORDER, Constans.order, "jsonObject", orderTaskId,
                 hashMap, true, this).executeTask();
+    }
+
+    private void checkOrder(){
 
     }
 }

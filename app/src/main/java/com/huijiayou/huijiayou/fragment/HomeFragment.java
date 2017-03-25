@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.MainActivity;
+import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
@@ -34,9 +35,6 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
-import com.huijiayou.huijiayou.wxapi.ShareUtil;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import org.json.JSONArray;
@@ -237,29 +235,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 break;
             case R.id.imgBtn_fragmentHome_message:
                 animationDrawable.stop();
-//                startActivity(new Intent(getActivity(), MessageActivity.class));
-                ShareUtil  shareUtil = new ShareUtil(getActivity(), "", "", "http://clerkkent.duapp.com/HJY/#/game/main", "", new UMShareListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA share_media) {
-                        ToastUtils.createNormalToast(getActivity(),share_media.toString());
-                    }
-
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-                        ToastUtils.createNormalToast(getActivity(),share_media.toString());
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        ToastUtils.createNormalToast(getActivity(),share_media.toString());
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-                        ToastUtils.createNormalToast(getActivity(),share_media.toString());
-                    }
-                });
-                shareUtil.showShareDialog();
+                startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.tv_fragmentHome_addGasoline:
                 Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));

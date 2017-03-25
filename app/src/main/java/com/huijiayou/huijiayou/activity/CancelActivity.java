@@ -69,6 +69,8 @@ public class CancelActivity extends BaseActivity {
                             if (TextUtils.equals(message,"success")){
                                 ToastUtils.createNormalToast("安全退出");
                                 MyApplication.isLogin=false;
+                               // PreferencesUtil.putPreferences(Constans.OPENID,"1");
+                                PreferencesUtil.putPreferences("sigincode",0);
                                 finish();
                             }
                         } catch (JSONException e) {

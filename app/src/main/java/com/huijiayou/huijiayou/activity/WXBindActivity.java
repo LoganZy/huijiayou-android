@@ -143,7 +143,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         nickname = intent.getStringExtra(Constans.NICKNAME);
         headimgurl = intent.getStringExtra(Constans.HEADIMGURL);
         unionid = intent.getStringExtra(Constans.UNIONID);
-       /*String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
+/*        String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
         String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");*/
         tvActivityWxbindName.setText(nickname);
         //ImageSize mImageSize = new ImageSize(150,150)
@@ -207,6 +207,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             map.put("weixin_unionid",unionid);
             map.put("weixin_head",headimgurl);
             map.put("weixin_name",nickname);
+
             new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
         }
     }
@@ -221,7 +222,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             ToastUtils.createNormalToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
         }else if(TextUtils.isEmpty(SMScode)) {
             ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
-            llActivityWxbindInvit.setVisibility(View.VISIBLE);
+
             time = 60;
             //向服务器请求
             startTime();
@@ -301,6 +302,10 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
                     code = jsonObject1.getInt("code");
+                    int is_registed =jsonObject1.getInt("is_registed");
+                    if(is_registed==0){
+                        llActivityWxbindInvit.setVisibility(View.VISIBLE);
+                    }
                     ToastUtils.createNormalToast("您已经获取了" + callNum + "次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -10,7 +10,7 @@
 
         <!--详情界面-->
         <RelativeLayout
-            android:visibility="gone"
+
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -72,19 +72,28 @@
                         android:text="00"/>
                 </LinearLayout>
             </LinearLayout>
+        <!--    <com.handmark.pulltorefresh.library.PullToRefreshListView
+                xmlns:ptr="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/pull_to_refresh_listview"
+                android:layout_below="@id/ll_activity_head"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:background="#F5F5F5"
+                />-->
+
             <ListView
                 android:id="@+id/lv_activity_record_bill"
                 android:layout_below="@id/ll_activity_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F5F5F5"></ListView>
+                android:background="#F5F5F5"/>
 
         </RelativeLayout>
 
         <!--登录界面-->
         <LinearLayout
             android:id="@+id/ll_fragmentUser_login"
-
+            android:visibility="gone"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
