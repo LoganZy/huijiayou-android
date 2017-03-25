@@ -99,7 +99,7 @@ public class ShareUtil implements View.OnClickListener {
         }
         UMImage umImage = null;
         if (TextUtils.isEmpty(imageUrl)){
-            umImage = new UMImage(activity, R.mipmap.ic_login_logo);
+            umImage = new UMImage(activity, R.mipmap.ic_launcher);
         }else{
             umImage = new UMImage(activity, imageUrl);
         }

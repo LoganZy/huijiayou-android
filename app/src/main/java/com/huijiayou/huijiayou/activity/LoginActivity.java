@@ -416,7 +416,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                    String callNum = jsonObject1.getString("call_num");
                     key =  jsonObject1.getString("key");
                     int code = jsonObject1.getInt("code");
-                    ToastUtils.createNormalToast("您已经获取了"+callNum+"次验证码");
+                    ToastUtils.createNormalToast("您已经获取了"+code+"次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

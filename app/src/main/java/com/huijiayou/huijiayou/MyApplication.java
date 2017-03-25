@@ -42,7 +42,7 @@ public class MyApplication extends Application {
         JPushInterface.init(this);//极光推送
 
         UMShareAPI.get(this);
-        PlatformConfig.setWeixin("wx8afbd309ff35e712", "80564228d4bb7ce52d462cf80c996476");//ok
+        PlatformConfig.setWeixin("wxc77febc13d61d07b", "4c7582669eb3db8ec0bf8a2f22163397");//ok
         PlatformConfig.setQQZone("1105947235", "0VBI1ejZjatqOTOo"); //ok
         msgApi = WXAPIFactory.createWXAPI(context, Constans.WX_APP_ID,true);
          //将该app注册到微信
