@@ -132,7 +132,7 @@ public class UserFragment extends Fragment {
                                             //显示油滴
                                             showOil(oil);
                                             LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-                                           getView().invalidate();
+                                           //getView().invalidate();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }

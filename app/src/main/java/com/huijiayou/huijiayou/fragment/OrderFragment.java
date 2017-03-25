@@ -275,7 +275,7 @@ public class OrderFragment extends Fragment {
     }
 
     private void getRecord() {
-
+        recordList =new ArrayList<Record>();
      /*   recordList = new ArrayList<>();
         String status = "0";
         final Record record = new Record();
@@ -347,7 +347,7 @@ public class OrderFragment extends Fragment {
              public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                  if(taskId==1){
 
-                     recordList =new ArrayList<Record>();
+
                      try {
                          JSONArray jsonArray1=jsonObject.getJSONArray("list");
                          LogUtil.i("请求成功");
