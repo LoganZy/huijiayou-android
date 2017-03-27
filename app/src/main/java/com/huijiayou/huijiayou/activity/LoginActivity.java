@@ -226,19 +226,19 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             return;
         }
 
-        uuid = UUID.randomUUID().toString();
+  /*      uuid = UUID.randomUUID().toString();
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = uuid;
         MyApplication.msgApi.sendReq(req);
         finish();
-/*
+
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         MyApplication.msgApi.sendReq(req);
         finish();*/
-         /* String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
+         String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
             if (TextUtils.equals(openid, "1")) {
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
@@ -246,8 +246,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             MyApplication.msgApi.sendReq(req);
             LoginActivity.this.finish();
         }
-      String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN, "1");
-        String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
+            String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN, "1");
+            //String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constans.ACCESSTOKEN, token);
         map.put(Constans.OPENID, openid);
@@ -307,7 +307,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             }
         }).executeTask();
 
-*/
+
     }
 
 

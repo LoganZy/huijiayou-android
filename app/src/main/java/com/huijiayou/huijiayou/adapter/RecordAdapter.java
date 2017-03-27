@@ -34,7 +34,7 @@ public class RecordAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()+1;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RecordAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return position+1;
     }
 
     @Override
