@@ -325,6 +325,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String weixin_name = jsonObject1.getString("weixin_name");
                     //登录自己服务器的token
                     String token = (String) jsonObject1.get("token");
+                    String invite_code = (String) jsonObject1.get("invite_code");
+                    PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE, invite_code);
+                    PreferencesUtil.putPreferences(Constans.USER_PHONE, phone);
                     PreferencesUtil.putPreferences(Constans.USER_TOKEN,token);
                     ToastUtils.createNormalToast("您的账号"+phone);
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);

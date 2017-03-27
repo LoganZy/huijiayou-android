@@ -41,17 +41,36 @@
         android:id="@+id/tv_ActivityMessageDetail_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@color/white"
-        tools:text="100元红包已飞速存入您的帐户，用了就是赚钱，快去充值加油吧！"/>
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/gray"
+        android:textSize="12dp"
+        tools:text="100元红包已飞速存入您的帐户，用了就是赚钱，快去充值加油吧！" />
 
+    <View
+        android:id="@+id/view_ActivityMessageDetail_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/line_color"/>
+
+    <TextView
+        android:id="@+id/tv_ActivityMessageDetail_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textSize="13dp"
+        android:background="@color/white"
+        tools:text="去加油"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:textColor="#F3B93E"/>
 
 
 </LinearLayout>

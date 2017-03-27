@@ -16,7 +16,6 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -281,22 +280,25 @@ public class NewHttpRequest implements Runnable {
             loadingDialogDismiss();
             return;
         }
-        if (code == 1670) {//切换通道
-            try {
-                JSONObject jsonObject = new JSONObject(resultJson);
-                if (jsonObject.has("data")) {
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    if (data.has("showChannelBtn")) {
-                        Boolean showChannelBtn = data.getBoolean("showChannelBtn");
-                        PreferencesUtil.putPreferences("showChannelBtn", showChannelBtn);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            PreferencesUtil.putPreferences("showChannelBtn", false);
+        if (code == 1106){ //用户未登录
+            PreferencesUtil.putPreferences(Constans.ISLOGIN,false);
         }
+//        if (code == 1670) {//切换通道
+//            try {
+//                JSONObject jsonObject = new JSONObject(resultJson);
+//                if (jsonObject.has("data")) {
+//                    JSONObject data = jsonObject.getJSONObject("data");
+//                    if (data.has("showChannelBtn")) {
+//                        Boolean showChannelBtn = data.getBoolean("showChannelBtn");
+//                        PreferencesUtil.putPreferences("showChannelBtn", showChannelBtn);
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            PreferencesUtil.putPreferences("showChannelBtn", false);
+//        }
 
 //        // 用户登录过期与被挤下线单独处理 无需回调error信息
 //        if (code == 1106) {//用户未登录

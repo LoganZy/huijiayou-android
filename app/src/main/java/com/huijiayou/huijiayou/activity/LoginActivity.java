@@ -299,6 +299,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                                         String token = (String) jsonObject.get("token");
                                         PreferencesUtil.putPreferences("token",token);
                                         MyApplication.isLogin = true;
+                                        PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                                         ToastUtils.createNormalToast(isbind+"");
                                         LoginActivity.this.finish();
                                     }else if(isbind==0){
@@ -435,12 +436,18 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     String  weixinHead = jsonObject2.getString("weixin_head");
                     String  weixinName =  jsonObject2.getString("weixin_name");
                     String token = (String) jsonObject2.get("token");
-                    PreferencesUtil.putPreferences(USER_ID,userId);
-                    PreferencesUtil.putPreferences(USER_TOKEN,token);
+                    String invite_code = (String) jsonObject2.get("invite_code");
+                    String phone = (String) jsonObject2.get("phone");
+                    PreferencesUtil.putPreferences(USER_ID, userId);
+                    PreferencesUtil.putPreferences(USER_TOKEN, token);
+                    PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE, invite_code);
+                    PreferencesUtil.putPreferences(Constans.USER_PHONE, phone);
                     PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);
+                    MyApplication.isLogin = true;
+                    PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

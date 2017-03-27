@@ -39,4 +39,15 @@
         android:layout_marginRight="16dp"
         tools:text="1130 4567 9874 6545 123"/>
 
+    <TextView
+        android:id="@+id/tv_itemActivityOilCard_outOfCommission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_item_activity_oil_card_nouse_bg"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:text="此油卡不能购买此商品"
+        android:visibility="gone"/>
+
 </RelativeLayout>

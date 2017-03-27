@@ -11,6 +11,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,13 +27,15 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     Handler handler = new Handler();
     boolean isGetLoginStatus = false;
     boolean isCountDown = false;
+
+    int loginStatusTaskId = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slpha);
 
         handler.postDelayed(runnable,4000);
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",2,false,this).executeTask();
+        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",loginStatusTaskId,false,this).executeTask();
     }
 
     Runnable runnable = new Runnable() {
@@ -61,12 +64,18 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-        if (taskId == 2){
+        if (taskId == loginStatusTaskId){
             try {
                 if(jsonObject.getInt("status") == 0){
                     MyApplication.isLogin = false;
+                    PreferencesUtil.putPreferences(Constans.USER_ID,"");
+                    PreferencesUtil.putPreferences(Constans.USER_TOKEN,"");
+                    PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE,"");
+                    PreferencesUtil.putPreferences(Constans.USER_PHONE,"");
+                    PreferencesUtil.putPreferences(Constans.ISLOGIN,false);
                 }else{
                     MyApplication.isLogin = true;
+                    PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                 }
                 isGetLoginStatus = true;
                 if (isCountDown && isGetLoginStatus){

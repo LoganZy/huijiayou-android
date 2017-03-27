@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_above="@+id/ll_activityCoupon_use"
+        android:layout_above="@+id/rl_activityCoupon_use"
         android:layout_below="@+id/view_activityCoupon_line">
 
         <LinearLayout
@@ -116,29 +116,46 @@
 
     </ScrollView>
         
-    <LinearLayout
-        android:id="@+id/ll_activityCoupon_use"
+    <RelativeLayout
+        android:id="@+id/rl_activityCoupon_use"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingLeft="15dp"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_activityCoupon_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/gray"
+            android:text="可使用优惠券"/>
 
         <TextView
             android:id="@+id/tv_activityCoupon_use_size"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:text="可使用优惠券:50张"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/tv_activityCoupon_view1"
+            android:textColor="@color/orange_FF7320"
+            tools:text="50" />
+        <TextView
+            android:id="@+id/tv_activityCoupon_view2"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/gray"
-            android:gravity="bottom"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"/>
+            android:layout_toRightOf="@+id/tv_activityCoupon_use_size"
+            android:text="张"/>
 
         <Button
+            android:layout_alignParentRight="true"
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:background="@color/orange_FF7320"
@@ -147,6 +164,6 @@
             android:textSize="19dp"
             android:text="立即使用"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

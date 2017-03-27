@@ -111,4 +111,11 @@
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/ll_itemActivityCoupon_right"/>
 
+    <View
+        android:id="@+id/view_itemActivityCoupon_outOfCommission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_item_activity_oil_card_nouse_bg"
+        android:visibility="gone"/>
+
 </RelativeLayout>

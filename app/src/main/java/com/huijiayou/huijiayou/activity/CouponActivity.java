@@ -3,10 +3,9 @@ package com.huijiayou.huijiayou.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -54,8 +53,8 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     @Bind(R.id.svRecyclerView_activityCoupon_over)
     SVRecyclerView svRecyclerView_activityCoupon_over;
 
-    @Bind(R.id.ll_activityCoupon_use)
-    LinearLayout ll_activityCoupon_use;
+    @Bind(R.id.rl_activityCoupon_use)
+    RelativeLayout rl_activityCoupon_use;
 
     @Bind(R.id.tv_activityCoupon_use_size)
     TextView tv_activityCoupon_use_size;
@@ -72,6 +71,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     ArrayList<CouponAdapter.Coupon> couponAlreadyUseArrayList;
     ArrayList<CouponAdapter.Coupon> couponOverArrayList;
 
+    String totalMoney,time,belong;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,9 +87,13 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
         UserPacketsInfo();
         Intent intent = getIntent();
         type = intent.getIntExtra("type",NORMAL_TYPE);
+
         if (NORMAL_TYPE == type){
             codeNormal();
         }else if (SELECTED_TYPE == type){
+            totalMoney = intent.getStringExtra("totalMoney");
+            time = intent.getStringExtra("time");
+            belong = intent.getStringExtra("belong");
             codeSelected();
         }else {
             codeNormal();
@@ -120,7 +124,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
 
     private void codeSelected(){
         tv_activityCoupon_noUseTag.setVisibility(View.GONE);
-        ll_activityCoupon_use.setVisibility(View.GONE);
+        rl_activityCoupon_use.setVisibility(View.GONE);
         tv_activityCoupon_useTag.setVisibility(View.GONE);
         recyclerView_activityCoupon_use.setVisibility(View.GONE);
         tv_activityCoupon_over.setVisibility(View.GONE);
@@ -164,7 +168,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                             setResult(RESULT_OK,intent);
                             finish();
                         }
-                    });
+                    },totalMoney,time,belong);
                 }else{
                     noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList,this,null);
                 }
@@ -195,11 +199,11 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                     }
                 }
                 if (couponNoUseArrayList != null && couponNoUseArrayList.size() > 0){
-                    tv_activityCoupon_use_size.setText(Html.fromHtml("可使用优惠券:<font color='#FF7320',size='50px'>" +couponNoUseArrayList.size()+ "</font>张"));
+                    tv_activityCoupon_use_size.setText(couponNoUseArrayList.size()+"");
                     tv_activityCoupon_noUseTag.setVisibility(View.VISIBLE);
                     recyclerView_activityCoupon_noUse.setVisibility(View.VISIBLE);
                 }else{
-                    ll_activityCoupon_use.setVisibility(View.GONE);
+                    rl_activityCoupon_use.setVisibility(View.GONE);
                     tv_activityCoupon_noUseTag.setVisibility(View.GONE);
                     recyclerView_activityCoupon_noUse.setVisibility(View.GONE);
                 }

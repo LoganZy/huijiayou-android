@@ -56,10 +56,9 @@ public class MyApplication extends Application {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-//    private void regToWx(){
-//        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-//        api.registerApp(APP_ID);
-//    }
+//     public static boolean getLoginStatus(){
+//
+//     }
 
     public static Context getContext(){
         return context;

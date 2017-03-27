@@ -65,6 +65,15 @@ public class HomePageAdapter extends PagerAdapter {
         private String belong;
         private String oil_trade;
         private String image_url;
+        private String is_recommend;
+
+        public String getIs_recommend() {
+            return is_recommend;
+        }
+
+        public void setIs_recommend(String is_recommend) {
+            this.is_recommend = is_recommend;
+        }
 
         public String getId() {
             return id;
@@ -168,12 +177,10 @@ public class HomePageAdapter extends PagerAdapter {
             TextView tvDiscount = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discount);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
-                discount = CommitUtils.bigDecimal2(discount);
+                discount = CommitUtils.bigDecimal2(discount, 1);
                 tvDiscount.setText(discount+"");
-//                product.setProduct_discount(String.valueOf(discount));
             }else if (discount == 10){
                 tvDiscount.setText(String.valueOf((int) discount));
-//                product.setProduct_discount(String.valueOf((int) discount));
             }
             ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imgView_itemFragmentHomeProductMain_sale);
             if ("2".equals(product.getIs_trade())){

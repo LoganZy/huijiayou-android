@@ -3,6 +3,7 @@ package com.huijiayou.huijiayou.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +32,21 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
     Context context;
     View.OnClickListener onClickListener;
 
+    String totalMoney,time,belong;
+
     public CouponAdapter(ArrayList<Coupon> coupons, Context context, View.OnClickListener onClickListener) {
         this.coupons = coupons;
         this.context = context;
         this.onClickListener = onClickListener;
+    }
+
+    public CouponAdapter(ArrayList<Coupon> coupons, Context context, View.OnClickListener onClickListener, String totalMoney, String time, String belong) {
+        this.coupons = coupons;
+        this.context = context;
+        this.onClickListener = onClickListener;
+        this.totalMoney = totalMoney;
+        this.time = time;
+        this.belong = belong;
     }
 
     @Override
@@ -44,30 +56,60 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
 
     @Override
     public void onBindViewHolder(CouponViewHolder holder, int position) {
-        holder.rl_itemActivityCoupon_view.setTag(position);
-        holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
         Coupon coupon = coupons.get(position);
         holder.tv_itemActivityCoupon_name.setText(coupon.getPackets_name());
         Drawable drawable = null;
         if ("0".equals(coupon.getPackets_type())){//0直抵
             double amount = Double.parseDouble(coupon.getAmount());
-            amount = CommitUtils.bigDecimal2(amount);
+            amount = CommitUtils.bigDecimal2(amount,2);
             holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
-            holder.tv_itemActivityCoupon_condition.setText("满"+coupon.getLimit_money()+"元可用"); //TODO + 限几期可用
+            int limitMoney = (int)Double.parseDouble(coupon.getLimit_money());
+            String text = "满"+limitMoney+"元可用";
+            if (coupon.getProduct_info() != null){
+                text = text + " | 限"+coupon.getProduct_info().getProduct_time()+"期可用";
+            }
+            holder.tv_itemActivityCoupon_condition.setText(text);
             holder.tv_itemActivityCoupon_moneyTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list);
+            if (!TextUtils.isEmpty(totalMoney) && !TextUtils.isEmpty(time)){
+                int totalMoney = Integer.parseInt(this.totalMoney);
+                int product_time = Integer.parseInt(coupon.getProduct_info().getProduct_time());
+                int time =  Integer.parseInt(this.time);
+                if (limitMoney < totalMoney || time != product_time){
+                    holder.rl_itemActivityCoupon_view.setFocusable(false);
+                    holder.rl_itemActivityCoupon_view.setOnClickListener(null);
+                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
+                }else{
+                    holder.rl_itemActivityCoupon_view.setTag(position);
+                    holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
+                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
+                }
+            }
         }else if ("1".equals(coupon.getPackets_type())){//1折扣 绿色
             double rate = Double.parseDouble(coupon.getRate()) * 10;
-            rate = CommitUtils.bigDecimal2(rate);
+            rate = CommitUtils.bigDecimal2(rate,2);
             holder.tv_itemActivityCoupon_moneyNumber.setText(rate+"");
             holder.tv_itemActivityCoupon_condition.setVisibility(View.INVISIBLE);
             holder.tv_itemActivityCoupon_discountTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list_green);
-        }else {//0直抵 //TODO  判断是否为 过期的
+        }else {//0直抵
             holder.tv_itemActivityCoupon_moneyTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list);
         }
-        holder.tv_itemActivityCoupon_oilTypeCondition.setText("");//TODO  限中石化可用
+        if (coupon.getProduct_info() != null && "1".equals(coupon.getProduct_info().getBelong())){
+            holder.tv_itemActivityCoupon_oilTypeCondition.setText("限中石化可用");
+        }else if (coupon.getProduct_info() != null && "2".equals(coupon.getProduct_info().getBelong())){
+            holder.tv_itemActivityCoupon_oilTypeCondition.setText("限中石油可用");
+        }
+        if (!TextUtils.isEmpty(belong) && !belong.equals(coupon.getProduct_info().getBelong())){
+            holder.rl_itemActivityCoupon_view.setOnClickListener(null);
+            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
+        }else{
+            holder.rl_itemActivityCoupon_view.setTag(position);
+            holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
+            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
+        }
+
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         holder.ll_itemActivityCoupon_right.setBackgroundDrawable(drawable);
 
@@ -79,6 +121,16 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
             holder.tv_itemActivityCoupon_time.setText(start+" - "+ end);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        if (TextUtils.isEmpty(belong) || !belong.equals(coupon.getProduct_info().getBelong())){
+
+        }
+        if (!TextUtils.isEmpty(totalMoney)){
+
+        }
+        if (!TextUtils.isEmpty(time)){
+
         }
     }
 
@@ -104,6 +156,15 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         private String products_id;
         private String packets_type; //0直抵  1折扣
         private String days;
+        private HomePageAdapter.Product product_info;
+
+        public HomePageAdapter.Product getProduct_info() {
+            return product_info;
+        }
+
+        public void setProduct_info(HomePageAdapter.Product product_info) {
+            this.product_info = product_info;
+        }
 
         public String getId() {
             return id;
@@ -299,6 +360,9 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
 
         @Bind(R.id.rl_itemActivityCoupon_view)
         RelativeLayout rl_itemActivityCoupon_view;
+
+        @Bind(R.id.view_itemActivityCoupon_outOfCommission)
+        View view_itemActivityCoupon_outOfCommission;
         public CouponViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
