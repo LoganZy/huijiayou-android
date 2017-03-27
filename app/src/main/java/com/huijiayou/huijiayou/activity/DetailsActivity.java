@@ -97,7 +97,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         map.put("time", System.currentTimeMillis());
         map.put("order_id", id);
         map.put("sign", "");
-       // new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOARRAY, 1, map, true, this).executeTask();
+      // new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOARRAY, 1, map, true, this).executeTask();
 
 
 

@@ -175,6 +175,8 @@ public class OrderFragment extends Fragment {
                                 b.putString("belong", record.getBelong());
                                 b.putString("count", record.getCount());
                                 b.putString("total_time", record.getTotal_time());
+                                b.putString("pay_time",record.getPay_time());
+                                b.putString("user_name",record.getUser_name());
                                 switch (Integer.parseInt(status)) {
                                     case 0:
 
@@ -329,6 +331,8 @@ public class OrderFragment extends Fragment {
         record.setDiscount_before_amount("35000");
         record.setBelong("2");
         record.setCtime("20170612");
+        record.setUser_name("小刚");
+        record.setPay_time("20170204");
         record.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
             record.setType(1);
@@ -347,6 +351,8 @@ public class OrderFragment extends Fragment {
         record1.setDiscount_before_amount("35000");
         record1.setBelong("2");
         record1.setCtime("20170612");
+        record1.setUser_name("小磊");
+        record1.setPay_time("20170304");
         record1.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
             record1.setType(1);
@@ -366,6 +372,8 @@ public class OrderFragment extends Fragment {
         record2.setDiscount_before_amount("35000");
         record2.setBelong("2");
         record2.setCtime("20170612");
+        record2.setUser_name("小空");
+        record2.setPay_time("20170205");
         record2.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
             record2.setType(1);
@@ -417,6 +425,8 @@ public class OrderFragment extends Fragment {
                              record.setBelong(jsonObject1.getString("belong"));
                              record.setCard_number(jsonObject1.getString("card_number"));
                              record.setOrder_number(jsonObject1.getString("order_number"));
+                             record.setPay_time(jsonObject1.getString("pay_time"));
+                             record.setUser_name(jsonObject1.getString("user_name"));
                              String status = jsonObject1.getString("status");
                              if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
                                  record.setType(1);

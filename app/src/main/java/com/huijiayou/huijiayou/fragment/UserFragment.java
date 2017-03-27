@@ -112,9 +112,8 @@ public class UserFragment extends Fragment {
                         tvFragmentName.setVisibility(View.VISIBLE);
                         btFragmentUserLogin.setVisibility(View.GONE);
                         //请求签到油滴的数量并显示出来
-                        //当签到的code是已经签到状态的时候
 
-                            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+                        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                                 @Override
                                 public void netWorkError() {
                                     LogUtil.i("++++++++++++++++++++++++++++++++++");
@@ -233,7 +232,7 @@ public class UserFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message})
+    @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.ll_activity_wxbind_oil})
     public void onClick(View view) {
         if (statusIsLogin ==0) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -327,7 +326,7 @@ public class UserFragment extends Fragment {
                 animationDrawable.stop();
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
-            case R.id.tv_activity_wxbind_oil:
+            case R.id.ll_activity_wxbind_oil:
                 startActivity(new Intent(getActivity(), OilActivity.class));
                 break;
         }

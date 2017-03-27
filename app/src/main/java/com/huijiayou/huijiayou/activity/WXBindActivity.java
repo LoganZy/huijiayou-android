@@ -309,7 +309,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     if(is_registed==0){
                         llActivityWxbindInvit.setVisibility(View.VISIBLE);
                     }
-                    ToastUtils.createNormalToast("您已经获取了" + callNum + "次验证码");
+                    ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -333,6 +333,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
+                    PreferencesUtil.putPreferences("phone",phone);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

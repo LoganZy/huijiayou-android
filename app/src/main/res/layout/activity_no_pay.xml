@@ -8,6 +8,7 @@
     tools:context="com.huijiayou.huijiayou.activity.NoPayActivity">
     <include layout="@layout/common_title"/>
     <TextView
+        android:id="@+id/tv_activitynoPay_time"
         android:background="@mipmap/ic_details_background_org"
         android:paddingTop="8dp"
         android:gravity="center"
@@ -70,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,7 +85,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="充值金额"
@@ -114,7 +114,7 @@
                     android:id="@+id/tv_activityPay_discount_after_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="300000"

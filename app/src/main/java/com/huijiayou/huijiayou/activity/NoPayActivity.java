@@ -2,6 +2,7 @@ package com.huijiayou.huijiayou.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NoPayActivity extends BaseActivity {
-
+    @Bind(R.id.tv_activitynoPay_time)
+    TextView tvActivityNopaytime;
     @Bind(R.id.img_activityPay_ioc)
     ImageView imgActivityPayIoc;
     @Bind(R.id.tv_activityPay_cardNum)
@@ -31,7 +33,10 @@ public class NoPayActivity extends BaseActivity {
     @Bind(R.id.bt_activityPay_pay)
     Button btActivityPayPay;
     private String id;
-
+    private Handler handler = new Handler() {
+    };
+    private int time=60;
+    private int time2=14;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,7 @@ public class NoPayActivity extends BaseActivity {
 
     private void initView() {
 
+        startTime();
     }
 
     private void initData() {
@@ -84,4 +90,33 @@ public class NoPayActivity extends BaseActivity {
     @OnClick(R.id.bt_activityPay_pay)
     public void onClick() {
     }
+
+    /*
+         *
+         * 发送定时消息的方法
+         *
+         * */
+    public void startTime() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                time -= 1;
+                if (time < 0) {
+                    time2-=1;
+                    time=60;
+                    handler.postDelayed(this, 1000);
+                    if (time2<=0){
+                        handler.removeCallbacksAndMessages(null);
+                        tvActivityNopaytime.setText("支付超时");
+                    }
+
+                } else {
+                    tvActivityNopaytime.setText("未支付 （"+time2+":"+time+"s）" );
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        }, 1000);
+
+    }
+
 }

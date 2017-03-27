@@ -87,11 +87,14 @@ public class RecordAdapter extends BaseAdapter {
             }
 
         }
+        String head = record.getCard_number().substring(0,2);
+        String tail = record.getCard_number().substring(record.getCard_number().length()-4);
         switch (type){
+
             case 1:
                 holder.tvActivityRecordCompany.setText(record.getProduct_name());
-                holder.tvActivityRecordCardNumber.setText(record.getCard_number());
-                holder.tvActivityRecordCardtype.setText(record.getTotal_time());
+                holder.tvActivityRecordCardNumber.setText(head+"****"+tail);
+                holder.tvActivityRecordCardtype.setText(record.getTotal_time()+"个月");
                 String status = record.getStatus();
                 if(TextUtils.equals(status,"4")){
                     holder.btActivityRecordGotoPay.setVisibility(View.GONE);
@@ -105,8 +108,9 @@ public class RecordAdapter extends BaseAdapter {
                 break;
             case 2:
                 holder2.tvActivityRecordCompany2.setText(record.getProduct_name());
-                holder2.tvActivityRecordCardNumber2.setText(record.getCard_number());
-                holder2.tvActivityRecordCardtype2.setText(record.getTotal_time());
+
+                holder2.tvActivityRecordCardNumber2.setText(head+"****"+tail);
+                holder2.tvActivityRecordCardtype2.setText(record.getTotal_time()+"个月");
                 holder2.tvActivityRecordPayNumber.setText(record.getDiscount_after_amount());
                 if(TextUtils.equals(record.getCount(),record.getTotal_time())){
                     holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.mipmap.ic_recording_red);

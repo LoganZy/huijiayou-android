@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.huijiayou.huijiayou.activity.WXBindActivity">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imag_activityLogin_back"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"

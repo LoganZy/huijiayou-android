@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.huijiayou.huijiayou.activity.LoginActivity">
-    <ImageView
+    <ImageButton
         android:id="@+id/ima_activityLogin_back"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"

@@ -95,6 +95,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:clickable="true"
                     android:id="@+id/ll_activity_wxbind_oil"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
@@ -117,7 +118,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:clickable="true"
                         android:drawableLeft="@mipmap/ic_me_oil"
                         android:text="- - -"
                         android:textColor="#FF7320"
