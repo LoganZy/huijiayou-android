@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;

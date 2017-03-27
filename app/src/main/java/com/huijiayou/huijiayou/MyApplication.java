@@ -13,8 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +31,10 @@ public class MyApplication extends Application {
     public List<Activity> activityList = new LinkedList<Activity>();
     public static boolean isLogin = false;
 
+    //微信分享
+//    private static final String APP_ID = "wxc77febc13d61d07b";
+//    private IWXAPI api;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -41,9 +43,9 @@ public class MyApplication extends Application {
         JPushInterface.setDebugMode(true);//极光推送
         JPushInterface.init(this);//极光推送
 
-        UMShareAPI.get(this);
-        PlatformConfig.setWeixin("wx8afbd309ff35e712", "80564228d4bb7ce52d462cf80c996476");//ok
-        PlatformConfig.setQQZone("1105947235", "0VBI1ejZjatqOTOo"); //ok
+//        UMShareAPI.get(this);
+//        PlatformConfig.setWeixin("wxc77febc13d61d07b", "4c7582669eb3db8ec0bf8a2f22163397");//ok
+//        PlatformConfig.setQQZone("1105947235", "0VBI1ejZjatqOTOo"); //ok
         msgApi = WXAPIFactory.createWXAPI(context, Constans.WX_APP_ID,true);
          //将该app注册到微信
         msgApi.registerApp(Constans.WX_APP_ID);
@@ -53,6 +55,11 @@ public class MyApplication extends Application {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+//    private void regToWx(){
+//        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+//        api.registerApp(APP_ID);
+//    }
 
     public static Context getContext(){
         return context;
