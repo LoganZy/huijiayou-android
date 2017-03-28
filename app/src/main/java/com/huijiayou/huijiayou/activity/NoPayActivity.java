@@ -44,14 +44,15 @@ public class NoPayActivity extends BaseActivity {
         ButterKnife.bind(this);
         initTitle();
         tvTitle.setText("交易详情");
+
+        initData();
+        initView();
         tvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        initData();
-        initView();
     }
 
     private void initView() {

@@ -161,7 +161,7 @@ public class OrderFragment extends Fragment {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Record record = recordList.get(position);
+                                Record record = recordList.get(position-2);
                                 String status = record.getStatus();
                                 Intent intent = new Intent();
                                 Bundle b = new Bundle();
@@ -191,7 +191,7 @@ public class OrderFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 3:
-                                        intent.setClass(getActivity(), NoPayActivity.class);
+                                        intent.setClass(getActivity(), PayingActivity.class);
                                         intent.putExtras(b);
                                         startActivity(intent);
                                         break;
@@ -381,6 +381,53 @@ public class OrderFragment extends Fragment {
             record2.setType(2);
         }
         recordList.add(record2);
+
+
+        status = "3";
+        Record record3 = new Record();
+        record3.setStatus("3");
+        record3.setCard_number("1000000111");
+        record3.setDiscount_after_amount("35000");
+        record3.setTotal_time("6");
+        record3.setCount("3");
+        record3.setProduct_name("中国石油");
+        record3.setDiscount_before_amount("35000");
+        record3.setBelong("2");
+        record3.setCtime("20170612");
+        record3.setUser_name("小空");
+        record3.setPay_time("20170205");
+        record3.setOrder_number("010000000000");
+        if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
+            record3.setType(1);
+        } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
+            record3.setType(2);
+        }
+        recordList.add(record3);
+
+
+        status = "2";
+        Record record4= new Record();
+        record4.setStatus("2");
+        record4.setCard_number("1000000111");
+        record4.setDiscount_after_amount("35000");
+        record4.setTotal_time("6");
+        record4.setCount("3");
+        record4.setProduct_name("中国石油");
+        record4.setDiscount_before_amount("35000");
+        record4.setBelong("2");
+        record4.setCtime("20170612");
+        record4.setUser_name("小空");
+        record4.setPay_time("20170205");
+        record4.setOrder_number("010000000000");
+        if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
+            record4.setType(1);
+        } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
+            record4.setType(2);
+        }
+        recordList.add(record4);
+
+
+
         int pages = 0;
         if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
             // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
