@@ -41,6 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 /**
  * Created by lugg on 2017/2/24.
