@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +25,6 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.json.JSONArray;
@@ -34,11 +32,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 
 import static com.huijiayou.huijiayou.config.Constans.USER_ID;
 import static com.huijiayou.huijiayou.config.Constans.USER_TOKEN;
@@ -254,14 +252,11 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 3, map, true, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
-
             }
-
             @Override
             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                 switch (taskId) {
                     case 3:
-
                         try {
 
                             // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
@@ -410,12 +405,18 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     String weixinHead = jsonObject2.getString("weixin_head");
                     String weixinName = jsonObject2.getString("weixin_name");
                     String token = (String) jsonObject2.get("token");
+                    String invite_code = (String) jsonObject2.get("invite_code");
+                    String phone = (String) jsonObject2.get("phone");
                     PreferencesUtil.putPreferences(USER_ID, userId);
                     PreferencesUtil.putPreferences(USER_TOKEN, token);
-                    PreferencesUtil.putPreferences("phone", Phone);
-                    PreferencesUtil.putPreferences(Constans.NICKNAME, weixinName);
-                    PreferencesUtil.putPreferences(Constans.HEADIMGURL, weixinHead);
+                    PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE, invite_code);
+                    PreferencesUtil.putPreferences(Constans.USER_PHONE, phone);
+                    PreferencesUtil.putPreferences("phone",Phone);
+                    PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
+                    PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);
+                    MyApplication.isLogin = true;
+                    PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

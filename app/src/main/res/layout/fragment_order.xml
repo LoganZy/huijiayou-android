@@ -72,24 +72,26 @@
                         android:text="00"/>
                 </LinearLayout>
             </LinearLayout>-->
-            <com.handmark.pulltorefresh.library.PullToRefreshListView
-                xmlns:ptr="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/pull_to_refresh_listview"
-                android:layout_below="@id/tv_commonTitle_title"
-                android:layout_height="fill_parent"
-                android:layout_width="fill_parent"
-                android:background="#F5F5F5"
-                android:smoothScrollbar="true"
-                android:divider="@null"
-                ptr:ptrDrawable="@mipmap/ic_launcher"
-                />
 
-          <!--  <ListView
+            <ListView
                 android:id="@+id/lv_activity_record_bill"
-                android:layout_below="@id/ll_activity_head"
+                android:layout_below="@id/tv_commonTitle_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F5F5F5"/>-->
+                android:background="#F5F5F5"/>
+
+            <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+            <!--xmlns:ptr="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/pull_to_refresh_listview"-->
+            <!--android:layout_below="@id/tv_commonTitle_title"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:background="#F5F5F5"-->
+            <!--android:smoothScrollbar="true"-->
+            <!--android:divider="@null"-->
+            <!--ptr:ptrDrawable="@mipmap/ic_launcher"-->
+            <!--/>-->
+
 
         </RelativeLayout>
 

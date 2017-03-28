@@ -14,18 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huijiayou.huijiayou.MyApplication;
-import com.huijiayou.huijiayou.activity.PayingActivity;
-import com.huijiayou.huijiayou.adapter.RecordAdapter;
-import com.huijiayou.huijiayou.bean.Record;
-import com.huijiayou.huijiayou.utils.LogUtil;
-import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.DetailsActivity;
@@ -37,19 +27,21 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 /**
  * Created by lugg on 2017/2/24.
@@ -65,17 +57,17 @@ public class OrderFragment extends Fragment {
     //TextView tvActivityRecordMoney;
     //@Bind(R.id.tv_activityRecord_cent)
        // TextView tvActivityRecordCent;
-   // @Bind(R.id.lv_activity_record_bill)
-    //ListView lvActivityRecordBill;
+    @Bind(R.id.lv_activity_record_bill)
+    ListView lvActivityRecordBill;
     @Bind(R.id.Fragment_record)
     RelativeLayout FragmentRecord;
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
     private List<Record> recordList;
     private String Url;
-    private PullToRefreshListView putorefresh;
-    private ILoadingLayout headerView;
-    private ILoadingLayout footerView;
+//    private PullToRefreshListView putorefresh;
+//    private ILoadingLayout headerView;
+//    private ILoadingLayout footerView;
     private RecordAdapter recordAdapter;
     private ListView listView;
 
@@ -86,18 +78,18 @@ public class OrderFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initView();
-        putorefresh = (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
-        putorefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+//        putorefresh = (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
+//        putorefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         initHeaderViewAndFooterView();
-        listView = putorefresh.getRefreshableView();
+//        listView = putorefresh.getRefreshableView();
         View headview = View.inflate(getActivity(),R.layout.order_head_layout,null);
         listView.addHeaderView(headview);
-        putorefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                initData();
-            }
-        });
+//        putorefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+//            @Override
+//            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+//                initData();
+//            }
+//        });
         return view;
     }
 
@@ -105,17 +97,17 @@ public class OrderFragment extends Fragment {
         // 获取一个可以修改头部的HeaderView的代理
         boolean includeStart = true;
         boolean includeEnd = false;
-        headerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
-        headerView.setPullLabel("下拉以刷新");		// 设置头部未完全拉出来的时候的文本描述
-        headerView.setReleaseLabel("松开以刷新");	// 设置头部完全拉出来的时候的文本描述
-        headerView.setRefreshingLabel("正在刷新...");	// 设置正在刷新的时候显示的文本
+//        headerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
+//        headerView.setPullLabel("下拉以刷新");		// 设置头部未完全拉出来的时候的文本描述
+//        headerView.setReleaseLabel("松开以刷新");	// 设置头部完全拉出来的时候的文本描述
+//        headerView.setRefreshingLabel("正在刷新...");	// 设置正在刷新的时候显示的文本
 
         includeStart = false;
         includeEnd = true;
-        footerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
-        footerView.setPullLabel("上拉以加载更多");		// 设置头部未完全拉出来的时候的文本描述
-        footerView.setReleaseLabel("松开以加载更多");	// 设置头部完全拉出来的时候的文本描述
-        footerView.setRefreshingLabel("正在加载更多...");	// 设置正在刷新的时候显示的文本
+//        footerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
+//        footerView.setPullLabel("上拉以加载更多");		// 设置头部未完全拉出来的时候的文本描述
+//        footerView.setReleaseLabel("松开以加载更多");	// 设置头部完全拉出来的时候的文本描述
+//        footerView.setRefreshingLabel("正在加载更多...");	// 设置正在刷新的时候显示的文本
     }
 
     @Override
@@ -491,12 +483,12 @@ public class OrderFragment extends Fragment {
 
 
         int pages = 0;
-        if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
-            // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
-            pages = 0;
-        } else if (putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
-            // 如果是上拉加载更多
-            pages = recordAdapter.getCount();
+//        if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
+//            // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
+//            pages = 0;
+//        } else if (putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
+//            // 如果是上拉加载更多
+//            pages = recordAdapter.getCount();
         }
      /*   HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
@@ -561,7 +553,7 @@ public class OrderFragment extends Fragment {
                 ToastUtils.createNormalToast( msg.getMessage());
              }
          }).executeTask();*/
-    }
+//    }
 
     private void getSaveMoney() {
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
@@ -33,6 +34,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
@@ -234,20 +236,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                animationDrawable.stop();
-                startActivity(new Intent(getActivity(), MessageActivity.class));
+                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+                    animationDrawable.stop();
+                    startActivity(new Intent(getActivity(), MessageActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+
                 break;
             case R.id.tv_fragmentHome_addGasoline:
-                Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
-                intent.putExtra("moneyMonth",moneyMonth);
-                if (!TextUtils.isEmpty(currentProduct.getId())){
-                    intent.putExtra("product_id",currentProduct.getId());
-                    intent.putExtra("month",currentProduct.getProduct_time());
+                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+                    Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
+                    intent.putExtra("moneyMonth",moneyMonth);
+                    if (!TextUtils.isEmpty(currentProduct.getId())){
+                        intent.putExtra("product_id",currentProduct.getId());
+                        intent.putExtra("month",currentProduct.getProduct_time());
+                    }
+                    intent.putExtra("total",total);
+                    intent.putExtra("discountTotal",discountTotal);
+                    intent.putExtra("saveMoney",saveMoney);
+                    startActivity(intent);
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
-                intent.putExtra("total",total);
-                intent.putExtra("discountTotal",discountTotal);
-                intent.putExtra("saveMoney",saveMoney);
-                startActivity(intent);
+
                 break;
             case R.id.imgBtn_fragmentHome_closeRegion:
             case R.id.tv_fragmentHome_botton:
@@ -297,8 +309,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             total = moneyMonth * month;
             saveMoney = total - total * discount;
             discountTotal = total - saveMoney;
-            saveMoney = CommitUtils.bigDecimal2(saveMoney);
-            discountTotal = CommitUtils.bigDecimal2(discountTotal);
+            saveMoney = CommitUtils.bigDecimal2(saveMoney,2);
+            discountTotal = CommitUtils.bigDecimal2(discountTotal,2);
             tv_fragmentHome_money_month.setText(moneyMonth+"");
             tv_fragmentHome_month.setText(month+"");
             tv_fragmentHome_price.setText("充值金额:"+total);
@@ -422,8 +434,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                         new TypeToken<ArrayList<HomePageAdapter.Product>>() {}.getType());
                 homePageAdapter = new HomePageAdapter(homeProductArrayList,getActivity());
                 viewPager_fragmentHome_product.setAdapter(homePageAdapter);
-                if (homeProductArrayList != null && homeProductArrayList.size() > 0)
-                currentProduct = homeProductArrayList.get(0);
+
+                if (homeProductArrayList != null && homeProductArrayList.size() > 0){
+                    int currentItem = 0;
+                    for (int i = 0; i < homeProductArrayList.size(); i++){
+                        if ("6".equals(homeProductArrayList.get(i).getProduct_time())){
+                            currentItem = i;
+                        }
+                    }
+                    currentProduct = homeProductArrayList.get(currentItem);
+                    viewPager_fragmentHome_product.setCurrentItem(currentItem);
+                }
                 calculation(500);
                 textViewChecked(tv_fragmentHomeMmoney_500);
             }else if (taskId == 10){

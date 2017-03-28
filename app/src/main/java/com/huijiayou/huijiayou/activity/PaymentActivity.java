@@ -2,6 +2,8 @@ package com.huijiayou.huijiayou.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -11,7 +13,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,14 +21,17 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.threadpool.ThreadPool;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.PaymentActivityOilCarDialog;
@@ -39,6 +43,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,8 +78,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.edit_activityPayment_card)
     EditText edit_activityPayment_card;  //接收加油卡号的输入，在已有加油卡时 不可编辑 点击弹出加油卡列表
 
-    @Bind(R.id.imgBtn_activityPayment_next)
-    ImageButton imgBtn_activityPayment_next; //点击进入下一步
+//    @Bind(R.id.imgBtn_activityPayment_next)
+//    ImageButton imgBtn_activityPayment_next; //点击进入下一步
 
     @Bind(R.id.tv_activityPayment_cardTag)
     TextView tv_activityPayment_cardTag;  //输入加油卡号时 判断输入是否正确
@@ -143,7 +148,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public String oilCard;
     public String oilCardName;
     private boolean isUseOil = false;
-    String orderId;
+    String orderNumber;
     CouponAdapter.Coupon currentCoupon;
 
 
@@ -153,6 +158,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int UserEnableOilTaskId = 4;
     int UserPacketsInfoTaskId = 5;
     int orderTaskId = 6;
+    int checkOrderTaskId = 7;
+    int payChannelTaskId = 8;
 
     boolean isGetOilCardInfo = true;
 
@@ -183,7 +190,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         tv_activityPayment_discountMoney.setText("折后金额:"+discountTotal+"元");
         tv_activityPayment_saveMoney.setText("节省:"+saveMoney+"元");
         getOilCardList();
-
 
         seitch_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -311,6 +317,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (rl_activityPayment_inputCard.isShown() || rl_activityPayment_success.isShown()){
             super.onBackPressed();
         }else if (rl_activityPayment_coupon.isShown()){
+            getOilCardList();
             rl_activityPayment_coupon.setVisibility(View.GONE);
             rl_activityPayment_inputCard.setVisibility(View.VISIBLE);
         }else if (rl_activityPayment_payment.isShown()){
@@ -323,20 +330,17 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         new RechargeDetailsDialog(this,moneyMonth,month).create();
     }
 
-   @OnClick({R.id.imgBtn_activityPayment_next, R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
-           , R.id.tv_activityPayment_coupon_coupon})
+    @OnClick({ R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
+            , R.id.tv_activityPayment_coupon_coupon})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.imgBtn_activityPayment_next:
-                rl_activityPayment_inputCard.setVisibility(View.GONE);
-                rl_activityPayment_coupon.setVisibility(View.VISIBLE);
-                break;
             case R.id.ll_activityPayment_coupon_payment:
                 order();
+                payChannel();
                 break;
             case R.id.btn_activityPayment_payment_payment:
-
+                checkOrder();
                 break;
             case R.id.edit_activityPayment_card:
                 paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
@@ -345,6 +349,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_activityPayment_coupon_coupon:
                 Intent intent = new Intent(this,CouponActivity.class);
                 intent.putExtra("type",CouponActivity.SELECTED_TYPE);
+                intent.putExtra("totalMoney",total);
+                intent.putExtra("time",month);
+                if (currentCoupon != null && currentCoupon.getProduct_info() != null){
+                    intent.putExtra("belong",currentCoupon.getProduct_info().getBelong());
+                }else{
+                    intent.putExtra("belong","");
+                }
                 startActivityForResult(intent,couponRequestCode);
                 break;
         }
@@ -397,11 +408,16 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 if (oilCardEntityList != null && oilCardEntityList.size() > 0){ // 有油卡
                     edit_activityPayment_card.setFocusable(false);
                     edit_activityPayment_card.setOnClickListener(this);
+                    edit_activityPayment_card.setHint("请选择您的油卡");
                     if (isOpenOilCardListDialog){
                         paymentActivityOilCarDialog = new PaymentActivityOilCarDialog(this,oilCardEntityList);
                         paymentActivityOilCarDialog.show();
                         isOpenOilCardListDialog = false;
                     }
+                }else{
+                    edit_activityPayment_card.setHint("请输入加油卡卡号");
+                    edit_activityPayment_card.setFocusable(true);
+                    edit_activityPayment_card.setOnClickListener(null);
                 }
             }else if (taskId == getOilCardInfoTaskId){
                 tv_activityPayment_cardTag.setText("正确");
@@ -450,10 +466,27 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
             }else if (taskId == orderTaskId){
                 ToastUtils.createNormalToast(this,jsonObject.toString());
-
+                orderNumber = (String) jsonObject.getJSONObject("data").get("order_num");
                 rl_activityPayment_coupon.setVisibility(View.GONE);
                 rl_activityPayment_payment.setVisibility(View.VISIBLE);
                 btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
+            }else if (taskId == checkOrderTaskId){
+                ToastUtils.createNormalToast(this,jsonObject.toString());
+                final String orderInfo = (String) jsonObject.getJSONObject("data").get("response");
+                ThreadPool.getThreadPool().execute(new Runnable() {
+                    @Override
+                    public void run() {
+//                        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+                        PayTask payTask = new PayTask(PaymentActivity.this);
+                        Map<String,String> map = payTask.payV2(orderInfo,true);
+                        Message msg = new Message();
+                        msg.what = 1;
+                        msg.obj = map;
+                        handler.sendMessage(msg);
+                    }
+                });
+            }else if (taskId == payChannelTaskId){
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -470,8 +503,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             tv_activityPayment_cardTag.setText(msg.getMessage());
         }else if (taskId == orderTaskId){
             ToastUtils.createNormalToast(this,msg.getMessage());
+        }else if (taskId == checkOrderTaskId){
+            ToastUtils.createNormalToast(this,msg.getMessage());
         }
     }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 1){
+                msg.obj.toString();
+
+            }
+            return false;
+        }
+    });
 
     /**
      * 获取油卡列表
@@ -480,6 +526,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("time",System.currentTimeMillis());
         hashMap.put("sign","");
+        hashMap.put("product_id",product_id);
 
         new NewHttpRequest(this, Constans.URL_zxg+ Constans.OILCARD, Constans.getOilCardList,
                 "jsonObject", getOilCardListTaskId, hashMap,true, this).executeTask();
@@ -545,17 +592,32 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("product_id",product_id);
         hashMap.put("money", moneyMonth);
         if (currentCoupon != null){
-            hashMap.put("uuid", currentCoupon.getId());
+            hashMap.put("uuid", currentCoupon.getUuid());
         }
         if (isUseOil){
             hashMap.put("oil_droplets", oil);
         }
+        hashMap.put("pay_channel", "ali_pay");
 
         new NewHttpRequest(this, Constans.URL_zxg+Constans.ORDER, Constans.order, "jsonObject", orderTaskId,
                 hashMap, true, this).executeTask();
     }
 
     private void checkOrder(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("time",System.currentTimeMillis());
+        hashMap.put("sign","");
+        hashMap.put("order_number",orderNumber);
+        hashMap.put("pay_channel","ali_pay");
+        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.checkOrder, "jsonObject", checkOrderTaskId,
+                hashMap, true, this).executeTask();
+    }
 
+    private void payChannel(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("time",System.currentTimeMillis());
+        hashMap.put("sign","");
+        new NewHttpRequest(this, NetConfig.URL_zxg + NetConfig.PAY, NetConfig.payChannel, "jsonObject", payChannelTaskId,
+                hashMap, true, this).executeTask();
     }
 }

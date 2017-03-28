@@ -136,6 +136,8 @@
             android:textColorHint="#CCCCCC"
             android:drawablePadding="10dp"
             android:background="@color/white"
+            android:paddingRight="15dp"
+            android:drawableRight="@mipmap/ic_pay_arrow_h"
             android:gravity="center_vertical"/>
 
         <ImageButton
@@ -145,6 +147,7 @@
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:background="@color/white"
+            android:visibility="gone"
             android:src="@drawable/slector_payment_next"/>
 
         <View

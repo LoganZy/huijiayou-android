@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.MessageAdapter;
+import com.huijiayou.huijiayou.adapter.MessageTransactionAdapter;
 import com.huijiayou.huijiayou.bean.Message;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
@@ -61,6 +62,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
     ArrayList<Message> messageArrayList;
     MessageAdapter messageAdapter;
+    MessageTransactionAdapter messageTransactionAdapter;
 
     TextView lastSelectedTextView;
     View lastSelectedView;
@@ -92,6 +94,11 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         recyclerView_activityMessage_list.setLayoutManager(new LinearLayoutManager(this));
         lastSelectedTextView = tv_activityMessage_all;
         lastSelectedView = view_activityMessage_all;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         lst();
     }
 
@@ -162,40 +169,53 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    View.OnClickListener onItemClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Message message = messageArrayList.get((Integer) v.getTag());
+            Intent intent = new Intent(MessageActivity.this,MessageDetailActivity.class);
+            intent.putExtra("message",message);
+            startActivity(intent);
+        }
+    };
+
+    View.OnClickListener onBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Message message = messageArrayList.get((Integer) v.getTag());
+            if ("1".equals(message.getJump_type())){ //去加油
+                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                intent.putExtra("type", HomeFragment.TAG);
+                startActivity(intent);
+                finish();
+            }else if ("2".equals(message.getJump_type())){ // 查看订单详情 TODO
+
+            }else if ("3".equals(message.getJump_type())){//查看活动详情 h5  TODO
+
+            }else if ("4".equals(message.getJump_type())){ //邀请好友
+                Intent intent = new Intent(MessageActivity.this, InvitationActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
             if (taskId == lstTaskId){
                 messageArrayList = new Gson().fromJson(jsonObject.getJSONObject("data").get("lst").toString(),
                         new TypeToken<ArrayList<Message>>() {}.getType());
-                messageAdapter = new MessageAdapter(messageArrayList, this, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Message message = messageArrayList.get((Integer) v.getTag());
-                        if ("1".equals(message.getJump_type())){ //去加油
-                            Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                            intent.putExtra("type", HomeFragment.TAG);
-                            startActivity(intent);
-                            finish();
-                        }else if ("2".equals(message.getJump_type())){ // 查看订单详情 TODO
+                if (type == type_all || type == type_system){
+                    messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick);
+                    recyclerView_activityMessage_list.setAdapter(messageAdapter);
+                }else if (type == type_transaction || type == type_activity){
+                    messageTransactionAdapter = new MessageTransactionAdapter(messageArrayList, this, onBtnClick);
+                    recyclerView_activityMessage_list.setAdapter(messageTransactionAdapter);
+                }else{
+                    messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick);
+                    recyclerView_activityMessage_list.setAdapter(messageAdapter);
+                }
 
-                        }else if ("3".equals(message.getJump_type())){//查看活动详情 h5  TODO
-
-                        }else if ("4".equals(message.getJump_type())){ //邀请好友
-                            Intent intent = new Intent(MessageActivity.this, InvitationActivity.class);
-                            startActivity(intent);
-                        }
-
-                    }}, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Message message = messageArrayList.get((Integer) v.getTag());
-                        Intent intent = new Intent(MessageActivity.this,MessageDetailActivity.class);
-                        intent.putExtra("message",message);
-                        startActivity(intent);
-                    }
-                });
-                recyclerView_activityMessage_list.setAdapter(messageAdapter);
             }else if (taskId == markAllTaskId){
                 lst();
             }

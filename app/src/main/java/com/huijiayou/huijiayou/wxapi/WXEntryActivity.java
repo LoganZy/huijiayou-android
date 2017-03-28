@@ -87,8 +87,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                                         LogUtil.i("++++++++++++"+isbind+"++++++++++++++++++++");
                                         if(isbind==1){
                                             String token = (String) jsonObject.get("token");
+                                            String invite_code = (String) jsonObject.get("invite_code");
+                                            String id= jsonObject.getString("id");
+                                            String phone= jsonObject.getString("phone");
+                                            PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE, invite_code);
+                                            PreferencesUtil.putPreferences(Constans.USER_PHONE, phone);
                                             PreferencesUtil.putPreferences(Constans.USER_TOKEN,token);
+                                            PreferencesUtil.putPreferences(Constans.USER_ID,id);
                                             MyApplication.isLogin = true;
+                                            PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                                             ToastUtils.createNormalToast("账号已经绑定");
                                             //发送广播
                                             //startActivity(new Intent(WXEntryActivity.this, MainActivity.class));

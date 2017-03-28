@@ -43,22 +43,27 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.rl_itemActivityOilCard_view.setTag(position);
-        holder.rl_itemActivityOilCard_view.setOnClickListener(onClickListener);
-        holder.tv_itemActivityOilCard_card.setText(addSpace(oilCardEntityList.get(position).getOil_card_number()));
-        holder.tv_itemActivityOilCard_nameAndType.setText(oilCardEntityList.get(position).getUser_name());
+        OilCardEntity oilCardEntity = oilCardEntityList.get(position);
+        holder.tv_itemActivityOilCard_card.setText(addSpace(oilCardEntity.getOil_card_number()));
+        holder.tv_itemActivityOilCard_nameAndType.setText(oilCardEntity.getUser_name());
 
         Drawable drawable = null;
 
-        if (oilCardEntityList.get(position).getName().contains("石化")){
+        if (oilCardEntity.getName().contains("石化")){
             drawable = context.getResources().getDrawable(R.mipmap.ic_pay_sinopec);
-        }else if (oilCardEntityList.get(position).getName().contains("石油")){
+        }else if (oilCardEntity.getName().contains("石油")){
             drawable = context.getResources().getDrawable(R.mipmap.ic_pay_cnpc);
         }else{
             drawable = context.getResources().getDrawable(R.mipmap.ic_pay_cnpc);
         }
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         holder.tv_itemActivityOilCard_nameAndType.setCompoundDrawables(drawable,null,null,null);
+        if ("0".equals(oilCardEntity.is_show)){ //0 此油卡不可用
+            holder.tv_itemActivityOilCard_outOfCommission.setVisibility(View.VISIBLE);
+        }else{
+            holder.rl_itemActivityOilCard_view.setTag(position);
+            holder.rl_itemActivityOilCard_view.setOnClickListener(onClickListener);
+        }
     }
 
     @Override
@@ -90,7 +95,8 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
         TextView tv_itemActivityOilCard_card;
         @Bind(R.id.rl_itemActivityOilCard_view)
         RelativeLayout rl_itemActivityOilCard_view;
-
+        @Bind(R.id.tv_itemActivityOilCard_outOfCommission)
+        TextView tv_itemActivityOilCard_outOfCommission;
         MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this,view);
@@ -101,6 +107,32 @@ public class OilCardAdapter extends RecyclerView.Adapter<OilCardAdapter.MyViewHo
         private String name;  //油卡类型名字  中石化  or  中石油
         private String oil_card_number;  //卡号
         private String oil_user_name;  //用户的名字
+        private String is_show;  //是否显示
+        private String id;  //id
+
+        public String getOil_user_name() {
+            return oil_user_name;
+        }
+
+        public void setOil_user_name(String oil_user_name) {
+            this.oil_user_name = oil_user_name;
+        }
+
+        public String getIs_show() {
+            return is_show;
+        }
+
+        public void setIs_show(String is_show) {
+            this.is_show = is_show;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public OilCardEntity(String name, String oil_card_number, String user_name) {
             this.name = name;
