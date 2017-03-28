@@ -56,10 +56,6 @@ public class MyApplication extends Application {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-//     public static boolean getLoginStatus(){
-//
-//     }
-
     public static Context getContext(){
         return context;
     }
@@ -71,8 +67,7 @@ public class MyApplication extends Application {
     public void exit() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
-        PreferencesUtil.putPreferences(Constans.OPENID,"1");
-        PreferencesUtil.putPreferences("sigincode",0);
+        PreferencesUtil.putPreferences("CODE","");
         for (Activity activity : activityList) {
             activity.finish();
         }

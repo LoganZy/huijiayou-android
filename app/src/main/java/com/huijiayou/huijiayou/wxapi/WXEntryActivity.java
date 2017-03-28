@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
@@ -171,13 +174,88 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 //      Resp sp = new Resp(bundle);
                 //      String code = sp.code;<span style="white-space:pre">
                 //      或者
-                String code = ((SendAuth.Resp) baseResp).code;
+
                 //上面的code就是接入指南里要拿到的code
                 //ToastUtils.createNormalToast("请求到code了");
-                    get_access_token=getCodeRequest(code);
-                    Thread thread=new Thread(downloadRun);
+                SendAuth.Resp regResp = (SendAuth.Resp)baseResp;
+                if (!regResp.state.equals(LoginActivity.uuid))
+                    return;
+                String code = regResp.code;
+               // String code = ((SendAuth.Resp) baseResp).code;
+                LogUtil.i("+++++++++++++++++++++++++++"+code+"+++++++++++++++++++++++++++++++++++");
+                String code1 = PreferencesUtil.getPreferences("CODE","");
+                LogUtil.i("+++++++++++++++++++++++++++"+code1+"+++++++++++++++++++++++++++++++++++");
+                if (TextUtils.equals(code1,code)){
+                    String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN, "1");
+                    String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
+
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put(Constans.ACCESSTOKEN, token);
+                    map.put(Constans.OPENID, openid);
+                    new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 3, map, true, new NewHttpRequest.RequestCallback() {
+                        @Override
+                        public void netWorkError() {
+
+                        }
+
+                        @Override
+                        public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                            switch (taskId) {
+                                case 3:
+
+                                    try {
+
+                                        // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                        int isbind = jsonObject.getInt("is_bind");
+                                        LogUtil.i("++++++++++++" + isbind + "++++++++++++++++++++");
+                                        if (isbind == 1) {
+                                            String token = (String) jsonObject.get("token");
+                                            PreferencesUtil.putPreferences("token", token);
+                                            MyApplication.isLogin = true;
+                                            String weixinHead = jsonObject.getString("weixin_head");
+                                            String weixinName = jsonObject.getString("weixin_name");
+                                            String Phone = jsonObject.getString("phone");
+                                            PreferencesUtil.putPreferences("phone", Phone);
+                                            PreferencesUtil.putPreferences(Constans.NICKNAME, weixinName);
+                                            PreferencesUtil.putPreferences(Constans.HEADIMGURL, weixinHead);
+                                            ToastUtils.createNormalToast(isbind + "");
+                                            finish();
+                                        } else if (isbind == 0) {
+                                            Intent intent = new Intent();
+                                            //intent.setAction("getUserInfo");
+                                            String unionid = PreferencesUtil.getPreferences(Constans.UNIONID, "1");
+                                            String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME, "1");
+                                            String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "1");
+                                            intent.putExtra(Constans.UNIONID, unionid);
+                                            intent.putExtra(Constans.NICKNAME, nickname);
+                                            intent.putExtra(Constans.HEADIMGURL, headimgurl);
+                                            intent.setClass(WXEntryActivity.this, WXBindActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+
+                            }
+
+                        }
+
+                        @Override
+                        public void requestError(int code, MessageEntity msg, int taskId) {
+                            ToastUtils.createNormalToast(msg.getMessage());
+                        }
+                    }).executeTask();
+
+                }else {
+                   // String code = ((SendAuth.Resp) baseResp).code;
+                    PreferencesUtil.putPreferences("CODE",code);
+                    get_access_token = getCodeRequest(code);
+                    Thread thread = new Thread(downloadRun);
 
                     thread.start();
+                }
          /*   try {
                     thread.join();
                 } catch (InterruptedException e) {

@@ -89,7 +89,7 @@
             android:id="@+id/rl_activityClose_Deail"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:layout_marginBottom="20dp">
 
             <LinearLayout
@@ -105,7 +105,6 @@
                     android:textSize="14dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="充值金额" />
@@ -134,7 +133,6 @@
                     android:textColor="#2A2A2A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"

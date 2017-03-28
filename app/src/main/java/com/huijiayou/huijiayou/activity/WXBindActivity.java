@@ -170,7 +170,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         });
     }
 
-    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind})
+    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind,R.id.imag_activityLogin_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_activity_wxbind_sendPhoneCode:
@@ -178,6 +178,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 break;
             case R.id.btn_activity_wxbind_Bind:
                 bindTelephone();
+                break;
+            case R.id.imag_activityLogin_back:
+                finish();
                 break;
         }
     }
@@ -306,7 +309,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     if(is_registed==0){
                         llActivityWxbindInvit.setVisibility(View.VISIBLE);
                     }
-                    ToastUtils.createNormalToast("您已经获取了" + callNum + "次验证码");
+                    ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -333,6 +336,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
+                    PreferencesUtil.putPreferences("phone",phone);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

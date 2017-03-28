@@ -28,11 +28,10 @@ public class Constans {
     public final static String JSONOBJECT = "jsonObject";
     public final static String JSONOARRAY= "jsonArray";
 
-//   public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+//    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
 //    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-
-    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
+      public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+      public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
 
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
@@ -53,7 +52,7 @@ public class Constans {
     public final static String SIGNOUT = "signout"; //撤销登录
     public final static String LOGINSTATUS = "loginStatus"; //获取登录状态
     public final static String WEIXIN_AUTH_POST = "weixin_auth_post"; //微信登录
-   //weixin_auth_post
+    //weixin_auth_post
 
     public final static String productList = "productList"; //产品列表
     public final static String getOilCardList = "getOilCardList"; //油卡列表

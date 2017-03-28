@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
@@ -35,6 +34,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                if (MyApplication.isLogin){
+                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
                     animationDrawable.stop();
                     startActivity(new Intent(getActivity(), MessageActivity.class));
                 }else{
@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
 
                 break;
             case R.id.tv_fragmentHome_addGasoline:
-                if (MyApplication.isLogin){
+                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
                     Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
                     intent.putExtra("moneyMonth",moneyMonth);
                     if (!TextUtils.isEmpty(currentProduct.getId())){
