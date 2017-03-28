@@ -41,7 +41,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 /**
  * Created by lugg on 2017/2/24.
@@ -449,5 +448,10 @@ public class OrderFragment extends Fragment {
     private void getSaveMoney() {
 
     }
-
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (this.getView() != null)
+            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
 }

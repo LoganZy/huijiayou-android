@@ -518,4 +518,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void requestError(int code, MessageEntity msg, int taskId) {
         ToastUtils.createLongToast(getActivity(),msg.getMessage());
     }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (this.getView() != null)
+            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
 }

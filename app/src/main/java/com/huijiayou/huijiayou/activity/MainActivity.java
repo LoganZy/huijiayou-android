@@ -84,37 +84,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                 List<Fragment> fragments = fragmentManager.getFragments();
                 switch (checkedId){
                     case R.id.rb_activityMain_home:
-//                        if (fragments == null || !fragments.contains(homeFragment)){
-//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
-//                                    .attach(homeFragment)
-//                                    .detach(orderFragment)
-//                                    .detach(userFragment)
-//                                    .commit();
-//                        }else{
-                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,homeFragment).commit();
-//                        }
+                        if (fragments != null && fragments.contains(homeFragment)){
+                            fragmentManager.beginTransaction().show(homeFragment).hide(orderFragment).hide(userFragment).commit();
+                        }else{
+                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
+                                    .show(homeFragment).hide(orderFragment).hide(userFragment).commit();
+                        }
+//                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,homeFragment).commit();
                         break;
                     case R.id.rb_activityMain_order:
-//                        if (fragments == null || !fragments.contains(orderFragment)){
-//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,orderFragment)
-//                                    .attach(orderFragment)
-//                                    .detach(homeFragment)
-//                                    .detach(userFragment)
-//                                    .commit();
-//                        }else{
-                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
-//                        }
+                        if (fragments != null && fragments.contains(orderFragment)){
+                            fragmentManager.beginTransaction().show(orderFragment).hide(homeFragment).hide(userFragment).commit();
+                        }else{
+                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,orderFragment)
+                                    .show(orderFragment).hide(homeFragment).hide(userFragment).commit();
+                        }
+//                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
                         break;
                     case R.id.rb_activityMain_user:
-//                        if (fragments == null || !fragments.contains(userFragment)){
-//                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,userFragment)
-//                                    .attach(userFragment)
-//                                    .detach(homeFragment)
-//                                    .detach(orderFragment)
-//                                    .commit();
-//                        }else{
-                        fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,userFragment).commit();
-//                        }
+                        if (fragments != null && fragments.contains(userFragment)){
+                            fragmentManager.beginTransaction().show(userFragment).hide(orderFragment).hide(homeFragment).commit();
+                        }else{
+                            fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,userFragment)
+                                    .show(userFragment).hide(orderFragment).hide(homeFragment).commit();
+                        }
+//                        fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,userFragment).commit();
                         break;
                 }
             }
