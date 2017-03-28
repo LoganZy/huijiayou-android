@@ -136,7 +136,7 @@ public class OrderFragment extends Fragment {
     }
 
     private void isLoginOrno() {
-        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, false, new NewHttpRequest.RequestCallback() {
+     /*   new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -220,8 +220,70 @@ public class OrderFragment extends Fragment {
 
             }
         }).executeTask();
+*/
 
+        if (MyApplication.isLogin) {
+            llFragmentUserLogin.setVisibility(View.GONE);
+            FragmentRecord.setVisibility(View.VISIBLE);
+            if(recordAdapter!=null){
 
+                recordAdapter.getList().addAll(recordList);
+
+                recordAdapter.notifyDataSetChanged();
+            }
+
+            recordAdapter = new RecordAdapter(getActivity(), recordList);
+            listView.setAdapter(recordAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Record record = recordList.get(position-2);
+                    String status = record.getStatus();
+                    Intent intent = new Intent();
+                    Bundle b = new Bundle();
+                    b.putString("id", record.getId());
+                    b.putString("card_number", record.getCard_number());
+                    b.putString("discount_before_amount", record.getDiscount_before_amount());
+                    b.putString("discount_after_amount", record.getDiscount_after_amount());
+                    b.putString("order_number", record.getOrder_number());
+                    b.putString("ctime", record.getCtime());
+                    b.putString("product_name", record.getProduct_name());
+                    b.putString("belong", record.getBelong());
+                    b.putString("count", record.getCount());
+                    b.putString("total_time", record.getTotal_time());
+                    b.putString("pay_time",record.getPay_time());
+                    b.putString("user_name",record.getUser_name());
+                    switch (Integer.parseInt(status)) {
+                        case 0:
+
+                        case 2:
+                            intent.setClass(getActivity(), NoPayActivity.class);
+                            intent.putExtras(b);
+                            startActivity(intent);
+                            break;
+                        case 1:
+                            intent.setClass(getActivity(), DetailsActivity.class);
+                            intent.putExtras(b);
+                            startActivity(intent);
+                            break;
+                        case 3:
+                            intent.setClass(getActivity(), PayingActivity.class);
+                            intent.putExtras(b);
+                            startActivity(intent);
+                            break;
+                        case 4:
+                            intent.setClass(getActivity(), CloseDealActivity.class);
+                            intent.putExtras(b);
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            });
+
+        } else {
+            llFragmentUserLogin.setVisibility(View.VISIBLE);
+            FragmentRecord.setVisibility(View.GONE);
+        }
     }
 
     @Override
