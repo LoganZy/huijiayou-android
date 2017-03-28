@@ -194,7 +194,7 @@ public class UserFragment extends Fragment {
             }
         }).executeTask();
 */
-        if (MyApplication.isLogin){
+        if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
             String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
             String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
             ImageLoader.getInstance().displayImage(user_head, imgFragmentHead,options);
@@ -315,7 +315,7 @@ public class UserFragment extends Fragment {
 
     @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.ll_activity_wxbind_oil})
     public void onClick(View view) {
-        if (statusIsLogin ==0) {
+        if (!PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             return;
         }

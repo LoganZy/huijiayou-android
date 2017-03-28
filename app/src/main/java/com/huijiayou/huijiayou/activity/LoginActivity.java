@@ -272,6 +272,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                                 PreferencesUtil.putPreferences("phone", Phone);
                                 PreferencesUtil.putPreferences(Constans.NICKNAME, weixinName);
                                 PreferencesUtil.putPreferences(Constans.HEADIMGURL, weixinHead);
+                                PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                                 ToastUtils.createNormalToast(isbind + "");
                                 LoginActivity.this.finish();
                             } else if (isbind == 0) {
@@ -415,7 +416,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
                     ToastUtils.createNormalToast(Phone);
-                    MyApplication.isLogin = true;
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {

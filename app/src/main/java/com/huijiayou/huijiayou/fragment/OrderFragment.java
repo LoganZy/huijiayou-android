@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
@@ -21,11 +22,13 @@ import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.DetailsActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.NoPayActivity;
+import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
 import com.huijiayou.huijiayou.bean.Record;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -53,10 +56,10 @@ public class OrderFragment extends Fragment {
     Button btFragmentGasLogin;
     @Bind(R.id.bt_fragment_gas_pay)
     Button btFragmentGasPay;
-   // @Bind(R.id.tv_activityRecord_money)
-    //TextView tvActivityRecordMoney;
-    //@Bind(R.id.tv_activityRecord_cent)
-       // TextView tvActivityRecordCent;
+    @Bind(R.id.tv_activityRecord_money)
+    TextView tvActivityRecordMoney;
+    @Bind(R.id.tv_activityRecord_cent)
+    TextView tvActivityRecordCent;
     @Bind(R.id.lv_activity_record_bill)
     ListView lvActivityRecordBill;
     @Bind(R.id.Fragment_record)
@@ -65,11 +68,7 @@ public class OrderFragment extends Fragment {
     LinearLayout llFragmentUserLogin;
     private List<Record> recordList;
     private String Url;
-//    private PullToRefreshListView putorefresh;
-//    private ILoadingLayout headerView;
-//    private ILoadingLayout footerView;
     private RecordAdapter recordAdapter;
-    private ListView listView;
 
     @Nullable
     @Override
@@ -78,37 +77,9 @@ public class OrderFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initView();
-//        putorefresh = (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_listview);
-//        putorefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        initHeaderViewAndFooterView();
-//        listView = putorefresh.getRefreshableView();
-        View headview = View.inflate(getActivity(),R.layout.order_head_layout,null);
-        listView.addHeaderView(headview);
-//        putorefresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-//            @Override
-//            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-//                initData();
-//            }
-//        });
         return view;
     }
 
-    private void initHeaderViewAndFooterView() {
-        // 获取一个可以修改头部的HeaderView的代理
-        boolean includeStart = true;
-        boolean includeEnd = false;
-//        headerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
-//        headerView.setPullLabel("下拉以刷新");		// 设置头部未完全拉出来的时候的文本描述
-//        headerView.setReleaseLabel("松开以刷新");	// 设置头部完全拉出来的时候的文本描述
-//        headerView.setRefreshingLabel("正在刷新...");	// 设置正在刷新的时候显示的文本
-
-        includeStart = false;
-        includeEnd = true;
-//        footerView = putorefresh.getLoadingLayoutProxy(includeStart, includeEnd);
-//        footerView.setPullLabel("上拉以加载更多");		// 设置头部未完全拉出来的时候的文本描述
-//        footerView.setReleaseLabel("松开以加载更多");	// 设置头部完全拉出来的时候的文本描述
-//        footerView.setRefreshingLabel("正在加载更多...");	// 设置正在刷新的时候显示的文本
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -128,7 +99,7 @@ public class OrderFragment extends Fragment {
     }
 
     private void isLoginOrno() {
-     /*   new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, false, new NewHttpRequest.RequestCallback() {
+   /*     new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1, false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -211,10 +182,9 @@ public class OrderFragment extends Fragment {
             public void requestError(int code, MessageEntity msg, int taskId) {
 
             }
-        }).executeTask();
-*/
+        }).executeTask();*/
 
-        if (MyApplication.isLogin) {
+        if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
             llFragmentUserLogin.setVisibility(View.GONE);
             FragmentRecord.setVisibility(View.VISIBLE);
             if(recordAdapter!=null){
@@ -225,11 +195,11 @@ public class OrderFragment extends Fragment {
             }
 
             recordAdapter = new RecordAdapter(getActivity(), recordList);
-            listView.setAdapter(recordAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvActivityRecordBill.setAdapter(recordAdapter);
+            lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Record record = recordList.get(position-2);
+                    Record record = recordList.get(position);
                     String status = record.getStatus();
                     Intent intent = new Intent();
                     Bundle b = new Bundle();
