@@ -193,14 +193,10 @@ public class UserFragment extends Fragment {
 
             }
         }).executeTask();
-*/
-        if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+      */  if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
             String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
             String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
             ImageLoader.getInstance().displayImage(user_head, imgFragmentHead,options);
-            if (TextUtils.isEmpty(name)||name==null){
-                name = "nickname";
-            }
             tvFragmentName.setText(name);
             tvFragmentName.setVisibility(View.VISIBLE);
             btFragmentUserLogin.setVisibility(View.GONE);
@@ -272,7 +268,6 @@ public class UserFragment extends Fragment {
             tvFragmentName.setVisibility(View.GONE);
             btFragmentUserLogin.setVisibility(View.VISIBLE);
             imgFragmentHead.setImageResource(R.mipmap.ic_login_default_avatar);
-            return;
         }
     }
 
@@ -395,7 +390,7 @@ public class UserFragment extends Fragment {
 
                 break;
             case R.id.bt_fragmentUser_login:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                //startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
             case R.id.imgBtn_fragmentUser_award:
                 PopuDialog popuDialog = new PopuDialog(getActivity());

@@ -12,8 +12,8 @@ public class Constans {
     public final static String WXBaseUrl = "https://api.weixin.qq.com/";
     public final static String WX_APP_ID = "wxc77febc13d61d07b";
     public final static String AppSecret = "4c7582669eb3db8ec0bf8a2f22163397";
-    public final static String NICKNAME = "nickname";
-    public final static String HEADIMGURL= "headimgurl";
+    public final static String NICKNAME ="weixin_name";
+    public final static String HEADIMGURL= "weixin_head";
     public final static String ACCESSTOKEN = "access_token";
     public final static String OPENID = "openid";
     public final static String UNIONID ="unionid";
@@ -31,12 +31,11 @@ public class Constans {
     public static final String register_agreement = "http://192.168.10.212:8888/#/register_agreement";
     public static final String user_agreement = "http://192.168.10.212:8888/#/user_agreement";
 
-
     public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
     public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
+//    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+//    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
-//        public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-//         public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";
@@ -74,6 +73,7 @@ public class Constans {
     public final static String CHECKIN ="checkIn";//q签到的接口
     public final static String checkOrder ="checkOrder";//订单支付前调用的接口
     public final static String back ="back";//支付结果请求接口
+    public final  static  String GETUSERSAVEMONEY = "getUserSaveMoney";
 
     public final static String registerAgreement = "/HJY/#/register_agreement"; //注册协议
     public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议

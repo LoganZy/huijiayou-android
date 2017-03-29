@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,6 +84,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             @Override
             public void onClick(View v) {
                 WetLogin();
+                finish();
             }
         });
 
@@ -224,86 +226,18 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             return;
         }
 
-  /*      uuid = UUID.randomUUID().toString();
+       /* uuid = UUID.randomUUID().toString();
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = uuid;
         MyApplication.msgApi.sendReq(req);
-        finish();
+        finish();*/
 
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         MyApplication.msgApi.sendReq(req);
-        finish();*/
-         String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
-            if (TextUtils.equals(openid, "1")) {
-            SendAuth.Req req = new SendAuth.Req();
-            req.scope = "snsapi_userinfo";
-            req.state = "wechat_sdk_demo_test";
-            MyApplication.msgApi.sendReq(req);
-            LoginActivity.this.finish();
-        }
-            String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN, "1");
-            //String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(Constans.ACCESSTOKEN, token);
-        map.put(Constans.OPENID, openid);
-        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 3, map, true, new NewHttpRequest.RequestCallback() {
-            @Override
-            public void netWorkError() {
-            }
-            @Override
-            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                switch (taskId) {
-                    case 3:
-                        try {
-
-                            // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                            int isbind = jsonObject.getInt("is_bind");
-                            LogUtil.i("++++++++++++" + isbind + "++++++++++++++++++++");
-                            if (isbind == 1) {
-                                String token = (String) jsonObject.get("token");
-                                PreferencesUtil.putPreferences("token", token);
-                                MyApplication.isLogin = true;
-                                String weixinHead = jsonObject.getString("weixin_head");
-                                String weixinName = jsonObject.getString("weixin_name");
-                                String Phone = jsonObject.getString("phone");
-                                PreferencesUtil.putPreferences("phone", Phone);
-                                PreferencesUtil.putPreferences(Constans.NICKNAME, weixinName);
-                                PreferencesUtil.putPreferences(Constans.HEADIMGURL, weixinHead);
-                                PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
-                                ToastUtils.createNormalToast(isbind + "");
-                                LoginActivity.this.finish();
-                            } else if (isbind == 0) {
-                                Intent intent = new Intent();
-                                //intent.setAction("getUserInfo");
-                                String unionid = PreferencesUtil.getPreferences(Constans.UNIONID, "1");
-                                String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME, "1");
-                                String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "1");
-                                intent.putExtra(Constans.UNIONID, unionid);
-                                intent.putExtra(Constans.NICKNAME, nickname);
-                                intent.putExtra(Constans.HEADIMGURL, headimgurl);
-                                intent.setClass(LoginActivity.this, WXBindActivity.class);
-                                startActivity(intent);
-                                LoginActivity.this.finish();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-
-                }
-
-            }
-
-            @Override
-            public void requestError(int code, MessageEntity msg, int taskId) {
-                ToastUtils.createNormalToast(msg.getMessage());
-            }
-        }).executeTask();
-
-
+        finish();
     }
 
 

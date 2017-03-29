@@ -26,20 +26,29 @@ import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
 import com.huijiayou.huijiayou.bean.Record;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.net.MessageEntity;
+import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.utils.UltraCustomerHeaderUtils;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import retrofit2.Response;
 
 /**
@@ -62,9 +71,13 @@ public class OrderFragment extends Fragment {
     RelativeLayout FragmentRecord;
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
+    @Bind(R.id.ptr_fragmentOrder_pulltorefresh)
+    PtrClassicFrameLayout frameLayout;
     private List<Record> recordList;
     private String Url;
     private RecordAdapter recordAdapter;
+    private String money1="000.";
+    private String money2="00";
 
     @Nullable
     @Override
@@ -181,14 +194,18 @@ public class OrderFragment extends Fragment {
         }).executeTask();*/
 
         if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
+            tvActivityRecordCent.setText(money1+".");
+            tvActivityRecordCent.setText(money2);
             llFragmentUserLogin.setVisibility(View.GONE);
             FragmentRecord.setVisibility(View.VISIBLE);
+            //设置上拉刷新
+           /* setPulltoRefresh();
             if(recordAdapter!=null){
 
                 recordAdapter.getList().addAll(recordList);
 
                 recordAdapter.notifyDataSetChanged();
-            }
+            }*/
 
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
@@ -242,6 +259,45 @@ public class OrderFragment extends Fragment {
             llFragmentUserLogin.setVisibility(View.VISIBLE);
             FragmentRecord.setVisibility(View.GONE);
         }
+    }
+
+    private void setPulltoRefresh() {
+        UltraCustomerHeaderUtils.setUltraCustomerHeader(frameLayout, getContext());
+//设置下拉刷新上拉加载
+        frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
+        frameLayout.setPtrHandler(new PtrDefaultHandler2() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameLayout.refreshComplete();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                frameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameLayout.refreshComplete();
+                    }
+                },1000);
+            }
+
+            @Override
+            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                return super.checkCanDoLoadMore(frame, lvActivityRecordBill, footer);
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return super.checkCanDoRefresh(frame, lvActivityRecordBill, header);
+            }
+        });
+
     }
 
     @Override
@@ -322,11 +378,6 @@ public class OrderFragment extends Fragment {
 
 
     private void initView() {
-   /*     List list = new ArrayList();
-        for (int i=0;i<20;i++){
-            list.add("hahhah"+i);
-        }*/
-        //isLoginOrno();
 
     }
 
@@ -338,8 +389,8 @@ public class OrderFragment extends Fragment {
     }
 
     private void getRecord() {
-        recordList =new ArrayList<Record>();
-        recordList = new ArrayList<>();
+        recordList = new ArrayList<Record>();
+  /*      recordList = new ArrayList<>();
         String status = "0";
         final Record record = new Record();
         record.setStatus("0");
@@ -355,9 +406,9 @@ public class OrderFragment extends Fragment {
         record.setPay_time("20170204");
         record.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-            record.setType(1);
+            record.setType(0);
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-            record.setType(2);
+            record.setType(1);
         }
         recordList.add(record);
         status = "4";
@@ -375,9 +426,9 @@ public class OrderFragment extends Fragment {
         record1.setPay_time("20170304");
         record1.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-            record1.setType(1);
+            record1.setType(0);
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-            record1.setType(2);
+            record1.setType(1);
         }
         recordList.add(record1);
 
@@ -396,9 +447,9 @@ public class OrderFragment extends Fragment {
         record2.setPay_time("20170205");
         record2.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-            record2.setType(1);
+            record2.setType(0);
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-            record2.setType(2);
+            record2.setType(1);
         }
         recordList.add(record2);
 
@@ -418,15 +469,15 @@ public class OrderFragment extends Fragment {
         record3.setPay_time("20170205");
         record3.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-            record3.setType(1);
+            record3.setType(0);
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-            record3.setType(2);
+            record3.setType(1);
         }
         recordList.add(record3);
 
 
         status = "2";
-        Record record4= new Record();
+        Record record4 = new Record();
         record4.setStatus("2");
         record4.setCard_number("1000000111");
         record4.setDiscount_after_amount("35000");
@@ -440,13 +491,13 @@ public class OrderFragment extends Fragment {
         record4.setPay_time("20170205");
         record4.setOrder_number("010000000000");
         if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-            record4.setType(1);
+            record4.setType(0);
         } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-            record4.setType(2);
+            record4.setType(1);
         }
         recordList.add(record4);
 
-
+    }*/
 
         int pages = 0;
 //        if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
@@ -455,8 +506,8 @@ public class OrderFragment extends Fragment {
 //        } else if (putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
 //            // 如果是上拉加载更多
 //            pages = recordAdapter.getCount();
-        }
-     /*   HashMap<String, Object> map = new HashMap<>();
+     //   }
+        HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
         map.put("pages", pages);
@@ -473,11 +524,7 @@ public class OrderFragment extends Fragment {
 
                      try {
                          JSONArray jsonArray1 =  jsonObject.getJSONArray("list");
-                     *//*       Object object=jsonObject.get("list");
-                            if (object==null){
-                               JSONObject jsonObject1 =  jsonObject.getJSONObject("list");
-                            }
-                            JSONArray jsonArray1 = (JSONArray) object;*//*
+
                          LogUtil.i("请求成功");
                          for(int i =0;i<jsonArray1.length();i++){
                              JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
@@ -496,14 +543,14 @@ public class OrderFragment extends Fragment {
                              record.setUser_name(jsonObject1.getString("user_name"));
                              String status = jsonObject1.getString("status");
                              if (TextUtils.equals(status, "0") || TextUtils.equals(status, "2") || TextUtils.equals(status, "4")) {
-                                 record.setType(1);
+                                 record.setType(0);
                              } else if (TextUtils.equals(status, "1") || TextUtils.equals(status, "3")) {
-                                 record.setType(2);
+                                 record.setType(1);
                              }
                              recordList.add(record);
 
                          }
-                          putorefresh.onRefreshComplete();
+                          //putorefresh.onRefreshComplete();
                      } catch (JSONException e) {
                          e.printStackTrace();
                      }
@@ -515,19 +562,42 @@ public class OrderFragment extends Fragment {
              @Override
              public void requestError(int code, MessageEntity msg, int taskId) {
 
-                 putorefresh.onRefreshComplete();
+               //  putorefresh.onRefreshComplete();
                 ToastUtils.createNormalToast( msg.getMessage());
              }
-         }).executeTask();*/
-//    }
+         }).executeTask();
+   }
 
     private void getSaveMoney() {
+        HashMap<String ,Object> map1 =new HashMap<>();
+        map1.put("time",System.currentTimeMillis());
+        map1.put("sign","");
+        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.GETUSERSAVEMONEY, Constans.JSONOBJECT, 2, map1, false, new NewHttpRequest.RequestCallback() {
 
-    }
-    @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-        if (this.getView() != null)
-            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+
+            @Override
+            public void netWorkError() {
+
+            }
+
+            @Override
+            public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                if(taskId==2){
+
+                   String money = jsonObject.toString();
+                    if (!TextUtils.isEmpty(money)||money!=null){
+                        String[] arrr =money.split(".");
+                        money1 = arrr[0];
+                        money2 = arrr[1];
+                    }
+
+                }
+            }
+
+            @Override
+            public void requestError(int code, MessageEntity msg, int taskId) {
+
+            }
+        }).executeTask();
     }
 }

@@ -53,8 +53,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //定义一个过滤器；
     private IWXAPI api;
     private static String get_access_token = "";
-    public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
-    public static String GetUserInfo="https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+/*    public static String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+    public static String GetUserInfo="https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";*/
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -177,85 +177,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                 //上面的code就是接入指南里要拿到的code
                 //ToastUtils.createNormalToast("请求到code了");
-                SendAuth.Resp regResp = (SendAuth.Resp)baseResp;
-                if (!regResp.state.equals(LoginActivity.uuid))
-                    return;
-                String code = regResp.code;
-               // String code = ((SendAuth.Resp) baseResp).code;
-                LogUtil.i("+++++++++++++++++++++++++++"+code+"+++++++++++++++++++++++++++++++++++");
-                String code1 = PreferencesUtil.getPreferences("CODE","");
-                LogUtil.i("+++++++++++++++++++++++++++"+code1+"+++++++++++++++++++++++++++++++++++");
-                if (TextUtils.equals(code1,code)){
-                    String token = PreferencesUtil.getPreferences(Constans.ACCESSTOKEN, "1");
-                    String openid = PreferencesUtil.getPreferences(Constans.OPENID, "1");
 
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put(Constans.ACCESSTOKEN, token);
-                    map.put(Constans.OPENID, openid);
-                    new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT, 3, map, true, new NewHttpRequest.RequestCallback() {
-                        @Override
-                        public void netWorkError() {
-
-                        }
-
-                        @Override
-                        public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                            switch (taskId) {
-                                case 3:
-
-                                    try {
-
-                                        // JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                                        int isbind = jsonObject.getInt("is_bind");
-                                        LogUtil.i("++++++++++++" + isbind + "++++++++++++++++++++");
-                                        if (isbind == 1) {
-                                            String token = (String) jsonObject.get("token");
-                                            PreferencesUtil.putPreferences("token", token);
-                                            MyApplication.isLogin = true;
-                                            String weixinHead = jsonObject.getString("weixin_head");
-                                            String weixinName = jsonObject.getString("weixin_name");
-                                            String Phone = jsonObject.getString("phone");
-                                            PreferencesUtil.putPreferences("phone", Phone);
-                                            PreferencesUtil.putPreferences(Constans.NICKNAME, weixinName);
-                                            PreferencesUtil.putPreferences(Constans.HEADIMGURL, weixinHead);
-                                            ToastUtils.createNormalToast(isbind + "");
-                                            finish();
-                                        } else if (isbind == 0) {
-                                            Intent intent = new Intent();
-                                            //intent.setAction("getUserInfo");
-                                            String unionid = PreferencesUtil.getPreferences(Constans.UNIONID, "1");
-                                            String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME, "1");
-                                            String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "1");
-                                            intent.putExtra(Constans.UNIONID, unionid);
-                                            intent.putExtra(Constans.NICKNAME, nickname);
-                                            intent.putExtra(Constans.HEADIMGURL, headimgurl);
-                                            intent.setClass(WXEntryActivity.this, WXBindActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    break;
-
-                            }
-
-                        }
-
-                        @Override
-                        public void requestError(int code, MessageEntity msg, int taskId) {
-                            ToastUtils.createNormalToast(msg.getMessage());
-                        }
-                    }).executeTask();
-
-                }else {
+                    String code = ((SendAuth.Resp) baseResp).code;
                    // String code = ((SendAuth.Resp) baseResp).code;
-                    PreferencesUtil.putPreferences("CODE",code);
                     get_access_token = getCodeRequest(code);
                     Thread thread = new Thread(downloadRun);
 
                     thread.start();
-                }
+
          /*   try {
                     thread.join();
                 } catch (InterruptedException e) {
@@ -355,21 +284,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     public static String getUserInfo(String access_token,String openid){
         String result = null;
-        GetUserInfo = GetUserInfo.replace("ACCESS_TOKEN",
-                urlEnodeUTF8(access_token));
-        GetUserInfo = GetUserInfo.replace("OPENID",
-                urlEnodeUTF8(openid));
-        result = GetUserInfo;
+        result= "https://api.weixin.qq.com/sns/userinfo?access_token="+access_token+"&openid="+openid;
         return result;
     }
     public static String getCodeRequest(String code) {
-        String result = null;
-        GetCodeRequest = GetCodeRequest.replace("APPID",
-                urlEnodeUTF8(Constans.WX_APP_ID));
-        GetCodeRequest = GetCodeRequest.replace("SECRET",
-                urlEnodeUTF8(Constans.AppSecret));
-        GetCodeRequest = GetCodeRequest.replace("CODE",urlEnodeUTF8( code));
-        result = GetCodeRequest;
+
+
+       String result =  "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+Constans.WX_APP_ID+"&secret="+Constans.AppSecret+"&code="+urlEnodeUTF8(code)+"&grant_type=authorization_code";
+
         return result;
     }
     public static String urlEnodeUTF8(String str) {
