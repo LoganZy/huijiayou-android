@@ -40,6 +40,7 @@ public class RecordAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         return list.get(position).getType();
+       // return  getItem(position).
     }
 
     @Override
@@ -65,23 +66,23 @@ public class RecordAdapter extends BaseAdapter {
         int type = record.getType();
         if (convertView == null) {
             switch (type) {
-                case 1:
+                case 0:
                     convertView = View.inflate(context, R.layout.item_activity_record_message, null);
                     holder = new ViewHolder(convertView);
                     convertView.setTag(holder);
                     break;
-                case 2:
+                case 1:
                     convertView = View.inflate(context, R.layout.item2_activity_record_message, null);
                     holder2 = new ViewHolder2(convertView);
                     convertView.setTag(holder2);
             }
         }else{
             switch (type){
-                case 1:
+                case 0:
                     holder = (ViewHolder) convertView.getTag();
 
                     break;
-                case 2:
+                case 1:
                     holder2 = (ViewHolder2) convertView.getTag();
 
             }
@@ -91,7 +92,7 @@ public class RecordAdapter extends BaseAdapter {
         String tail = record.getCard_number().substring(record.getCard_number().length()-4);
         switch (type){
 
-            case 1:
+            case 0:
                 holder.tvActivityRecordCompany.setText(record.getProduct_name());
                 holder.tvActivityRecordCardNumber.setText(head+"****"+tail);
                 holder.tvActivityRecordCardtype.setText(record.getTotal_time()+"个月");
@@ -106,7 +107,7 @@ public class RecordAdapter extends BaseAdapter {
                     holder.tvActivityRecordCompletionRate.setVisibility(View.VISIBLE);
                 }
                 break;
-            case 2:
+            case 1:
                 holder2.tvActivityRecordCompany2.setText(record.getProduct_name());
 
                 holder2.tvActivityRecordCardNumber2.setText(head+"****"+tail);

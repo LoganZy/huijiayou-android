@@ -63,9 +63,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private int code;
     private int time = 60;
     private Handler handler = new Handler();
-    private String unionid;
-    private String nickname;
-    private String headimgurl;
     private String invit;
 
     @Override
@@ -140,11 +137,15 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
 
     private void getUserInformation() {
         Intent intent =  getIntent();
-        nickname = intent.getStringExtra(Constans.NICKNAME);
-        headimgurl = intent.getStringExtra(Constans.HEADIMGURL);
-        unionid = intent.getStringExtra(Constans.UNIONID);
-/*        String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
-        String headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");*/
+         String nickname = intent.getStringExtra(Constans.NICKNAME);
+         String headimgurl = intent.getStringExtra(Constans.HEADIMGURL);
+         String unionid = intent.getStringExtra(Constans.UNIONID);
+     /*   if (TextUtils.equals(nickname ,"1")){
+
+            nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"123456");
+            headimgurl = PreferencesUtil.getPreferences(Constans.HEADIMGURL,"");
+        }*/
+
         tvActivityWxbindName.setText(nickname);
         //ImageSize mImageSize = new ImageSize(150,150)
         ImageLoader.getInstance().loadImage(headimgurl, new ImageLoadingListener() {
@@ -201,6 +202,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         }else{
             //请求网络
             //ToastUtils.createLongToast(WXBindActivity.this, "手机正确，谢谢输入！");
+            String unionid = PreferencesUtil.getPreferences(Constans.UNIONID,"1");
+            String headimgurl =PreferencesUtil.getPreferences(Constans.HEADIMGURL,"1");
+            String nickname = PreferencesUtil.getPreferences(Constans.NICKNAME,"1");
             telephone = telephone.replaceAll(" ","");
             HashMap<String, Object> map= new HashMap<>();
             map.put("username",telephone);
@@ -334,8 +338,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences(Constans.USER_TOKEN,token);
                     ToastUtils.createNormalToast("您的账号"+phone);
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);
-                    PreferencesUtil.putPreferences(Constans.NICKNAME,weixin_name);
-                    PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixin_head);
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     PreferencesUtil.putPreferences("phone",phone);
                     finish();
