@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -18,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.EnvUtils;
@@ -28,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
+import com.huijiayou.huijiayou.adapter.RechargeDetailDailogAdapter;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -112,8 +114,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.tv_activityPayment_coupon_payment_money)
     TextView tv_activityPayment_coupon_payment_money;
 
-    @Bind(R.id.seitch_activityPayment_coupon_oil)
-    Switch seitch_activityPayment_coupon_oil;
+    @Bind(R.id.cb_activityPayment_coupon_oil)
+    CheckBox cb_activityPayment_coupon_oil;
     //--------end-----------------------第二步  显示油卡信息
 
     @Bind(R.id.rl_activityPayment_payment)
@@ -141,6 +143,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.rl_activityPayment_success)
     RelativeLayout rl_activityPayment_success; //第四步  支付完成
 
+    @Bind(R.id.recyclerView_activityPayment_success_time)
+    RecyclerView recyclerView_activityPayment_success_time;
+
     PaymentActivityOilCarDialog paymentActivityOilCarDialog;
 
     int moneyMonth,product_id,month,oil;
@@ -167,6 +172,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public int addOilCarRequestCode = 100;
     public int couponRequestCode = 200;
 
+    RechargeDetailsDialog rechargeDetailsDialog;
+
     private ArrayList<OilCardAdapter.OilCardEntity> oilCardEntityList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +199,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         tv_activityPayment_saveMoney.setText("节省:"+saveMoney+"元");
         getOilCardList();
 
-        seitch_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
@@ -293,6 +300,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
+
+        recyclerView_activityPayment_success_time.setLayoutManager(new LinearLayoutManager(this));
     }
 
     //计算 实际支付金额
@@ -328,11 +337,15 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void rechargeDetailsDialog(View view){
-        new RechargeDetailsDialog(this,moneyMonth,month).create();
+        if (rechargeDetailsDialog == null){
+            rechargeDetailsDialog = new RechargeDetailsDialog(this,moneyMonth,month);
+        }
+        rechargeDetailsDialog.create();
     }
 
     @OnClick({ R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
-            , R.id.tv_activityPayment_coupon_coupon})
+            , R.id.tv_activityPayment_coupon_coupon,R.id.tv_activityPayment_coupon_agreement
+            ,R.id.tv_activityPayment_payment_agreement})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -359,6 +372,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
                 startActivityForResult(intent,couponRequestCode);
                 break;
+            case R.id.tv_activityPayment_coupon_agreement:
+            case R.id.tv_activityPayment_payment_agreement:
+                Intent intent1 = new Intent(this,WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                intent1.putExtra("url",Constans.user_agreement);
+                startActivity(intent1);
+                break;
+
         }
     }
 
@@ -440,14 +461,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     oil = Integer.parseInt(enableOil.toString());
                     if (oil > 0){
                         double oilPrice = ((double)oil) / 100;
-                        seitch_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
+                        cb_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
                         tv_activityPayment_coupon_oil.setText("油滴已抵扣"+oilPrice+"元");
                     }else{
-                        seitch_activityPayment_coupon_oil.setVisibility(View.GONE);
+                        cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                         tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                     }
                 }else{
-                    seitch_activityPayment_coupon_oil.setVisibility(View.GONE);
+                    cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                     tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                 }
 
@@ -490,7 +511,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             }else if (taskId == payChannelTaskId){
 
             }else if (taskId == backTaskId){
-                jsonObject.toString();
+                rl_activityPayment_payment.setVisibility(View.GONE);
+                rl_activityPayment_success.setVisibility(View.VISIBLE);
+                if (rechargeDetailsDialog == null){
+                    rechargeDetailsDialog = new RechargeDetailsDialog(this,moneyMonth,month);
+                }
+                recyclerView_activityPayment_success_time.setAdapter(new RechargeDetailDailogAdapter(rechargeDetailsDialog.rechargeArrayList));
             }
         } catch (JSONException e) {
             e.printStackTrace();

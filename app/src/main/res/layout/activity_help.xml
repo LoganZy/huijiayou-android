@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_color"
-    tools:context="com.huijiayou.huijiayou.activity.WebViewActivity">
+    tools:context="com.huijiayou.huijiayou.activity.HelpActivity">
 
     <include layout="@layout/common_title"/>
 
@@ -18,18 +17,18 @@
     <com.huijiayou.huijiayou.widget.ProgressWebView
         android:id="@+id/proWebView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
     </com.huijiayou.huijiayou.widget.ProgressWebView>
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_activityWebView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:background="@color/bg_color"-->
-        <!--android:textSize="17dp"-->
-        <!--android:visibility="gone"-->
-        <!--android:textColor="@color/orange_FF7320"-->
-        <!--tools:text="意见反馈"/>-->
+    <Button
+        android:id="@+id/btn_activityHelp_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bg_color"
+        android:textSize="17dp"
+        android:textColor="@color/orange_FF7320"
+        android:text="意见反馈"/>
 
 </LinearLayout>

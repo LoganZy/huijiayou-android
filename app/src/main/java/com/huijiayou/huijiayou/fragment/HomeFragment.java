@@ -24,8 +24,8 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
-import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
+import com.huijiayou.huijiayou.activity.WebViewActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
 import com.huijiayou.huijiayou.adapter.HomePageAdapter;
@@ -112,6 +112,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     TextView tv_fragmentHome_saveAmount; //节省的金额
 
 
+    @Bind(R.id.ll_fragmentHome_money_1)
+    LinearLayout ll_fragmentHome_money_1;
+    @Bind(R.id.ll_fragmentHome_money_2)
+    LinearLayout ll_fragmentHome_money_2;
     @Bind(R.id.tv_fragmentHomeMmoney_100)
     TextView tv_fragmentHomeMmoney_100;
     @Bind(R.id.tv_fragmentHomeMmoney_200)
@@ -176,6 +180,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             lp.height = dp2px(getActivity(),210) - (int)(navigationBarHeight * 0.6);
             lp.setMargins(dp2px(getActivity(),60), 0, dp2px(getActivity(),60), 0);
             viewPager_fragmentHome_product.setLayoutParams(lp);
+
+            LinearLayout.LayoutParams lp1 = (LinearLayout.LayoutParams) ll_fragmentHome_money_1.getLayoutParams();
+            lp1.height = dp2px(getActivity(),35);
+            lp1.setMargins(0,0,0,dp2px(getActivity(),10));
+            ll_fragmentHome_money_1.setLayoutParams(lp1);
+            LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) ll_fragmentHome_money_2.getLayoutParams();
+            lp2.height = dp2px(getActivity(),35);
+            lp2.setMargins(0,0,0,0);
+            ll_fragmentHome_money_2.setLayoutParams(lp2);
         }
 
         addOnClickListener(tv_fragmentHome_openRegionChoice,imgBtn_fragmentHome_message,tv_fragmentHome_addGasoline,imgBtn_fragmentHome_closeRegion,
@@ -245,12 +258,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
-                    animationDrawable.stop();
-                    startActivity(new Intent(getActivity(), MessageActivity.class));
-                }else{
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
+                Intent intent1 = new Intent(getActivity(),WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                String user_id = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+                String oilToken = PreferencesUtil.getPreferences("session_id","");
+                intent1.putExtra("url","http://192.168.10.212:8888/?user_id="+user_id+
+                        "&"+oilToken+"#/friend_invi");
+                startActivity(intent1);
+//                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+//                    animationDrawable.stop();
+//                    startActivity(new Intent(getActivity(), MessageActivity.class));
+//                }else{
+//                    startActivity(new Intent(getActivity(), LoginActivity.class));
+//                }
 
                 break;
             case R.id.tv_fragmentHome_addGasoline:

@@ -25,7 +25,7 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         url = intent.getStringExtra("url");
-        tvTitle.setText("title");
+        tvTitle.setText(title);
         proWebView.loadUrl(url);
     }
 }

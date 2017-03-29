@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.http.SslError;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
 import com.huijiayou.huijiayou.R;
 
 /**
@@ -78,5 +80,14 @@ public class ProgressWebView extends WebView {
         lp.y = t;
         progressbar.setLayoutParams(lp);
         super.onScrollChanged(l, t, oldl, oldt);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
+            goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

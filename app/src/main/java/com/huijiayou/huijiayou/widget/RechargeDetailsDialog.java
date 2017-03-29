@@ -22,19 +22,18 @@ import java.util.Calendar;
 public class RechargeDetailsDialog {
 
     Context context;
-    ArrayList<RechargeDetailDailogAdapter.Recharge> rechargeArrayList;
+    public ArrayList<RechargeDetailDailogAdapter.Recharge> rechargeArrayList;
     public RechargeDetailsDialog(Context context,int moneyMonth,int month){
         this.context = context;
-        initData(moneyMonth,month);
+        rechargeArrayList = initData(moneyMonth,month);
     }
 
-    private void initData(int moneyMonth,int month){
-        String str = "yyyy-MM-dd";
+    public ArrayList<RechargeDetailDailogAdapter.Recharge> initData(int moneyMonth,int month){
+        ArrayList<RechargeDetailDailogAdapter.Recharge> recharges = new ArrayList<>();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy / MM/dd");
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         RechargeDetailDailogAdapter.Recharge recharge = null;
-        rechargeArrayList = new ArrayList<>();
         for (int i = 1; i <= month; i++){
             recharge = new RechargeDetailDailogAdapter.Recharge();
             recharge.setMoney(moneyMonth+ " (" + i + "/" + month + "" + ")");
@@ -43,10 +42,11 @@ public class RechargeDetailsDialog {
             }else {
                 recharge.setTiem(simpleDateFormat.format(calendar.getTime()));
             }
-            rechargeArrayList.add(recharge);
+            recharges.add(recharge);
             calendar.set(Calendar.DAY_OF_MONTH,day);
             calendar.add(Calendar.MONTH,1);
         }
+        return recharges;
     }
 
     public void create(){
