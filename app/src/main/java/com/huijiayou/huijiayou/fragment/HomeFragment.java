@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
+import com.huijiayou.huijiayou.utils.NavbarUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
@@ -50,6 +52,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.ashokvarma.bottomnavigation.utils.Utils.dp2px;
 
 /**
  * Created by lugg on 2017/2/24.
@@ -166,6 +170,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     }
 
     private void initView() {
+        int navigationBarHeight = NavbarUtil.getNavigationBarHeight(getActivity());
+        if (navigationBarHeight != 0){
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(viewPager_fragmentHome_product.getLayoutParams());
+            lp.height = dp2px(getActivity(),210) - (int)(navigationBarHeight * 0.6);
+            lp.setMargins(dp2px(getActivity(),60), 0, dp2px(getActivity(),60), 0);
+            viewPager_fragmentHome_product.setLayoutParams(lp);
+        }
+
         addOnClickListener(tv_fragmentHome_openRegionChoice,imgBtn_fragmentHome_message,tv_fragmentHome_addGasoline,imgBtn_fragmentHome_closeRegion,
                 tv_fragmentHome_botton,tv_fragmentHomeMmoney_100,tv_fragmentHomeMmoney_200,tv_fragmentHomeMmoney_500,
                 tv_fragmentHomeMmoney_1000,tv_fragmentHomeMmoney_2000,tv_fragmentHomeMmoney_3000,imgBtn_fragmentHome_info);
@@ -187,9 +199,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-//            HashMap<String,Object> hashMap = new HashMap<>();
-//            hashMap.put("mobile","12000000001");
-//            new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -259,7 +268,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
-
                 break;
             case R.id.imgBtn_fragmentHome_closeRegion:
             case R.id.tv_fragmentHome_botton:

@@ -10,7 +10,7 @@ public class CommitUtils {
 
     public static double bigDecimal2(double value, int digit){
         BigDecimal bigDecimal = new BigDecimal(value);
-        return bigDecimal.setScale(digit,BigDecimal.ROUND_UP).doubleValue();
+        return bigDecimal.setScale(digit,BigDecimal.ROUND_DOWN).doubleValue();
     }
 
 }

@@ -14,6 +14,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.utils.CommitUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -53,7 +54,7 @@ public class HomePageAdapter extends PagerAdapter {
         return viewArrayList.get(position);
     }
 
-    public static class Product {
+    public static class Product implements Serializable{
         private String id;
         private String ctime;
         private String utime;

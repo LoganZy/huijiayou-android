@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +29,6 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.threadpool.ThreadPool;
@@ -160,6 +160,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int orderTaskId = 6;
     int checkOrderTaskId = 7;
     int payChannelTaskId = 8;
+    int backTaskId = 9;
 
     boolean isGetOilCardInfo = true;
 
@@ -337,7 +338,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()){
             case R.id.ll_activityPayment_coupon_payment:
                 order();
-                payChannel();
+//                payChannel();
                 break;
             case R.id.btn_activityPayment_payment_payment:
                 checkOrder();
@@ -476,17 +477,20 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 ThreadPool.getThreadPool().execute(new Runnable() {
                     @Override
                     public void run() {
-//                        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+                        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
                         PayTask payTask = new PayTask(PaymentActivity.this);
-                        Map<String,String> map = payTask.payV2(orderInfo,true);
-                        Message msg = new Message();
-                        msg.what = 1;
-                        msg.obj = map;
-                        handler.sendMessage(msg);
+                        Map<String, String> result = payTask.payV2(orderInfo,true);
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = result;
+                        handler.sendMessage(message);
+
                     }
                 });
             }else if (taskId == payChannelTaskId){
 
+            }else if (taskId == backTaskId){
+                jsonObject.toString();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -512,8 +516,16 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 1){
-                msg.obj.toString();
-
+                Map<String,String> map = (Map<String, String>) msg.obj;
+                String memo = map.get("memo");
+                String result = map.get("result");
+                String resultStatus = map.get("resultStatus");
+                if ("9000".equals(resultStatus)){
+                    ToastUtils.createNormalToast(PaymentActivity.this, "支付成功");
+                }else{
+                    ToastUtils.createNormalToast(PaymentActivity.this, memo);
+                }
+                back(memo, result, resultStatus);
             }
             return false;
         }
@@ -613,11 +625,23 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 hashMap, true, this).executeTask();
     }
 
-    private void payChannel(){
+    private void back(String memo, String result, String resultStatus){
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("time",System.currentTimeMillis());
         hashMap.put("sign","");
-        new NewHttpRequest(this, NetConfig.URL_zxg + NetConfig.PAY, NetConfig.payChannel, "jsonObject", payChannelTaskId,
+        hashMap.put("memo",memo);
+        hashMap.put("result",result);
+        hashMap.put("resultStatus",resultStatus);
+        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.back, "jsonObject", backTaskId,
                 hashMap, true, this).executeTask();
     }
+
+
+//    private void payChannel(){
+//        HashMap<String,Object> hashMap = new HashMap<>();
+//        hashMap.put("time",System.currentTimeMillis());
+//        hashMap.put("sign","");
+//        new NewHttpRequest(this, NetConfig.URL_zxg + NetConfig.PAY, NetConfig.payChannel, "jsonObject", payChannelTaskId,
+//                hashMap, true, this).executeTask();
+//    }
 }

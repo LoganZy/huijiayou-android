@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.CouponActivity;
@@ -90,7 +91,7 @@ public class UserFragment extends Fragment {
     }
 
     private void isLoginOrNo() {
-        new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1,false, new NewHttpRequest.RequestCallback() {
+       /* new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.LOGINSTATUS, Constans.JSONOBJECT, 1,false, new NewHttpRequest.RequestCallback() {
             @Override
             public void netWorkError() {
 
@@ -192,7 +193,87 @@ public class UserFragment extends Fragment {
 
             }
         }).executeTask();
+*/
+        if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+            String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
+            String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
+            ImageLoader.getInstance().displayImage(user_head, imgFragmentHead,options);
+            if (TextUtils.isEmpty(name)||name==null){
+                name = "nickname";
+            }
+            tvFragmentName.setText(name);
+            tvFragmentName.setVisibility(View.VISIBLE);
+            btFragmentUserLogin.setVisibility(View.GONE);
+            //请求签到油滴的数量并显示出来
 
+            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+                @Override
+                public void netWorkError() {
+                    LogUtil.i("++++++++++++++++++++++++++++++++++");
+                }
+
+                @Override
+                public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                    if (taskId == 2) {
+                        try {
+                            String oil = jsonObject.getString("oildrop_num");
+                            //显示油滴
+                            showOil(oil);
+                            LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+                            //getView().invalidate();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void requestError(int code, MessageEntity msg, int taskId) {
+                    LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+                    PreferencesUtil.putPreferences("sigincode",code);
+                    // 当应用退出的时候设置其code为0
+                }
+            }).executeTask();
+
+
+            //显示可用的油滴数量
+            String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
+            HashMap<String, Object> map4 = new HashMap<>();
+            map4.put(Constans.USER_ID, id);
+            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                @Override
+                public void netWorkError() {
+
+                }
+
+                @Override
+                public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                    if (taskId == 4) {
+                        try {
+                            String oil = jsonObject.getString("enableOil");
+                            //显示油滴
+                            // showOil(oil.toString());
+                            tvActivityWxbindOil.setText(oil);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+                @Override
+                public void requestError(int code, MessageEntity msg, int taskId) {
+                }
+            }).executeTask();
+
+        } else {
+            tvActivityWxbindOil.setText("- - -");
+            tvFragmentName.setVisibility(View.GONE);
+            btFragmentUserLogin.setVisibility(View.VISIBLE);
+            imgFragmentHead.setImageResource(R.mipmap.ic_login_default_avatar);
+            return;
+        }
     }
 
 
@@ -234,7 +315,7 @@ public class UserFragment extends Fragment {
 
     @OnClick({R.id.ll_fragmentUser_oilCard, R.id.ll_fragmentUser_coupon, R.id.ll_fragment_frends, R.id.ll_fragment_helps, R.id.ll_fragment_setting,R.id.bt_fragmentUser_login, R.id.imgBtn_fragmentUser_award, R.id.imgbt_fragmentUser_message,R.id.ll_activity_wxbind_oil})
     public void onClick(View view) {
-        if (statusIsLogin ==0) {
+        if (!PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             return;
         }

@@ -10,7 +10,7 @@
 
         <!--详情界面-->
         <RelativeLayout
-            android:visibility="gone"
+
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -26,7 +26,7 @@
                 android:textSize="17dp"
                 android:background="@color/white"
                 android:text="我的订单" />
-            <!--<LinearLayout
+            <LinearLayout
                 android:id="@+id/ll_activity_head"
                 android:gravity="center"
                 android:layout_marginTop="50dp"
@@ -71,11 +71,11 @@
                         android:textColor="@color/white"
                         android:text="00"/>
                 </LinearLayout>
-            </LinearLayout>-->
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/lv_activity_record_bill"
-                android:layout_below="@id/tv_commonTitle_title"
+                android:layout_below="@id/ll_activity_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#F5F5F5"/>
@@ -97,6 +97,7 @@
 
         <!--登录界面-->
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_fragmentUser_login"
             android:orientation="vertical"
             android:layout_width="match_parent"

@@ -207,6 +207,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                     tv_activityCoupon_noUseTag.setVisibility(View.GONE);
                     recyclerView_activityCoupon_noUse.setVisibility(View.GONE);
                 }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

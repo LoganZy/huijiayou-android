@@ -23,13 +23,14 @@
 
     </com.huijiayou.huijiayou.widget.ProgressWebView>
 
-    <Button
-        android:id="@+id/btn_activityWebView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/bg_color"
-        android:textSize="17dp"
-        android:textColor="@color/orange_FF7320"
-        tools:text="意见反馈"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn_activityWebView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="@color/bg_color"-->
+        <!--android:textSize="17dp"-->
+        <!--android:visibility="gone"-->
+        <!--android:textColor="@color/orange_FF7320"-->
+        <!--tools:text="意见反馈"/>-->
 
 </LinearLayout>

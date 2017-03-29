@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.R;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PayingActivity extends BaseActivity {
 
@@ -18,6 +19,8 @@ public class PayingActivity extends BaseActivity {
     ImageView imgActivityPayingIoc;
     @Bind(R.id.tv_activityPaying_cardNum)
     TextView tvActivityPayingCardNum;
+    @Bind(R.id.tv_activityPaying_username)
+    TextView tvActivityPayingUsername;
     @Bind(R.id.tv_activityPaying_discount_before_amount)
     TextView tvActivityPayingDiscountBeforeAmount;
     @Bind(R.id.tv_activityPaying_discount_after_amount)
@@ -27,10 +30,12 @@ public class PayingActivity extends BaseActivity {
     @Bind(R.id.tv_activityPaying_time)
     TextView tvActivityPayingTime;
     private String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paying);
+        ButterKnife.bind(this);
         initTitle();
         tvTitle.setText("交易详情");
         tvBack.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +48,7 @@ public class PayingActivity extends BaseActivity {
         initData();
         initView();
     }
+
     private void initView() {
 
     }
@@ -50,7 +56,7 @@ public class PayingActivity extends BaseActivity {
     private void initData() {
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        id = b.getString("id");
+        // id = b.getString("id");
         String card_number = b.getString("card_number");
         String discount_before_amount = b.getString("discount_before_amount");
         String discount_after_amount = b.getString("discount_after_amount");
