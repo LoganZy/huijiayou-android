@@ -56,6 +56,10 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     TextView tvActivityWxbindSendPhoneCode;
     @Bind(R.id.ll_activity_wxbind_invit)
     LinearLayout llActivityWxbindInvit;
+    @Bind(R.id.tv_activity_wxbind_agreenment)
+    TextView tvActivityWxbindAgreenment;
+    @Bind(R.id.tv_activity_wxbind_check)
+    TextView getTvActivityWxbindCheck;
     private String telephone;
     private String SMScode;
    // private String invite;
@@ -64,12 +68,14 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private int time = 60;
     private Handler handler = new Handler();
     private String invit;
+    private boolean isagreement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxbind);
         ButterKnife.bind(this);
+        isagreement = true;
         initView();
     }
 
@@ -131,6 +137,18 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
 
             }
         });
+        getTvActivityWxbindCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isagreement){
+
+                    isagreement = false;
+                }else{
+
+                    isagreement = true;
+                }
+            }
+        });
         //获取用户的头像和姓名展示
         getUserInformation();
     }
@@ -171,17 +189,27 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         });
     }
 
-    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind,R.id.imag_activityLogin_back})
+    @OnClick({R.id.tv_activity_wxbind_sendPhoneCode, R.id.btn_activity_wxbind_Bind,R.id.imag_activityLogin_back,R.id.tv_activity_wxbind_agreenment})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_activity_wxbind_sendPhoneCode:
                 getSMScode();
                 break;
             case R.id.btn_activity_wxbind_Bind:
+                if (!isagreement){
+                    ToastUtils.createNormalToast("请您点击同意注册协议");
+                    return;
+                }
                 bindTelephone();
                 break;
             case R.id.imag_activityLogin_back:
                 finish();
+                break;
+            case R.id.tv_activity_wxbind_agreenment:
+                Intent intent1 = new Intent(this,WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                intent1.putExtra("url",Constans.register_agreement);
+                startActivity(intent1);
                 break;
         }
     }
@@ -336,7 +364,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE, invite_code);
                     PreferencesUtil.putPreferences(Constans.USER_PHONE, phone);
                     PreferencesUtil.putPreferences(Constans.USER_TOKEN,token);
-                    ToastUtils.createNormalToast("您的账号"+phone);
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     PreferencesUtil.putPreferences("phone",phone);

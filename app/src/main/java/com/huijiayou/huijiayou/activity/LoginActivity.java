@@ -60,6 +60,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     public static String uuid;
     @Bind(R.id.ima_activityLogin_back)
     ImageButton imaActivityLoginBack;
+    @Bind(R.id.tv_activityLogin_agreenment)
+    TextView tvActivityLoginAgreenment;
+    @Bind(R.id.iv_activityLogin_check)
+    TextView ibActivityLoginAgreement;
     private int time = 60;
     private String telephone;
     private String SMScode;
@@ -67,6 +71,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private Handler handler = new Handler() {
     };
     private String invit;
+    private boolean isagreement ;
 
 
     @Override
@@ -75,7 +80,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        isagreement=true;
         initView();
+
+
 
     }
 
@@ -83,8 +91,34 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         WXLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isagreement){
+                    ToastUtils.createNormalToast("请您点击同意注册协议");
+                    return;
+                }
                 WetLogin();
                 finish();
+            }
+        });
+        tvActivityLoginAgreenment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(LoginActivity.this,WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                intent1.putExtra("url",Constans.register_agreement);
+                startActivity(intent1);
+            }
+        });
+
+        ibActivityLoginAgreement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isagreement){
+                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_clear);
+                    isagreement = false;
+                }else{
+                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_check);
+                    isagreement = true;
+                }
             }
         });
 
@@ -173,6 +207,9 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     time = 60;
                     //向服务器请求
                     startTime();
+                    editActivityLoginPhone.clearFocus();
+                    editActivityLoginPhoneCode.setFocusable(true);
+                    editActivityLoginPhoneCode.requestFocus();
                     telephone = telephone.replaceAll(" ", "");
                     getVerificationCode(telephone);
                 }
@@ -278,6 +315,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     * */
     @OnClick(R.id.btn_activityLogin_login)
     public void onClick() {
+        if (!isagreement){
+            ToastUtils.createNormalToast("请您点击同意注册协议");
+            return;
+        }
         invit = editActivityLoginInvit.getText().toString().trim();
         if (TextUtils.isEmpty(invit) || invit == null) {
             invit = "";
@@ -306,6 +347,13 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     }
 
+
+
+
+    /*
+    * 请求回调
+    *
+    * */
     @Override
     public void netWorkError() {
         LogUtil.i("错误了");

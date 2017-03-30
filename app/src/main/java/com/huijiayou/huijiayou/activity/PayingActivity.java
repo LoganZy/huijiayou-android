@@ -29,6 +29,8 @@ public class PayingActivity extends BaseActivity {
     TextView tvActivityPayingOrderNum;
     @Bind(R.id.tv_activityPaying_time)
     TextView tvActivityPayingTime;
+    @Bind(R.id.tv_activityPaying_name)
+    TextView tvActivityPayingProductname;
     private String id;
 
     @Override
@@ -64,6 +66,7 @@ public class PayingActivity extends BaseActivity {
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
         String user_name = b.getString("user_name");
+        String product_name = b.getString("product_name");
         //1中石化2中石油
 
         if (TextUtils.equals(belong, "2")) {
@@ -72,6 +75,7 @@ public class PayingActivity extends BaseActivity {
             imgActivityPayingIoc.setBackgroundResource(R.mipmap.ic_details_sinopec);
 
         }
+        tvActivityPayingUsername.setText(product_name);
         tvActivityPayingUsername.setText(user_name);
         tvActivityPayingCardNum.setText(card_number);
         tvActivityPayingDiscountAfterAmount.setText(discount_after_amount);

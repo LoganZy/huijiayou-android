@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.fragment.HomeFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +33,8 @@ public class CloseDealActivity extends BaseActivity {
     Button btActivityClosePay;
     @Bind(R.id.tv_activityClose_username)
     TextView tvActivityCloseUsername;
+    @Bind(R.id.tv_activityClose_productname)
+    TextView tvActivityCloseProductname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,7 @@ public class CloseDealActivity extends BaseActivity {
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
         String user_name = b.getString("user_name");
+        String product_name = b.getString("product_name");
         //1中石化2中石油
 
         if (TextUtils.equals(belong, "2")) {
@@ -72,6 +76,7 @@ public class CloseDealActivity extends BaseActivity {
             imgActivityCloseCard.setBackgroundResource(R.mipmap.ic_details_sinopec);
 
         }
+        tvActivityCloseProductname.setText(product_name);
         tvActivityCloseUsername.setText(user_name);
         tvActivityCloseCardNum.setText(card_number);
         tvActivityCloseAfter.setText(discount_after_amount);
@@ -84,5 +89,11 @@ public class CloseDealActivity extends BaseActivity {
 
     @OnClick(R.id.bt_activityClose_pay)
     public void onClick() {
+        Intent intent = new Intent();
+        intent.putExtra("type", HomeFragment.TAG);
+        startActivity(intent);
+        finish();
     }
+
+
 }

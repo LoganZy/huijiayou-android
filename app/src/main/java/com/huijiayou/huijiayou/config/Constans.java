@@ -32,10 +32,10 @@ public class Constans {
     public static final String user_agreement = "http://192.168.10.212:8888/#/user_agreement";
     public static final String help = "http://192.168.10.212:8888/#/help";
 
-    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-//    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-//    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
+      public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+      public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
+   //public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+   //public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
 
     public final static String ACCOUNT = "/service.php?c=account";

@@ -61,8 +61,8 @@ public class OrderFragment extends Fragment {
     Button btFragmentGasLogin;
     @Bind(R.id.bt_fragment_gas_pay)
     Button btFragmentGasPay;
-    @Bind(R.id.tv_activityRecord_money)
-    TextView tvActivityRecordMoney;
+    @Bind(R.id.tv_activityRecord_money1)
+    TextView tvActivityRecordMoney1;
     @Bind(R.id.tv_activityRecord_cent)
     TextView tvActivityRecordCent;
     @Bind(R.id.lv_activity_record_bill)
@@ -86,6 +86,7 @@ public class OrderFragment extends Fragment {
 
         initView();
         initListion();
+        orderFragmentIsLoginOrno();
         return view;
     }
 
@@ -151,10 +152,10 @@ public class OrderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        isLoginOrno();
+       //orderFragmentIsLoginOrno();
     }
 
-    private void isLoginOrno() {
+    public void orderFragmentIsLoginOrno() {
 
 
         if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
@@ -302,7 +303,7 @@ public class OrderFragment extends Fragment {
         //获取头部节省的钱数
 
         getRecord();
-       // getSaveMoney();
+        getSaveMoney();
     }
 
     private void getRecord() {
@@ -410,12 +411,13 @@ public class OrderFragment extends Fragment {
                     String money = null;
                     try {
                         money = jsonObject.getString("money");
-                        if (!TextUtils.isEmpty(money)||money!=null){
-                            String[] arrr =money.split(".");
-                            money1 = arrr[0];
-                            money2 = arrr[1];
-                            tvActivityRecordCent.setText(money1+".");
-                            tvActivityRecordCent.setText(money2); }
+                            LogUtil.i(money);
+
+
+                            money1 = money.substring(0,1);
+                            money2 = money.substring(2,money.length());
+                            tvActivityRecordMoney1.setText(money1+".");
+                            tvActivityRecordCent.setText(money2);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
