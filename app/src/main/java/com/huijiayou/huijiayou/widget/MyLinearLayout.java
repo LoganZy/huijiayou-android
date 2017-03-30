@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -72,8 +73,8 @@ public class MyLinearLayout extends LinearLayout {
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getResources().getColor(R.color.my_edittext_frame_color));
-//        RectF rectF = new RectF(startX,startY,width-startX,height-startY);
-//        canvas.drawRoundRect(rectF,dp2px(context,5),dp2px(context,5),paint);
+        RectF rectF = new RectF(startX,startY,width-startX,height-startY);
+        canvas.drawRoundRect(rectF,dp2px(context,5),dp2px(context,5),paint);
 
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.FILL);

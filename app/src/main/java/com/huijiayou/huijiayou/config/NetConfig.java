@@ -13,10 +13,10 @@ public class NetConfig {
     public final static String message_mark = "mark";
 
 
-//    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-//    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
+    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
+//    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+//    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
     public final static String ACCOUNT = "/service.php?c=account";
     public final static String OILCARD = "/index.php?c=oilcard";

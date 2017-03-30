@@ -61,7 +61,12 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         Drawable drawable = null;
         if ("0".equals(coupon.getPackets_type())){//0直抵
             double amount = Double.parseDouble(coupon.getAmount());
-            amount = CommitUtils.bigDecimal2(amount,2);
+            if (amount == (int)amount){
+                holder.tv_itemActivityCoupon_moneyNumber.setText((int)amount+"");
+            }else{
+                amount = CommitUtils.bigDecimal2(amount,1);
+                holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
+            }
             holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
             int limitMoney = (int)Double.parseDouble(coupon.getLimit_money());
             String text = "满"+limitMoney+"元可用";
@@ -121,16 +126,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
             holder.tv_itemActivityCoupon_time.setText(start+" - "+ end);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-        if (TextUtils.isEmpty(belong) || !belong.equals(coupon.getProduct_info().getBelong())){
-
-        }
-        if (!TextUtils.isEmpty(totalMoney)){
-
-        }
-        if (!TextUtils.isEmpty(time)){
-
         }
     }
 

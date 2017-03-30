@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -18,17 +20,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
+import com.huijiayou.huijiayou.adapter.RechargeDetailDailogAdapter;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.threadpool.ThreadPool;
@@ -112,8 +114,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.tv_activityPayment_coupon_payment_money)
     TextView tv_activityPayment_coupon_payment_money;
 
-    @Bind(R.id.seitch_activityPayment_coupon_oil)
-    Switch seitch_activityPayment_coupon_oil;
+    @Bind(R.id.cb_activityPayment_coupon_oil)
+    CheckBox cb_activityPayment_coupon_oil;
     //--------end-----------------------第二步  显示油卡信息
 
     @Bind(R.id.rl_activityPayment_payment)
@@ -141,6 +143,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.rl_activityPayment_success)
     RelativeLayout rl_activityPayment_success; //第四步  支付完成
 
+    @Bind(R.id.recyclerView_activityPayment_success_time)
+    RecyclerView recyclerView_activityPayment_success_time;
+
     PaymentActivityOilCarDialog paymentActivityOilCarDialog;
 
     int moneyMonth,product_id,month,oil;
@@ -160,11 +165,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int orderTaskId = 6;
     int checkOrderTaskId = 7;
     int payChannelTaskId = 8;
+    int backTaskId = 9;
 
     boolean isGetOilCardInfo = true;
 
     public int addOilCarRequestCode = 100;
     public int couponRequestCode = 200;
+
+    RechargeDetailsDialog rechargeDetailsDialog;
 
     private ArrayList<OilCardAdapter.OilCardEntity> oilCardEntityList = new ArrayList<>();
     @Override
@@ -191,7 +199,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         tv_activityPayment_saveMoney.setText("节省:"+saveMoney+"元");
         getOilCardList();
 
-        seitch_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
@@ -292,6 +300,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
+
+        recyclerView_activityPayment_success_time.setLayoutManager(new LinearLayoutManager(this));
     }
 
     //计算 实际支付金额
@@ -327,17 +337,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void rechargeDetailsDialog(View view){
-        new RechargeDetailsDialog(this,moneyMonth,month).create();
+        if (rechargeDetailsDialog == null){
+            rechargeDetailsDialog = new RechargeDetailsDialog(this,moneyMonth,month);
+        }
+        rechargeDetailsDialog.create();
     }
 
     @OnClick({ R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
-            , R.id.tv_activityPayment_coupon_coupon})
+            , R.id.tv_activityPayment_coupon_coupon,R.id.tv_activityPayment_coupon_agreement
+            ,R.id.tv_activityPayment_payment_agreement})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_activityPayment_coupon_payment:
                 order();
-                payChannel();
+//                payChannel();
                 break;
             case R.id.btn_activityPayment_payment_payment:
                 checkOrder();
@@ -358,6 +372,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
                 startActivityForResult(intent,couponRequestCode);
                 break;
+            case R.id.tv_activityPayment_coupon_agreement:
+            case R.id.tv_activityPayment_payment_agreement:
+                Intent intent1 = new Intent(this,WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                intent1.putExtra("url",Constans.user_agreement);
+                startActivity(intent1);
+                break;
+
         }
     }
 
@@ -439,14 +461,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     oil = Integer.parseInt(enableOil.toString());
                     if (oil > 0){
                         double oilPrice = ((double)oil) / 100;
-                        seitch_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
+                        cb_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
                         tv_activityPayment_coupon_oil.setText("油滴已抵扣"+oilPrice+"元");
                     }else{
-                        seitch_activityPayment_coupon_oil.setVisibility(View.GONE);
+                        cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                         tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                     }
                 }else{
-                    seitch_activityPayment_coupon_oil.setVisibility(View.GONE);
+                    cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                     tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                 }
 
@@ -476,17 +498,25 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 ThreadPool.getThreadPool().execute(new Runnable() {
                     @Override
                     public void run() {
-//                        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+                        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
                         PayTask payTask = new PayTask(PaymentActivity.this);
-                        Map<String,String> map = payTask.payV2(orderInfo,true);
-                        Message msg = new Message();
-                        msg.what = 1;
-                        msg.obj = map;
-                        handler.sendMessage(msg);
+                        Map<String, String> result = payTask.payV2(orderInfo,true);
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = result;
+                        handler.sendMessage(message);
+
                     }
                 });
             }else if (taskId == payChannelTaskId){
 
+            }else if (taskId == backTaskId){
+                rl_activityPayment_payment.setVisibility(View.GONE);
+                rl_activityPayment_success.setVisibility(View.VISIBLE);
+                if (rechargeDetailsDialog == null){
+                    rechargeDetailsDialog = new RechargeDetailsDialog(this,moneyMonth,month);
+                }
+                recyclerView_activityPayment_success_time.setAdapter(new RechargeDetailDailogAdapter(rechargeDetailsDialog.rechargeArrayList));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -512,8 +542,16 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 1){
-                msg.obj.toString();
-
+                Map<String,String> map = (Map<String, String>) msg.obj;
+                String memo = map.get("memo");
+                String result = map.get("result");
+                String resultStatus = map.get("resultStatus");
+                if ("9000".equals(resultStatus)){
+                    ToastUtils.createNormalToast(PaymentActivity.this, "支付成功");
+                }else{
+                    ToastUtils.createNormalToast(PaymentActivity.this, memo);
+                }
+                back(memo, result, resultStatus);
             }
             return false;
         }
@@ -613,11 +651,23 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 hashMap, true, this).executeTask();
     }
 
-    private void payChannel(){
+    private void back(String memo, String result, String resultStatus){
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("time",System.currentTimeMillis());
         hashMap.put("sign","");
-        new NewHttpRequest(this, NetConfig.URL_zxg + NetConfig.PAY, NetConfig.payChannel, "jsonObject", payChannelTaskId,
+        hashMap.put("memo",memo);
+        hashMap.put("result",result);
+        hashMap.put("resultStatus",resultStatus);
+        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.back, "jsonObject", backTaskId,
                 hashMap, true, this).executeTask();
     }
+
+
+//    private void payChannel(){
+//        HashMap<String,Object> hashMap = new HashMap<>();
+//        hashMap.put("time",System.currentTimeMillis());
+//        hashMap.put("sign","");
+//        new NewHttpRequest(this, NetConfig.URL_zxg + NetConfig.PAY, NetConfig.payChannel, "jsonObject", payChannelTaskId,
+//                hashMap, true, this).executeTask();
+//    }
 }

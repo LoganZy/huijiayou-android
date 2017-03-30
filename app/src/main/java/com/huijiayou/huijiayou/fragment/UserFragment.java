@@ -5,7 +5,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.CouponActivity;
+import com.huijiayou.huijiayou.activity.HelpActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.OilActivity;
@@ -356,38 +355,38 @@ public class UserFragment extends Fragment {
             case R.id.ll_fragment_frends:
                 break;
             case R.id.ll_fragment_helps:
-
-                //伪代码测试接口  可去掉
-                String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
-                LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
-                HashMap<String, Object> map4 = new HashMap<>();
-                map4.put("user_id", id);
-                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
-                    @Override
-                    public void netWorkError() {
-
-                    }
-
-                    @Override
-                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                        if (taskId == 4) {
-                            try {
-                              Object oil = jsonObject.getString("enableOil");
-                                //显示油滴
-                               // showOil(oil.toString());
-                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-                    @Override
-                    public void requestError(int code, MessageEntity msg, int taskId) {
-                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
-                    }
-                }).executeTask();
+                startActivity(new Intent(getActivity(), HelpActivity.class));
+//                //伪代码测试接口  可去掉
+//                String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
+//                LogUtil.i("++++++++++++++++++"+id+"++++++++++++++++");
+//                HashMap<String, Object> map4 = new HashMap<>();
+//                map4.put("user_id", id);
+//                new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+//                    @Override
+//                    public void netWorkError() {
+//
+//                    }
+//
+//                    @Override
+//                    public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+//                        if (taskId == 4) {
+//                            try {
+//                              Object oil = jsonObject.getString("enableOil");
+//                                //显示油滴
+//                               // showOil(oil.toString());
+//                                LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    }
+//                    @Override
+//                    public void requestError(int code, MessageEntity msg, int taskId) {
+//                        LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
+//                    }
+//                }).executeTask();
                 break;
             case R.id.ll_fragment_setting:
                 startActivity(new Intent(getActivity(), CancelActivity.class));
@@ -441,6 +440,11 @@ public class UserFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (this.getView() != null)
+            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
 
 }

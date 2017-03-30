@@ -50,7 +50,6 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 /**
  * Created by lugg on 2017/2/24.

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,8 +24,8 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
-import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
+import com.huijiayou.huijiayou.activity.WebViewActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
 import com.huijiayou.huijiayou.adapter.HomePageAdapter;
@@ -34,6 +35,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
+import com.huijiayou.huijiayou.utils.NavbarUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
@@ -50,6 +52,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.ashokvarma.bottomnavigation.utils.Utils.dp2px;
 
 /**
  * Created by lugg on 2017/2/24.
@@ -108,6 +112,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     TextView tv_fragmentHome_saveAmount; //节省的金额
 
 
+    @Bind(R.id.ll_fragmentHome_money_1)
+    LinearLayout ll_fragmentHome_money_1;
+    @Bind(R.id.ll_fragmentHome_money_2)
+    LinearLayout ll_fragmentHome_money_2;
     @Bind(R.id.tv_fragmentHomeMmoney_100)
     TextView tv_fragmentHomeMmoney_100;
     @Bind(R.id.tv_fragmentHomeMmoney_200)
@@ -166,6 +174,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     }
 
     private void initView() {
+        int navigationBarHeight = NavbarUtil.getNavigationBarHeight(getActivity());
+        if (navigationBarHeight != 0){
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(viewPager_fragmentHome_product.getLayoutParams());
+            lp.height = dp2px(getActivity(),210) - (int)(navigationBarHeight * 0.6);
+            lp.setMargins(dp2px(getActivity(),60), 0, dp2px(getActivity(),60), 0);
+            viewPager_fragmentHome_product.setLayoutParams(lp);
+
+            LinearLayout.LayoutParams lp1 = (LinearLayout.LayoutParams) ll_fragmentHome_money_1.getLayoutParams();
+            lp1.height = dp2px(getActivity(),35);
+            lp1.setMargins(0,0,0,dp2px(getActivity(),10));
+            ll_fragmentHome_money_1.setLayoutParams(lp1);
+            LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) ll_fragmentHome_money_2.getLayoutParams();
+            lp2.height = dp2px(getActivity(),35);
+            lp2.setMargins(0,0,0,0);
+            ll_fragmentHome_money_2.setLayoutParams(lp2);
+        }
+
         addOnClickListener(tv_fragmentHome_openRegionChoice,imgBtn_fragmentHome_message,tv_fragmentHome_addGasoline,imgBtn_fragmentHome_closeRegion,
                 tv_fragmentHome_botton,tv_fragmentHomeMmoney_100,tv_fragmentHomeMmoney_200,tv_fragmentHomeMmoney_500,
                 tv_fragmentHomeMmoney_1000,tv_fragmentHomeMmoney_2000,tv_fragmentHomeMmoney_3000,imgBtn_fragmentHome_info);
@@ -187,9 +212,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-//            HashMap<String,Object> hashMap = new HashMap<>();
-//            hashMap.put("mobile","12000000001");
-//            new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
         linearLayoutManagerCity = new LinearLayoutManager(getActivity());
         recyclerView_fragmentHome_city.setLayoutManager(linearLayoutManagerCity);
         linearLayoutManagerProduct = new LinearLayoutManager(getActivity());
@@ -236,12 +258,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
-                    animationDrawable.stop();
-                    startActivity(new Intent(getActivity(), MessageActivity.class));
-                }else{
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
+                Intent intent1 = new Intent(getActivity(),WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                String user_id = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+                String oilToken = PreferencesUtil.getPreferences("session_id","");
+                intent1.putExtra("url","http://192.168.10.212:8888/?user_id="+user_id+
+                        "&"+oilToken+"#/friend_invi");
+                startActivity(intent1);
+//                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+//                    animationDrawable.stop();
+//                    startActivity(new Intent(getActivity(), MessageActivity.class));
+//                }else{
+//                    startActivity(new Intent(getActivity(), LoginActivity.class));
+//                }
 
                 break;
             case R.id.tv_fragmentHome_addGasoline:
@@ -259,7 +288,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
-
                 break;
             case R.id.imgBtn_fragmentHome_closeRegion:
             case R.id.tv_fragmentHome_botton:
@@ -517,5 +545,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
         ToastUtils.createLongToast(getActivity(),msg.getMessage());
+    }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (this.getView() != null)
+            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
     }
 }

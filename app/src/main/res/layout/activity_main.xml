@@ -10,8 +10,15 @@
         android:id="@+id/fl_mainActivity_fragmentShell"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rg_activityMain_menu">
+        android:layout_above="@+id/view_activityMain_line">
     </FrameLayout>
+
+    <View
+        android:id="@+id/view_activityMain_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/rg_activityMain_menu"
+        android:background="@color/line_color"/>
 
     <RadioGroup
         android:id="@+id/rg_activityMain_menu"
