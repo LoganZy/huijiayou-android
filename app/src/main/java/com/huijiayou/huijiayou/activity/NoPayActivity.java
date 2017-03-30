@@ -32,6 +32,8 @@ public class NoPayActivity extends BaseActivity {
     TextView tvActivityPayTime;
     @Bind(R.id.bt_activityPay_pay)
     Button btActivityPayPay;
+    @Bind(R.id.tv_activityPay_username)
+    TextView tvActivityPayUserName;
     private String id;
     private Handler handler = new Handler() {
     };
@@ -70,7 +72,7 @@ public class NoPayActivity extends BaseActivity {
         String order_name = b.getString("order_number");
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
-
+        String user_name = b.getString("user_name");
         //1中石化2中石油
 
         if (TextUtils.equals(belong, "2")) {
@@ -79,7 +81,7 @@ public class NoPayActivity extends BaseActivity {
             imgActivityPayIoc.setBackgroundResource(R.mipmap.ic_details_sinopec);
 
         }
-
+        tvActivityPayUserName.setText(user_name);
         tvActivityPayCardNum.setText(card_number);
         tvActivityPayDiscountAfterAmount.setText(discount_after_amount);
         tvActivityPayDiscountBeforeAmount.setText(discount_before_amount);

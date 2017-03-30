@@ -30,7 +30,8 @@ public class CloseDealActivity extends BaseActivity {
     TextView tvActivityCloseTime;
     @Bind(R.id.bt_activityClose_pay)
     Button btActivityClosePay;
-
+    @Bind(R.id.tv_activityClose_username)
+    TextView tvActivityCloseUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ public class CloseDealActivity extends BaseActivity {
         String order_name = b.getString("order_number");
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
-
+        String user_name = b.getString("user_name");
         //1中石化2中石油
 
         if (TextUtils.equals(belong, "2")) {
@@ -71,7 +72,7 @@ public class CloseDealActivity extends BaseActivity {
             imgActivityCloseCard.setBackgroundResource(R.mipmap.ic_details_sinopec);
 
         }
-
+        tvActivityCloseUsername.setText(user_name);
         tvActivityCloseCardNum.setText(card_number);
         tvActivityCloseAfter.setText(discount_after_amount);
         tvActivityCloseBefor.setText(discount_before_amount);

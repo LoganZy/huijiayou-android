@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.DetailAdapter;
 import com.huijiayou.huijiayou.bean.OrderDetail;
+import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.widget.SVListView;
@@ -47,8 +48,10 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
     TextView tvActivityDetailRechargeTime;
     @Bind(R.id.myLv_activityDetail)
     SVListView myLvActivityDetail;
+    @Bind(R.id.tv_activityDetail_username)
+    TextView tvActivityDetailUsername;
     private List<OrderDetail> list;
-    private String rechargetime;
+    private String total_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,9 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
                 finish();
             }
         });
-        initView();
+
         initData();
+        initView();
     }
 
     private void initData() {
@@ -78,33 +82,35 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
         String count = b.getString("count");
-        String total_time = b.getString("total_time");
+        total_time = b.getString("total_time");
         String product_name = b.getString("product_name");
+        String user_name = b.getString("user_name");
         if (TextUtils.equals(belong, "2")) {
             imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_cnpc);
         } else {
             imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_sinopec);
         }
+        tvActivityDetailUsername.setText(user_name);
         tvActivityDetailCardNum.setText(card_number);
         tvActivityDetailAfter.setText(discount_after_amount);
         tvActivityDetailBefor.setText(discount_before_amount);
         tvActivityDetailOrderNum.setText(order_name);
         tvActivityDetailIctime.setText(ctime);
-        tvActivityDetailProcess.setText(count + " / " + total_time);
+        tvActivityDetailProcess.setText(count + "/" + total_time);
         tvActivityDetailProductName.setText(product_name);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("order_id", id);
         map.put("sign", "");
-      // new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOARRAY, 1, map, true, this).executeTask();
+        new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOBJECT, 1, map, true, this).executeTask();
 
 
 
     }
 
     private void initView() {
-        list = new ArrayList<>();
+       /* list = new ArrayList<>();
         for(int i = 0;i<4;i++){
 
             OrderDetail orderDetail = new OrderDetail();
@@ -115,9 +121,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
             orderDetail.setStatus(""+i);
             list.add(orderDetail);
 
-        }
-        DetailAdapter detailAdapter = new DetailAdapter(this,list);
-        myLvActivityDetail.setAdapter(detailAdapter);
+        }*/
     }
 
     @Override
@@ -130,20 +134,22 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         list = new ArrayList<OrderDetail>();
         try {
             JSONArray jsonArray1 = jsonObject.getJSONArray("oil_info");
-            rechargetime = jsonArray1.getJSONObject(1).getString("recharge_amount");
-            tvActivityDetailRechargeTime.setText(rechargetime);
+            String  pay_time = jsonObject.getString("pay_time");
+            tvActivityDetailRechargeTime.setText(pay_time);
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
                 String id = jsonObject1.getString("id");
-                String total_time = jsonObject1.getString("total_time");
+                String total_time1 = jsonObject1.getString("total_time");
                 String recharge_amount = jsonObject1.getString("recharge_amount");
                 String recharge_time = jsonObject1.getString("recharge_time");
-                String status = jsonObject1.getString("status");
+                String status =jsonObject1.getString("status");
+
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setId(id);
                 orderDetail.setRecharge_amount(recharge_amount);
                 orderDetail.setRecharge_time(recharge_time);
                 orderDetail.setStatus(status);
+                orderDetail.setTotal_time(total_time);
                 list.add(orderDetail);
                 /*
                 *
@@ -157,6 +163,8 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
                 "status_name": "待充值"
                 * */
             }
+            DetailAdapter detailAdapter = new DetailAdapter(this,list);
+            myLvActivityDetail.setAdapter(detailAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

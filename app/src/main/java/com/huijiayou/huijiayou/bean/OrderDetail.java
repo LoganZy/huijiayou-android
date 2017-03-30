@@ -10,7 +10,6 @@ public class OrderDetail {
     private String recharge_amount;
     private String recharge_time;
     private String status;
-
     public String getId() {
         return id;
     }

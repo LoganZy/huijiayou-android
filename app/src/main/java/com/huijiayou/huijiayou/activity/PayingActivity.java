@@ -63,7 +63,7 @@ public class PayingActivity extends BaseActivity {
         String order_name = b.getString("order_number");
         String ctime = b.getString("ctime");
         String belong = b.getString("belong");
-
+        String user_name = b.getString("user_name");
         //1中石化2中石油
 
         if (TextUtils.equals(belong, "2")) {
@@ -72,7 +72,7 @@ public class PayingActivity extends BaseActivity {
             imgActivityPayingIoc.setBackgroundResource(R.mipmap.ic_details_sinopec);
 
         }
-
+        tvActivityPayingUsername.setText(user_name);
         tvActivityPayingCardNum.setText(card_number);
         tvActivityPayingDiscountAfterAmount.setText(discount_after_amount);
         tvActivityPayingDiscountBeforeAmount.setText(discount_before_amount);

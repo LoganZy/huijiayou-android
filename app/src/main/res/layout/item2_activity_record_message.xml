@@ -24,13 +24,16 @@
             android:textSize="13dp" />
 
         <TextView
+           android:layout_gravity="center"
             android:id="@+id/tv_activityRecord_CompletionRate2"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_recording"
-            android:gravity="center"
-            android:text="3 / 6"
-            android:textSize="13dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_recording_green"
+            android:paddingLeft="28dp"
+            android:paddingTop="3dp"
+            android:text="3/6"
+            android:textColor="#6DC152"
+            />
 
         <TextView
             android:layout_width="match_parent"

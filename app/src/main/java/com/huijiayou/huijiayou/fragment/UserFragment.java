@@ -217,6 +217,36 @@ public class UserFragment extends Fragment {
                             showOil(oil);
                             LogUtil.i("++++++++++++++++++"+oil+"++++++++++++++++");
                             //getView().invalidate();
+                            //显示可用的油滴数量
+                            String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
+                            HashMap<String, Object> map4 = new HashMap<>();
+                            map4.put(Constans.USER_ID, id);
+                            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                                @Override
+                                public void netWorkError() {
+
+                                }
+
+                                @Override
+                                public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                                    if (taskId == 4) {
+                                        try {
+                                            String oil = jsonObject.getString("enableOil");
+                                            //显示油滴
+                                            // showOil(oil.toString());
+                                            tvActivityWxbindOil.setText(oil);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+                                @Override
+                                public void requestError(int code, MessageEntity msg, int taskId) {
+                                }
+                            }).executeTask();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -229,39 +259,41 @@ public class UserFragment extends Fragment {
                     LogUtil.i("+++++++++++++++++++"+msg.getMessage()+"+++++++++++++++");
                     PreferencesUtil.putPreferences("sigincode",code);
                     // 当应用退出的时候设置其code为0
-                }
-            }).executeTask();
+                    //显示可用的油滴数量
+                    String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
+                    HashMap<String, Object> map4 = new HashMap<>();
+                    map4.put(Constans.USER_ID, id);
+                    new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                        @Override
+                        public void netWorkError() {
 
-
-            //显示可用的油滴数量
-            String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
-            HashMap<String, Object> map4 = new HashMap<>();
-            map4.put(Constans.USER_ID, id);
-            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
-                @Override
-                public void netWorkError() {
-
-                }
-
-                @Override
-                public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
-                    if (taskId == 4) {
-                        try {
-                            String oil = jsonObject.getString("enableOil");
-                            //显示油滴
-                            // showOil(oil.toString());
-                            tvActivityWxbindOil.setText(oil);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
 
-                    }
-                }
-                @Override
-                public void requestError(int code, MessageEntity msg, int taskId) {
+                        @Override
+                        public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+                            if (taskId == 4) {
+                                try {
+                                    String oil = jsonObject.getString("enableOil");
+                                    //显示油滴
+                                    // showOil(oil.toString());
+                                    tvActivityWxbindOil.setText(oil);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                        @Override
+                        public void requestError(int code, MessageEntity msg, int taskId) {
+                        }
+                    }).executeTask();
+
+
                 }
             }).executeTask();
+
+
 
         } else {
             tvActivityWxbindOil.setText("- - -");
