@@ -2,7 +2,6 @@ package com.huijiayou.huijiayou.wxapi;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
@@ -12,15 +11,11 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.Util;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 /**
  * Created by lugg on 2016/8/12.
@@ -103,18 +98,6 @@ public class ShareUtil implements View.OnClickListener {
             req.message = wxMediaMessage;
             req.scene = scene;
             MyApplication.msgApi.sendReq(req);
-            Intent intent = new Intent();
-            MyApplication.msgApi.handleIntent(intent, new IWXAPIEventHandler() {
-                @Override
-                public void onReq(BaseReq baseReq) {
-                    LogUtil.i(baseReq.transaction);
-                }
-
-                @Override
-                public void onResp(BaseResp baseResp) {
-                    LogUtil.i(baseResp.transaction);
-                }
-            });
         }
     };
 

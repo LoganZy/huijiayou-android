@@ -343,6 +343,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         rechargeDetailsDialog.create();
     }
 
+    public void shareCodePicture(View view){
+        startActivity(new Intent(this,InvitationShareActivity.class));
+    }
+
     @OnClick({ R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
             , R.id.tv_activityPayment_coupon_coupon,R.id.tv_activityPayment_coupon_agreement
             ,R.id.tv_activityPayment_payment_agreement})
@@ -417,6 +421,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         tv_activityPayment_coupon_card.setText(oilCard);
         tv_activityPayment_coupon_userName.setText(oilCardName);
         edit_activityPayment_card.setText(card);
+    }
+
+    private void showPayErrorDialog(){
+
     }
 
     @Override

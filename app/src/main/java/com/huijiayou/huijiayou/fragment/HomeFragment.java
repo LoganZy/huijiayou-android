@@ -24,8 +24,8 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
+import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.PaymentActivity;
-import com.huijiayou.huijiayou.activity.WebViewActivity;
 import com.huijiayou.huijiayou.adapter.CityAdapter;
 import com.huijiayou.huijiayou.adapter.CityAdapter.City;
 import com.huijiayou.huijiayou.adapter.HomePageAdapter;
@@ -237,7 +237,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
                 "jsonObject",productListTaskId,hashMap,true,this).executeTask();
     }
-    private void getCity(){
+    public void getCity(){
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
         hashMap.put("time",time);
@@ -258,32 +258,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 }
                 break;
             case R.id.imgBtn_fragmentHome_message:
-                Intent intent1 = new Intent(getActivity(),WebViewActivity.class);
-                intent1.putExtra("title","用户协议");
-                String user_id = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-                String oilToken = PreferencesUtil.getPreferences("session_id","");
-                intent1.putExtra("url","http://192.168.10.212:8888/?user_id="+user_id+
-                        "&"+oilToken+"#/friend_invi");
-                startActivity(intent1);
-//                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
-//                    animationDrawable.stop();
-//                    startActivity(new Intent(getActivity(), MessageActivity.class));
-//                }else{
-//                    startActivity(new Intent(getActivity(), LoginActivity.class));
-//                }
-
+                if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+                    animationDrawable.stop();
+                    startActivity(new Intent(getActivity(), MessageActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
                 break;
             case R.id.tv_fragmentHome_addGasoline:
                 if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
                     Intent intent = new Intent(new Intent(getActivity(), PaymentActivity.class));
-                    intent.putExtra("moneyMonth",moneyMonth);
+                    intent.putExtra("moneyMonth",moneyMonth);//String 单价  每个月多少钱
                     if (!TextUtils.isEmpty(currentProduct.getId())){
-                        intent.putExtra("product_id",currentProduct.getId());
-                        intent.putExtra("month",currentProduct.getProduct_time());
+                        intent.putExtra("product_id",currentProduct.getId()); //String id
+                        intent.putExtra("month",currentProduct.getProduct_time()); //String 月数  几个月的订单
                     }
-                    intent.putExtra("total",total);
-                    intent.putExtra("discountTotal",discountTotal);
-                    intent.putExtra("saveMoney",saveMoney);
+                    intent.putExtra("total",total); //double 总价 moneyMonth * month
+                    intent.putExtra("discountTotal",discountTotal); //double 折扣后的 金额 == total * 折扣
+                    intent.putExtra("saveMoney",saveMoney);//double 节省的金额 == total - discountTotal
                     startActivity(intent);
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -387,33 +379,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
-            /*if (taskId == 0){
-                JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
-                HashMap<String,Object> hashMap = new HashMap<>();
-                hashMap.put("username","12000000001");
-                hashMap.put("sms_key",jsonObject1.getString("key"));
-                hashMap.put("sms_code",jsonObject1.getString("code"));
-                new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,
-                        "jsonObject",1,hashMap,true,this).executeTask();
-
-            }else if (taskId == 1){
-                ToastUtils.createLongToast(getActivity(),jsonObject.getString("message"));
-                JSONObject jsonObject1 = jsonObject.getJSONObject(Constans.DATA);
-                String token = (String) jsonObject1.get("token");
-                String user_id = (String) jsonObject1.get("id");
-                PreferencesUtil.putPreferences("token",token);
-                PreferencesUtil.putPreferences("user_id",user_id);
-                MyApplication.isLogin = true;
-            }else if (taskId == 2){
-                if(jsonObject.getInt("status") == 0){
-                    HashMap<String,Object> hashMap = new HashMap<>();
-                    hashMap.put("mobile","12000000001");
-                    new NewHttpRequest(getActivity(),Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",0,hashMap,true,this).executeTask();
-                }else{
-                    ToastUtils.createLongToast(getActivity(),"已登录");
-                }
-            }else */ if (taskId == getCityTaskId){
-
+            if (taskId == getCityTaskId){
                 cityTotalArrayList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(),
                         new TypeToken<ArrayList<CityAdapter.City>>() {}.getType());
                 initProductCityData(cityTotalArrayList); //将获取到的数据拆分成两部分

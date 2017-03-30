@@ -435,7 +435,7 @@ public class NewHttpRequest implements Runnable {
      * 加载动画消失
      */
     private void loadingDialogDismiss() {
-        if (loadingDialog != null) {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
     }

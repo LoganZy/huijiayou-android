@@ -134,12 +134,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <!-- 支付宝 end -->
 
         <activity android:name=".activity.PaymentActivity" />
@@ -158,7 +158,8 @@
         <activity android:name=".activity.WebViewActivity" />
         <activity android:name=".activity.CancelActivity" />
         <activity android:name=".activity.PayingActivity" />
-        <activity android:name=".activity.HelpActivity"></activity>
+        <activity android:name=".activity.HelpActivity" />
+        <activity android:name=".activity.InvitationShareActivity"></activity>
     </application>
 
 </manifest>

@@ -533,6 +533,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="召唤好友赚油滴"
+            android:onClick="shareCodePicture"
             android:layout_alignParentBottom="true"
             android:background="@color/orange_FF7320"
             android:textColor="@color/white"
