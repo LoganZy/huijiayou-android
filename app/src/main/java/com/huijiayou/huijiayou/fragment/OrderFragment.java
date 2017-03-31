@@ -33,6 +33,7 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.utils.UltraCustomerHeaderUtils;
+import com.huijiayou.huijiayou.widget.LoadingHeader;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
@@ -48,9 +49,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.srain.cube.views.loadmore.LoadMoreListViewContainer;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.PtrHandler2;
 import retrofit2.Response;
 
 /**
@@ -74,7 +77,7 @@ public class OrderFragment extends Fragment {
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
     @Bind(R.id.ptr_fragmentOrder_pulltorefresh)
-    PtrClassicFrameLayout frameLayout;
+    PtrFrameLayout frameLayout;
     @Bind(R.id.ll_fragmentUser_noOder)
     LinearLayout llFragmentNoOder;
     private List<Record> recordList;
@@ -156,7 +159,11 @@ public class OrderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       //orderFragmentIsLoginOrno();
+        if(!this.isHidden()){
+            orderFragmentIsLoginOrno();
+        }
+
+
     }
 
     public void orderFragmentIsLoginOrno() {
@@ -183,44 +190,35 @@ public class OrderFragment extends Fragment {
     }
 
     private void setPulltoRefresh() {
-        UltraCustomerHeaderUtils.setUltraCustomerHeader(frameLayout, getContext());
-//设置下拉刷新上拉加载
+        //实例化自定义头部
+        LoadingHeader header = new LoadingHeader(getActivity());
+        //刷新时保留头部
+        frameLayout.setKeepHeaderWhenRefresh(true);
+        //设置刷新头部
+        frameLayout.setHeaderView(header);
+        frameLayout.addPtrUIHandler(header);
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(new PtrDefaultHandler2() {
+        frameLayout.setPtrHandler(new PtrHandler() {
+
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                frame.postDelayed(new Runnable() {
+                frameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         getRecord(1);
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 1000);
+                }, 10000);
             }
 
-            @Override
-            public void onLoadMoreBegin(PtrFrameLayout frame) {
-                frame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getRecord(2);
-                        frameLayout.refreshComplete();
-                        recordAdapter.notifyDataSetChanged();
-                    }
-                },500);
-            }
 
-            @Override
-            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
-                return super.checkCanDoLoadMore(frame, lvActivityRecordBill, footer);
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, lvActivityRecordBill, header);
-            }
         });
 
     }
@@ -437,16 +435,16 @@ public class OrderFragment extends Fragment {
             @Override
             public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
                 if(taskId==2){
-                    String money1="000.";
+                    String money1="00.";
                     String money2="00";
                     String money = null;
                     try {
                         money = jsonObject.getString("money");
                             LogUtil.i(money);
 
-
-                            money1 = money.substring(0,1);
-                            money2 = money.substring(2,money.length());
+                            String[] arr = money.split("\\.");
+                            money1 = arr[0];
+                            money2 = arr[1];
                             tvActivityRecordMoney1.setText(money1+".");
                             tvActivityRecordCent.setText(money2);
                     } catch (JSONException e) {

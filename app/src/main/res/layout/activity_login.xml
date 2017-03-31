@@ -132,7 +132,9 @@
         android:layout_below="@+id/ll_activity_login_invit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
+        <TextView
+            android:clickable="true"
+            android:gravity="center"
             android:id="@+id/btn_activityLogin_login"
             android:layout_width="300dp"
             android:layout_height="50dp"

@@ -80,7 +80,7 @@ public class UserFragment extends Fragment {
         MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         ButterKnife.bind(this, view);
-        startAnimation();
+        //startAnimation();
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.ic_login_default_avatar)
                 .showImageForEmptyUri(R.mipmap.ic_login_default_avatar)
@@ -224,7 +224,10 @@ public class UserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-      userFragmentIsLoginOrNo();
+        if(!this.isHidden()){
+            userFragmentIsLoginOrNo();
+        }
+
 
     }
 

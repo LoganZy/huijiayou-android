@@ -168,6 +168,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                         intent.putExtras(b);
                         intent.setClass(NoPayActivity.this,CloseDealActivity.class);
                         startActivity(intent);
+                        finish();
                     }
 
                 } else {
@@ -192,7 +193,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
             case 2:
                 try {
                     String ordernum =  jsonObject.getString("order_number");
-                    String moneyMoth = jsonObject.getString( "unit_price");
+                    int moneyMoth = Integer.parseInt(jsonObject.getString( "unit_price"));
                     String productId = jsonObject.getString("product_id");
                     String month = jsonObject.getString("total_time");
                     double total =Double.parseDouble(jsonObject.getString("discount_before_amount")) ;
