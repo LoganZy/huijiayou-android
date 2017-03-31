@@ -3,32 +3,24 @@ package com.huijiayou.huijiayou.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.EnvUtils;
-import com.alipay.sdk.app.PayTask;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
-import com.huijiayou.huijiayou.threadpool.ThreadPool;
 import com.huijiayou.huijiayou.utils.LogUtil;
-import com.huijiayou.huijiayou.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,28 +48,9 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     @Bind(R.id.tv_activityPay_name)
     TextView tvActivityPayName;
     private String id;
-    private Handler handler = new Handler(new Handler.Callback(){
-        @Override
-        public boolean handleMessage(Message msg) {
-            if (msg.what == 1){
-                Map<String,String> map = (Map<String, String>) msg.obj;
-                String memo = map.get("memo");
-                String result = map.get("result");
-                String resultStatus = map.get("resultStatus");
-                if ("9000".equals(resultStatus)){
-                    ToastUtils.createNormalToast(NoPayActivity.this, "支付成功");
-                }else{
-                    ToastUtils.createNormalToast(NoPayActivity.this, memo);
-                }
-                back(memo, result, resultStatus);
-            }
-            return false;
-
-        }
-    });
-    private int time1=60;
+    private Handler handler = new Handler(){};
+    private int time1;
     private int time2;
-    private String order_name;
     private Bundle b;
 
 
@@ -111,7 +84,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         String card_number = b.getString("card_number");
         String discount_before_amount = b.getString("discount_before_amount");
         String discount_after_amount = b.getString("discount_after_amount");
-        order_name = b.getString("order_number");
+        String order_name = b.getString("order_number");
         String ctime = b.getString("ctime");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -121,7 +94,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         if(TextUtils.equals(arr[0],arr1[0])){
            int i =  Integer.parseInt(arr[1])- Integer.parseInt(arr1[1]);
             if(i<15){
-               int total = 840+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60+Integer.parseInt(arr[2]);
+               int total = 840+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60-Integer.parseInt(arr[2]);
                 if (total>0){
                     time1 =total%60;
                     time2 = total/60;
@@ -162,20 +135,16 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     @OnClick(R.id.bt_activityPay_pay)
     public void onClick() {
-        checkOrder();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("time", System.currentTimeMillis());
+        map.put("order_id", id);
+        map.put("sign", "");
+        new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOBJECT, 2, map, true, this).executeTask();
+
     }
 
 
-
-    private void checkOrder(){
-        HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("time",System.currentTimeMillis());
-        hashMap.put("sign","");
-        hashMap.put("order_number",order_name);
-        hashMap.put("pay_channel","ali_pay");
-        new NewHttpRequest(this, Constans.URL_zxg + Constans.PAY, Constans.checkOrder, "jsonObject", 1,
-                hashMap, true, this).executeTask();
-    }
 
 
     /*
@@ -195,6 +164,10 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                     if (time2<0){
                         handler.removeCallbacksAndMessages(null);
                         tvActivityNopaytime.setText("支付超时");
+                        Intent intent = new Intent();
+                        intent.putExtras(b);
+                        intent.setClass(NoPayActivity.this,CloseDealActivity.class);
+                        startActivity(intent);
                     }
 
                 } else {
@@ -206,21 +179,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     }
 
-    /*
-    *
-    *
-    * */
 
-    private void back(String memo, String result, String resultStatus){
-        HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("time",System.currentTimeMillis());
-        hashMap.put("sign","");
-        hashMap.put("memo",memo);
-        hashMap.put("result",result);
-        hashMap.put("resultStatus",resultStatus);
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.back, "jsonObject", 2,
-                hashMap, true, this).executeTask();
-    }
 
     @Override
     public void netWorkError() {
@@ -230,36 +189,31 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         switch (taskId){
-            case 1:
+            case 2:
                 try {
-                    final String orderInfo = (String) jsonObject.getJSONObject("data").get("response");
-                    ThreadPool.getThreadPool().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-                            PayTask payTask = new PayTask(NoPayActivity.this);
-                            Map<String, String> result = payTask.payV2(orderInfo,true);
-                            Message message = new Message();
-                            message.what = 1;
-                            message.obj = result;
-                            handler.sendMessage(message);
-
-                        }
-                    });
+                    String ordernum =  jsonObject.getString("order_number");
+                    String moneyMoth = jsonObject.getString( "unit_price");
+                    String productId = jsonObject.getString("product_id");
+                    String month = jsonObject.getString("total_time");
+                    double total =Double.parseDouble(jsonObject.getString("discount_before_amount")) ;
+                    double saveMoney = Double.parseDouble(jsonObject.getString("discount_money"));
+                    double discountTotal = Double.parseDouble(jsonObject.getString("discount_after_amount"));
+                    Intent intent = new Intent();
+                    intent.putExtra("type",PaymentActivity.type_pay);
+                    intent.putExtra("orderNumber",ordernum);
+                    intent.putExtra("moneyMonth",moneyMoth);
+                    intent.putExtra("product_id",productId);
+                    intent.putExtra("month",month);
+                    intent.putExtra("total",total);
+                    intent.putExtra("discountTotal",discountTotal);
+                    intent.putExtra("saveMoney",saveMoney);
+                    intent.setClass(this,PaymentActivity.class);
+                    startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
                 break;
-            case 2:
-                Intent intent = new Intent();
-                intent.putExtras(b);
-                intent.setClass(this,DetailsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-
         }
     }
 

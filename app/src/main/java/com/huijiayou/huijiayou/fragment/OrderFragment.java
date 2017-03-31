@@ -21,6 +21,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.DetailsActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.NoPayActivity;
 import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
@@ -230,7 +231,7 @@ public class OrderFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.bt_fragment_order_login, R.id.bt_fragment_gas_pay})
+    @OnClick({R.id.bt_fragment_order_login, R.id.bt_fragment_gas_pay,R.id.bt_fragment_order_gotoOil})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_fragment_order_login:
@@ -242,7 +243,7 @@ public class OrderFragment extends Fragment {
                 WXpay();
                 break;
             case R.id.bt_fragment_order_gotoOil:
-
+                ((MainActivity)getActivity()).setHomeCheck();
                 break;
         }
     }
