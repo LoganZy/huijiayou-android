@@ -28,6 +28,8 @@ public class Constans {
     public final static String JSONOBJECT = "jsonObject";
     public final static String JSONOARRAY= "jsonArray";
 
+
+    public static final String getwelfare="http://192.168.10.212:8888/#/friend_request_details";
     public static final String register_agreement = "http://192.168.10.212:8888/#/register_agreement";
     public static final String user_agreement = "http://192.168.10.212:8888/#/user_agreement";
     public static final String help = "http://192.168.10.212:8888/#/help";

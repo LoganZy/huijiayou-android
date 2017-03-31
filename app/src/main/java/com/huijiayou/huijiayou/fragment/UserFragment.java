@@ -24,6 +24,7 @@ import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.OilActivity;
 import com.huijiayou.huijiayou.activity.OilCardActivity;
+import com.huijiayou.huijiayou.activity.WebViewActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -278,7 +279,10 @@ public class UserFragment extends Fragment {
                 //startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
             case R.id.imgBtn_fragmentUser_award:
-                    showOil("5");
+                Intent intent1 = new Intent(getActivity(),WebViewActivity.class);
+                intent1.putExtra("title","用户协议");
+                intent1.putExtra("url",Constans.getwelfare);
+                startActivity(intent1);
                 break;
             case R.id.imgbt_fragmentUser_message:
                 animationDrawable.stop();

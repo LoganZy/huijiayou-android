@@ -91,6 +91,7 @@ public class CloseDealActivity extends BaseActivity {
     public void onClick() {
         Intent intent = new Intent();
         intent.putExtra("type", HomeFragment.TAG);
+        intent.setClass(this,MainActivity.class);
         startActivity(intent);
         finish();
     }

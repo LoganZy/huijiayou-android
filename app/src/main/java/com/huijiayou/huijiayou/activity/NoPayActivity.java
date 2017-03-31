@@ -17,12 +17,16 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.threadpool.ThreadPool;
+import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,8 +75,8 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
         }
     });
-    private int time=60;
-    private int time2=14;
+    private int time1=60;
+    private int time2;
     private String order_name;
     private Bundle b;
 
@@ -109,6 +113,31 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         String discount_after_amount = b.getString("discount_after_amount");
         order_name = b.getString("order_number");
         String ctime = b.getString("ctime");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String current =  format.format(System.currentTimeMillis());
+        String[] arr1= ctime.split("\\:");
+        String[] arr =current.split("\\:");
+        if(TextUtils.equals(arr[0],arr1[0])){
+           int i =  Integer.parseInt(arr[1])- Integer.parseInt(arr1[1]);
+            if(i<15){
+               int total = 840+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60+Integer.parseInt(arr[2]);
+                if (total>0){
+                    time1 =total%60;
+                    time2 = total/60;
+                }else {
+
+                    tvActivityNopaytime.setText("支付超时");
+                }
+
+            }else{
+                tvActivityNopaytime.setText("支付超时");
+            }
+        }else{
+            tvActivityNopaytime.setText("支付超时");
+
+        }
+        LogUtil.i(arr[0]);
         String belong = b.getString("belong");
         String user_name = b.getString("user_name");
         String count = b.getString("count");
@@ -133,7 +162,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     @OnClick(R.id.bt_activityPay_pay)
     public void onClick() {
-
+        checkOrder();
     }
 
 
@@ -158,18 +187,18 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                time -= 1;
-                if (time < 0) {
+                time1 -= 1;
+                if (time1 <= 0) {
                     time2-=1;
-                    time=60;
+                    time1=60;
                     handler.postDelayed(this, 1000);
-                    if (time2<=0){
+                    if (time2<0){
                         handler.removeCallbacksAndMessages(null);
                         tvActivityNopaytime.setText("支付超时");
                     }
 
                 } else {
-                    tvActivityNopaytime.setText("未支付 （"+time2+":"+time+"s）" );
+                    tvActivityNopaytime.setText("未支付 （"+time2+":"+time1+"s）" );
                     handler.postDelayed(this, 1000);
                 }
             }

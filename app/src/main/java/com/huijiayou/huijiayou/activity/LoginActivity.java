@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -64,6 +65,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     TextView tvActivityLoginAgreenment;
     @Bind(R.id.iv_activityLogin_check)
     TextView ibActivityLoginAgreement;
+    @Bind(R.id.btn_activityLogin_login)
+    Button btnActivityLogin;
     private int time = 60;
     private String telephone;
     private String SMScode;
@@ -228,9 +231,11 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     public void run() {
                         time -= 1;
                         if (time <= 0) {
-                            handler.removeCallbacksAndMessages(null);
+                            btnActivityLogin.clearFocus();
                             tvActivityLoginSendPhoneCode.setEnabled(true);
+                            tvActivityLoginSendPhoneCode.setFocusable(true);
                             tvActivityLoginSendPhoneCode.setText("重新获取");
+                            handler.removeCallbacksAndMessages(null);
                         } else {
                             tvActivityLoginSendPhoneCode.setEnabled(false);
                             tvActivityLoginSendPhoneCode.setText(time + "s");
@@ -411,11 +416,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
-        switch (taskId) {
-            case 1:
+
                 ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
-            case 2:
-                ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
-        }
     }
 }
