@@ -54,7 +54,6 @@ public class InvitationActivity extends BaseActivity {
         bridgeWebView.registerHandler("invitation", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
-
                 new ShareUtil().shareWebPage(InvitationActivity.this, "title", "content", "url");
             }
         });

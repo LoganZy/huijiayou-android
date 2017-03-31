@@ -159,7 +159,8 @@
         <activity android:name=".activity.CancelActivity" />
         <activity android:name=".activity.PayingActivity" />
         <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.InvitationShareActivity"></activity>
+        <activity android:name=".activity.InvitationShareActivity" />
+        <activity android:name=".activity.IntroduceActivity"></activity>
     </application>
 
 </manifest>

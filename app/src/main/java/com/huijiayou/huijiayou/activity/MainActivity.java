@@ -90,6 +90,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                             fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
                                     .show(homeFragment).hide(orderFragment).hide(userFragment).commit();
                         }
+                        if (homeFragment.isAdded()){
+                            homeFragment.getCity();
+                        }
                         break;
                     case R.id.rb_activityMain_order:
                         if (fragments != null && fragments.contains(orderFragment)){

@@ -17,6 +17,7 @@ import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.widget.DrawablePaddingTextView;
 import com.huijiayou.huijiayou.widget.SVRecyclerView;
 import com.huijiayou.huijiayou.widget.SpaceItemDecoration;
 
@@ -58,6 +59,9 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Bind(R.id.tv_activityCoupon_use_size)
     TextView tv_activityCoupon_use_size;
+
+    @Bind(R.id.tv_activityCoupon_noData)
+    DrawablePaddingTextView tv_activityCoupon_noData;
 
     int UserPacketsInfoTaskId = 1;
     int userPacketsListTaskId = 5;
@@ -195,6 +199,11 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                 }else{
                     svRecyclerView_activityCoupon_over.setVisibility(View.VISIBLE);
                     tv_activityCoupon_over.setVisibility(View.VISIBLE);
+                }
+                if ( (couponAlreadyUseArrayList == null || couponAlreadyUseArrayList.size() == 0) &&
+                        (couponOverArrayList == null || couponOverArrayList.size() == 0) &&
+                        (couponNoUseArrayList == null || couponNoUseArrayList.size() == 0)){
+                    tv_activityCoupon_noData.setVisibility(View.VISIBLE);
                 }
             }else if (taskId == userPacketsListTaskId){
                 JSONObject jsonObject1 = jsonObject.getJSONObject("list");

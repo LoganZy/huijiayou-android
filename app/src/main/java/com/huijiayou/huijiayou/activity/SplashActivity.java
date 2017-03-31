@@ -33,7 +33,6 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slpha);
-
         handler.postDelayed(runnable,4000);
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",loginStatusTaskId,false,this).executeTask();
     }

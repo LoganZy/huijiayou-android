@@ -161,7 +161,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int getOilCardInfoTaskId = 2;
     int bindCardTaskId = 3;
     int UserEnableOilTaskId = 4;
-
+    int userPacketsListTaskId = 5;
     int orderTaskId = 6;
     int checkOrderTaskId = 7;
     int payChannelTaskId = 8;
@@ -364,9 +364,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             getOilCardList();
             rl_activityPayment_coupon.setVisibility(View.GONE);
             rl_activityPayment_inputCard.setVisibility(View.VISIBLE);
-        }else if (rl_activityPayment_payment.isShown()){
+        }else if (rl_activityPayment_payment.isShown() && type_order.equals(type)){
             rl_activityPayment_payment.setVisibility(View.GONE);
             rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+        }else if(rl_activityPayment_payment.isShown() && type_pay.equals(type)){
+            super.onBackPressed();
         }
     }
 
@@ -447,10 +449,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         rl_activityPayment_inputCard.setVisibility(View.GONE);
         rl_activityPayment_coupon.setVisibility(View.VISIBLE);
         UserEnableOil();
-//        userPacketsList();
+        userPacketsList();
         tv_activityPayment_coupon_card.setText(oilCard);
         tv_activityPayment_coupon_userName.setText(oilCardName);
         edit_activityPayment_card.setText(card);
+        tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
     }
 
     private void showPayErrorDialog(){
@@ -486,13 +489,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 bindCard();
             }else if (taskId == bindCardTaskId){
                 UserEnableOil();
-//                userPacketsList();
+                userPacketsList();
                 tv_activityPayment_coupon_card.setText(oilCard);
                 tv_activityPayment_coupon_userName.setText(oilCardName);
 
                 rl_activityPayment_inputCard.setVisibility(View.GONE);
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);
-                btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
+                tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
 
             }else if (taskId == UserEnableOilTaskId){
                 Object enableOil = jsonObject.get("enableOil");
@@ -512,26 +515,24 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
 
             }
-//            else if (taskId == userPacketsListTaskId){
-//                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
-//                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(),
-//                        new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-//                if (couponArrayList != null && couponArrayList.size() > 0){
-//                    tv_activityPayment_coupon_coupon.setEnabled(true);
-//                }else{
-//                    tv_activityPayment_coupon_coupon.setTextColor(getResources().getColor(R.color.gray));
-//                    tv_activityPayment_coupon_coupon.setText("暂无优惠券可用");
-//                    tv_activityPayment_coupon_coupon.setEnabled(false);
-//                }
-//            }
+            else if (taskId == userPacketsListTaskId){
+                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
+                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(),
+                        new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+                if (couponArrayList != null && couponArrayList.size() > 0){
+                    tv_activityPayment_coupon_coupon.setEnabled(true);
+                }else{
+                    tv_activityPayment_coupon_coupon.setTextColor(getResources().getColor(R.color.gray));
+                    tv_activityPayment_coupon_coupon.setText("暂无优惠券可用");
+                    tv_activityPayment_coupon_coupon.setEnabled(false);
+                }
+            }
             else if (taskId == orderTaskId){
-                ToastUtils.createNormalToast(this,jsonObject.toString());
                 orderNumber = (String) jsonObject.getJSONObject("data").get("order_num");
                 rl_activityPayment_coupon.setVisibility(View.GONE);
                 rl_activityPayment_payment.setVisibility(View.VISIBLE);
                 btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
             }else if (taskId == checkOrderTaskId){
-                ToastUtils.createNormalToast(this,jsonObject.toString());
                 final String orderInfo = (String) jsonObject.getJSONObject("data").get("response");
                 ThreadPool.getThreadPool().execute(new Runnable() {
                     @Override
@@ -645,7 +646,20 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserEnableOil, "jsonObject", UserEnableOilTaskId, hashMap, true, this).executeTask();
     }
 
+    /**
+     * 获取用户红包列表
+     */
+    private void userPacketsList(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
+        hashMap.put("products_id",product_id);
+        hashMap.put("card_num",oilCard);
+        hashMap.put("amount",discountTotal);
 
+        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.userPacketsList, "jsonObject", userPacketsListTaskId,
+                hashMap, true, this).executeTask();
+    }
 
     /**
      * 下单

@@ -1,7 +1,8 @@
 package com.huijiayou.huijiayou.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 
 import com.huijiayou.huijiayou.R;
 
@@ -13,28 +14,41 @@ import com.huijiayou.huijiayou.R;
 public class DialogLoading {
 
     private Dialog dialog;
-    Activity activity;
+    Context context;
+    AnimationDrawable animationDrawable;
 
-    public DialogLoading(Activity activity){
-        this.activity = activity;
-        if (dialog == null){
-            dialog = new Dialog(activity, R.style.dialog_bgTransparent);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.getWindow().setContentView(R.layout.dialog_loading);
+    public DialogLoading(Context context){
+        this.context = context;
+        dialog = new Dialog(context, R.style.dialog_bgTransparent);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setContentView(R.layout.dialog_loading);
+        animationDrawable = (AnimationDrawable) dialog.findViewById(R.id.img_dialogLoading_view).getBackground();
+    }
+
+    public void show(){
+        if (dialog != null){
+            dialog.show();
+            if (animationDrawable != null && !animationDrawable.isRunning()){
+                animationDrawable.start();
+            }
         }
     }
 
-    public Dialog GetDialog(){
-        return dialog;
+    public void dismiss(){
+        if (dialog != null){
+            dialog.dismiss();
+            if (animationDrawable != null && animationDrawable.isRunning()){
+                animationDrawable.stop();
+            }
+        }
     }
-//    public void dismiss(){
-//        if (dialog != null && dialog.isShowing()){
-//            dialog.dismiss();
-//        }
-//    }
 
-//    public boolean isShow(){
-//        return dialog.isShowing();
-//    }
+    public boolean isShow(){
+        if (dialog != null){
+            return dialog.isShowing();
+        }else{
+            return false;
+        }
+    }
 
 }

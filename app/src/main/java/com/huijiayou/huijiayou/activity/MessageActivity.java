@@ -60,6 +60,9 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.recyclerView_activityMessage_list)
     RecyclerView recyclerView_activityMessage_list;
 
+    @Bind(R.id.tv_activityMessage_noData)
+    TextView tv_activityMessage_noData;
+
     ArrayList<Message> messageArrayList;
     MessageAdapter messageAdapter;
     MessageTransactionAdapter messageTransactionAdapter;
@@ -85,6 +88,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         initTitle();
         tvTitle.setText("消息中心");
         tvRight.setText("全部已读");
+        tvRight.setTextColor(getResources().getColor(R.color.textColor_51586A));
         tvRight.setVisibility(View.VISIBLE);
 
         initView();
@@ -206,7 +210,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 messageArrayList = new Gson().fromJson(jsonObject.getJSONObject("data").get("lst").toString(),
                         new TypeToken<ArrayList<Message>>() {}.getType());
                 if (type == type_all || type == type_system){
-                    messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick);
+                    messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick,type);
                     recyclerView_activityMessage_list.setAdapter(messageAdapter);
                 }else if (type == type_transaction || type == type_activity){
                     messageTransactionAdapter = new MessageTransactionAdapter(messageArrayList, this, onBtnClick);
@@ -215,7 +219,13 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick);
                     recyclerView_activityMessage_list.setAdapter(messageAdapter);
                 }
-
+                if (messageArrayList == null || messageArrayList.size() == 0){
+                    tv_activityMessage_noData.setVisibility(View.VISIBLE);
+                    recyclerView_activityMessage_list.setVisibility(View.GONE);
+                }else{
+                    tv_activityMessage_noData.setVisibility(View.GONE);
+                    recyclerView_activityMessage_list.setVisibility(View.VISIBLE);
+                }
             }else if (taskId == markAllTaskId){
                 lst();
             }

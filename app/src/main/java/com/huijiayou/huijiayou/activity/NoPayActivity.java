@@ -180,7 +180,11 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler = null;
+    }
 
     @Override
     public void netWorkError() {

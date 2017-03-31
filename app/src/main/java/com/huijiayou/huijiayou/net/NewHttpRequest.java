@@ -25,6 +25,8 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
+import static com.huijiayou.huijiayou.MyApplication.dialogLoading;
+
 /**
  * 在之前的HttpRequest上再次封装，方便调用 by:baozi
  */
@@ -42,10 +44,7 @@ public class NewHttpRequest implements Runnable {
     private WeakReference<Activity> mactivityWeakReference;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
-    private Dialog loadingDialog;
     private boolean isShowLoad = true;
-    private Dialog loggin_overdue_dialog;
-    private Dialog loggin_invalid_dialog;
 
     public interface RequestCallback {
 
@@ -426,20 +425,21 @@ public class NewHttpRequest implements Runnable {
      * 显示加载动画
      */
     private void showLoadingDialog() {
-        if (loadingDialog == null){
-            loadingDialog = new DialogLoading(mactivityWeakReference.get()).GetDialog();
+        if (dialogLoading == null){
+            dialogLoading = new DialogLoading(mactivityWeakReference.get());
         }
-        if (!loadingDialog.isShowing()){
-            loadingDialog.show();
+        if (!dialogLoading.isShow()){
+            dialogLoading.show();
         }
+
     }
 
     /**
      * 加载动画消失
      */
     private void loadingDialogDismiss() {
-        if (loadingDialog != null && loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
+        if (dialogLoading != null && dialogLoading.isShow()) {
+            dialogLoading.dismiss();
         }
     }
 

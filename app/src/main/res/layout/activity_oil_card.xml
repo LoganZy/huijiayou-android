@@ -16,6 +16,7 @@
         android:background="@mipmap/ic_navbar_bg" />
 
     <ScrollView
+        android:id="@+id/sv_activityOilCard_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -53,6 +54,35 @@
 
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/ll_activityOilCard_noData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_default_card"
+            android:gravity="center"
+            android:drawablePadding="20dp"
+            android:text="未添加加油卡"/>
+
+        <Button
+            android:id="@+id/btn_activityOilCard_noData_addOilCard"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/shape_activity_add_oil_card_add"
+            android:gravity="center"
+            android:onClick="addOilCard"
+            android:text="添加加油卡"
+            android:textSize="17dp"
+            android:textColor="@color/orange_FFA302" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.huijiayou.huijiayou.utils;
 
+import android.content.Context;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -8,6 +10,14 @@ import java.text.DecimalFormat;
  */
 
 public class CommitUtils {
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
     public static double bigDecimal2(double value, int digit){
         BigDecimal bigDecimal = new BigDecimal(value);

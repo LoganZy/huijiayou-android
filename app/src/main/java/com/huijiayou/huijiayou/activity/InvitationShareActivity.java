@@ -1,6 +1,5 @@
 package com.huijiayou.huijiayou.activity;
 
-import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +33,7 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
 
     @Bind(R.id.imgView_activityInvitationShare_view)
     ImageView imgView_activityInvitationShare_view;
-    Dialog dialog;
+    DialogLoading dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
         initTitle();
         tvTitle.setText("好友邀请");
 
-        dialog = new DialogLoading(this).GetDialog();
+        dialog = new DialogLoading(this);
         imgView_activityInvitationShare_view.setDrawingCacheEnabled(true);
         shareCodePicture();
     }
