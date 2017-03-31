@@ -25,6 +25,8 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
+import static com.huijiayou.huijiayou.MyApplication.dialogLoading;
+
 /**
  * 在之前的HttpRequest上再次封装，方便调用 by:baozi
  */
@@ -42,7 +44,6 @@ public class NewHttpRequest implements Runnable {
     private WeakReference<Activity> mactivityWeakReference;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
-    DialogLoading dialogLoading;
     private boolean isShowLoad = true;
 
     public interface RequestCallback {

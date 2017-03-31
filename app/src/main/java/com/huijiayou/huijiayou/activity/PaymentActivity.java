@@ -364,9 +364,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             getOilCardList();
             rl_activityPayment_coupon.setVisibility(View.GONE);
             rl_activityPayment_inputCard.setVisibility(View.VISIBLE);
-        }else if (rl_activityPayment_payment.isShown()){
+        }else if (rl_activityPayment_payment.isShown() && type_order.equals(type)){
             rl_activityPayment_payment.setVisibility(View.GONE);
             rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+        }else if(rl_activityPayment_payment.isShown() && type_pay.equals(type)){
+            super.onBackPressed();
         }
     }
 
@@ -493,7 +495,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
                 rl_activityPayment_inputCard.setVisibility(View.GONE);
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);
-                btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
+                tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
 
             }else if (taskId == UserEnableOilTaskId){
                 Object enableOil = jsonObject.get("enableOil");
@@ -526,13 +528,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }
             }
             else if (taskId == orderTaskId){
-                ToastUtils.createNormalToast(this,jsonObject.toString());
                 orderNumber = (String) jsonObject.getJSONObject("data").get("order_num");
                 rl_activityPayment_coupon.setVisibility(View.GONE);
                 rl_activityPayment_payment.setVisibility(View.VISIBLE);
                 btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
             }else if (taskId == checkOrderTaskId){
-                ToastUtils.createNormalToast(this,jsonObject.toString());
                 final String orderInfo = (String) jsonObject.getJSONObject("data").get("response");
                 ThreadPool.getThreadPool().execute(new Runnable() {
                     @Override

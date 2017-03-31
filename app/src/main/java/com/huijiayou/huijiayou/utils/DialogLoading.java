@@ -1,7 +1,7 @@
 package com.huijiayou.huijiayou.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 
 import com.huijiayou.huijiayou.R;
@@ -14,12 +14,12 @@ import com.huijiayou.huijiayou.R;
 public class DialogLoading {
 
     private Dialog dialog;
-    Activity activity;
+    Context context;
     AnimationDrawable animationDrawable;
 
-    public DialogLoading(Activity activity){
-        this.activity = activity;
-        dialog = new Dialog(activity, R.style.dialog_bgTransparent);
+    public DialogLoading(Context context){
+        this.context = context;
+        dialog = new Dialog(context, R.style.dialog_bgTransparent);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setContentView(R.layout.dialog_loading);
         animationDrawable = (AnimationDrawable) dialog.findViewById(R.id.img_dialogLoading_view).getBackground();

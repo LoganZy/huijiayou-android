@@ -222,6 +222,9 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 if (messageArrayList == null || messageArrayList.size() == 0){
                     tv_activityMessage_noData.setVisibility(View.VISIBLE);
                     recyclerView_activityMessage_list.setVisibility(View.GONE);
+                }else{
+                    tv_activityMessage_noData.setVisibility(View.GONE);
+                    recyclerView_activityMessage_list.setVisibility(View.VISIBLE);
                 }
             }else if (taskId == markAllTaskId){
                 lst();

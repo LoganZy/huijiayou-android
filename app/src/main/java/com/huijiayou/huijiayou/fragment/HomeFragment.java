@@ -167,7 +167,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
         mainActivity = (MainActivity) getActivity();
         initView();
         return view;
@@ -207,6 +206,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             @Override
             public void onPageSelected(int position) {
                 currentProduct = homeProductArrayList.get(position);
+//                hide(tv_fragmentHome_month,222);
                 calculation(moneyMonth);
             }
             @Override
@@ -246,6 +246,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.PRODUCT,Constans.getCity,
                 "jsonObject",getCityTaskId,hashMap,true,this).executeTask();
     }
+
+//    Handler handler = new Handler(new Handler.Callback() {
+//        @Override
+//        public boolean handleMessage(Message msg) {
+//            if (msg.what == 222){
+//                show(tv_fragmentHome_month);
+//            }else if (msg.what == 111){
+//                show(tv_fragmentHome_money_month);
+//            }
+//            return false;
+//        }
+//    });
+
+//    private void hide(TextView tv, final int what){
+//        Animation animation = new TranslateAnimation(0,0, tv.getRotationY(),
+//                tv.getRotationY() - tv.getHeight());
+//        animation.setDuration(300);
+//        animation.setFillAfter(true);
+//        tv.startAnimation(animation);
+//        Timer timer = new Timer();
+//        TimerTask timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                Message message = new Message();
+//                message.arg1 = what;
+//                handler.sendMessage(message);
+//            }
+//        };
+//        timer.schedule(timerTask,200);
+//    }
+
+//    private void show(TextView tv){
+//        Animation animation = new TranslateAnimation(0,0,
+//                tv.getRotationY() + tv.getHeight(),tv.getRotationY());
+//        animation.setDuration(300);
+//        tv.startAnimation(animation);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -287,26 +324,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 hideCover();
                 break;
             case R.id.tv_fragmentHomeMmoney_100:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(100);
                 textViewChecked(tv_fragmentHomeMmoney_100);
                 break;
             case R.id.tv_fragmentHomeMmoney_200:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(200);
                 textViewChecked(tv_fragmentHomeMmoney_200);
                 break;
             case R.id.tv_fragmentHomeMmoney_500:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(500);
                 textViewChecked(tv_fragmentHomeMmoney_500);
                 break;
             case R.id.tv_fragmentHomeMmoney_1000:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(1000);
                 textViewChecked(tv_fragmentHomeMmoney_1000);
                 break;
             case R.id.tv_fragmentHomeMmoney_2000:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(2000);
                 textViewChecked(tv_fragmentHomeMmoney_2000);
                 break;
             case R.id.tv_fragmentHomeMmoney_3000:
+//                hide(tv_fragmentHome_money_month,111);
                 calculation(3000);
                 textViewChecked(tv_fragmentHomeMmoney_3000);
                 break;

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -30,7 +31,7 @@ public class MyApplication extends Application {
     public static IWXAPI msgApi;
     public List<Activity> activityList = new LinkedList<Activity>();
     public static boolean isLogin = false;
-
+    public static DialogLoading dialogLoading;
     //微信分享
 //    private static final String APP_ID = "wxc77febc13d61d07b";
 //    private IWXAPI api;

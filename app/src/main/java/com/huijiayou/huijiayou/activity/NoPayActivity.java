@@ -168,6 +168,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                         intent.putExtras(b);
                         intent.setClass(NoPayActivity.this,CloseDealActivity.class);
                         startActivity(intent);
+                        finish();
                     }
 
                 } else {
@@ -179,7 +180,11 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler = null;
+    }
 
     @Override
     public void netWorkError() {
