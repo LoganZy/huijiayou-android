@@ -121,5 +121,15 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <com.huijiayou.huijiayou.widget.DrawablePaddingTextView
+        android:id="@+id/tv_activityMessage_noData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawableTop="@mipmap/ic_default_news"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="还没有消息哦"
+        android:visibility="gone"/>
+
 
 </LinearLayout>

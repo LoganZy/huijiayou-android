@@ -1,11 +1,11 @@
 package com.huijiayou.huijiayou.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,11 +28,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageS
     ArrayList<Message> messageArrayList;
     Context context;
     View.OnClickListener onItemClickListener;
-
+    String type;
     public MessageAdapter(ArrayList<Message> messageArrayList, Context context, View.OnClickListener onItemClickListener) {
         this.messageArrayList = messageArrayList;
         this.context = context;
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public MessageAdapter(ArrayList<Message> messageArrayList, Context context, View.OnClickListener onItemClickListener, String type) {
+        this.messageArrayList = messageArrayList;
+        this.context = context;
+        this.onItemClickListener = onItemClickListener;
+        this.type = type;
     }
 
 //    @Override
@@ -69,9 +76,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageS
         holder.rl_itemMessageSystemLayout_view.setOnClickListener(onItemClickListener);
         if ("0".equals(message.getRead_status())){
             holder.tv_itemMessageSystemLayout_content.setTextColor(context.getResources().getColor(R.color.textColor_51586A));
-            Drawable drawable = context.getResources().getDrawable(R.mipmap.ic_news_unread);
-            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-            holder.tv_itemMessageSystemLayout_title.setCompoundDrawables(drawable,null,null,null);
+            if ("all".equals(type))
+                holder.img_itemMessageSystemLayout_unRead.setVisibility(View.VISIBLE);
         }else{
             holder.tv_itemMessageSystemLayout_content.setTextColor(context.getResources().getColor(R.color.gray));
         }
@@ -96,6 +102,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageS
 
         @Bind(R.id.rl_itemMessageSystemLayout_view)
         RelativeLayout rl_itemMessageSystemLayout_view;
+
+        @Bind(R.id.img_itemMessageSystemLayout_unRead)
+        ImageView img_itemMessageSystemLayout_unRead;
 
         public MessageSystemViewHolder(View itemView) {
             super(itemView);

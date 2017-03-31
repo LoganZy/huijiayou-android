@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,6 +39,12 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
 
     @Bind(R.id.recyclerView_activityOilCard_list)
     RecyclerView recyclerView_activityOilCard_list;
+
+    @Bind(R.id.sv_activityOilCard_list)
+    ScrollView sv_activityOilCard_list;
+
+    @Bind(R.id.ll_activityOilCard_noData)
+    LinearLayout ll_activityOilCard_noData;
 
     private List<OilCardAdapter.OilCardEntity> oilCardEntityList = new ArrayList<>();
     private OilCardAdapter oilCardAdapter;
@@ -86,6 +94,10 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
                 oilCardEntityList = new Gson().fromJson(jsonObject.getJSONArray("list").toString(), new TypeToken<ArrayList<OilCardAdapter.OilCardEntity>>() {}.getType());
                 oilCardAdapter = new OilCardAdapter(this,oilCardEntityList,OilCardAdapter.SHOWTYPE_MYOILCARD,null);
                 recyclerView_activityOilCard_list.setAdapter(oilCardAdapter);
+                if (oilCardEntityList == null || oilCardEntityList.size() == 0){
+                    sv_activityOilCard_list.setVisibility(View.GONE);
+                    ll_activityOilCard_noData.setVisibility(View.VISIBLE);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

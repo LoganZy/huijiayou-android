@@ -64,20 +64,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
             holder.tv_itemActivityCoupon_condition.setText(text);
             holder.tv_itemActivityCoupon_moneyTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list);
-//            if (!TextUtils.isEmpty(totalMoney) && !TextUtils.isEmpty(time)){
-//                int totalMoney = Integer.parseInt(this.totalMoney);
-//                int product_time = Integer.parseInt(coupon.getProduct_info().getProduct_time());
-//                int time =  Integer.parseInt(this.time);
-//                if (limitMoney < totalMoney || time != product_time){
-//                    holder.rl_itemActivityCoupon_view.setFocusable(false);
-//                    holder.rl_itemActivityCoupon_view.setOnClickListener(null);
-//                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
-//                }else{
-//                    holder.rl_itemActivityCoupon_view.setTag(position);
-//                    holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
-//                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
-//                }
-//            }
         }else if ("1".equals(coupon.getPackets_type())){//1折扣 绿色
             double rate = Double.parseDouble(coupon.getRate()) * 10;
             rate = CommitUtils.decimal2(rate);
@@ -94,14 +80,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         }else if (coupon.getProduct_info() != null && "2".equals(coupon.getProduct_info().getBelong())){
             holder.tv_itemActivityCoupon_oilTypeCondition.setText("限中石油可用");
         }
-//        if (!TextUtils.isEmpty(belong) && !belong.equals(coupon.getProduct_info().getBelong())){
-//            holder.rl_itemActivityCoupon_view.setOnClickListener(null);
-//            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
-//        }else{
-//            holder.rl_itemActivityCoupon_view.setTag(position);
-//            holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
-//            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
-//        }
 
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         holder.ll_itemActivityCoupon_right.setBackgroundDrawable(drawable);
