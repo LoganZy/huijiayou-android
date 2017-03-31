@@ -60,6 +60,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     TextView tv_activityCoupon_use_size;
 
     int UserPacketsInfoTaskId = 1;
+    int userPacketsListTaskId = 5;
 
     public static final int NORMAL_TYPE = 1;
     public static final int SELECTED_TYPE = 2;
@@ -71,7 +72,7 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     ArrayList<CouponAdapter.Coupon> couponAlreadyUseArrayList;
     ArrayList<CouponAdapter.Coupon> couponOverArrayList;
 
-    String totalMoney,time,belong;
+    String product_id,oilCard,discountTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,20 +84,34 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
         initView();
     }
 
+    /**
+     * 获取用户红包列表
+     */
+    private void userPacketsList(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
+        hashMap.put("products_id",product_id);
+        hashMap.put("card_num",oilCard);
+        hashMap.put("amount",discountTotal);
+
+        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.userPacketsList, "jsonObject", userPacketsListTaskId,
+                hashMap, true, this).executeTask();
+    }
+
     private void initView() {
-        UserPacketsInfo();
         Intent intent = getIntent();
         type = intent.getIntExtra("type",NORMAL_TYPE);
 
         if (NORMAL_TYPE == type){
             codeNormal();
+            UserPacketsInfo();
         }else if (SELECTED_TYPE == type){
-            totalMoney = intent.getStringExtra("totalMoney");
-            time = intent.getStringExtra("time");
-            belong = intent.getStringExtra("belong");
+            product_id = intent.getStringExtra("product_id");
+            oilCard = intent.getStringExtra("oilCard");
+            discountTotal = intent.getStringExtra("discountTotal");
             codeSelected();
-        }else {
-            codeNormal();
+            userPacketsList();
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_activityCoupon_use.setLayoutManager(linearLayoutManager);
@@ -132,9 +147,9 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     }
 
     public void useCoupon(View view){
-        Intent intent = new Intent();
-        intent.putExtra("type", HomeFragment.TAG);
-        startActivity(intent);
+        Intent inten = new Intent(this,MainActivity.class);
+        inten.putExtra("type", HomeFragment.TAG);
+        startActivity(inten);
         finish();
     }
 
@@ -156,58 +171,61 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
             if (taskId == UserPacketsInfoTaskId){
                 JSONObject jsonObject1 = jsonObject.getJSONObject("list");
                 couponNoUseArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                if (type == SELECTED_TYPE){
-                    noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList, this, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int position = (int) v.getTag();
-                            Intent intent = new Intent();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("coupon",couponNoUseArrayList.get(position));
-                            intent.putExtra("coupon",bundle);
-                            setResult(RESULT_OK,intent);
-                            finish();
-                        }
-                    },totalMoney,time,belong);
-                }else{
-                    noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList,this,null);
-                }
+                noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList,this,null);
                 recyclerView_activityCoupon_noUse.setAdapter(noUseCouponAdapter);
 
-                if (type == NORMAL_TYPE){
-                    couponAlreadyUseArrayList = new Gson().fromJson(jsonObject1.get("alreadyUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                    couponOverArrayList = new Gson().fromJson(jsonObject1.get("over").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                    alreadyUseCouponAdapter = new CouponAdapter(couponAlreadyUseArrayList,this,null);
-                    recyclerView_activityCoupon_use.setAdapter(alreadyUseCouponAdapter);
+                couponAlreadyUseArrayList = new Gson().fromJson(jsonObject1.get("alreadyUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+                alreadyUseCouponAdapter = new CouponAdapter(couponAlreadyUseArrayList,this,null);
+                recyclerView_activityCoupon_use.setAdapter(alreadyUseCouponAdapter);
 
-                    overCouponAdapter = new CouponAdapter(couponOverArrayList,this,null);
-                    svRecyclerView_activityCoupon_over.setAdapter(overCouponAdapter);
+                couponOverArrayList = new Gson().fromJson(jsonObject1.get("over").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+                overCouponAdapter = new CouponAdapter(couponOverArrayList,this,null);
+                svRecyclerView_activityCoupon_over.setAdapter(overCouponAdapter);
 
-                    if (couponAlreadyUseArrayList == null || couponAlreadyUseArrayList.size() == 0){
-                        recyclerView_activityCoupon_use.setVisibility(View.GONE);
-                        tv_activityCoupon_useTag.setVisibility(View.GONE);
-                    }else{
-                        recyclerView_activityCoupon_use.setVisibility(View.VISIBLE);
-                        tv_activityCoupon_useTag.setVisibility(View.VISIBLE);
-                    }
-                    if (couponOverArrayList == null || couponOverArrayList.size() == 0){
-                        svRecyclerView_activityCoupon_over.setVisibility(View.GONE);
-                        tv_activityCoupon_over.setVisibility(View.GONE);
-                    }else{
-                        svRecyclerView_activityCoupon_over.setVisibility(View.VISIBLE);
-                        tv_activityCoupon_over.setVisibility(View.VISIBLE);
-                    }
-                }
-                if (couponNoUseArrayList != null && couponNoUseArrayList.size() > 0){
-                    tv_activityCoupon_use_size.setText(couponNoUseArrayList.size()+"");
-                    tv_activityCoupon_noUseTag.setVisibility(View.VISIBLE);
-                    recyclerView_activityCoupon_noUse.setVisibility(View.VISIBLE);
+                if (couponAlreadyUseArrayList == null || couponAlreadyUseArrayList.size() == 0){
+                    recyclerView_activityCoupon_use.setVisibility(View.GONE);
+                    tv_activityCoupon_useTag.setVisibility(View.GONE);
                 }else{
-                    rl_activityCoupon_use.setVisibility(View.GONE);
-                    tv_activityCoupon_noUseTag.setVisibility(View.GONE);
-                    recyclerView_activityCoupon_noUse.setVisibility(View.GONE);
+                    recyclerView_activityCoupon_use.setVisibility(View.VISIBLE);
+                    tv_activityCoupon_useTag.setVisibility(View.VISIBLE);
                 }
+                if (couponOverArrayList == null || couponOverArrayList.size() == 0){
+                    svRecyclerView_activityCoupon_over.setVisibility(View.GONE);
+                    tv_activityCoupon_over.setVisibility(View.GONE);
+                }else{
+                    svRecyclerView_activityCoupon_over.setVisibility(View.VISIBLE);
+                    tv_activityCoupon_over.setVisibility(View.VISIBLE);
+                }
+            }else if (taskId == userPacketsListTaskId){
+                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
+                couponNoUseArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+                noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList, this, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = (int) v.getTag();
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("coupon",couponNoUseArrayList.get(position));
+                        intent.putExtra("coupon",bundle);
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }
+                });
+                recyclerView_activityCoupon_noUse.setAdapter(noUseCouponAdapter);
+                recyclerView_activityCoupon_use.setVisibility(View.GONE);
+                tv_activityCoupon_useTag.setVisibility(View.GONE);
+                svRecyclerView_activityCoupon_over.setVisibility(View.GONE);
+                tv_activityCoupon_over.setVisibility(View.GONE);
+            }
 
+            if (couponNoUseArrayList != null && couponNoUseArrayList.size() > 0){
+                tv_activityCoupon_use_size.setText(couponNoUseArrayList.size()+"");
+                tv_activityCoupon_noUseTag.setVisibility(View.VISIBLE);
+                recyclerView_activityCoupon_noUse.setVisibility(View.VISIBLE);
+            }else{
+                rl_activityCoupon_use.setVisibility(View.GONE);
+                tv_activityCoupon_noUseTag.setVisibility(View.GONE);
+                recyclerView_activityCoupon_noUse.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

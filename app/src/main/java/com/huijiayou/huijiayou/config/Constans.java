@@ -34,10 +34,10 @@ public class Constans {
     public static final String user_agreement = "http://192.168.10.212:8888/#/user_agreement";
     public static final String help = "http://192.168.10.212:8888/#/help";
 
-      public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
-      public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-   //public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
-   //public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
+//    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+//    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
+    public final static String URL_wyh = "http://test.1huangjin.cn/passport";//王远航
+    public final static String URL_zxg = "http://test.1huangjin.cn/pro";//张孝国
 
 
     public final static String ACCOUNT = "/service.php?c=account";
@@ -45,9 +45,10 @@ public class Constans {
     public final static String PRODUCT = "/index.php?c=product";
     public final static String ORDER = "/index.php?c=order";
     public final static String PAY = "/index.php?c=pay";
+    public final static String MESSAGE = "/message/";
 
 
-    public final static String URL_MESSAGE = "http://wyh.oil.message.com/message.php?c=msg";
+    public final static String URL_MESSAGE = "http://test.1huangjin.cn/message/message.php?c=msg";
     public final static String message_lst = "lst";
     public final static String message_markAll = "markAll";
     public final static String message_checkNewMsg = "checkNewMsg";
@@ -77,6 +78,8 @@ public class Constans {
     public final static String checkOrder ="checkOrder";//订单支付前调用的接口
     public final  static  String GETUSERSAVEMONEY = "getUserSaveMoney";//总共节省的钱数
     public final static String back ="back";//支付结果请求接口
+    public final  static  String shareCodePicture = "shareCodePicture"; //分享生成二维码图片
+    public final  static  String userPacketsList = "userPacketsList"; //获取当前产品可用的所有红包
 
     public final static String registerAgreement = "/HJY/#/register_agreement"; //注册协议
     public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_gravity="center">
+
+    <ImageButton
+        android:id="@+id/imgBtn_dialogPaymentPayErr_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:padding="18dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_pay_close"/>
+
+    <TextView
+        android:id="@+id/tv_dialogPaymentPayErr_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_pay_fai"
+        android:layout_centerHorizontal="true"
+        android:text="支付失败"
+        android:gravity="center"
+        android:textColor="@color/orange_FF7320"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/tv_dialogPaymentPayErr_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="支付失败, 请重新提交订单"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/textColor_51586A"
+        android:layout_below="@+id/tv_dialogPaymentPayErr_icon"/>
+
+    <Button
+        android:id="@+id/btn_dialogPaymentPayErr_againPay"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="重新支付"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="17dp"
+        android:background="@drawable/shape_activity_add_oil_card_add"
+        android:textColor="@color/orange_FF7320"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

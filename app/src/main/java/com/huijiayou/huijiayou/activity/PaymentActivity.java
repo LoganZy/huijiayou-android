@@ -161,7 +161,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     int getOilCardInfoTaskId = 2;
     int bindCardTaskId = 3;
     int UserEnableOilTaskId = 4;
-    int UserPacketsInfoTaskId = 5;
+
     int orderTaskId = 6;
     int checkOrderTaskId = 7;
     int payChannelTaskId = 8;
@@ -173,6 +173,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public int couponRequestCode = 200;
 
     RechargeDetailsDialog rechargeDetailsDialog;
+
+    public static final String type_pay = "pay";
+    public static final String type_order = "order";
+    private String type = type_order;
 
     private ArrayList<OilCardAdapter.OilCardEntity> oilCardEntityList = new ArrayList<>();
     @Override
@@ -197,111 +201,141 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         tv_activityPayment_size.setText(month+"");
         tv_activityPayment_discountMoney.setText("折后金额:"+discountTotal+"元");
         tv_activityPayment_saveMoney.setText("节省:"+saveMoney+"元");
-        getOilCardList();
-
-        cb_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    isUseOil = true;
-                    tv_activityPayment_coupon_oil.setVisibility(View.VISIBLE);
-                    tv_activityPayment_coupon_oil.setText("油滴已抵扣"+ ((double)oil)/100 +"元");
-                }else {
-                    isUseOil = false;
-                    tv_activityPayment_coupon_oil.setVisibility(View.GONE);
+        recyclerView_activityPayment_success_time.setLayoutManager(new LinearLayoutManager(this));
+        type = intent.getStringExtra("type");
+        if (type_pay.equals(type)){
+            orderNumber = intent.getStringExtra("orderNumber");
+            rl_activityPayment_inputCard.setVisibility(View.GONE);
+            rl_activityPayment_payment.setVisibility(View.VISIBLE);
+        }else{
+            getOilCardList();
+            cb_activityPayment_coupon_oil.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        isUseOil = true;
+                        tv_activityPayment_coupon_oil.setVisibility(View.VISIBLE);
+                        tv_activityPayment_coupon_oil.setText("油滴已抵扣"+ ((double)oil)/100 +"元");
+                    }else {
+                        isUseOil = false;
+                        tv_activityPayment_coupon_oil.setVisibility(View.GONE);
+                    }
+                    tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
                 }
-                tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
-            }
-        });
+            });
 
-        edit_activityPayment_card.addTextChangedListener(new TextWatcher() {
-            int beforeTextLength=0;
-            int onTextLength=0;
-            boolean isChanged = false;
+            edit_activityPayment_card.addTextChangedListener(new TextWatcher() {
+                int beforeTextLength=0;
+                int onTextLength=0;
+                boolean isChanged = false;
 
-            int location=0;//记录光标的位置
-            private char[] tempChar;
-            private StringBuffer buffer = new StringBuffer();
-            int konggeNumberB = 0;
+                int location=0;//记录光标的位置
+                private char[] tempChar;
+                private StringBuffer buffer = new StringBuffer();
+                int konggeNumberB = 0;
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                beforeTextLength = s.length();
-                if(buffer.length()>0){
-                    buffer.delete(0, buffer.length());
-                }
-                konggeNumberB = 0;
-                for (int i = 0; i < s.length(); i++) {
-                    if(s.charAt(i) == ' '){
-                        konggeNumberB++;
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    beforeTextLength = s.length();
+                    if(buffer.length()>0){
+                        buffer.delete(0, buffer.length());
+                    }
+                    konggeNumberB = 0;
+                    for (int i = 0; i < s.length(); i++) {
+                        if(s.charAt(i) == ' '){
+                            konggeNumberB++;
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onTextLength = s.length();
-                buffer.append(s.toString());
-                if(onTextLength == beforeTextLength || onTextLength <= 3 || isChanged){
-                    isChanged = false;
-                    return;
-                }
-                isChanged = true;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(isChanged){
-                    String text = s != null && s.length() > 0 ? s.toString().replace(" ","") : "";
-                    String fristChar = s != null && s.length() > 0 ? s.toString().substring(0,1) : "";
-                    if (isGetOilCardInfo && "1".equals(fristChar) && text.length() == 19){
-                        getOilCardInfo(text);
-                    }else if (isGetOilCardInfo && "9".equals(fristChar) && text.length() == 16){
-                        getOilCardInfo(text);
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    onTextLength = s.length();
+                    buffer.append(s.toString());
+                    if(onTextLength == beforeTextLength || onTextLength <= 3 || isChanged){
+                        isChanged = false;
+                        return;
                     }
-                    location = edit_activityPayment_card.getSelectionEnd();
-                    int index = 0;
-                    while (index < buffer.length()) {
-                        if(buffer.charAt(index) == ' '){
-                            buffer.deleteCharAt(index);
-                        }else{
+                    isChanged = true;
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(isChanged){
+                        String text = s != null && s.length() > 0 ? s.toString().replace(" ","") : "";
+                        String fristChar = s != null && s.length() > 0 ? s.toString().substring(0,1) : "";
+                        if (isGetOilCardInfo && "1".equals(fristChar) && text.length() == 19){
+                            getOilCardInfo(text);
+                        }else if (isGetOilCardInfo && "9".equals(fristChar) && text.length() == 16){
+                            getOilCardInfo(text);
+                        }
+                        location = edit_activityPayment_card.getSelectionEnd();
+                        int index = 0;
+                        while (index < buffer.length()) {
+                            if(buffer.charAt(index) == ' '){
+                                buffer.deleteCharAt(index);
+                            }else{
+                                index++;
+                            }
+                        }
+
+                        index = 0;
+                        int konggeNumberC = 0;
+                        while (index < buffer.length()) {
+                            //银行卡号的话需要改这里
+                            if((index == 4 || index == 9 || index == 14 || index == 19 || index == 24)){
+                                buffer.insert(index, ' ');
+                                konggeNumberC++;
+                            }
                             index++;
                         }
-                    }
 
-                    index = 0;
-                    int konggeNumberC = 0;
-                    while (index < buffer.length()) {
-                        //银行卡号的话需要改这里
-                        if((index == 4 || index == 9 || index == 14 || index == 19 || index == 24)){
-                            buffer.insert(index, ' ');
-                            konggeNumberC++;
+                        if(konggeNumberC>konggeNumberB){
+                            location+=(konggeNumberC-konggeNumberB);
                         }
-                        index++;
-                    }
 
-                    if(konggeNumberC>konggeNumberB){
-                        location+=(konggeNumberC-konggeNumberB);
-                    }
+                        tempChar = new char[buffer.length()];
+                        buffer.getChars(0, buffer.length(), tempChar, 0);
+                        String str = buffer.toString();
+                        if(location>str.length()){
+                            location = str.length();
+                        }else if(location < 0){
+                            location = 0;
+                        }
 
-                    tempChar = new char[buffer.length()];
-                    buffer.getChars(0, buffer.length(), tempChar, 0);
-                    String str = buffer.toString();
-                    if(location>str.length()){
-                        location = str.length();
-                    }else if(location < 0){
-                        location = 0;
+                        edit_activityPayment_card.setText(str);
+                        Editable etable = edit_activityPayment_card.getText();
+                        Selection.setSelection(etable, location);
+                        isChanged = false;
                     }
-
-                    edit_activityPayment_card.setText(str);
-                    Editable etable = edit_activityPayment_card.getText();
-                    Selection.setSelection(etable, location);
-                    isChanged = false;
                 }
-            }
-        });
+            });
 
-        recyclerView_activityPayment_success_time.setLayoutManager(new LinearLayoutManager(this));
+            rb_activityPayment_coupon_option.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        ll_activityPayment_coupon_payment.setBackgroundColor(getResources().getColor(R.color.orange_FF7320));
+                        ll_activityPayment_coupon_payment.setEnabled(true);
+                    }else{
+                        ll_activityPayment_coupon_payment.setBackgroundColor(getResources().getColor(R.color.my_edittext_frame_color));
+                        ll_activityPayment_coupon_payment.setEnabled(false);
+                    }
+                }
+            });
+            rb_activityPayment_payment_option.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        btn_activityPayment_payment_payment.setBackgroundColor(getResources().getColor(R.color.orange_FF7320));
+                        btn_activityPayment_payment_payment.setEnabled(true);
+                    }else{
+                        btn_activityPayment_payment_payment.setBackgroundColor(getResources().getColor(R.color.my_edittext_frame_color));
+                        btn_activityPayment_payment_payment.setEnabled(false);
+                    }
+                }
+            });
+        }
     }
 
     //计算 实际支付金额
@@ -343,6 +377,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         rechargeDetailsDialog.create();
     }
 
+    public void shareCodePicture(View view){
+        startActivity(new Intent(this,InvitationShareActivity.class));
+    }
+
     @OnClick({ R.id.ll_activityPayment_coupon_payment, R.id.btn_activityPayment_payment_payment
             , R.id.tv_activityPayment_coupon_coupon,R.id.tv_activityPayment_coupon_agreement
             ,R.id.tv_activityPayment_payment_agreement})
@@ -363,13 +401,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_activityPayment_coupon_coupon:
                 Intent intent = new Intent(this,CouponActivity.class);
                 intent.putExtra("type",CouponActivity.SELECTED_TYPE);
-                intent.putExtra("totalMoney",total);
-                intent.putExtra("time",month);
-                if (currentCoupon != null && currentCoupon.getProduct_info() != null){
-                    intent.putExtra("belong",currentCoupon.getProduct_info().getBelong());
-                }else{
-                    intent.putExtra("belong","");
-                }
+                intent.putExtra("product_id",product_id+"");
+                intent.putExtra("oilCard",oilCard);
+                intent.putExtra("discountTotal",discountTotal+"");
                 startActivityForResult(intent,couponRequestCode);
                 break;
             case R.id.tv_activityPayment_coupon_agreement:
@@ -413,10 +447,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         rl_activityPayment_inputCard.setVisibility(View.GONE);
         rl_activityPayment_coupon.setVisibility(View.VISIBLE);
         UserEnableOil();
-        UserPacketsInfo();
+//        userPacketsList();
         tv_activityPayment_coupon_card.setText(oilCard);
         tv_activityPayment_coupon_userName.setText(oilCardName);
         edit_activityPayment_card.setText(card);
+    }
+
+    private void showPayErrorDialog(){
+
     }
 
     @Override
@@ -448,12 +486,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 bindCard();
             }else if (taskId == bindCardTaskId){
                 UserEnableOil();
-                UserPacketsInfo();
+//                userPacketsList();
                 tv_activityPayment_coupon_card.setText(oilCard);
                 tv_activityPayment_coupon_userName.setText(oilCardName);
 
                 rl_activityPayment_inputCard.setVisibility(View.GONE);
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);
+                btn_activityPayment_payment_payment.setText("支付"+calculationMoney()+"元");
 
             }else if (taskId == UserEnableOilTaskId){
                 Object enableOil = jsonObject.get("enableOil");
@@ -472,21 +511,20 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                 }
 
-            }else if (taskId == UserPacketsInfoTaskId){
-                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
-                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(),
-                        new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                if (couponArrayList != null && couponArrayList.size() > 0){
-                    currentCoupon = couponArrayList.get(0);
-                    tv_activityPayment_coupon_coupon.setText(currentCoupon.getPackets_name());
-                    tv_activityPayment_coupon_coupon.setTextColor(getResources().getColor(R.color.textColor_51586A));
-                }else{
-                    currentCoupon = null;
-                    tv_activityPayment_coupon_coupon.setTextColor(getResources().getColor(R.color.gray));
-                    tv_activityPayment_coupon_coupon.setText("暂无优惠券可用");
-                }
-                tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
-            }else if (taskId == orderTaskId){
+            }
+//            else if (taskId == userPacketsListTaskId){
+//                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
+//                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(),
+//                        new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+//                if (couponArrayList != null && couponArrayList.size() > 0){
+//                    tv_activityPayment_coupon_coupon.setEnabled(true);
+//                }else{
+//                    tv_activityPayment_coupon_coupon.setTextColor(getResources().getColor(R.color.gray));
+//                    tv_activityPayment_coupon_coupon.setText("暂无优惠券可用");
+//                    tv_activityPayment_coupon_coupon.setEnabled(false);
+//                }
+//            }
+            else if (taskId == orderTaskId){
                 ToastUtils.createNormalToast(this,jsonObject.toString());
                 orderNumber = (String) jsonObject.getJSONObject("data").get("order_num");
                 rl_activityPayment_coupon.setVisibility(View.GONE);
@@ -607,17 +645,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserEnableOil, "jsonObject", UserEnableOilTaskId, hashMap, true, this).executeTask();
     }
 
-    /**
-     * 获取用户红包列表
-     */
-    private void UserPacketsInfo(){
-        HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-        hashMap.put(Constans.USER_ID,userId);
 
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserPacketsInfo, "jsonObject", UserPacketsInfoTaskId,
-                hashMap, true, this).executeTask();
-    }
 
     /**
      * 下单

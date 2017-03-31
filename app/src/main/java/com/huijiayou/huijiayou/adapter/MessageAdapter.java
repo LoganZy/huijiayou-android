@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageS
         holder.rl_itemMessageSystemLayout_view.setOnClickListener(onItemClickListener);
         if ("0".equals(message.getRead_status())){
             holder.tv_itemMessageSystemLayout_content.setTextColor(context.getResources().getColor(R.color.textColor_51586A));
+            Drawable drawable = context.getResources().getDrawable(R.mipmap.ic_news_unread);
+            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+            holder.tv_itemMessageSystemLayout_title.setCompoundDrawables(drawable,null,null,null);
         }else{
             holder.tv_itemMessageSystemLayout_content.setTextColor(context.getResources().getColor(R.color.gray));
         }

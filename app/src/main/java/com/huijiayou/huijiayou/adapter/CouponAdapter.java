@@ -3,7 +3,6 @@ package com.huijiayou.huijiayou.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,21 +31,10 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
     Context context;
     View.OnClickListener onClickListener;
 
-    String totalMoney,time,belong;
-
     public CouponAdapter(ArrayList<Coupon> coupons, Context context, View.OnClickListener onClickListener) {
         this.coupons = coupons;
         this.context = context;
         this.onClickListener = onClickListener;
-    }
-
-    public CouponAdapter(ArrayList<Coupon> coupons, Context context, View.OnClickListener onClickListener, String totalMoney, String time, String belong) {
-        this.coupons = coupons;
-        this.context = context;
-        this.onClickListener = onClickListener;
-        this.totalMoney = totalMoney;
-        this.time = time;
-        this.belong = belong;
     }
 
     @Override
@@ -64,7 +52,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
             if (amount == (int)amount){
                 holder.tv_itemActivityCoupon_moneyNumber.setText((int)amount+"");
             }else{
-                amount = CommitUtils.bigDecimal2(amount,1);
+                amount = CommitUtils.decimal2(amount);
                 holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
             }
             holder.tv_itemActivityCoupon_moneyNumber.setText(amount+"");
@@ -76,23 +64,23 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
             holder.tv_itemActivityCoupon_condition.setText(text);
             holder.tv_itemActivityCoupon_moneyTag.setVisibility(View.VISIBLE);
             drawable = context.getResources().getDrawable(R.mipmap.ic_coupon_list);
-            if (!TextUtils.isEmpty(totalMoney) && !TextUtils.isEmpty(time)){
-                int totalMoney = Integer.parseInt(this.totalMoney);
-                int product_time = Integer.parseInt(coupon.getProduct_info().getProduct_time());
-                int time =  Integer.parseInt(this.time);
-                if (limitMoney < totalMoney || time != product_time){
-                    holder.rl_itemActivityCoupon_view.setFocusable(false);
-                    holder.rl_itemActivityCoupon_view.setOnClickListener(null);
-                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
-                }else{
-                    holder.rl_itemActivityCoupon_view.setTag(position);
-                    holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
-                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
-                }
-            }
+//            if (!TextUtils.isEmpty(totalMoney) && !TextUtils.isEmpty(time)){
+//                int totalMoney = Integer.parseInt(this.totalMoney);
+//                int product_time = Integer.parseInt(coupon.getProduct_info().getProduct_time());
+//                int time =  Integer.parseInt(this.time);
+//                if (limitMoney < totalMoney || time != product_time){
+//                    holder.rl_itemActivityCoupon_view.setFocusable(false);
+//                    holder.rl_itemActivityCoupon_view.setOnClickListener(null);
+//                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
+//                }else{
+//                    holder.rl_itemActivityCoupon_view.setTag(position);
+//                    holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
+//                    holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
+//                }
+//            }
         }else if ("1".equals(coupon.getPackets_type())){//1折扣 绿色
             double rate = Double.parseDouble(coupon.getRate()) * 10;
-            rate = CommitUtils.bigDecimal2(rate,2);
+            rate = CommitUtils.decimal2(rate);
             holder.tv_itemActivityCoupon_moneyNumber.setText(rate+"");
             holder.tv_itemActivityCoupon_condition.setVisibility(View.INVISIBLE);
             holder.tv_itemActivityCoupon_discountTag.setVisibility(View.VISIBLE);
@@ -106,14 +94,14 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         }else if (coupon.getProduct_info() != null && "2".equals(coupon.getProduct_info().getBelong())){
             holder.tv_itemActivityCoupon_oilTypeCondition.setText("限中石油可用");
         }
-        if (!TextUtils.isEmpty(belong) && !belong.equals(coupon.getProduct_info().getBelong())){
-            holder.rl_itemActivityCoupon_view.setOnClickListener(null);
-            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
-        }else{
-            holder.rl_itemActivityCoupon_view.setTag(position);
-            holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
-            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
-        }
+//        if (!TextUtils.isEmpty(belong) && !belong.equals(coupon.getProduct_info().getBelong())){
+//            holder.rl_itemActivityCoupon_view.setOnClickListener(null);
+//            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.VISIBLE);
+//        }else{
+//            holder.rl_itemActivityCoupon_view.setTag(position);
+//            holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
+//            holder.view_itemActivityCoupon_outOfCommission.setVisibility(View.GONE);
+//        }
 
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         holder.ll_itemActivityCoupon_right.setBackgroundDrawable(drawable);
@@ -356,8 +344,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         @Bind(R.id.rl_itemActivityCoupon_view)
         RelativeLayout rl_itemActivityCoupon_view;
 
-        @Bind(R.id.view_itemActivityCoupon_outOfCommission)
-        View view_itemActivityCoupon_outOfCommission;
+//        @Bind(R.id.view_itemActivityCoupon_outOfCommission)
+//        View view_itemActivityCoupon_outOfCommission;
         public CouponViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

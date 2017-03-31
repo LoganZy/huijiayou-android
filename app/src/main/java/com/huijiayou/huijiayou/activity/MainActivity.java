@@ -90,7 +90,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                             fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,homeFragment)
                                     .show(homeFragment).hide(orderFragment).hide(userFragment).commit();
                         }
-//                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,homeFragment).commit();
                         break;
                     case R.id.rb_activityMain_order:
                         if (fragments != null && fragments.contains(orderFragment)){
@@ -224,5 +223,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
         if (taskId == checkNewMsgTaskId){
             LogUtil.i("====checkNewMsg::::"+msg.getMessage());
         }
+    }
+
+    public void setHomeCheck(){
+        rb_activityMain_home.setChecked(true);
     }
 }

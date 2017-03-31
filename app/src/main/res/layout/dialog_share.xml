@@ -25,7 +25,7 @@
                 android:id="@+id/tv_dialog_share_wechat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/umeng_socialize_wechat"
+                android:drawableTop="@mipmap/ic_invite_wechat"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:text="微信" />
@@ -41,7 +41,7 @@
                 android:id="@+id/tv_dialog_share_wxcircle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/umeng_socialize_wxcircle"
+                android:drawableTop="@mipmap/ic_invite_circle"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:text="朋友圈" />

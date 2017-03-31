@@ -25,9 +25,6 @@ public class DialogLoading {
     }
 
     public Dialog GetDialog(){
-        if (dialog != null && !dialog.isShowing()){
-            dialog.show();
-        }
         return dialog;
     }
 //    public void dismiss(){

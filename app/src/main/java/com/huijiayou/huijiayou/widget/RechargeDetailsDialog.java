@@ -43,8 +43,13 @@ public class RechargeDetailsDialog {
                 recharge.setTiem(simpleDateFormat.format(calendar.getTime()));
             }
             recharges.add(recharge);
-            calendar.set(Calendar.DAY_OF_MONTH,day);
             calendar.add(Calendar.MONTH,1);
+            int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            if (day > maxDay){
+                calendar.set(Calendar.DAY_OF_MONTH,maxDay);
+            }else{
+                calendar.set(Calendar.DAY_OF_MONTH,day);
+            }
         }
         return recharges;
     }

@@ -3,8 +3,6 @@ package com.huijiayou.huijiayou.fragment;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +18,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.CouponActivity;
 import com.huijiayou.huijiayou.activity.HelpActivity;
+import com.huijiayou.huijiayou.activity.InvitationActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.OilActivity;
@@ -268,6 +267,7 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), CouponActivity.class));
                 break;
             case R.id.ll_fragment_frends:
+                startActivity(new Intent(getActivity(), InvitationActivity.class));
                 break;
             case R.id.ll_fragment_helps:
                 startActivity(new Intent(getActivity(), HelpActivity.class));
