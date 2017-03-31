@@ -280,7 +280,7 @@
                 android:id="@+id/tv_activityPayment_coupon_coupon"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="暂无优惠券可用"
+                android:text="不使用优惠券"
                 android:textSize="13dp"
                 android:paddingRight="15dp"
                 android:drawableRight="@mipmap/ic_pay_arrow_h"
@@ -433,7 +433,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/btn_activityPayment_payment_payment"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:orientation="horizontal">
 

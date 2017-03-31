@@ -13,7 +13,6 @@ import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.utils.Util;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 
@@ -22,32 +21,21 @@ import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
  */
 public class ShareUtil implements View.OnClickListener {
 
-    static Activity activity;
-    static String title;
-    static String content;
-    static String url;
-    static String imageUrl;
+     Activity activity;
+     String title;
+     String content;
+     String url;
+     String imageUrl;
 
-    static Bitmap bitmap;
-    static int type; //1 wen   2 img
-    public static void shareWebPage(Activity ac, String t, String c, String u, String i){
+    public  void shareWebPage(Activity ac, String t, String c, String u){
         activity = ac;
         title = t;
         content = c;
         url = u;
-        imageUrl = i;
-        type = 1;
         initDialog();
     }
 
-    public static void shareWebPage(Activity ac, Bitmap b){
-        activity = ac;
-        bitmap = b;
-        type = 2;
-        initDialog();
-    }
-
-    static void initDialog(){
+     void initDialog(){
         final Dialog dialog = new Dialog(activity, R.style.dialog_bgTransparent);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
@@ -68,7 +56,7 @@ public class ShareUtil implements View.OnClickListener {
         });
     }
 
-    static View.OnClickListener onClickListener = new View.OnClickListener() {
+    View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int scene = SendMessageToWX.Req.WXSceneSession;
@@ -81,19 +69,16 @@ public class ShareUtil implements View.OnClickListener {
                     break;
             }
             WXMediaMessage wxMediaMessage = new WXMediaMessage();
-            if (type == 1){
-                Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),R.mipmap.ic_launcher);
-                WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                wxWebpageObject.webpageUrl = url;
 
-                wxMediaMessage.title = title;
-                wxMediaMessage.description = content;
-                wxMediaMessage.thumbData = Util.bmpToByteArray(bitmap,true);
-                wxMediaMessage.mediaObject = wxWebpageObject;
-            }else if (type == 2){
-                WXImageObject wxImageObject = new WXImageObject(bitmap);
-                wxMediaMessage.mediaObject = wxImageObject;
-            }
+            Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),R.mipmap.share_wx);
+            WXWebpageObject wxWebpageObject = new WXWebpageObject();
+            wxWebpageObject.webpageUrl = url;
+
+            wxMediaMessage.title = title;
+            wxMediaMessage.description = content;
+            wxMediaMessage.thumbData = Util.bmpToByteArray(bitmap,true);
+            wxMediaMessage.mediaObject = wxWebpageObject;
+
             SendMessageToWX.Req req = new SendMessageToWX.Req();
             req.message = wxMediaMessage;
             req.scene = scene;

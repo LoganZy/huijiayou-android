@@ -280,7 +280,7 @@ public class NewHttpRequest implements Runnable {
             loadingDialogDismiss();
             return;
         }
-        if (code == 1106){ //用户未登录
+        if (code == 1106 || code == 1510){ //用户未登录
             PreferencesUtil.putPreferences(Constans.ISLOGIN,false);
         }
 //        if (code == 1670) {//切换通道
@@ -300,7 +300,7 @@ public class NewHttpRequest implements Runnable {
 //            PreferencesUtil.putPreferences("showChannelBtn", false);
 //        }
 
-//        // 用户登录过期与被挤下线单独处理 无需回调error信息
+        // 用户登录过期与被挤下线单独处理 无需回调error信息
 //        if (code == 1106) {//用户未登录
 //            setJPAlias();
 //            // ========== 获得当前Activity名字 ===========
@@ -339,7 +339,9 @@ public class NewHttpRequest implements Runnable {
 //                }
 //            });
 //
-//        } else if (code == 1510) {//其他设备登录下线处理
+//        }
+//        else
+//        if (code == 1510) {//其他设备登录下线处理
 //            setJPAlias();
 //            final String message = messageEntity.getMessage();
 //            mHandler.post(new Runnable() {
@@ -360,14 +362,15 @@ public class NewHttpRequest implements Runnable {
 //                    }
 //                }
 //            });
-//        } else {
+//        }
+        else {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     errorMsg(code, messageEntity);
                 }
             });
-//        }
+        }
     }
 
     private void errorMsg(int code, MessageEntity messageEntity) {

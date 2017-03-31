@@ -15,8 +15,8 @@ import com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView;
 import com.huijiayou.huijiayou.jsbridgewebview.CallBackFunction;
 import com.huijiayou.huijiayou.jsbridgewebview.DefaultHandler;
 import com.huijiayou.huijiayou.jsbridgewebview.WebViewClientCallback;
-import com.huijiayou.huijiayou.net.DeviceUtils;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.wxapi.ShareUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,14 +46,16 @@ public class InvitationActivity extends BaseActivity {
         bridgeWebView.getSettings().setAppCacheEnabled(true);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
         bridgeWebView.getSettings().setDatabaseEnabled(true);
-        String userAgent = bridgeWebView.getSettings().getUserAgentString();
-        bridgeWebView.getSettings().setUserAgentString(userAgent + "wlbAPP/" + DeviceUtils.getVersion(this));
+//        String userAgent = bridgeWebView.getSettings().getUserAgentString();
+//        bridgeWebView.getSettings().setUserAgentString(userAgent + "hjyAPP/" + DeviceUtils.getVersion(this));
         bridgeWebView.setDefaultHandler(new DefaultHandler());
         bridgeWebView.setWebChromeClient(new WebChromeClient());
+        bridgeWebView.callHandler("getUserInfos", "{user_id="+userId+","+session_id+"}", new CallBackFunction() {@Override public void onCallBack(String data) {}});
         bridgeWebView.registerHandler("invitation", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
 
+                new ShareUtil().shareWebPage(InvitationActivity.this, "title", "content", "url");
             }
         });
         bridgeWebView.loadUrl(url);

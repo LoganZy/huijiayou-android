@@ -87,7 +87,6 @@ public class PopuDialog extends Dialog {
         messageStr = message;
     }
 
-
 }
 
 

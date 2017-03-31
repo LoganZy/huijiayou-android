@@ -98,6 +98,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                             fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,orderFragment)
                                     .show(orderFragment).hide(homeFragment).hide(userFragment).commit();
                         }
+                        if(orderFragment.isAdded()){
+                            orderFragment.orderFragmentIsLoginOrno();
+
+                        }
+
 //                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
                         break;
                     case R.id.rb_activityMain_user:
@@ -106,6 +111,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                         }else{
                             fragmentManager.beginTransaction().add(R.id.fl_mainActivity_fragmentShell,userFragment)
                                     .show(userFragment).hide(orderFragment).hide(homeFragment).commit();
+                        }
+                        if (userFragment.isAdded()){
+                            userFragment.userFragmentIsLoginOrNo();
                         }
 //                        fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,userFragment).commit();
                         break;
@@ -215,5 +223,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
         if (taskId == checkNewMsgTaskId){
             LogUtil.i("====checkNewMsg::::"+msg.getMessage());
         }
+    }
+
+    public void setHomeCheck(){
+        rb_activityMain_home.setChecked(true);
     }
 }

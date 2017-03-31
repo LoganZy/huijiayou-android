@@ -30,13 +30,7 @@ public class Record {
         this.belong = belong;
     }
 
-    public String getPay_time() {
-        return pay_time;
-    }
 
-    public void setPay_time(String pay_time) {
-        this.pay_time = pay_time;
-    }
 
     public String getUser_name() {
         return user_name;
@@ -47,7 +41,7 @@ public class Record {
     }
 
     private String user_name;
-    private String pay_time;
+
     private String belong;
     private String product_name;
     private String id;

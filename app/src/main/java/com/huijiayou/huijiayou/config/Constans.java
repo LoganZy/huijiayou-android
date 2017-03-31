@@ -46,7 +46,7 @@ public class Constans {
     public final static String MESSAGE = "/message/";
 
 
-    public final static String URL_MESSAGE = "http://test.1huangjin.cn/message/";
+    public final static String URL_MESSAGE = "http://test.1huangjin.cn/message/message.php?c=msg";
     public final static String message_lst = "lst";
     public final static String message_markAll = "markAll";
     public final static String message_checkNewMsg = "checkNewMsg";
@@ -74,9 +74,10 @@ public class Constans {
     public final static String getOrderInfo=  "getOrderInfo";
     public final static String CHECKIN ="checkIn";//q签到的接口
     public final static String checkOrder ="checkOrder";//订单支付前调用的接口
+    public final  static  String GETUSERSAVEMONEY = "getUserSaveMoney";//总共节省的钱数
     public final static String back ="back";//支付结果请求接口
-    public final  static  String GETUSERSAVEMONEY = "getUserSaveMoney";
     public final  static  String shareCodePicture = "shareCodePicture"; //分享生成二维码图片
+    public final  static  String userPacketsList = "userPacketsList"; //获取当前产品可用的所有红包
 
     public final static String registerAgreement = "/HJY/#/register_agreement"; //注册协议
     public final static String userAgreement = "/HJY/#/user_agreement"; //用户协议

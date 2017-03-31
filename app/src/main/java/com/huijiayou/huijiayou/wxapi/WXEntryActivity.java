@@ -96,7 +96,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                                             PreferencesUtil.putPreferences(Constans.USER_ID,id);
                                             MyApplication.isLogin = true;
                                             PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
-                                            ToastUtils.createNormalToast("账号已经绑定");
+                                           // ToastUtils.createNormalToast("账号已经绑定");
                                             //发送广播
                                             //startActivity(new Intent(WXEntryActivity.this, MainActivity.class));
                                             finish();

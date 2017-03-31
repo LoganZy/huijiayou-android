@@ -178,7 +178,7 @@ public class HomePageAdapter extends PagerAdapter {
             TextView tvDiscount = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discount);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
-                discount = CommitUtils.bigDecimal2(discount, 1);
+                discount = CommitUtils.decimal1(discount);
                 tvDiscount.setText(discount+"");
             }else if (discount == 10){
                 tvDiscount.setText(String.valueOf((int) discount));

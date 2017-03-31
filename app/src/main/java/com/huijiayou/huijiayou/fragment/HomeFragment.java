@@ -276,6 +276,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                     intent.putExtra("total",total); //double 总价 moneyMonth * month
                     intent.putExtra("discountTotal",discountTotal); //double 折扣后的 金额 == total * 折扣
                     intent.putExtra("saveMoney",saveMoney);//double 节省的金额 == total - discountTotal
+                    intent.putExtra("type",PaymentActivity.type_order);
                     startActivity(intent);
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));

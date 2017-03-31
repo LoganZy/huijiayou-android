@@ -211,13 +211,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
+            <TextView
                 android:id="@+id/iv_activityLogin_check"
                 android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/ic_login_check"/>
             <TextView
+                android:id="@+id/tv_activityLogin_agreenment"
                 android:textSize="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"

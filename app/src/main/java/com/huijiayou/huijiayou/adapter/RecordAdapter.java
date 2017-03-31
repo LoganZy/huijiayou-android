@@ -119,8 +119,8 @@ public class RecordAdapter extends BaseAdapter {
 
 
                 }else {
-                    holder2.tvActivityRecordCompletionRate2.setText(record.getCount() + " / " + record.getTotal_time());
-                    holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.drawable.ic_recording_green);
+                    holder2.tvActivityRecordCompletionRate2.setText(record.getCount() + "/" + record.getTotal_time());
+                    holder2.tvActivityRecordCompletionRate2.setBackgroundResource(R.mipmap.ic_recording_green);
                 }
         }
 
