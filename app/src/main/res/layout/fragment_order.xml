@@ -10,6 +10,7 @@
 
         <!--详情界面-->
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -146,6 +147,56 @@
                 android:text="没有订单数据呢"/>
         </LinearLayout>
 
+        <!--定单数据为空-->
+        <LinearLayout
+            android:id="@+id/ll_fragmentUser_noOder"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:textColor="#51586A"
+                android:textSize="17dp"
+                android:background="@color/white"
+                android:text="我的订单" />
+            <TextView
+                android:layout_marginTop="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:textColor="#666666"
+                android:text="省钱即赚钱，赶快加油吧"/>
+            <Button
+                android:background="@drawable/login_button"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/bt_fragment_order_gotoOil"
+                android:textSize="17dp"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:textColor="#F18B30"
+                android:text="去加油"/>
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_default_order"/>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="#666666"
+                android:text="暂时没有订单数据呢"/>
+        </LinearLayout>
 
 
     </FrameLayout>

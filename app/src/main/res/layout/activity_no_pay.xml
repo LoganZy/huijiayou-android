@@ -15,7 +15,7 @@
         android:drawableTop="@mipmap/ic_details_gas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="未支付 （15min）"
+        android:text="超过15min支付失败"
         android:textColor="@color/white"/>
     <LinearLayout
         android:layout_width="match_parent"

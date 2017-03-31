@@ -21,6 +21,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CloseDealActivity;
 import com.huijiayou.huijiayou.activity.DetailsActivity;
 import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.MainActivity;
 import com.huijiayou.huijiayou.activity.NoPayActivity;
 import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
@@ -46,6 +47,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.loadmore.LoadMoreListViewContainer;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -73,10 +75,12 @@ public class OrderFragment extends Fragment {
     LinearLayout llFragmentUserLogin;
     @Bind(R.id.ptr_fragmentOrder_pulltorefresh)
     PtrClassicFrameLayout frameLayout;
+    @Bind(R.id.ll_fragmentUser_noOder)
+    LinearLayout llFragmentNoOder;
     private List<Record> recordList;
     private String Url;
     private RecordAdapter recordAdapter;
-
+    private LoadMoreListViewContainer mLoadMoreListViewContainer;
 
     @Nullable
     @Override
@@ -162,10 +166,9 @@ public class OrderFragment extends Fragment {
             initData();
 
             llFragmentUserLogin.setVisibility(View.GONE);
-            FragmentRecord.setVisibility(View.VISIBLE);
             //设置上拉刷新
-           /* setPulltoRefresh();
-            if(recordAdapter!=null){
+            setPulltoRefresh();
+         /*   if(recordAdapter!=null){
 
                 recordAdapter.getList().addAll(recordList);
 
@@ -175,6 +178,7 @@ public class OrderFragment extends Fragment {
         } else {
             llFragmentUserLogin.setVisibility(View.VISIBLE);
             FragmentRecord.setVisibility(View.GONE);
+            llFragmentNoOder.setVisibility(View.GONE);
         }
     }
 
@@ -186,22 +190,26 @@ public class OrderFragment extends Fragment {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                frameLayout.postDelayed(new Runnable() {
+                frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getRecord(1);
                         frameLayout.refreshComplete();
+                        recordAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                frameLayout.postDelayed(new Runnable() {
+                frame.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getRecord(2);
                         frameLayout.refreshComplete();
+                        recordAdapter.notifyDataSetChanged();
                     }
-                },1000);
+                },500);
             }
 
             @Override
@@ -223,7 +231,7 @@ public class OrderFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.bt_fragment_order_login, R.id.bt_fragment_gas_pay})
+    @OnClick({R.id.bt_fragment_order_login, R.id.bt_fragment_gas_pay,R.id.bt_fragment_order_gotoOil})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_fragment_order_login:
@@ -233,6 +241,9 @@ public class OrderFragment extends Fragment {
             case R.id.bt_fragment_gas_pay:
 
                 WXpay();
+                break;
+            case R.id.bt_fragment_order_gotoOil:
+                ((MainActivity)getActivity()).setHomeCheck();
                 break;
         }
     }
@@ -302,26 +313,34 @@ public class OrderFragment extends Fragment {
     private void initData() {
         //获取头部节省的钱数
 
-        getRecord();
+        getRecord(0);
         getSaveMoney();
     }
+    /*
+    *
+    * Mode 0: adapter为空的时候
+    *       1：下拉刷新
+    *       2：上拉加载更多
+    *
+    * */
+    private void getRecord(final int Mode) {
 
-    private void getRecord() {
+        int pages =0;
+        if (Mode==0|| Mode==1) {
+            // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
+            pages = 1;
+        } else if (Mode==2) {
+            // 如果是上拉加载更多
+            pages = pages+1;
+        }
 
         recordList = new ArrayList<Record>();
-        int pages = 1;
-//        if (recordAdapter == null || putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_START) {
-//            // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
-//            pages = 0;
-//        } else if (putorefresh.getCurrentMode() == PullToRefreshBase.Mode.PULL_FROM_END) {
-//            // 如果是上拉加载更多
-//            pages = recordAdapter.getCount();
-     //   }
+        //int pages = 1;
         HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
         map.put("pages", pages);
-        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOBJECT, 1, map, true, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOBJECT, 1, map, false, new NewHttpRequest.RequestCallback() {
              @Override
              public void netWorkError() {
 
@@ -334,6 +353,15 @@ public class OrderFragment extends Fragment {
 
                      try {
                          JSONArray jsonArray1 =  jsonObject.getJSONArray("list");
+                            if (jsonArray1.length()==0){
+
+                                llFragmentNoOder.setVisibility(View.VISIBLE);
+                                FragmentRecord.setVisibility(View.GONE);
+                            }else{
+
+                                FragmentRecord.setVisibility(View.VISIBLE);
+                                llFragmentNoOder.setVisibility(View.GONE);
+                            }
 
                          LogUtil.i("请求成功");
                          for(int i =0;i<jsonArray1.length();i++){
@@ -365,7 +393,7 @@ public class OrderFragment extends Fragment {
                              recordList.add(record);
 
                          }
-                         setadapter(recordList);
+                         setadapter(recordList,Mode);
                           //putorefresh.onRefreshComplete();
                      } catch (JSONException e) {
                          e.printStackTrace();
@@ -377,17 +405,20 @@ public class OrderFragment extends Fragment {
 
              @Override
              public void requestError(int code, MessageEntity msg, int taskId) {
+                 frameLayout.refreshComplete();
 
-               //  putorefresh.onRefreshComplete();
                 ToastUtils.createNormalToast( msg.getMessage());
              }
          }).executeTask();
    }
 
-    private void setadapter(List<Record> recordList) {
-        recordAdapter = new RecordAdapter(getActivity(), recordList);
-        lvActivityRecordBill.setAdapter(recordAdapter);
-
+    private void setadapter(List<Record> recordList,int Mode) {
+        if(Mode==2){
+            recordAdapter.getList().addAll(recordList);
+        }else {
+            recordAdapter = new RecordAdapter(getActivity(), recordList);
+            lvActivityRecordBill.setAdapter(recordAdapter);
+        }
 
     }
 
@@ -395,7 +426,7 @@ public class OrderFragment extends Fragment {
         HashMap<String ,Object> map1 =new HashMap<>();
         map1.put("time",System.currentTimeMillis());
         map1.put("sign","");
-        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.GETUSERSAVEMONEY, Constans.JSONOBJECT, 2, map1, false, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.GETUSERSAVEMONEY, Constans.JSONOBJECT, 2, map1, true, new NewHttpRequest.RequestCallback() {
 
 
             @Override

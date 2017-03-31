@@ -6,6 +6,7 @@ import com.huijiayou.huijiayou.R;
 
 import in.srain.cube.util.LocalDisplay;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 /**
@@ -22,18 +23,18 @@ public class UltraCustomerHeaderUtils {
         mPtrFrame.setDurationToClose(1000);  // 您还可以单独设置脚,头
         // default is false
         mPtrFrame.setPullToRefresh(false);
-
+        mPtrFrame.setMode(PtrFrameLayout.Mode.BOTH);
         // default is true
         mPtrFrame.setKeepHeaderWhenRefresh(true);
         //以下为自定义header需要
         StoreHouseHeader header = new StoreHouseHeader(context);
         header.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
-        header.setTextColor(context.getResources().getColor(R.color.orange_FF7320));
+        header.setTextColor(context.getResources().getColor(R.color.bg_color));
         header.initWithString("ZSG");
         mPtrFrame.setDurationToCloseHeader(1500);
         mPtrFrame.setHeaderView(header);
         mPtrFrame.addPtrUIHandler(header);
-        mPtrFrame.setBackgroundColor(context.getResources().getColor(R.color.orange_FF7320));
+        mPtrFrame.setBackgroundColor(context.getResources().getColor(R.color.white));
     }
 
 
