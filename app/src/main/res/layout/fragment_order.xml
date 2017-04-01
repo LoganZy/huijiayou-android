@@ -72,7 +72,7 @@
                         android:text="00"/>
                 </LinearLayout>
             </LinearLayout>
-            <in.srain.cube.views.ptr.PtrFrameLayout
+            <in.srain.cube.views.ptr.PtrClassicFrameLayout
                 android:layout_below="@id/ll_activity_head"
                 android:id="@+id/ptr_fragmentOrder_pulltorefresh"
                 android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:layout_height="match_parent"
                 android:background="#F5F5F5"/>
 
-            </in.srain.cube.views.ptr.PtrFrameLayout>
+            </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
         </RelativeLayout>
 

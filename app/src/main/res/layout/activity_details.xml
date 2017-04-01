@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@mipmap/ic_recording_green"
-                    android:paddingLeft="28dp"
+                    android:paddingLeft="30dp"
                     android:paddingTop="3dp"
                     android:text="3/6"
                     android:textColor="#6DC152"/>
@@ -123,7 +123,7 @@
                         android:layout_weight="0.94"
                         android:text="3000"
                         android:textColor="#2A2A2A"
-                        android:textSize="18dp" />
+                        android:textSize="17dp" />
 
                     <TextView
                         android:textColor="#666666"
@@ -146,7 +146,7 @@
                         android:layout_weight="1"
                         android:text="3000"
                         android:textColor="#2A2A2A"
-                        android:textSize="18dp" />
+                        android:textSize="17dp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="20dp"

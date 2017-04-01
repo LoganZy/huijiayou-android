@@ -143,7 +143,7 @@ public class RecordAdapter extends BaseAdapter {
         @Bind(R.id.tv_activityRecord_indentClose)
         TextView tvActivityRecordIndentClose;
         @Bind(R.id.bt_activityRecord_gotoPay)
-        Button btActivityRecordGotoPay;
+        TextView btActivityRecordGotoPay;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
