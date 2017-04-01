@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="13dp"
-            android:text="余额不足，支付失败"/>
+            android:text=""/>
 
     </LinearLayout>
 

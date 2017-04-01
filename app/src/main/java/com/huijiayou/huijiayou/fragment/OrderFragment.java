@@ -78,7 +78,7 @@ public class OrderFragment extends Fragment {
     LinearLayout llFragmentNoOder;
     private List<Record> recordList;
     private String Url;
-    private RecordAdapter recordAdapter;
+    private RecordAdapter recordAdapter=null;
     private int pages=1;
     private boolean isHadMore;
     private ArrayList<Record> list;
@@ -93,7 +93,7 @@ public class OrderFragment extends Fragment {
         pages=1;
         initView();
         initListion();
-        orderFragmentIsLoginOrno();
+       // orderFragmentIsLoginOrno();
         return view;
     }
 
@@ -262,7 +262,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 10000);
+                }, 5000);
             }
         });
     }
