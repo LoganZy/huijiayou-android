@@ -54,7 +54,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     private int time1;
     private int time2;
     private Bundle b;
-    private Boolean isOutTime;
+    private Boolean isOutTime=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,12 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     }
 
     private void initView() {
-
+        if(isOutTime) {
+            Drawable rightDrawable = getResources().getDrawable(R.mipmap.ic_details_gas_n);
+            rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
+            tvActivityNopaytime.setCompoundDrawables(null, rightDrawable, null, null);
+            btActivityPayPay.setEnabled(false);
+        }
         startTime();
     }
 
@@ -96,7 +101,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         if(TextUtils.equals(arr[0],arr1[0])){
            int i =  Integer.parseInt(arr[1])- Integer.parseInt(arr1[1]);
             if(i<15){
-               int total = 840+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60-Integer.parseInt(arr[2]);
+               int total = 900+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60-Integer.parseInt(arr[2]);
                 if (total>0){
                     time1 =total%60;
                     time2 = total/60;
@@ -166,11 +171,11 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                         handler.removeCallbacksAndMessages(null);
                         tvActivityNopaytime.setBackgroundResource(R.color.gray);
                         tvActivityNopaytime.setText("交易超时关闭");
-
                         Drawable rightDrawable = getResources().getDrawable(R.mipmap.ic_details_gas_n);
                         rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
                         tvActivityNopaytime.setCompoundDrawables(null, rightDrawable, null, null);
                         btActivityPayPay.setEnabled(false);
+
                         isOutTime = true;
                         /*tvActivityNopaytime.setText("支付超时");
                         Intent intent = new Intent();

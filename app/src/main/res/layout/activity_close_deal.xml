@@ -118,7 +118,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
-                    android:textSize="18dp" />
+                    android:textSize="17dp" />
 
                 <TextView
                     android:textColor="#666666"
@@ -137,7 +137,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
-                    android:textSize="18dp" />
+                    android:textSize="17dp" />
             </LinearLayout>
 
             <TextView

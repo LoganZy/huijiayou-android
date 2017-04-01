@@ -52,7 +52,6 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
     @Bind(R.id.tv_activityDetail_username)
     TextView tvActivityDetailUsername;
     private List<OrderDetail> list;
-    private String total_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         String id = b.getString("id");
-        String card_number = b.getString("card_number");
+       /* String card_number = b.getString("card_number");
         String discount_before_amount = b.getString("discount_before_amount");
         String discount_after_amount = b.getString("discount_after_amount");
         String order_name = b.getString("order_number");
@@ -85,20 +84,8 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         String count = b.getString("count");
         total_time = b.getString("total_time");
         String product_name = b.getString("product_name");
-        String user_name = b.getString("user_name");
-        if (TextUtils.equals(belong, "2")) {
-            imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_cnpc);
-        } else {
-            imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_sinopec);
-        }
-        tvActivityDetailUsername.setText(user_name);
-        tvActivityDetailCardNum.setText(card_number);
-        tvActivityDetailAfter.setText(discount_after_amount);
-        tvActivityDetailBefor.setText(discount_before_amount);
-        tvActivityDetailOrderNum.setText(order_name);
-        tvActivityDetailIctime.setText(ctime);
-        tvActivityDetailProcess.setText(count + "/" + total_time);
-        tvActivityDetailProductName.setText(product_name);
+        String user_name = b.getString("user_name");*/
+
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
@@ -136,6 +123,16 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         try {
             JSONArray jsonArray1 = jsonObject.getJSONArray("oil_info");
             String  pay_time = jsonObject.getString("pay_time");
+            String belong  = jsonObject.getString("belong");
+            String user_name = jsonObject.getString("user_name");
+            String card_number = jsonObject.getString("card_number");
+            String discount_after_amount = jsonObject.getString("discount_after_amount");
+            String discount_before_amount = jsonObject.getString("discount_before_amount");
+            String order_name = jsonObject.getString("order_number");
+            String ctime = jsonObject.getString("ctime");
+            String count = jsonObject.getString("count");
+            String total_time = jsonObject.getString("total_time");
+            String product_name = jsonObject.getString("product_name");
             tvActivityDetailRechargeTime.setText(pay_time);
             for (int i = 0; i < jsonArray1.length(); i++) {
                 JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
@@ -144,14 +141,26 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
                 String recharge_amount = jsonObject1.getString("recharge_amount");
                 String recharge_time = jsonObject1.getString("recharge_time");
                 String status =jsonObject1.getString("status");
-
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setId(id);
                 orderDetail.setRecharge_amount(recharge_amount);
                 orderDetail.setRecharge_time(recharge_time);
                 orderDetail.setStatus(status);
-                orderDetail.setTotal_time(total_time);
+                orderDetail.setTotal_time(total_time1);
                 list.add(orderDetail);
+                if (TextUtils.equals(belong, "2")) {
+                    imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_cnpc);
+                } else {
+                    imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_sinopec);
+                }
+                tvActivityDetailUsername.setText(user_name);
+                tvActivityDetailCardNum.setText(card_number);
+                tvActivityDetailAfter.setText(discount_after_amount);
+                tvActivityDetailBefor.setText(discount_before_amount);
+                tvActivityDetailOrderNum.setText(order_name);
+                tvActivityDetailIctime.setText(ctime);
+                tvActivityDetailProcess.setText(count + "/" + total_time);
+                tvActivityDetailProductName.setText(product_name);
                 /*
                 *
                 * "id": "87",

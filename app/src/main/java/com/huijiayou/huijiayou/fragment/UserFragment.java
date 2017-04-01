@@ -81,7 +81,7 @@ public class UserFragment extends Fragment {
         MyImageView myImageView = (MyImageView) view.findViewById(R.id.my_image_head);
         myImageView.setImageView((ImageView) view.findViewById(R.id.img_fragmentUser_backgroud));
         ButterKnife.bind(this, view);
-        startAnimation();
+        animationDrawable = (AnimationDrawable) imgbtFragmentUserMessage.getBackground();
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.ic_login_default_avatar)
                 .showImageForEmptyUri(R.mipmap.ic_login_default_avatar)

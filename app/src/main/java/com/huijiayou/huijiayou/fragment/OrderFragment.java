@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.loadmore.LoadMoreListViewContainer;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -81,14 +83,18 @@ public class OrderFragment extends Fragment {
     private List<Record> recordList;
     private String Url;
     private RecordAdapter recordAdapter;
-    private LoadMoreListViewContainer mLoadMoreListViewContainer;
+    private int pages=1;
+    private boolean isHadMore;
+    private ArrayList<Record> list;
+    private View view1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.bind(this, view);
-
+        isHadMore = true;
+        pages=1;
         initView();
         initListion();
         orderFragmentIsLoginOrno();
@@ -96,10 +102,29 @@ public class OrderFragment extends Fragment {
     }
 
     private void initListion() {
+    /*lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState){
+                // 当不滚动时
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    // 判断是否滚动到底部
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && isHadMore) {
+                       getRecord(2);
+                    }else {
+                        ToastUtils.createNormalToast("没有更多数据了");
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });*/
         lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Record record = recordList.get(position);
+                Record record = (Record) parent.getItemAtPosition(position);
                 String status = record.getStatus();
                 Intent intent = new Intent();
                 Bundle b = new Bundle();
@@ -190,31 +215,16 @@ public class OrderFragment extends Fragment {
     private void setPulltoRefresh() {
         //实例化自定义头部
         LoadingHeader header = new LoadingHeader(getActivity());
+        LoadingHeader footer = new LoadingHeader(getActivity());
         //刷新时保留头部
+        frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
+        frameLayout.setFooterView(footer);
         frameLayout.addPtrUIHandler(header);
         frameLayout.setHeaderView(header);
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(new PtrHandler2() {
-
-
-            @Override
-            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, footer);
-            }
-
-            @Override
-            public void onLoadMoreBegin(PtrFrameLayout frame) {
-                frameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getRecord(2);
-                        frameLayout.refreshComplete();
-                        recordAdapter.notifyDataSetChanged();
-                    }
-                }, 10000);
-            }
+        frameLayout.setPtrHandler(/*new PtrHandler() {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -234,8 +244,31 @@ public class OrderFragment extends Fragment {
             }
 
 
-        });
+        });*/new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                frameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRecord(2);
+                        frameLayout.refreshComplete();
+                        recordAdapter.notifyDataSetChanged();
+                    }
+                }, 5000);
+            }
 
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRecord(1);
+                        frameLayout.refreshComplete();
+                        recordAdapter.notifyDataSetChanged();
+                    }
+                }, 10000);
+            }
+        });
     }
 
     @Override
@@ -338,13 +371,17 @@ public class OrderFragment extends Fragment {
     * */
     private void getRecord(final int Mode) {
 
-        int pages =0;
+
         if (Mode==0|| Mode==1) {
             // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
             pages = 1;
+            isHadMore = true;
         } else if (Mode==2) {
             // 如果是上拉加载更多
-            pages = pages+1;
+            if(isHadMore){
+                pages = pages +1;
+            }
+
         }
 
         recordList = new ArrayList<Record>();
@@ -366,15 +403,7 @@ public class OrderFragment extends Fragment {
 
                      try {
                          JSONArray jsonArray1 =  jsonObject.getJSONArray("list");
-                            if (jsonArray1.length()==0){
 
-                                llFragmentNoOder.setVisibility(View.VISIBLE);
-                                FragmentRecord.setVisibility(View.GONE);
-                            }else{
-
-                                FragmentRecord.setVisibility(View.VISIBLE);
-                                llFragmentNoOder.setVisibility(View.GONE);
-                            }
 
                          LogUtil.i("请求成功");
                          for(int i =0;i<jsonArray1.length();i++){
@@ -426,13 +455,27 @@ public class OrderFragment extends Fragment {
    }
 
     private void setadapter(List<Record> recordList,int Mode) {
+
         if(Mode==2){
-            recordAdapter.getList().addAll(recordList);
+            isHadMore = false;
+            list.addAll(recordList);
+            recordAdapter = new RecordAdapter(getActivity(), list);
+            lvActivityRecordBill.setAdapter(recordAdapter);
         }else {
+            isHadMore = true;
+            list  = new ArrayList<>();
+            list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
         }
+        if (list.size()==0){
+            llFragmentNoOder.setVisibility(View.VISIBLE);
+            FragmentRecord.setVisibility(View.GONE);
+        }else{
 
+            FragmentRecord.setVisibility(View.VISIBLE);
+            llFragmentNoOder.setVisibility(View.GONE);
+        }
     }
 
     private void getSaveMoney() {

@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -33,10 +33,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.HEAD;
 
 import static com.huijiayou.huijiayou.config.Constans.USER_ID;
 import static com.huijiayou.huijiayou.config.Constans.USER_TOKEN;
@@ -205,9 +207,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 } else if (TextUtils.isEmpty(SMScode)) {
                     ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
 
-                    time = 60;
-                    //向服务器请求
-                    startTime();
+
                     editActivityLoginPhone.clearFocus();
                     editActivityLoginPhoneCode.setFocusable(true);
                     editActivityLoginPhoneCode.requestFocus();
@@ -218,30 +218,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             }
 
 
-            /*
-            *
-            * 发送定时消息的方法
-            *
-            * */
-            public void startTime() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        time -= 1;
-                        if (time <= 0) {
-                            tvActivityLoginSendPhoneCode.setFocusable(true);
-                            tvActivityLoginSendPhoneCode.setEnabled(true);
-                            tvActivityLoginSendPhoneCode.setText("重新获取");
-                            handler.removeCallbacksAndMessages(null);
-                        } else {
-                            tvActivityLoginSendPhoneCode.setEnabled(false);
-                            tvActivityLoginSendPhoneCode.setText(time + "s");
-                            handler.postDelayed(this, 1000);
-                        }
-                    }
-                }, 1000);
-
-            }
         });
     }
 
@@ -288,6 +264,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         HashMap<String, Object> map = new HashMap<>();
         map.put("mobile", callNumber);
         new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.MESSAGEAUTH, "jsonObject", 1, map, false, this).executeTask();
+        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.MESSAGEAUTH, "jsonObject", 1, map, true,this).executeTask();
 
 
     }
@@ -351,6 +328,30 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
 
 
+    /*
+    *
+    * 发送定时消息的方法
+    *
+    * */
+    public void startTime() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                time -= 1;
+                if (time <= 0) {
+                    tvActivityLoginSendPhoneCode.setClickable(true);
+                    tvActivityLoginSendPhoneCode.setText("重新获取");
+                    handler.removeCallbacksAndMessages(null);
+                } else {
+                    tvActivityLoginSendPhoneCode.setClickable(false);
+                    //tvActivityLoginSendPhoneCode.setEnabled(false);
+                    tvActivityLoginSendPhoneCode.setText(time + "s");
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        }, 1000);
+
+    }
 
     /*
     * 请求回调
@@ -376,6 +377,9 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     }
                     int code = jsonObject1.getInt("code");
                     ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                    time = 60;
+                    //向服务器请求
+                    startTime();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

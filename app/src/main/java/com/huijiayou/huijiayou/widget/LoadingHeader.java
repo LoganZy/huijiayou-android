@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         addView(view);
         tvLoading = (TextView) findViewById(R.id.tv_headview_loading);
         animation = (AnimationDrawable) tvLoading.getBackground();
+        animation.start();
     }
 
     public void setUp(PtrFrameLayout ptrFrameLayout) {
@@ -53,6 +55,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         mPtrTensionIndicator = new PtrTensionIndicator();
         mPtrFrameLayout.setPtrIndicator(mPtrTensionIndicator);
     }
+
     @Override
     public void onUIReset(PtrFrameLayout frame) {
         //重置
