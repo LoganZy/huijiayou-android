@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.ToastUtils;
@@ -25,7 +25,6 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.huijiayou.huijiayou.config.Constans.getOilCardInfo;
 
 public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.RequestCallback{
 
@@ -154,7 +153,7 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
             hashMap.put("sign","");
             hashMap.put("oil_card",cord);
 
-            new NewHttpRequest(this, Constans.URL_zxg+Constans.OILCARD, Constans.bindCard, "jsonObject", bindCardTaskId, hashMap, true, this).executeTask();
+            new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.bindCard, "jsonObject", bindCardTaskId, hashMap, true, this).executeTask();
         }else{
             ToastUtils.createLongToast(this,"请输入正确的油卡号");
         }
@@ -167,7 +166,7 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
 
         hashMap.put("oil_card",oil_card);
 
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.OILCARD, getOilCardInfo, "jsonObject", getOilCardInfoTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.getOilCardInfo, "jsonObject", getOilCardInfoTaskId, hashMap, true, this).executeTask();
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
@@ -88,21 +89,6 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
         initView();
     }
 
-    /**
-     * 获取用户红包列表
-     */
-    private void userPacketsList(){
-        HashMap<String,Object> hashMap = new HashMap<>();
-        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-        hashMap.put(Constans.USER_ID,userId);
-        hashMap.put("products_id",product_id);
-        hashMap.put("card_num",oilCard);
-        hashMap.put("amount",discountTotal);
-
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.userPacketsList, "jsonObject", userPacketsListTaskId,
-                hashMap, true, this).executeTask();
-    }
-
     private void initView() {
         Intent intent = getIntent();
         type = intent.getIntExtra("type",NORMAL_TYPE);
@@ -133,7 +119,19 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         hashMap.put(Constans.USER_ID,userId);
 
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserPacketsInfo, "jsonObject", UserPacketsInfoTaskId,
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.UserPacketsInfo, "jsonObject", UserPacketsInfoTaskId,
+                hashMap, true, this).executeTask();
+    }
+
+    private void userPacketsList(){
+        HashMap<String,Object> hashMap = new HashMap<>();
+        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        hashMap.put(Constans.USER_ID,userId);
+        hashMap.put("products_id",product_id);
+        hashMap.put("card_num",oilCard);
+        hashMap.put("amount",discountTotal);
+
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.userPacketsList, "jsonObject", userPacketsListTaskId,
                 hashMap, true, this).executeTask();
     }
 
@@ -206,8 +204,12 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                     tv_activityCoupon_noData.setVisibility(View.VISIBLE);
                 }
             }else if (taskId == userPacketsListTaskId){
-                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
-                couponNoUseArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
+                Object object = jsonObject.get("data");
+                JSONArray jsonArray1 = new JSONArray();
+                if (object != null){
+                    jsonArray1 = (JSONArray) object;
+                }
+                couponNoUseArrayList = new Gson().fromJson(jsonArray1.toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
                 noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList, this, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

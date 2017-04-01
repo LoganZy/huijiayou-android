@@ -90,19 +90,29 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_ActivityOil_list"
+    <in.srain.cube.views.ptr.PtrFrameLayout
+        android:id="@+id/pf_activityOil_view"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_ActivityOil_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </in.srain.cube.views.ptr.PtrFrameLayout>
+
+
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/line_color"/>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

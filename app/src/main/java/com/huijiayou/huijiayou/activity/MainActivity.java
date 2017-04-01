@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.fragment.OrderFragment;
 import com.huijiayou.huijiayou.fragment.UserFragment;
@@ -103,9 +104,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                         }
                         if(orderFragment.isAdded()){
                             orderFragment.orderFragmentIsLoginOrno();
-
                         }
-
 //                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
                         break;
                     case R.id.rb_activityMain_user:
@@ -134,13 +133,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
         super.onNewIntent(intent);
         String type = intent.getStringExtra("type");
         if (HomeFragment.TAG.equals(type)){
-            rg_activityMain_menu.check(R.id.rb_activityMain_home);
+            rb_activityMain_home.setChecked(true);
         }else if (UserFragment.TAG.equals(type)){
-            rg_activityMain_menu.check(R.id.rb_activityMain_user);
+            rb_activityMain_user.setChecked(true);
         }else if (OrderFragment.TAG.equals(type)){
-            rg_activityMain_menu.check(R.id.rb_activityMain_order);
+            rb_activityMain_order.setChecked(true);
         }else{
-            rg_activityMain_menu.check(R.id.rb_activityMain_home);
+            rb_activityMain_home.setChecked(true);
         }
     }
 
@@ -188,7 +187,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         if (!TextUtils.isEmpty(userId)){
             hashMap.put(Constans.USER_ID,userId);
-            new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
+            new NewHttpRequest(this, NetConfig.MESSAGE, NetConfig.message_checkNewMsg, "jsonObject", checkNewMsgTaskId, hashMap, true, this).executeTask();
         }
     }
 
@@ -212,8 +211,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                 //{"code":0,"message":"success","data":"0"}
                 int data = Integer.parseInt(jsonObject.get("data").toString());
                 if (data > 0){
-                    userFragment.startAnimation();
-                    homeFragment.animationDrawable.start();
+                    if (userFragment.isAdded()){
+                        userFragment.startAnimation();
+                    }
+                    if (homeFragment.isAdded()){
+                        homeFragment.animationDrawable.start();
+                    }
                 }
             }
         } catch (JSONException e) {

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
@@ -208,7 +209,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             case R.id.tv_activity_wxbind_agreenment:
                 Intent intent1 = new Intent(this,WebViewActivity.class);
                 intent1.putExtra("title","用户协议");
-                intent1.putExtra("url",Constans.register_agreement);
+                intent1.putExtra("url",NetConfig.register_agreement);
                 startActivity(intent1);
                 break;
         }
@@ -243,7 +244,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             map.put("weixin_head",headimgurl);
             map.put("weixin_name",nickname);
 
-            new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
+            new NewHttpRequest(this, NetConfig.ACCOUNT,NetConfig.SIGNIN,Constans.JSONOBJECT,2,map,this).executeTask();
         }
     }
 
@@ -272,7 +273,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private void getVerificationCode(String callNumber){
         HashMap<String, Object> map = new HashMap<>();
         map.put("mobile",callNumber);
-        new NewHttpRequest(this,Constans.URL_wyh+Constans.ACCOUNT,Constans.MESSAGEAUTH,"jsonObject",1, map,false,this).executeTask();
+        new NewHttpRequest(this, NetConfig.ACCOUNT,NetConfig.MESSAGEAUTH,"jsonObject",1, map,false,this).executeTask();
 
 
     }

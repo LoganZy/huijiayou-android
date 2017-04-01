@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.utils.Util;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -25,13 +27,21 @@ public class ShareUtil implements View.OnClickListener {
      String title;
      String content;
      String url;
-     String imageUrl;
 
     public  void shareWebPage(Activity ac, String t, String c, String u){
         activity = ac;
         title = t;
         content = c;
         url = u;
+        if (TextUtils.isEmpty(t)){
+            title = "抢油滴省钱加油";
+        }
+        if (TextUtils.isEmpty(c)){
+            content = "抢到多少送多少，额外再送200元加油礼券，用了就是赚到，我会加油我骄傲！";
+        }
+        if (TextUtils.isEmpty(u)){
+            url = NetConfig.URL;
+        }
         initDialog();
     }
 

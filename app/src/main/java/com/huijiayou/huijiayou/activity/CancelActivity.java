@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -56,7 +57,7 @@ public class CancelActivity extends BaseActivity {
         btActivityCancleOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new NewHttpRequest(CancelActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.SIGNOUT, Constans.JSONOBJECT, 1, new NewHttpRequest.RequestCallback() {
+                new NewHttpRequest(CancelActivity.this, NetConfig.ACCOUNT, NetConfig.SIGNOUT, Constans.JSONOBJECT, 1, new NewHttpRequest.RequestCallback() {
                     @Override
                     public void netWorkError() {
 

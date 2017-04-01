@@ -25,8 +25,6 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
-import static com.huijiayou.huijiayou.MyApplication.dialogLoading;
-
 /**
  * 在之前的HttpRequest上再次封装，方便调用 by:baozi
  */
@@ -45,6 +43,7 @@ public class NewHttpRequest implements Runnable {
     private JSONObject jsonObject;
     private JSONArray jsonArray;
     private boolean isShowLoad = true;
+    DialogLoading dialogLoading;
 
     public interface RequestCallback {
 
@@ -438,7 +437,7 @@ public class NewHttpRequest implements Runnable {
      * 加载动画消失
      */
     private void loadingDialogDismiss() {
-        if (dialogLoading != null && dialogLoading.isShow()) {
+        if (dialogLoading != null) {
             dialogLoading.dismiss();
         }
     }

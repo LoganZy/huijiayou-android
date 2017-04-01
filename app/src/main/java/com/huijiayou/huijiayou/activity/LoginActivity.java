@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -33,12 +33,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.http.HEAD;
 
 import static com.huijiayou.huijiayou.config.Constans.USER_ID;
 import static com.huijiayou.huijiayou.config.Constans.USER_TOKEN;
@@ -107,7 +105,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             public void onClick(View v) {
                 Intent intent1 = new Intent(LoginActivity.this,WebViewActivity.class);
                 intent1.putExtra("title","用户协议");
-                intent1.putExtra("url",Constans.register_agreement);
+                intent1.putExtra("url", NetConfig.register_agreement);
                 startActivity(intent1);
             }
         });
@@ -263,9 +261,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private void getVerificationCode(String callNumber) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("mobile", callNumber);
-        new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.MESSAGEAUTH, "jsonObject", 1, map, true,this).executeTask();
-
-
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.MESSAGEAUTH, "jsonObject", 1, map, true, this).executeTask();
     }
 
 
@@ -319,7 +315,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             map.put("sms_key", key);
             map.put("sms_code", SMScode);
             map.put("invite_code", invit);
-            new NewHttpRequest(this, Constans.URL_wyh + Constans.ACCOUNT, Constans.SIGNIN, Constans.JSONOBJECT, 2, map, this).executeTask();
+            new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.SIGNIN, Constans.JSONOBJECT, 2, map, this).executeTask();
 
         }
 

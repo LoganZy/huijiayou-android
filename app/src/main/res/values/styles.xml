@@ -18,7 +18,7 @@
     </style>
 
     <style name="splashActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@mipmap/ic_launch_image_defult</item>
+        <item name="android:background">@mipmap/ic_launch</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>

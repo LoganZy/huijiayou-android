@@ -31,6 +31,7 @@ import com.huijiayou.huijiayou.adapter.CouponAdapter;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
 import com.huijiayou.huijiayou.adapter.RechargeDetailDailogAdapter;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.threadpool.ThreadPool;
@@ -51,7 +52,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.huijiayou.huijiayou.config.Constans.getOilCardInfo;
 
 public class PaymentActivity extends BaseActivity implements View.OnClickListener,NewHttpRequest.RequestCallback {
 
@@ -412,7 +412,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_activityPayment_payment_agreement:
                 Intent intent1 = new Intent(this,WebViewActivity.class);
                 intent1.putExtra("title","用户协议");
-                intent1.putExtra("url",Constans.user_agreement);
+                intent1.putExtra("url",NetConfig.user_agreement);
                 startActivity(intent1);
                 break;
 
@@ -605,7 +605,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("sign","");
         hashMap.put("product_id",product_id);
 
-        new NewHttpRequest(this, Constans.URL_zxg+ Constans.OILCARD, Constans.getOilCardList,
+        new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.getOilCardList,
                 "jsonObject", getOilCardListTaskId, hashMap,true, this).executeTask();
     }
 
@@ -620,7 +620,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         hashMap.put("oil_card",oil_card);
 
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.OILCARD, getOilCardInfo, "jsonObject", getOilCardInfoTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.getOilCardInfo, "jsonObject", getOilCardInfoTaskId, hashMap, true, this).executeTask();
     }
 
     /**
@@ -632,7 +632,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("sign","");
         hashMap.put("oil_card",oilCard);
 
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.OILCARD, Constans.bindCard, "jsonObject", bindCardTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.bindCard, "jsonObject", bindCardTaskId, hashMap, true, this).executeTask();
     }
 
     /**
@@ -643,7 +643,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         hashMap.put(Constans.USER_ID,userId);
 
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserEnableOil, "jsonObject", UserEnableOilTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.UserEnableOil, "jsonObject", UserEnableOilTaskId, hashMap, true, this).executeTask();
     }
 
     /**
@@ -657,7 +657,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("card_num",oilCard);
         hashMap.put("amount",discountTotal);
 
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.userPacketsList, "jsonObject", userPacketsListTaskId,
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.userPacketsList, "jsonObject", userPacketsListTaskId,
                 hashMap, true, this).executeTask();
     }
 
@@ -679,7 +679,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
         hashMap.put("pay_channel", "ali_pay");
 
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.ORDER, Constans.order, "jsonObject", orderTaskId,
+        new NewHttpRequest(this, NetConfig.ORDER, NetConfig.order, "jsonObject", orderTaskId,
                 hashMap, true, this).executeTask();
     }
 
@@ -689,7 +689,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("sign","");
         hashMap.put("order_number",orderNumber);
         hashMap.put("pay_channel","ali_pay");
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.checkOrder, "jsonObject", checkOrderTaskId,
+        new NewHttpRequest(this, NetConfig.PAY, NetConfig.checkOrder, "jsonObject", checkOrderTaskId,
                 hashMap, true, this).executeTask();
     }
 
@@ -700,7 +700,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         hashMap.put("memo",memo);
         hashMap.put("result",result);
         hashMap.put("resultStatus",resultStatus);
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.PAY, Constans.back, "jsonObject", backTaskId,
+        new NewHttpRequest(this, NetConfig.PAY, NetConfig.back, "jsonObject", backTaskId,
                 hashMap, true, this).executeTask();
     }
 
