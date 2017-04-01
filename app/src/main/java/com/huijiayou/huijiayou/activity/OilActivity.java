@@ -13,11 +13,13 @@ import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.OilAdapter;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.widget.LoadingHeader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,9 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler2;
 
 public class OilActivity extends BaseActivity implements NewHttpRequest.RequestCallback,View.OnClickListener{
 
@@ -59,6 +64,9 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     @Bind(R.id.btn_activityOil_zanyoudi)
     Button btn_activityOil_zanyoudi;
 
+    @Bind(R.id.pf_activityOil_view)
+    PtrFrameLayout pf_activityOil_view;
+
     TextView lastSelectedTextView;
     View lastSelectedView;
 
@@ -78,6 +86,38 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
         lastSelectedTextView = tv_activityOil_all;
         lastSelectedView = view_activityOil_all;
         recyclerView_ActivityOil_list.setLayoutManager(new LinearLayoutManager(this));
+        setPulltoRefresh();
+    }
+
+    private void setPulltoRefresh() {
+        //实例化自定义头部
+        LoadingHeader header = new LoadingHeader(this);
+        //刷新时保留头部
+        pf_activityOil_view.setKeepHeaderWhenRefresh(true);
+        //设置刷新头部
+        pf_activityOil_view.addPtrUIHandler(header);
+        pf_activityOil_view.setHeaderView(header);
+        pf_activityOil_view.disableWhenHorizontalMove(true);//解决横向滑动冲突
+        pf_activityOil_view.setPtrHandler(new PtrHandler2() {
+            @Override
+            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, footer);
+            }
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                UserOildropInfo();
+                pf_activityOil_view.refreshComplete();
+            }
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                UserOildropInfo();
+                pf_activityOil_view.refreshComplete();
+            }
+        });
         UserOildropInfo();
     }
 
@@ -87,7 +127,7 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
         hashMap.put(Constans.USER_ID,userId);
         hashMap.put("type",type); //0全部，1获取，2消耗
         hashMap.put("page",page);
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT, Constans.UserOildropInfo, "jsonObject", 1, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.UserOildropInfo, "jsonObject", 1, hashMap, true, this).executeTask();
     }
 
     private void updateState(TextView tv, View view){
@@ -129,6 +169,7 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
                 finish();
                 break;
             case R.id.btn_activityOil_zanyoudi:
+
                 startActivity(new Intent(this,InvitationActivity.class));
                 break;
         }

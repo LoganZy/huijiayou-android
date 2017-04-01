@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.OilCardAdapter;
-import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.widget.SpaceItemDecoration;
@@ -72,8 +72,8 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("time",System.currentTimeMillis());
         hashMap.put("sign","");
-        new NewHttpRequest(this, Constans.URL_zxg+Constans.OILCARD, Constans.getOilCardList,
-                "jsonObject", 1, hashMap,true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.OILCARD, NetConfig.getOilCardList,
+                "jsonObject", 1, hashMap, true, this).executeTask();
     }
 
     public void addOilCard(View view){
@@ -97,6 +97,9 @@ public class OilCardActivity extends BaseActivity implements NewHttpRequest.Requ
                 if (oilCardEntityList == null || oilCardEntityList.size() == 0){
                     sv_activityOilCard_list.setVisibility(View.GONE);
                     ll_activityOilCard_noData.setVisibility(View.VISIBLE);
+                }else{
+                    sv_activityOilCard_list.setVisibility(View.VISIBLE);
+                    ll_activityOilCard_noData.setVisibility(View.GONE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

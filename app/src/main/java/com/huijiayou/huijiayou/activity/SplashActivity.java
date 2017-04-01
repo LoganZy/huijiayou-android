@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
@@ -29,12 +30,19 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     boolean isCountDown = false;
 
     int loginStatusTaskId = 1;
+    boolean isFristStart = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slpha);
-        handler.postDelayed(runnable,4000);
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT,Constans.LOGINSTATUS,"jsonObject",loginStatusTaskId,false,this).executeTask();
+
+        isFristStart = PreferencesUtil.getPreferences(Constans.ISFRISTSTART,true);
+        if (isFristStart){
+            PreferencesUtil.putPreferences(Constans.ISFRISTSTART,false);
+        }
+
+        handler.postDelayed(runnable,2000);
+        new NewHttpRequest(this, NetConfig.ACCOUNT,NetConfig.LOGINSTATUS,"jsonObject",loginStatusTaskId,false,this).executeTask();
     }
 
     Runnable runnable = new Runnable() {
@@ -42,17 +50,29 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
         public void run() {
             isCountDown = true;
             if (isCountDown && isGetLoginStatus){
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                SplashActivity.this.finish();
+                if (isFristStart){
+                    Intent intent = new Intent(SplashActivity.this, IntroduceActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }else{
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }
             }
         }
     };
 
     public void skip(View view){
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        startActivity(intent);
-        SplashActivity.this.finish();
+        if (isFristStart){
+            Intent intent = new Intent(SplashActivity.this, IntroduceActivity.class);
+            startActivity(intent);
+            SplashActivity.this.finish();
+        }else{
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            SplashActivity.this.finish();
+        }
         handler.removeCallbacks(runnable);
     }
 
@@ -78,9 +98,15 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
                 }
                 isGetLoginStatus = true;
                 if (isCountDown && isGetLoginStatus){
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    SplashActivity.this.finish();
+                    if (isFristStart){
+                        Intent intent = new Intent(SplashActivity.this, IntroduceActivity.class);
+                        startActivity(intent);
+                        SplashActivity.this.finish();
+                    }else{
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        SplashActivity.this.finish();
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -92,9 +118,15 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
     public void requestError(int code, MessageEntity msg, int taskId) {
         isGetLoginStatus = true;
         if (isCountDown && isGetLoginStatus){
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-            SplashActivity.this.finish();
+            if (isFristStart){
+                Intent intent = new Intent(SplashActivity.this, IntroduceActivity.class);
+                startActivity(intent);
+                SplashActivity.this.finish();
+            }else{
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                SplashActivity.this.finish();
+            }
         }
     }
 }

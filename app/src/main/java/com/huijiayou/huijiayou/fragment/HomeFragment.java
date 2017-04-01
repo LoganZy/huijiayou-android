@@ -32,6 +32,7 @@ import com.huijiayou.huijiayou.adapter.HomePageAdapter;
 import com.huijiayou.huijiayou.adapter.ProductAdapter;
 import com.huijiayou.huijiayou.adapter.ProductAdapter.Product;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.CommitUtils;
@@ -234,7 +235,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         if (lastSelectedCity != null && !TextUtils.isEmpty(lastSelectedCity.getCity_id())){
             hashMap.put("city_id",lastSelectedCity.getCity_id());
         }
-        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.OILCARD,Constans.productList,
+        new NewHttpRequest(getActivity(), NetConfig.OILCARD,NetConfig.productList,
                 "jsonObject",productListTaskId,hashMap,true,this).executeTask();
     }
     public void getCity(){
@@ -243,7 +244,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         hashMap.put("time",time);
         hashMap.put("sign","");
 
-        new NewHttpRequest(getActivity(), Constans.URL_zxg+Constans.PRODUCT,Constans.getCity,
+        new NewHttpRequest(getActivity(), NetConfig.PRODUCT,NetConfig.getCity,
                 "jsonObject",getCityTaskId,hashMap,true,this).executeTask();
     }
 

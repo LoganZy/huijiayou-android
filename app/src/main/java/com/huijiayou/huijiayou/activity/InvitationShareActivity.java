@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.DialogLoading;
@@ -52,8 +53,8 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         map.put("user_id",userId);
         map.put("invite_url","http://192.168.10.212:8888/?mobile=18238832002&invite_code=666666#/game/main");
-        new NewHttpRequest(this, Constans.URL_wyh+Constans.ACCOUNT,
-                Constans.shareCodePicture, "jsonObject", 1, map, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ACCOUNT,
+                NetConfig.shareCodePicture, "jsonObject", 1, map, true, this).executeTask();
     }
 
 

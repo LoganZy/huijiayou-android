@@ -11,6 +11,7 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.DetailAdapter;
 import com.huijiayou.huijiayou.bean.OrderDetail;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.widget.SVListView;
@@ -103,7 +104,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
         map.put("time", System.currentTimeMillis());
         map.put("order_id", id);
         map.put("sign", "");
-        new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOBJECT, 1, map, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ORDER, NetConfig.getOrderInfo, Constans.JSONOBJECT, 1, map, true, this).executeTask();
 
 
 

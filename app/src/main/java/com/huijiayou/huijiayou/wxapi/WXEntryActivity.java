@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.WXBindActivity;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -71,7 +69,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     HashMap<String,Object> map =new HashMap<>();
                     map.put(Constans.ACCESSTOKEN, token);
                     map.put(Constans.OPENID, id);
-                    new NewHttpRequest(WXEntryActivity.this, Constans.URL_wyh + Constans.ACCOUNT, Constans.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
+                    new NewHttpRequest(WXEntryActivity.this, NetConfig.ACCOUNT, NetConfig.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
                         @Override
                         public void netWorkError() {
                             ToastUtils.createNormalToast("链接失败");

@@ -28,7 +28,12 @@ public class DialogLoading {
     public void show(){
         if (dialog != null){
             dialog.show();
-            if (animationDrawable != null && !animationDrawable.isRunning()){
+            if (animationDrawable != null){
+                if (!animationDrawable.isRunning()){
+                    animationDrawable.start();
+                }
+            }else{
+                animationDrawable = (AnimationDrawable) dialog.findViewById(R.id.img_dialogLoading_view).getBackground();
                 animationDrawable.start();
             }
         }
@@ -37,8 +42,10 @@ public class DialogLoading {
     public void dismiss(){
         if (dialog != null){
             dialog.dismiss();
-            if (animationDrawable != null && animationDrawable.isRunning()){
-                animationDrawable.stop();
+            if (animationDrawable != null){
+                if (animationDrawable.isRunning()){
+                    animationDrawable.stop();
+                }
             }
         }
     }

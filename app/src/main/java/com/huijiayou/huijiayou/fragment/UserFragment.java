@@ -23,8 +23,9 @@ import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MessageActivity;
 import com.huijiayou.huijiayou.activity.OilActivity;
 import com.huijiayou.huijiayou.activity.OilCardActivity;
-import com.huijiayou.huijiayou.activity.WebViewActivity;
+import com.huijiayou.huijiayou.activity.WelfareActivity;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -106,7 +107,7 @@ public class UserFragment extends Fragment {
             btFragmentUserLogin.setVisibility(View.GONE);
             //请求签到油滴的数量并显示出来
 
-            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
+            new NewHttpRequest(getActivity(), NetConfig.ACCOUNT, NetConfig.checkIn, Constans.JSONOBJECT, 2,  true, new NewHttpRequest.RequestCallback() {
                 @Override
                 public void netWorkError() {
                     LogUtil.i("++++++++++++++++++++++++++++++++++");
@@ -125,7 +126,7 @@ public class UserFragment extends Fragment {
                             String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
                             HashMap<String, Object> map4 = new HashMap<>();
                             map4.put(Constans.USER_ID, id);
-                            new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                            new NewHttpRequest(getActivity(), NetConfig.ACCOUNT, NetConfig.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
                                 @Override
                                 public void netWorkError() {
 
@@ -167,7 +168,7 @@ public class UserFragment extends Fragment {
                     String id = PreferencesUtil.getPreferences(Constans.USER_ID, "0");
                     HashMap<String, Object> map4 = new HashMap<>();
                     map4.put(Constans.USER_ID, id);
-                    new NewHttpRequest(getActivity(), Constans.URL_wyh + Constans.ACCOUNT, Constans.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
+                    new NewHttpRequest(getActivity(), NetConfig.ACCOUNT, NetConfig.UserEnableOil, Constans.JSONOBJECT, 4,map4,true, new NewHttpRequest.RequestCallback() {
                         @Override
                         public void netWorkError() {
 
@@ -282,9 +283,7 @@ public class UserFragment extends Fragment {
                 //startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
             case R.id.imgBtn_fragmentUser_award:
-                Intent intent1 = new Intent(getActivity(),WebViewActivity.class);
-                intent1.putExtra("title","用户协议");
-                intent1.putExtra("url",Constans.getwelfare);
+                Intent intent1 = new Intent(getActivity(),WelfareActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.imgbt_fragmentUser_message:

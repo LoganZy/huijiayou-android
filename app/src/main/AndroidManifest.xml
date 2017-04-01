@@ -160,7 +160,10 @@
         <activity android:name=".activity.PayingActivity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.InvitationShareActivity" />
-        <activity android:name=".activity.IntroduceActivity"></activity>
+        <activity android:name=".activity.IntroduceActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+        <activity android:name=".activity.WelfareActivity"></activity>
     </application>
 
 </manifest>

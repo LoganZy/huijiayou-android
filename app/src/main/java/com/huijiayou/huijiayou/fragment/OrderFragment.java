@@ -27,12 +27,12 @@ import com.huijiayou.huijiayou.activity.PayingActivity;
 import com.huijiayou.huijiayou.adapter.RecordAdapter;
 import com.huijiayou.huijiayou.bean.Record;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.huijiayou.huijiayou.utils.UltraCustomerHeaderUtils;
 import com.huijiayou.huijiayou.widget.LoadingHeader;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -50,9 +50,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.srain.cube.views.loadmore.LoadMoreListViewContainer;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrHandler2;
 import retrofit2.Response;
 
@@ -355,7 +353,7 @@ public class OrderFragment extends Fragment {
         map.put("time", System.currentTimeMillis());
         map.put("sign", "");
         map.put("pages", pages);
-        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.getOrderList, Constans.JSONOBJECT, 1, map, false, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), NetConfig.ORDER, NetConfig.getOrderList, Constans.JSONOBJECT, 1, map, false, new NewHttpRequest.RequestCallback() {
              @Override
              public void netWorkError() {
 
@@ -441,7 +439,7 @@ public class OrderFragment extends Fragment {
         HashMap<String ,Object> map1 =new HashMap<>();
         map1.put("time",System.currentTimeMillis());
         map1.put("sign","");
-        new NewHttpRequest(getActivity(), Constans.URL_zxg + Constans.ORDER, Constans.GETUSERSAVEMONEY, Constans.JSONOBJECT, 2, map1, true, new NewHttpRequest.RequestCallback() {
+        new NewHttpRequest(getActivity(), NetConfig.ORDER, NetConfig.GETUSERSAVEMONEY, Constans.JSONOBJECT, 2, map1, true, new NewHttpRequest.RequestCallback() {
 
 
             @Override

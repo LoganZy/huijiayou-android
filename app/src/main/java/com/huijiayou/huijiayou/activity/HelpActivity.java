@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.widget.ProgressWebView;
 
 import butterknife.Bind;
@@ -28,7 +28,7 @@ public class HelpActivity extends BaseActivity {
         initTitle();
         tvTitle.setText("帮助");
 
-        proWebView.loadUrl(Constans.help);
+        proWebView.loadUrl(NetConfig.help);
         btn_activityHelp_feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

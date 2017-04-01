@@ -20,6 +20,7 @@
         android:layout_margin="20dp"
         android:textColor="@color/black"
         android:onClick="skip"
+        android:visibility="gone"
         android:text="跳过"/>
 
 </RelativeLayout>

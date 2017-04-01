@@ -14,7 +14,9 @@ import com.huijiayou.huijiayou.adapter.MessageAdapter;
 import com.huijiayou.huijiayou.adapter.MessageTransactionAdapter;
 import com.huijiayou.huijiayou.bean.Message;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
+import com.huijiayou.huijiayou.fragment.OrderFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
@@ -124,7 +126,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         hashMap.put(Constans.USER_ID,userId);
         hashMap.put("mtype",type);
         hashMap.put("page",page);
-        new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_lst, "jsonObject", lstTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.MESSAGE, NetConfig.message_lst, "jsonObject", lstTaskId, hashMap, true, this).executeTask();
     }
 
     private void markAll(){
@@ -132,7 +134,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         hashMap.put(Constans.USER_ID,userId);
         hashMap.put("mtype",type);
-        new NewHttpRequest(this, Constans.URL_MESSAGE, Constans.message_markAll, "jsonObject", markAllTaskId, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.MESSAGE, NetConfig.message_markAll, "jsonObject", markAllTaskId, hashMap, true, this).executeTask();
     }
 
 
@@ -188,17 +190,23 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         public void onClick(View v) {
             Message message = messageArrayList.get((Integer) v.getTag());
             if ("1".equals(message.getJump_type())){ //去加油
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.putExtra("type", HomeFragment.TAG);
-                startActivity(intent);
-                finish();
-            }else if ("2".equals(message.getJump_type())){ // 查看订单详情 TODO
+                Intent intentHomeFragment = new Intent(MessageActivity.this, MainActivity.class);
+                intentHomeFragment.putExtra("type", HomeFragment.TAG);
+                startActivity(intentHomeFragment);
+                MessageActivity.this.finish();
 
-            }else if ("3".equals(message.getJump_type())){//查看活动详情 h5  TODO
+            }else if ("2".equals(message.getJump_type())){ // 查看订单列表
+                Intent intentMainActivity = new Intent(MessageActivity.this, MainActivity.class);
+                intentMainActivity.putExtra("type", OrderFragment.TAG);
+                startActivity(intentMainActivity);
+                MessageActivity.this.finish();
+
+            }else if ("3".equals(message.getJump_type())){//查看订单详情  TODO
+
 
             }else if ("4".equals(message.getJump_type())){ //邀请好友
-                Intent intent = new Intent(MessageActivity.this, InvitationActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MessageActivity.this, InvitationActivity.class));
+
             }
         }
     };

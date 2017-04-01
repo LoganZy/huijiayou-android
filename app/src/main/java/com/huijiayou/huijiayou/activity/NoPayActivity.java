@@ -1,7 +1,6 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.fragment.HomeFragment;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -142,7 +141,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         map.put("time", System.currentTimeMillis());
         map.put("order_id", id);
         map.put("sign", "");
-        new NewHttpRequest(this, Constans.URL_zxg + Constans.ORDER, Constans.getOrderInfo, Constans.JSONOBJECT, 2, map, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ORDER, NetConfig.getOrderInfo, Constans.JSONOBJECT, 2, map, true, this).executeTask();
 
     }
 

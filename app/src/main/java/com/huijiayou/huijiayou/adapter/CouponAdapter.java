@@ -44,6 +44,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
 
     @Override
     public void onBindViewHolder(CouponViewHolder holder, int position) {
+        holder.rl_itemActivityCoupon_view.setTag(position);
+        holder.rl_itemActivityCoupon_view.setOnClickListener(onClickListener);
         Coupon coupon = coupons.get(position);
         holder.tv_itemActivityCoupon_name.setText(coupon.getPackets_name());
         Drawable drawable = null;
@@ -80,7 +82,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         }else if (coupon.getProduct_info() != null && "2".equals(coupon.getProduct_info().getBelong())){
             holder.tv_itemActivityCoupon_oilTypeCondition.setText("限中石油可用");
         }
-
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         holder.ll_itemActivityCoupon_right.setBackgroundDrawable(drawable);
 
