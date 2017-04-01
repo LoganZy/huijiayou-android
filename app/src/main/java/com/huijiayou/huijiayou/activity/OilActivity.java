@@ -31,9 +31,8 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler2;
 
 public class OilActivity extends BaseActivity implements NewHttpRequest.RequestCallback,View.OnClickListener{
 
@@ -73,6 +72,7 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     OilAdapter oilAdapter;
     ArrayList<OilAdapter.Oil> oilArrayList;
     int page = 1;
+    boolean isLoad = true;
     String type = "0";
 
     @Override
@@ -92,34 +92,37 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     private void setPulltoRefresh() {
         //实例化自定义头部
         LoadingHeader header = new LoadingHeader(this);
+        LoadingHeader footer = new LoadingHeader(this);
         //刷新时保留头部
+        pf_activityOil_view.setMode(PtrFrameLayout.Mode.BOTH);
         pf_activityOil_view.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
+        pf_activityOil_view.setFooterView(footer);
         pf_activityOil_view.addPtrUIHandler(header);
         pf_activityOil_view.setHeaderView(header);
         pf_activityOil_view.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        pf_activityOil_view.setPtrHandler(new PtrHandler2() {
-            @Override
-            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, footer);
-            }
+        pf_activityOil_view.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                UserOildropInfo();
+                if (isLoad){
+                    page++;
+                    UserOildropInfo();
+                }else{
+                    ToastUtils.createNormalToast(OilActivity.this,"没有更多数据了");
+                }
                 pf_activityOil_view.refreshComplete();
             }
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
+
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                page = 1;
                 UserOildropInfo();
                 pf_activityOil_view.refreshComplete();
             }
         });
         UserOildropInfo();
     }
+
 
     private void UserOildropInfo(){
         HashMap<String,Object> hashMap = new HashMap<>();
@@ -186,6 +189,9 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
                         new TypeToken<ArrayList<OilAdapter.Oil>>() {}.getType());
                 oilAdapter = new OilAdapter(oilArrayList,this);
                 recyclerView_ActivityOil_list.setAdapter(oilAdapter);
+                if (oilArrayList == null || oilArrayList.size() < 20){
+                    isLoad = false;
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

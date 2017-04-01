@@ -13,13 +13,13 @@
         android:layout_height="3dp"
         android:background="@mipmap/ic_navbar_bg" />
 
-    <com.huijiayou.huijiayou.widget.ProgressWebView
-        android:id="@+id/proWebView_activityWelfare_view"
+    <com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView
+        android:id="@+id/bwb_activityWelfare_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-    </com.huijiayou.huijiayou.widget.ProgressWebView>
+    </com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView>
 
 
     <Button
@@ -29,6 +29,7 @@
         android:background="@color/orange_FF7320"
         android:textSize="17dp"
         android:onClick="shareWelfare"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:text="邀请好友"/>
 </LinearLayout>
