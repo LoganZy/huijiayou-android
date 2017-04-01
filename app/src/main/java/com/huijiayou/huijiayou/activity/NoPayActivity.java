@@ -1,6 +1,8 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
+import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -52,7 +55,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     private int time1;
     private int time2;
     private Bundle b;
-
+    private Boolean isOutTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,6 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
 
     @OnClick(R.id.bt_activityPay_pay)
     public void onClick() {
-
         HashMap<String, Object> map = new HashMap<>();
         map.put("time", System.currentTimeMillis());
         map.put("order_id", id);
@@ -163,12 +165,20 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                     handler.postDelayed(this, 1000);
                     if (time2<0){
                         handler.removeCallbacksAndMessages(null);
-                        tvActivityNopaytime.setText("支付超时");
+                        tvActivityNopaytime.setBackgroundResource(R.color.gray);
+                        tvActivityNopaytime.setText("交易超时关闭");
+
+                        Drawable rightDrawable = getResources().getDrawable(R.mipmap.ic_details_gas_n);
+                        rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
+                        tvActivityNopaytime.setCompoundDrawables(null, rightDrawable, null, null);
+                        btActivityPayPay.setEnabled(false);
+                        isOutTime = true;
+                        /*tvActivityNopaytime.setText("支付超时");
                         Intent intent = new Intent();
                         intent.putExtras(b);
                         intent.setClass(NoPayActivity.this,CloseDealActivity.class);
                         startActivity(intent);
-                        finish();
+                        finish();*/
                     }
 
                 } else {
@@ -183,7 +193,6 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler = null;
     }
 
     @Override
@@ -197,7 +206,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
             case 2:
                 try {
                     String ordernum =  jsonObject.getString("order_number");
-                    int moneyMoth = Integer.parseInt(jsonObject.getString( "unit_price"));
+                    int moneyMoth = (int)Double.parseDouble(jsonObject.getString( "unit_price"));
                     String productId = jsonObject.getString("product_id");
                     String month = jsonObject.getString("total_time");
                     double total =Double.parseDouble(jsonObject.getString("discount_before_amount")) ;
@@ -214,6 +223,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                     intent.putExtra("saveMoney",saveMoney);
                     intent.setClass(this,PaymentActivity.class);
                     startActivity(intent);
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

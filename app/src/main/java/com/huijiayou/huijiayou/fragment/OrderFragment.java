@@ -195,11 +195,28 @@ public class OrderFragment extends Fragment {
         //刷新时保留头部
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
-        frameLayout.setHeaderView(header);
         frameLayout.addPtrUIHandler(header);
+        frameLayout.setHeaderView(header);
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(new PtrHandler() {
+        frameLayout.setPtrHandler(new PtrHandler2() {
 
+
+            @Override
+            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, footer);
+            }
+
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                frameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRecord(2);
+                        frameLayout.refreshComplete();
+                        recordAdapter.notifyDataSetChanged();
+                    }
+                }, 10000);
+            }
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

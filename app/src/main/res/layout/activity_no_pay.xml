@@ -7,6 +7,7 @@
     android:background="#F5F5F5"
     tools:context="com.huijiayou.huijiayou.activity.NoPayActivity">
     <include layout="@layout/common_title"/>
+
     <TextView
         android:id="@+id/tv_activitynoPay_time"
         android:background="@mipmap/ic_details_background_org"

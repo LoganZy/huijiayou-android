@@ -44,7 +44,6 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     private void initMyview() {
         view = LayoutInflater.from(getContext()).inflate(R.layout.headview, this, false);
         addView(view);
-        textView = (TextView) view.findViewById(R.id.tv_loading);
         tvLoading = (TextView) findViewById(R.id.tv_headview_loading);
         animation = (AnimationDrawable) tvLoading.getBackground();
     }
@@ -67,14 +66,12 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
         //开始刷新 显示刷新进度跟文本
-        textView.setText("刷新中");
         tvLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
         //刷新完成  设置文本 设置进度隐藏
-        textView.setText("刷新完成");
         tvLoading.setVisibility(View.GONE);
     }
 
@@ -87,14 +84,12 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         if (currentPos < mOffsetToRefresh) {
             //未到达刷新线
             if (status == PtrFrameLayout.PTR_STATUS_PREPARE) {
-                textView.setText("下拉刷新");
 
                 animation.stop();
             }
         } else if (currentPos > mOffsetToRefresh) {
             //到达或超过刷新线
             if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
-                textView.setText("释放刷新");
                 animation.start();
             }
         }

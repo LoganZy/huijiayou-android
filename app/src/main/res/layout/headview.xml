@@ -5,21 +5,10 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal">
     <TextView
-        android:gravity="center"
-        android:id="@+id/tv_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:text="loading...."
-        android:textColor="@color/black" />
-
-    <TextView
         android:id="@+id/tv_headview_loading"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="20dp"
         android:background="@drawable/animation_loading" />
 </LinearLayout>
