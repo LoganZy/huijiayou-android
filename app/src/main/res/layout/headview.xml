@@ -5,6 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal">
     <ImageView
+        android:visibility="visible"
         android:id="@+id/tv_headview_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

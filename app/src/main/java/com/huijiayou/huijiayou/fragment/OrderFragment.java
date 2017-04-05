@@ -49,10 +49,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.util.LocalDisplay;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler2;
 import retrofit2.Response;
 
 /**
@@ -104,24 +106,25 @@ public class OrderFragment extends Fragment {
 
     private void initListion() {
    /* lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
-            @Override
+        public int firstVisibleItem;
+
+        @Override
             public void onScrollStateChanged(AbsListView view, int scrollState){
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() - 1 && isHadMore) {
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && firstVisibleItem!=0) {
                         isHadMore = true;
-                        footerView.setPadding(0, 0, 0, 0);
-                        //将列表移动到指定的Position处
-                        lvActivityRecordBill.setSelection(view.getCount());
-                        getRecord(2);
+
+                    }else {
+                        isHadMore=false;
                     }
                 }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+                this.firstVisibleItem = firstVisibleItem;
             }
         });*/
         lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -224,9 +227,16 @@ public class OrderFragment extends Fragment {
         frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
+        LoadingHeader footer = new LoadingHeader(getActivity());
+        footer.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
+        frameLayout.setFooterView(footer);
+        frameLayout.addPtrUIHandler(footer);
+
         frameLayout.setRatioOfHeaderHeightToRefresh(1.0f);
         frameLayout.setHeaderView(header);
         frameLayout.addPtrUIHandler(header);
+
+
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
         frameLayout.setPtrHandler(/*new PtrDefaultHandler() {
 
@@ -248,7 +258,12 @@ public class OrderFragment extends Fragment {
             }
 
 
-        });*/new PtrDefaultHandler2() {
+        });*/new PtrHandler2() {
+            @Override
+            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                return PtrDefaultHandler2.checkContentCanBePulledUp(frame, content, footer);
+            }
+
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 frameLayout.postDelayed(new Runnable() {
@@ -259,6 +274,11 @@ public class OrderFragment extends Fragment {
                         recordAdapter.notifyDataSetChanged();
                     }
                 },3000);
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler2.checkContentCanBePulledDown(frame, content, header);
             }
 
             @Override
@@ -358,18 +378,6 @@ public class OrderFragment extends Fragment {
     private void initView() {
 
     }
-
-    private void initFooterView() {
-        footerView = View.inflate(getContext(), R.layout.headview, null);
-
-        //获取自定义组件的宽 高
-        footerView.measure(0, 0);
-        footerViewHeight = footerView.getMeasuredHeight();
-        //将头部进行隐藏
-        footerView.setPadding(0, -footerViewHeight, 0, 0);
-        //将FooterView添加到ListView的底部
-        lvActivityRecordBill.addFooterView(footerView);
-    }
     private void initData() {
         //获取头部节省的钱数
 
@@ -420,6 +428,7 @@ public class OrderFragment extends Fragment {
 
 
                          LogUtil.i("请求成功");
+                         recordList=new ArrayList<Record>();
                          for(int i =0;i<jsonArray1.length();i++){
                              JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
                              Record record = new Record();
