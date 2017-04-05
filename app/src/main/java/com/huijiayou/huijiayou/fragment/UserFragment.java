@@ -84,8 +84,8 @@ public class UserFragment extends Fragment {
         ButterKnife.bind(this, view);
         animationDrawable = (AnimationDrawable) imgbtFragmentUserMessage.getBackground();
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.mipmap.ic_login_default_avatar)
-                .showImageForEmptyUri(R.mipmap.ic_login_default_avatar)
+                .showImageOnLoading(R.mipmap.ic_popup_huijiayou)
+                .showImageForEmptyUri(R.mipmap.ic_popup_huijiayou)
                 .build();
         userFragmentIsLoginOrNo();
         return view;

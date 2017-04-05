@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -48,9 +49,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.util.LocalDisplay;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler2;
 import retrofit2.Response;
 
 /**
@@ -84,6 +88,8 @@ public class OrderFragment extends Fragment {
     private boolean isHadMore;
     private ArrayList<Record> list;
     private View view1;
+    private View footerView;
+    private int footerViewHeight;
 
     @Nullable
     @Override
@@ -99,23 +105,26 @@ public class OrderFragment extends Fragment {
     }
 
     private void initListion() {
-    /*lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
-            @Override
+   /* lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
+        public int firstVisibleItem;
+
+        @Override
             public void onScrollStateChanged(AbsListView view, int scrollState){
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() - 1 && isHadMore) {
-                       getRecord(2);
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && firstVisibleItem!=0) {
+                        isHadMore = true;
+
                     }else {
-                        ToastUtils.createNormalToast("没有更多数据了");
+                        isHadMore=false;
                     }
                 }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+                this.firstVisibleItem = firstVisibleItem;
             }
         });*/
         lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,10 +227,18 @@ public class OrderFragment extends Fragment {
         frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
+        LoadingHeader footer = new LoadingHeader(getActivity());
+        footer.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
+        frameLayout.setFooterView(footer);
+        frameLayout.addPtrUIHandler(footer);
+
+        frameLayout.setRatioOfHeaderHeightToRefresh(1.0f);
         frameLayout.setHeaderView(header);
         frameLayout.addPtrUIHandler(header);
+
+
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(/*new PtrHandler() {
+        frameLayout.setPtrHandler(/*new PtrDefaultHandler() {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -241,7 +258,12 @@ public class OrderFragment extends Fragment {
             }
 
 
-        });*/new PtrDefaultHandler2() {
+        });*/new PtrHandler2() {
+            @Override
+            public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                return PtrDefaultHandler2.checkContentCanBePulledUp(frame, content, footer);
+            }
+
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 frameLayout.postDelayed(new Runnable() {
@@ -252,6 +274,11 @@ public class OrderFragment extends Fragment {
                         recordAdapter.notifyDataSetChanged();
                     }
                 },3000);
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler2.checkContentCanBePulledDown(frame, content, header);
             }
 
             @Override
@@ -351,8 +378,6 @@ public class OrderFragment extends Fragment {
     private void initView() {
 
     }
-
-
     private void initData() {
         //获取头部节省的钱数
 
@@ -403,6 +428,7 @@ public class OrderFragment extends Fragment {
 
 
                          LogUtil.i("请求成功");
+                         recordList=new ArrayList<Record>();
                          for(int i =0;i<jsonArray1.length();i++){
                              JSONObject jsonObject1 =jsonArray1.getJSONObject(i);
                              Record record = new Record();
@@ -464,15 +490,16 @@ public class OrderFragment extends Fragment {
             list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
-        }
-        if (list.size()==0){
-            llFragmentNoOder.setVisibility(View.VISIBLE);
-            FragmentRecord.setVisibility(View.GONE);
-        }else{
+            if (list.size()==0){
+                llFragmentNoOder.setVisibility(View.VISIBLE);
+                FragmentRecord.setVisibility(View.GONE);
+            }else{
 
-            FragmentRecord.setVisibility(View.VISIBLE);
-            llFragmentNoOder.setVisibility(View.GONE);
+                FragmentRecord.setVisibility(View.VISIBLE);
+                llFragmentNoOder.setVisibility(View.GONE);
+            }
         }
+
     }
 
     private void getSaveMoney() {

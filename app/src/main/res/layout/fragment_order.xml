@@ -10,7 +10,7 @@
 
         <!--详情界面-->
         <RelativeLayout
-
+            android:visibility="invisible"
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -148,6 +148,7 @@
 
         <!--定单数据为空-->
         <LinearLayout
+            android:visibility="invisible"
             android:id="@+id/ll_fragmentUser_noOder"
             android:orientation="vertical"
             android:layout_width="match_parent"

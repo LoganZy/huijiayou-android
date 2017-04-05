@@ -59,6 +59,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIReset(PtrFrameLayout frame) {
         //重置
+        tvLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -70,19 +71,24 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     public void onUIRefreshBegin(PtrFrameLayout frame) {
         //开始刷新 显示刷新进度跟文本
         tvLoading.setVisibility(View.VISIBLE);
+        animation.start();
+        invalidate();
     }
 
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
         //刷新完成  设置文本 设置进度隐藏
         tvLoading.setVisibility(View.GONE);
+        animation.stop();
+
+        invalidate();
     }
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
         final int mOffsetToRefresh = frame.getOffsetToRefresh();
         final int currentPos = ptrIndicator.getCurrentPosY();
         final int lastPos = ptrIndicator.getLastPosY();
-
+        invalidate();
         if (currentPos < mOffsetToRefresh) {
             //未到达刷新线
             if (status == PtrFrameLayout.PTR_STATUS_PREPARE) {
