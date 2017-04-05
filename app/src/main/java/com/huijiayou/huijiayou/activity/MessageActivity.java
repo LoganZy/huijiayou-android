@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.MessageAdapter;
 import com.huijiayou.huijiayou.adapter.MessageTransactionAdapter;
@@ -92,7 +93,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         tvRight.setText("全部已读");
         tvRight.setTextColor(getResources().getColor(R.color.textColor_51586A));
         tvRight.setVisibility(View.VISIBLE);
-
+        MyApplication.isNewMessage = false;
         initView();
     }
 

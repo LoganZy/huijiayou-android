@@ -30,6 +30,7 @@ public class MyApplication extends Application {
     public static IWXAPI msgApi;
     public List<Activity> activityList = new LinkedList<Activity>();
     public static boolean isLogin = false;
+    public static boolean isNewMessage = false;
     //微信分享
 //    private static final String APP_ID = "wxc77febc13d61d07b";
 //    private IWXAPI api;

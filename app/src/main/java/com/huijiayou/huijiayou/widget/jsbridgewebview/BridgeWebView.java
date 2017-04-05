@@ -1,7 +1,7 @@
-package com.huijiayou.huijiayou.jsbridgewebview;
+package com.huijiayou.huijiayou.widget.jsbridgewebview;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
@@ -9,21 +9,27 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebSettings;
+import android.webkit.WebBackForwardList;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Annotation;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressLint("SetJavaScriptEnabled")
-public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
+
+public class BridgeWebView extends WebView implements WebViewJavascriptBridge,JavascriptInterface {
+
+
 
 	private final String TAG = "BridgeWebView";
 
@@ -37,46 +43,56 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 	List<Message> startupMessage = new ArrayList<Message>();
 	long uniqueId = 0;
 
+	Context mContext;
+
+
+
+	private List<Integer> backForwardIndexList;
+
+	WebBackForwardList webBackForwardList;
+
 	public BridgeWebView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mContext=context;
 		init();
-	}
-
-	public void setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
-		this.mWebViewClientCallback = webViewClientCallback;
 	}
 
 	public BridgeWebView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		mContext=context;
 		init();
 	}
 
 	public BridgeWebView(Context context) {
 		super(context);
+		mContext=context;
 		init();
 	}
 
-	/**
-	 * 
-	 * @param handler
-	 *            default handler,handle messages send by js without assigned handler name,
-     *            if js message has handler name, it will be handled by named handlers registered by native
-	 */
-	public void setDefaultHandler(BridgeHandler handler) {
-       this.defaultHandler = handler;
+	public void setWebViewClientCallback(WebViewClientCallback webViewClientCallback) {
+		mWebViewClientCallback = webViewClientCallback;
 	}
 
-    private void init() {
+	/**
+	 *
+	 * @param handler
+	 *            default handler,handle messages send by js without assigned handler name,
+	 *            if js message has handler name, it will be handled by named handlers registered by native
+	 */
+	public void setDefaultHandler(BridgeHandler handler) {
+		this.defaultHandler = handler;
+	}
+
+	private void init() {
 		this.setVerticalScrollBarEnabled(false);
 		this.setHorizontalScrollBarEnabled(false);
 		this.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			this.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			WebView.setWebContentsDebuggingEnabled(true);
 		}
 		this.setWebViewClient(new BridgeWebViewClient());
+		backForwardIndexList = new ArrayList<>();
+		webBackForwardList = copyBackForwardList();
 	}
 
 	private void handlerReturnData(String url) {
@@ -88,76 +104,155 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 			responseCallbacks.remove(functionName);
 			return;
 		}
+
 	}
 
-	class BridgeWebViewClient extends WebViewClient {
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		return null;
+	}
 
-        @Override
+
+	class BridgeWebViewClient extends WebViewClient {
+		@Override
+		public void onLoadResource(WebView view, String url) {
+			super.onLoadResource(view, url);
+		}
+		@Override
+		public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+			return super.shouldInterceptRequest(view, request);
+		}
+
+		@Override
+		public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+			return super.shouldInterceptRequest(view, url);
+
+		}
+
+		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			String redirect_url = url;
 			if (mWebViewClientCallback != null) {
 				mWebViewClientCallback.shouldOverrideUrlLoadingCallBack(view, url);
 			}
 			try {
+				Log.d(TAG, "shouldOverrideUrlLoading[redirect_url]===: "+redirect_url);
 				url = URLDecoder.decode(url, "UTF-8");
+				Log.d(TAG, "shouldOverrideUrlLoading[url]===: "+url);
+
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
 			if (url.startsWith(BridgeUtil.YY_RETURN_DATA)) { // 如果是返回数据
+				Log.d(TAG, "shouldOverrideUrlLoading: --------------"+url);
 				handlerReturnData(url);
 				return true;
 			} else if (url.startsWith(BridgeUtil.YY_OVERRIDE_SCHEMA)) { //
 				flushMessageQueue();
 				return true;
-			} else {
-//				return super.shouldOverrideUrlLoading(view, url);
-				return true;
+			}
+			else {
+				return super.shouldOverrideUrlLoading(view, url);
 			}
 		}
 
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			if (mWebViewClientCallback != null) {
-				mWebViewClientCallback.pageStartedCallBack(view, url, favicon);
+				mWebViewClientCallback.pageStartedCallBack(view, url,favicon);
 			}
+//			if(!url.startsWith(Config.GOLDINDEX)){
+//			}else {
+//				homeFragment.pb.show();
+//				homeFragment.isLoadingFinish = true;
 			super.onPageStarted(view, url, favicon);
+//			}
 		}
+
+//		@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//		@Override
+//		public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+//			WebResourceResponse webResourceResponse = null;
+//			final String Authorization = (String) SharedPreferenceUtil.get(Config.authToken);
+//			OkHttpClient okHttpClient = new OkHttpClient();
+//			Map<String,String> map = request.getRequestHeaders();
+//			Set<String> set = map.keySet();
+//			Request.Builder builder = new Request.Builder()
+//					.url(request.getUrl().toString());
+//			for (String string : set){
+//				builder.addHeader(string,map.get(string));
+//			}
+//			if (!TextUtils.isEmpty(Authorization)){
+//				builder.addHeader("Authorization","token "+Authorization);
+//			}
+//			try {
+//				if("GET".equals(request.getMethod())){
+//					Response response = okHttpClient.newCall(builder.build()).execute();
+//					Headers headers = response.headers();
+//					Map<String,String> ResponseMap = new HashMap<>();
+//					Set<String> responseSet = headers.names();
+//					for (String string:responseSet){
+//						ResponseMap.put(string,headers.get(string));
+//					}
+//					String contentType = ResponseMap.get("Content-Type");
+//					int index = contentType.indexOf(";");
+//					if (index != -1){
+//						contentType = contentType.substring(0,index);
+//					}
+//					webResourceResponse = new WebResourceResponse(contentType, "utf-8", response.code(),
+//							response.message(), ResponseMap, response.body().byteStream());
+//					return webResourceResponse;
+//				}else if ("POST".equals(request.getMethod())){
+////					MediaType mediaType = MediaType.parse(request.getRequestHeaders().get("Accept"));
+////					builder.post(RequestBody.create(mediaType,));
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			return super.shouldInterceptRequest(view, request);
+//		}
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
+
 			if (mWebViewClientCallback != null) {
 				mWebViewClientCallback.pageFinishedCallBack(view, url);
 			}
 			super.onPageFinished(view, url);
-
 			if (toLoadJs != null) {
 				BridgeUtil.webViewLoadLocalJs(view, toLoadJs);
 			}
-
-			//
 			if (startupMessage != null) {
 				for (Message m : startupMessage) {
 					dispatchMessage(m);
 				}
 				startupMessage = null;
 			}
+			int size = webBackForwardList.getSize();
+			size = size + 1;
+
+
 		}
 
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+		@Override
+		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			if (mWebViewClientCallback != null) {
-				mWebViewClientCallback.receivedErrorCallBack(view, errorCode, description, failingUrl);
+				mWebViewClientCallback.receivedErrorCallBack(view, errorCode,description,failingUrl);
 			}
-
-			super.onReceivedError(view, errorCode, description, failingUrl);
-        }
+		}
 
 		@Override
 		public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 			if (mWebViewClientCallback != null) {
-				mWebViewClientCallback.receivedSslErrorCallBack(view, handler, error);
+				mWebViewClientCallback.receivedSslErrorCallBack(view, handler,error);
 			}
+			handler.proceed();
+			super.onReceivedSslError(view, handler, error);
 		}
+
+
 	}
+
 
 	@Override
 	public void send(String data) {
@@ -194,15 +289,15 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 	}
 
 	private void dispatchMessage(Message m) {
-        String messageJson = m.toJson();
-        //escape special characters for json string
-        messageJson = messageJson.replaceAll("(\\\\)([^utrn])", "\\\\\\\\$1$2");
-        messageJson = messageJson.replaceAll("(?<=[^\\\\])(\")", "\\\\\"");
-        String javascriptCommand = String.format(BridgeUtil.JS_HANDLE_MESSAGE_FROM_JAVA, messageJson);
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            this.loadUrl(javascriptCommand);
-        }
-    }
+		String messageJson = m.toJson();
+		//escape special characters for json string
+		messageJson = messageJson.replaceAll("(\\\\)([^utrn])", "\\\\\\\\$1$2");
+		messageJson = messageJson.replaceAll("(?<=[^\\\\])(\")", "\\\\\"");
+		String javascriptCommand = String.format(BridgeUtil.JS_HANDLE_MESSAGE_FROM_JAVA, messageJson);
+		if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+			this.loadUrl(javascriptCommand);
+		}
+	}
 
 	public void flushMessageQueue() {
 		if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
@@ -215,7 +310,7 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 					try {
 						list = Message.toArrayList(data);
 					} catch (Exception e) {
-                        e.printStackTrace();
+						e.printStackTrace();
 						return;
 					}
 					if (list == null || list.size() == 0) {
@@ -258,6 +353,9 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 							} else {
 								handler = defaultHandler;
 							}
+							if(handler == null){
+								handler = defaultHandler;
+							}
 							handler.handler(m.getData(), responseFunction);
 
 						}
@@ -274,7 +372,7 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 
 	/**
 	 * register handler,so that javascript can call it
-	 * 
+	 *
 	 * @param handlerName
 	 * @param handler
 	 */
@@ -287,21 +385,28 @@ public class BridgeWebView extends WebView implements WebViewJavascriptBridge {
 	/**
 	 * call javascript registered handler
 	 *
-     * @param handlerName
+	 * @param handlerName
 	 * @param data
 	 * @param callBack
 	 */
 	public void callHandler(String handlerName, String data, CallBackFunction callBack) {
-        doSend(handlerName, data, callBack);
+		doSend(handlerName, data, callBack);
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// Modify by hb on 2016-12-30: 返回到首页不再返回
 		if (keyCode == KeyEvent.KEYCODE_BACK && canGoBack()) {
 			goBack();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
+	//	public void test(){
+//		if(homeFragment.mCommonTitleFragment!=null){
+//			TranslateAnimation tAnim = new TranslateAnimation(0, 0, 70, 0);//横向位移
+//			tAnim.setDuration(200);
+//			homeFragment.mCommonTitleFragment.startAnimation(tAnim);
+//		}
+//	}
 }

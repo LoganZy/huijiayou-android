@@ -570,9 +570,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             tv_activityPayment_cardTag.setText(msg.getMessage());
         }else if (taskId == bindCardTaskId){
             tv_activityPayment_cardTag.setText(msg.getMessage());
-        }else if (taskId == orderTaskId){
-            ToastUtils.createNormalToast(this,msg.getMessage());
-        }else if (taskId == checkOrderTaskId){
+        }else{
             ToastUtils.createNormalToast(this,msg.getMessage());
         }
     }
@@ -590,7 +588,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 }else{
                     ToastUtils.createNormalToast(PaymentActivity.this, memo);
                 }
-                back(memo, result, resultStatus);
+                if (!"6001".equals(resultStatus) && !"6002".equals(resultStatus)){
+                    back(memo, result, resultStatus);
+                }
             }
             return false;
         }

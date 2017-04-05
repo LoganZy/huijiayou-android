@@ -1,4 +1,4 @@
-package com.huijiayou.huijiayou.jsbridgewebview;
+package com.huijiayou.huijiayou.widget.jsbridgewebview;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;

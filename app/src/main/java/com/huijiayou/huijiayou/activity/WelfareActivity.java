@@ -1,18 +1,17 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.os.Bundle;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
-import com.huijiayou.huijiayou.jsbridgewebview.BridgeHandler;
-import com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView;
-import com.huijiayou.huijiayou.jsbridgewebview.CallBackFunction;
-import com.huijiayou.huijiayou.jsbridgewebview.DefaultHandler;
 import com.huijiayou.huijiayou.net.DeviceUtils;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeHandler;
+import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView;
+import com.huijiayou.huijiayou.widget.jsbridgewebview.CallBackFunction;
+import com.huijiayou.huijiayou.widget.jsbridgewebview.DefaultHandler;
 import com.huijiayou.huijiayou.wxapi.ShareUtil;
 
 import butterknife.Bind;
@@ -31,18 +30,16 @@ public class WelfareActivity extends BaseActivity {
         initTitle();
         tvTitle.setText("邀请好友");
 
-        bridgeWebView.setBackgroundColor(0);
-        bridgeWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        bridgeWebView.getSettings().setAllowFileAccess(true);
-        bridgeWebView.getSettings().setAppCacheEnabled(true);
-        bridgeWebView.getSettings().setDomStorageEnabled(true);
-        bridgeWebView.getSettings().setDatabaseEnabled(true);
         String userAgent = bridgeWebView.getSettings().getUserAgentString();
-        bridgeWebView.getSettings().setUserAgentString(userAgent + "wlbAPP/" + DeviceUtils.getVersion(this));
+        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
+        bridgeWebView.getSettings().setSaveFormData(false);
+        bridgeWebView.getSettings().setDomStorageEnabled(true);
+        bridgeWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         bridgeWebView.setDefaultHandler(new DefaultHandler());
-        bridgeWebView.setWebChromeClient(new WebChromeClient());
-
-        bridgeWebView.loadUrl(NetConfig.getwelfare);
+        bridgeWebView.getSettings().setDomStorageEnabled(true);
+        bridgeWebView.getSettings().setJavaScriptEnabled(true);
+        bridgeWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        bridgeWebView.getSettings().setDomStorageEnabled(true);
 
         bridgeWebView.registerHandler("invitation", new BridgeHandler() {
             @Override
@@ -53,13 +50,6 @@ public class WelfareActivity extends BaseActivity {
                 new ShareUtil().shareWebPage(WelfareActivity.this, "", "", url);
             }
         });
+        bridgeWebView.loadUrl(NetConfig.getwelfare);
     }
-
-//    public void shareWelfare(View view){
-//        String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
-//        String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-//        String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
-//        new ShareUtil().shareWebPage(this, "", "", url);
-//    }
-
 }

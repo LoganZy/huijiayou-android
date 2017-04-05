@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
@@ -208,9 +209,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
             if (taskId == checkNewMsgTaskId){
-                //{"code":0,"message":"success","data":"0"}
                 int data = Integer.parseInt(jsonObject.get("data").toString());
                 if (data > 0){
+                    MyApplication.isNewMessage = true;
                     if (userFragment.isAdded()){
                         userFragment.startAnimation();
                     }
