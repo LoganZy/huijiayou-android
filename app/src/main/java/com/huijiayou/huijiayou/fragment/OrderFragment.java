@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,6 +50,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import retrofit2.Response;
@@ -84,6 +86,8 @@ public class OrderFragment extends Fragment {
     private boolean isHadMore;
     private ArrayList<Record> list;
     private View view1;
+    private View footerView;
+    private int footerViewHeight;
 
     @Nullable
     @Override
@@ -99,16 +103,18 @@ public class OrderFragment extends Fragment {
     }
 
     private void initListion() {
-    /*lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
+   /* lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState){
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
                     if (view.getLastVisiblePosition() == view.getCount() - 1 && isHadMore) {
-                       getRecord(2);
-                    }else {
-                        ToastUtils.createNormalToast("没有更多数据了");
+                        isHadMore = true;
+                        footerView.setPadding(0, 0, 0, 0);
+                        //将列表移动到指定的Position处
+                        lvActivityRecordBill.setSelection(view.getCount());
+                        getRecord(2);
                     }
                 }
             }
@@ -218,10 +224,11 @@ public class OrderFragment extends Fragment {
         frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
+        frameLayout.setRatioOfHeaderHeightToRefresh(1.0f);
         frameLayout.setHeaderView(header);
         frameLayout.addPtrUIHandler(header);
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(/*new PtrHandler() {
+        frameLayout.setPtrHandler(/*new PtrDefaultHandler() {
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -352,7 +359,17 @@ public class OrderFragment extends Fragment {
 
     }
 
+    private void initFooterView() {
+        footerView = View.inflate(getContext(), R.layout.headview, null);
 
+        //获取自定义组件的宽 高
+        footerView.measure(0, 0);
+        footerViewHeight = footerView.getMeasuredHeight();
+        //将头部进行隐藏
+        footerView.setPadding(0, -footerViewHeight, 0, 0);
+        //将FooterView添加到ListView的底部
+        lvActivityRecordBill.addFooterView(footerView);
+    }
     private void initData() {
         //获取头部节省的钱数
 
@@ -464,15 +481,16 @@ public class OrderFragment extends Fragment {
             list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
-        }
-        if (list.size()==0){
-            llFragmentNoOder.setVisibility(View.VISIBLE);
-            FragmentRecord.setVisibility(View.GONE);
-        }else{
+            if (list.size()==0){
+                llFragmentNoOder.setVisibility(View.VISIBLE);
+                FragmentRecord.setVisibility(View.GONE);
+            }else{
 
-            FragmentRecord.setVisibility(View.VISIBLE);
-            llFragmentNoOder.setVisibility(View.GONE);
+                FragmentRecord.setVisibility(View.VISIBLE);
+                llFragmentNoOder.setVisibility(View.GONE);
+            }
         }
+
     }
 
     private void getSaveMoney() {
