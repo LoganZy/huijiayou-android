@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="horizontal">
-    <TextView
+    <ImageView
         android:id="@+id/tv_headview_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/animation_loading" />
+        android:src="@drawable/animation_loading" />
 </LinearLayout>

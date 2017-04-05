@@ -120,7 +120,6 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:inputType="phone"
             android:background="@drawable/line_login_selector"
             android:hint="若无邀请码请忽略"/>
     </LinearLayout>

@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-    <FrameLayout
-
+    <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <!--详情界面-->
         <RelativeLayout
-            android:visibility="gone"
+
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -91,7 +91,6 @@
 
         <!--登录界面-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_fragmentUser_login"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -199,7 +198,7 @@
         </LinearLayout>
 
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
 

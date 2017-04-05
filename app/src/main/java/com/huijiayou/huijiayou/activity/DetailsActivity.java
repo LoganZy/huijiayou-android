@@ -146,7 +146,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
                 orderDetail.setRecharge_amount(recharge_amount);
                 orderDetail.setRecharge_time(recharge_time);
                 orderDetail.setStatus(status);
-                orderDetail.setTotal_time(total_time1);
+                orderDetail.setTotal_time(total_time);
                 list.add(orderDetail);
                 if (TextUtils.equals(belong, "2")) {
                     imgActivityDetailCard.setBackgroundResource(R.mipmap.ic_details_cnpc);

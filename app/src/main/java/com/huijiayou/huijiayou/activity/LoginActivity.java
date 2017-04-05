@@ -412,7 +412,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
-
+                tvActivityLoginSendPhoneCode.setClickable(true);
                 ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
     }
 }
