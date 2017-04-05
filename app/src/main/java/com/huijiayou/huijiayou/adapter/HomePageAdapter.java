@@ -178,9 +178,13 @@ public class HomePageAdapter extends PagerAdapter {
             TextView tvDiscount = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discount);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
-                discount = CommitUtils.decimal1(discount);
+                int length = String.valueOf(discount).trim().substring(String.valueOf(discount).indexOf(".")).length();
+                if (length > 2){
+                    discount = CommitUtils.decimal2(discount);
+                }
                 tvDiscount.setText(discount+"");
             }else if (discount == 10){
+
                 tvDiscount.setText(String.valueOf((int) discount));
             }
             ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imgView_itemFragmentHomeProductMain_sale);
@@ -189,7 +193,13 @@ public class HomePageAdapter extends PagerAdapter {
             }
 
             TextView tvMonth = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_month);
-            tvMonth.setText(product.getProduct_time());
+            if ("1".equals(product.getProduct_time())){
+                TextView tvMonthTag = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_monthTag);
+                tvMonthTag.setText("即时充");
+                tvMonth.setText("");
+            }else{
+                tvMonth.setText(product.getProduct_time());
+            }
             viewArrayList.add(relativeLayout);
         }
     }

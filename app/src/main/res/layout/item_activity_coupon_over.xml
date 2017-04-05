@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="84dp"
+    android:id="@+id/rl_itemActivityCoupon_view"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/ll_itemActivityCoupon_right"
+        android:layout_width="98dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_coupon_list_expired">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tv_itemActivityCoupon_moneyTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="¥"/>
+
+            <TextView
+                android:id="@+id/tv_itemActivityCoupon_moneyNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                android:text="100"/>
+
+            <TextView
+                android:id="@+id/tv_itemActivityCoupon_discountTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="折"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_itemActivityCoupon_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            tools:text="03.02-06.02"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_itemActivityCoupon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        tools:text="100元红包·现金券"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/textColor_51586A"
+        android:layout_toLeftOf="@+id/ll_itemActivityCoupon_right"/>
+
+    <TextView
+        android:id="@+id/tv_itemActivityCoupon_condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="满2000元可用 ｜ 限6期使用"
+        android:textColor="@color/gray"
+        android:layout_marginLeft="9dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="5dp"
+        android:maxLines="1"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/imgView_itemActivityCoupon_oil"
+        android:layout_below="@+id/tv_itemActivityCoupon_name"
+        android:textSize="11dp"/>
+
+    <TextView
+        android:id="@+id/tv_itemActivityCoupon_oilTypeCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="限中石化使用"
+        android:textColor="@color/gray"
+        android:textSize="11dp"
+        android:layout_below="@+id/tv_itemActivityCoupon_condition"
+        android:layout_alignLeft="@+id/tv_itemActivityCoupon_condition"
+        android:layout_alignStart="@+id/tv_itemActivityCoupon_condition" />
+
+    <ImageView
+        android:id="@+id/imgView_itemActivityCoupon_oil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_coupon_gas"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/ll_itemActivityCoupon_right"/>
+
+    <View
+        android:id="@+id/view_itemActivityCoupon_outOfCommission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_item_activity_oil_card_nouse_bg"
+        android:visibility="gone"/>
+
+</RelativeLayout>

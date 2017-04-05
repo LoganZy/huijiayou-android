@@ -477,7 +477,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 if (homeProductArrayList != null && homeProductArrayList.size() > 0){
                     int currentItem = 0;
                     for (int i = 0; i < homeProductArrayList.size(); i++){
-                        if ("6".equals(homeProductArrayList.get(i).getProduct_time())){
+                        if ("2".equals(homeProductArrayList.get(i).getIs_trade())){
                             currentItem = i;
                         }
                     }

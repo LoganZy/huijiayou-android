@@ -56,6 +56,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     @Bind(R.id.tv_activityMain_cover)
     TextView tv_activityMain_cover;
 
+    @Bind(R.id.view_activityMain_line)
+    View view_activityMain_line;
+
     HomeFragment homeFragment;
     UserFragment userFragment;
     OrderFragment orderFragment;
@@ -167,10 +170,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
 
     public void showCover(){
         tv_activityMain_cover.setVisibility(View.VISIBLE);
+        view_activityMain_line.setBackgroundColor(getResources().getColor(R.color.transparent_half));
     }
 
     public void hideCover(){
         tv_activityMain_cover.setVisibility(View.GONE);
+        view_activityMain_line.setBackgroundColor(getResources().getColor(R.color.line_color));
     }
 
 

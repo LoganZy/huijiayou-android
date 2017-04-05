@@ -2,6 +2,7 @@ package com.huijiayou.huijiayou.wxapi;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
+import com.huijiayou.huijiayou.activity.InvitationShareActivity;
 import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.utils.Util;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -54,10 +56,12 @@ public class ShareUtil implements View.OnClickListener {
         TextView tv_dialog_share_wechat = (TextView) dialog.findViewById(R.id.tv_dialog_share_wechat);
         TextView tv_dialog_share_wxcircle = (TextView) dialog.findViewById(R.id.tv_dialog_share_wxcircle);
         TextView tv_dialog_share_qq = (TextView) dialog.findViewById(R.id.tv_dialog_share_qq);
+        TextView tv_dialog_share_mianduimian = (TextView) dialog.findViewById(R.id.tv_dialog_share_mianduimian);
         Button btn_dialog_share_cancel = (Button) dialog.findViewById(R.id.btn_dialog_share_cancel);
 
         tv_dialog_share_wxcircle.setOnClickListener(onClickListener);
         tv_dialog_share_wechat.setOnClickListener(onClickListener);
+         tv_dialog_share_mianduimian.setOnClickListener(onClickListener);
         btn_dialog_share_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +81,10 @@ public class ShareUtil implements View.OnClickListener {
                 case R.id.tv_dialog_share_wxcircle:
                     scene = SendMessageToWX.Req.WXSceneTimeline;
                     break;
+                case R.id.tv_dialog_share_mianduimian:
+                    activity.startActivity(new Intent(activity, InvitationShareActivity.class));
+                    activity.finish();
+                    return;
             }
             WXMediaMessage wxMediaMessage = new WXMediaMessage();
 

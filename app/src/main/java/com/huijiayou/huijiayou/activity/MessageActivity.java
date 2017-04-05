@@ -202,8 +202,12 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intentMainActivity);
                 MessageActivity.this.finish();
 
-            }else if ("3".equals(message.getJump_type())){//查看订单详情  TODO
-
+            }else if ("3".equals(message.getJump_type())){//跳转url
+                Intent intentWebViewActivity = new Intent(MessageActivity.this, WebViewActivity.class);
+                intentWebViewActivity.putExtra("title", "活动");
+                intentWebViewActivity.putExtra("url", message.getUrl());
+                startActivity(intentWebViewActivity);
+                MessageActivity.this.finish();
 
             }else if ("4".equals(message.getJump_type())){ //邀请好友
                 startActivity(new Intent(MessageActivity.this, InvitationActivity.class));

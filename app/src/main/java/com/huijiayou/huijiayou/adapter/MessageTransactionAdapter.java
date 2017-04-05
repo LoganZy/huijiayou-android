@@ -45,7 +45,19 @@ public class MessageTransactionAdapter extends RecyclerView.Adapter<MessageTrans
         Message message = messageArrayList.get(position);
         Date date = new Date(Long.parseLong(message.getCreated_at()+"000"));
 
-        holder.tv_itemMessageTransactionActivityLayout_button.setText(message.getJump());
+        if ("0".equals(message.getJump_type())){ //纯文本
+            holder.tv_itemMessageTransactionActivityLayout_button.setVisibility(View.GONE);
+        }else if ("1".equals(message.getJump_type())){ //去加油
+            holder.tv_itemMessageTransactionActivityLayout_button.setText("去加油");
+        }else if ("2".equals(message.getJump_type())){ // 查看订单列表
+            holder.tv_itemMessageTransactionActivityLayout_button.setText("查看订单");
+        }else if ("3".equals(message.getJump_type())){//查看订单详情
+            holder.tv_itemMessageTransactionActivityLayout_button.setText("查看详情");
+        }else if ("4".equals(message.getJump_type())){ //邀请好友
+            holder.tv_itemMessageTransactionActivityLayout_button.setText("邀请好友");
+
+
+        }
         holder.tv_itemMessageTransactionActivityLayout_content.setText(message.getContent());
         holder.tv_itemMessageTransactionActivityLayout_time.setText(simpleDateFormat1.format(date));
         holder.tv_itemMessageTransactionActivityLayout_title.setText(message.getTitle());

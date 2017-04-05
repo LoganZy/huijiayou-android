@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.adapter.CouponAdapter;
+import com.huijiayou.huijiayou.adapter.OverCouponAdapter;
+import com.huijiayou.huijiayou.adapter.UseCouponAdapter;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
@@ -71,11 +73,11 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
     public static final int SELECTED_TYPE = 2;
     int type = NORMAL_TYPE;
     CouponAdapter noUseCouponAdapter;
-    CouponAdapter alreadyUseCouponAdapter;
-    CouponAdapter overCouponAdapter;
+    UseCouponAdapter useCouponAdapter;
+    OverCouponAdapter overCouponAdapter;
     ArrayList<CouponAdapter.Coupon> couponNoUseArrayList;
-    ArrayList<CouponAdapter.Coupon> couponAlreadyUseArrayList;
-    ArrayList<CouponAdapter.Coupon> couponOverArrayList;
+    ArrayList<UseCouponAdapter.Coupon> couponAlreadyUseArrayList;
+    ArrayList<OverCouponAdapter.Coupon> couponOverArrayList;
 
     String product_id,oilCard,discountTotal;
     @Override
@@ -176,12 +178,12 @@ public class CouponActivity extends BaseActivity implements NewHttpRequest.Reque
                 noUseCouponAdapter = new CouponAdapter(couponNoUseArrayList,this,null);
                 recyclerView_activityCoupon_noUse.setAdapter(noUseCouponAdapter);
 
-                couponAlreadyUseArrayList = new Gson().fromJson(jsonObject1.get("alreadyUse").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                alreadyUseCouponAdapter = new CouponAdapter(couponAlreadyUseArrayList,this,null);
-                recyclerView_activityCoupon_use.setAdapter(alreadyUseCouponAdapter);
+                couponAlreadyUseArrayList = new Gson().fromJson(jsonObject1.get("alreadyUse").toString(), new TypeToken<ArrayList<UseCouponAdapter.Coupon>>() {}.getType());
+                useCouponAdapter = new UseCouponAdapter(couponAlreadyUseArrayList,this,null);
+                recyclerView_activityCoupon_use.setAdapter(useCouponAdapter);
 
-                couponOverArrayList = new Gson().fromJson(jsonObject1.get("over").toString(), new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
-                overCouponAdapter = new CouponAdapter(couponOverArrayList,this,null);
+                couponOverArrayList = new Gson().fromJson(jsonObject1.get("over").toString(), new TypeToken<ArrayList<OverCouponAdapter.Coupon>>() {}.getType());
+                overCouponAdapter = new OverCouponAdapter(couponOverArrayList,this,null);
                 svRecyclerView_activityCoupon_over.setAdapter(overCouponAdapter);
 
                 if (couponAlreadyUseArrayList == null || couponAlreadyUseArrayList.size() == 0){

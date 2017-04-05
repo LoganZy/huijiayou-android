@@ -51,8 +51,11 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
     private void shareCodePicture(){
         HashMap<String,Object> map = new HashMap<>();
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
+        String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
+        String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
         map.put("user_id",userId);
-        map.put("invite_url","http://192.168.10.212:8888/?mobile=18238832002&invite_code=666666#/game/main");
+        map.put("invite_url",url);
         new NewHttpRequest(this, NetConfig.ACCOUNT,
                 NetConfig.shareCodePicture, "jsonObject", 1, map, true, this).executeTask();
     }

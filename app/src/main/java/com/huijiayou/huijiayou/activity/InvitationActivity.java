@@ -35,8 +35,8 @@ public class InvitationActivity extends BaseActivity {
 
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         String session_id = PreferencesUtil.getPreferences("session_id","");
-        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
-//        String url = "http://192.168.10.212:8888/#/friend_invi";
+//        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
+        String url = "http://192.168.10.212:8888/#/friend_invi";
         String userAgent = bridgeWebView.getSettings().getUserAgentString();
         bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
         bridgeWebView.getSettings().setSaveFormData(false);
