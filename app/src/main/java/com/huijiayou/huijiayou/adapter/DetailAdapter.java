@@ -85,7 +85,9 @@ public class DetailAdapter extends BaseAdapter {
             holder.tvItemDetailDown.setVisibility(View.VISIBLE);
             holder.tvItemDetailTime.setText("支付后2小时内");
         }
-
+        if(list.size()==1){
+            holder.tvItemDetailDown.setVisibility(View.INVISIBLE);
+        }
 
 
         return convertView;

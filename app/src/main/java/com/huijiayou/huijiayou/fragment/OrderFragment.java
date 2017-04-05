@@ -48,6 +48,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import retrofit2.Response;
@@ -73,7 +74,7 @@ public class OrderFragment extends Fragment {
     @Bind(R.id.ll_fragmentUser_login)
     LinearLayout llFragmentUserLogin;
     @Bind(R.id.ptr_fragmentOrder_pulltorefresh)
-    PtrFrameLayout frameLayout;
+    PtrClassicFrameLayout frameLayout;
     @Bind(R.id.ll_fragmentUser_noOder)
     LinearLayout llFragmentNoOder;
     private List<Record> recordList;
@@ -209,16 +210,16 @@ public class OrderFragment extends Fragment {
     }
 
     private void setPulltoRefresh() {
+
         //实例化自定义头部
         LoadingHeader header = new LoadingHeader(getActivity());
-        LoadingHeader footer = new LoadingHeader(getActivity());
+
         //刷新时保留头部
         frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
-        frameLayout.setFooterView(footer);
-        frameLayout.addPtrUIHandler(header);
         frameLayout.setHeaderView(header);
+        frameLayout.addPtrUIHandler(header);
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
         frameLayout.setPtrHandler(/*new PtrHandler() {
 
@@ -250,7 +251,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 5000);
+                },3000);
             }
 
             @Override

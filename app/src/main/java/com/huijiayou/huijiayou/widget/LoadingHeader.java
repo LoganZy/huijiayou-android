@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
@@ -22,8 +23,7 @@ import in.srain.cube.views.ptr.indicator.PtrTensionIndicator;
 
 public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     private View view;
-    private TextView textView;
-    private TextView tvLoading;
+    private ImageView tvLoading;
     private AnimationDrawable animation;
     private PtrTensionIndicator mPtrTensionIndicator;
     PtrFrameLayout mPtrFrameLayout;
@@ -45,9 +45,9 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     private void initMyview() {
         view = LayoutInflater.from(getContext()).inflate(R.layout.headview, this, false);
         addView(view);
-        tvLoading = (TextView) findViewById(R.id.tv_headview_loading);
-        animation = (AnimationDrawable) tvLoading.getBackground();
-        animation.start();
+        tvLoading = (ImageView) findViewById(R.id.tv_headview_loading);
+        animation = (AnimationDrawable) tvLoading.getDrawable();
+
     }
 
     public void setUp(PtrFrameLayout ptrFrameLayout) {
@@ -77,7 +77,6 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         //刷新完成  设置文本 设置进度隐藏
         tvLoading.setVisibility(View.GONE);
     }
-
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
         final int mOffsetToRefresh = frame.getOffsetToRefresh();
@@ -97,4 +96,5 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
             }
         }
     }
+
 }

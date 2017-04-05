@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,8 +102,13 @@ public class UserFragment extends Fragment {
          if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
             String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
             String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
+             String phone = PreferencesUtil.getPreferences("phone","nickname");
             imageLoader.displayImage(user_head, imgFragmentHead,options);
-            tvFragmentName.setText(name);
+             if(TextUtils.isEmpty(name)||name==null){
+                 tvFragmentName.setText(phone);
+             }else{
+                 tvFragmentName.setText(name);
+             }
             tvFragmentName.setVisibility(View.VISIBLE);
             btFragmentUserLogin.setVisibility(View.GONE);
             //请求签到油滴的数量并显示出来
