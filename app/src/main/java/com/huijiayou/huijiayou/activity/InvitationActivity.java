@@ -7,12 +7,15 @@ import android.webkit.WebSettings;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.net.DeviceUtils;
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeHandler;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.CallBackFunction;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.DefaultHandler;
 import com.huijiayou.huijiayou.wxapi.ShareUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,8 +36,8 @@ public class InvitationActivity extends BaseActivity {
         initTitle();
         tvTitle.setText("好友邀请");
 
-        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-        String session_id = PreferencesUtil.getPreferences("session_id","");
+        final String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
+        final String session_id = PreferencesUtil.getPreferences("session_id","");
 //        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
         String url = "http://192.168.10.212:8888/#/friend_invi";
         String userAgent = bridgeWebView.getSettings().getUserAgentString();
@@ -47,23 +50,24 @@ public class InvitationActivity extends BaseActivity {
         bridgeWebView.getSettings().setJavaScriptEnabled(true);
         bridgeWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
-        bridgeWebView.loadUrl(url);
-        bridgeWebView.callHandler("getUserInfos", "{user_id="+userId+","+session_id+"}", new CallBackFunction() {
+        bridgeWebView.registerHandler("getUserInfos", new BridgeHandler() {
             @Override
-            public void onCallBack(String data) {
-                LogUtil.i(data);
-            }});
+            public void handler(String data, CallBackFunction function) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("user_id", userId);
+                    String token = session_id.substring(session_id.indexOf("OIL_TOKEN")+8);
+                    jsonObject.put("OIL_TOKEN", token);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                function.onCallBack(jsonObject.toString());
+            }
+        });
+        bridgeWebView.loadUrl(url);
     }
 
     public void shareInvitation(View view){
-//        String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
-//        String session_id = PreferencesUtil.getPreferences("session_id","");
-//        bridgeWebView.callHandler("getUserInfos", "{user_id="+userId+","+session_id+"}", new CallBackFunction() {
-//            @Override
-//            public void onCallBack(String data) {
-//                LogUtil.i(data);
-//            }});
-
         String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
         String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";

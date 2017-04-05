@@ -217,12 +217,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                 int data = Integer.parseInt(jsonObject.get("data").toString());
                 if (data > 0){
                     MyApplication.isNewMessage = true;
-                    if (userFragment.isAdded()){
-                        userFragment.startAnimation();
-                    }
-                    if (homeFragment.isAdded()){
-                        homeFragment.animationDrawable.start();
-                    }
+//                    if (userFragment.isAdded()){
+//                        userFragment.startAnimation();
+//                    }
+//                    if (homeFragment.isAdded()){
+//                        homeFragment.animationDrawable.start();
+//                    }
                 }
             }
         } catch (JSONException e) {

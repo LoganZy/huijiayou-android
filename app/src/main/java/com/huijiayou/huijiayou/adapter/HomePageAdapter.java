@@ -11,11 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.utils.CommitUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import static com.huijiayou.huijiayou.R.id.tv_itemFragmentHomeProductMain_discount;
 
 /**
  * Created by lugg on 2017/3/17.
@@ -170,27 +171,42 @@ public class HomePageAdapter extends PagerAdapter {
         for (int i = 0; i < productArrayList.size(); i++){
             Product product = productArrayList.get(i);
             RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.item_fragment_home_product_main,null,false);
-            Drawable drawable = context.getResources().getDrawable(getBackgroundId());
-            drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-            relativeLayout.setBackgroundDrawable(drawable);
             TextView tvName = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_name);
             tvName.setText(product.getProduct_name());
-            TextView tvDiscount = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discount);
+            TextView tvDiscount = (TextView) relativeLayout.findViewById(tv_itemFragmentHomeProductMain_discount);
+            TextView tvDecimal = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_decimal);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
                 int length = String.valueOf(discount).trim().substring(String.valueOf(discount).indexOf(".")).length();
                 if (length > 2){
                     discount = CommitUtils.decimal2(discount);
                 }
-                tvDiscount.setText(discount+"");
+                String text = String.valueOf(discount).substring(0,String.valueOf(discount).indexOf("."));
+                String decimal = String.valueOf(discount).substring(String.valueOf(discount).indexOf("."));
+                tvDiscount.setText(text);
+                tvDecimal.setText(decimal);
             }else if (discount == 10){
-
-                tvDiscount.setText(String.valueOf((int) discount));
+                tvDiscount.setText("10");
             }
             ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imgView_itemFragmentHomeProductMain_sale);
             if ("2".equals(product.getIs_trade())){
                 imageView.setVisibility(View.VISIBLE);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.ic_home_pic1);
+                drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+                relativeLayout.setBackgroundDrawable(drawable);
+            }else{
+                int id = getBackgroundId();
+                if (id == R.mipmap.ic_home_pic2){
+                    tvDiscount.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
+                    tvDecimal.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
+                    TextView tv = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discountTag);
+                    tv.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
+                }
+                Drawable drawable = context.getResources().getDrawable(id);
+                drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+                relativeLayout.setBackgroundDrawable(drawable);
             }
+
 
             TextView tvMonth = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_month);
             if ("1".equals(product.getProduct_time())){
@@ -203,27 +219,26 @@ public class HomePageAdapter extends PagerAdapter {
             viewArrayList.add(relativeLayout);
         }
     }
+    int lunHui = 1;
     private int getBackgroundId(){
         int id = 0;
-        if (Constans.lunHui == 1){
-            id = R.mipmap.ic_home_pic1;
-        }else if (Constans.lunHui == 2){
+        if (lunHui == 1){
             id = R.mipmap.ic_home_pic2;
-        }else if (Constans.lunHui == 3){
+        }else if (lunHui == 2){
             id = R.mipmap.ic_home_pic3;
-        }else if (Constans.lunHui == 4){
+        }else if (lunHui == 3){
             id = R.mipmap.ic_home_pic4;
-        }else if (Constans.lunHui == 5){
+        }else if (lunHui == 4){
             id = R.mipmap.ic_home_pic5;
-        }else if (Constans.lunHui == 6){
+        }else if (lunHui == 5){
             id = R.mipmap.ic_home_pic6;
-        }else if (Constans.lunHui == 7){
+        }else if (lunHui == 6){
             id = R.mipmap.ic_home_pic7;
         }
-        if (Constans.lunHui == 7){
-            Constans.lunHui = 1;
+        if (lunHui == 6){
+            lunHui = 1;
         }else {
-            Constans.lunHui++;
+            lunHui++;
         }
         return  id;
     }
