@@ -211,7 +211,7 @@ public class OrderFragment extends Fragment {
         if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
             initData();
 
-            llFragmentUserLogin.setVisibility(View.GONE);
+            //llFragmentUserLogin.setVisibility(View.GONE);
             //设置上拉刷新
             setPulltoRefresh();
          /*   if(recordAdapter!=null){
@@ -302,7 +302,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 5000);
+                }, 3000);
             }
         });
     }
@@ -503,10 +503,11 @@ public class OrderFragment extends Fragment {
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
             if (list.size()==0){
+                llFragmentUserLogin.setVisibility(View.GONE);
                 llFragmentNoOder.setVisibility(View.VISIBLE);
                 FragmentRecord.setVisibility(View.GONE);
             }else{
-
+                llFragmentUserLogin.setVisibility(View.GONE);
                 FragmentRecord.setVisibility(View.VISIBLE);
                 llFragmentNoOder.setVisibility(View.GONE);
             }

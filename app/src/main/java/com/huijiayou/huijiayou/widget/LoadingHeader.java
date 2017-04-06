@@ -45,7 +45,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     private void initMyview() {
         view = LayoutInflater.from(getContext()).inflate(R.layout.headview, this, false);
         addView(view);
-        tvLoading = (ImageView) findViewById(R.id.tv_headview_loading);
+        tvLoading = (ImageView) view.findViewById(R.id.tv_headview_loading);
         animation = (AnimationDrawable) tvLoading.getDrawable();
 
     }

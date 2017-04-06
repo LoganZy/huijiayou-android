@@ -396,7 +396,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
-                    ToastUtils.createNormalToast(Phone);
+                    //ToastUtils.createNormalToast(Phone);
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {

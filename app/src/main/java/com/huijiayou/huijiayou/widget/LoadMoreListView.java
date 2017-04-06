@@ -1,11 +1,13 @@
 package com.huijiayou.huijiayou.widget;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huijiayou.huijiayou.R;
@@ -27,6 +29,8 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private boolean isRefresh = false;
     private Context context;
     private UltraRefreshListener mUltraRefreshListener;
+    private ImageView tvLoading;
+    private AnimationDrawable animation;
 
     public LoadMoreListView(Context context) {
         super(context);
@@ -64,8 +68,10 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         if (footerView == null) {
             footerView = LayoutInflater.from(context).inflate(
                     R.layout.headview, null);
+            tvLoading = (ImageView)footerView.findViewById(R.id.tv_headview_loading);
+            animation = (AnimationDrawable) tvLoading.getDrawable();
         }
-        addFooterView(footerView);
+      //  addFooterView(footerView);
     }
 
     @Override
@@ -85,6 +91,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
             if(totalItemCount>1&&!isLoadData&&totalItemCount==firstVisibleItem+visibleItemCount){
                 isRefresh =false;
                 isLoadData = true;
+                animation.start();
                 addFooterView(footerView);
                 mUltraRefreshListener.addMore();
             }
@@ -103,7 +110,9 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
                 ((PtrClassicFrameLayout) parent).refreshComplete();
             }
         }else{
+            animation.stop();
             removeFooterView(footerView);
+
         }
     }
 
