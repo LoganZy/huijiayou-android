@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.LoginActivity;
 import com.huijiayou.huijiayou.activity.MainActivity;
@@ -239,6 +240,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 "jsonObject",productListTaskId,hashMap,true,this).executeTask();
     }
     public void getCity(){
+        if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+            animationDrawable.start();
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
         hashMap.put("time",time);
@@ -298,6 +301,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
             case R.id.imgBtn_fragmentHome_message:
                 if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
                     animationDrawable.stop();
+                    MyApplication.isNewMessage = false;
                     startActivity(new Intent(getActivity(), MessageActivity.class));
                 }else{
                     startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -477,7 +481,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 if (homeProductArrayList != null && homeProductArrayList.size() > 0){
                     int currentItem = 0;
                     for (int i = 0; i < homeProductArrayList.size(); i++){
-                        if ("6".equals(homeProductArrayList.get(i).getProduct_time())){
+                        if ("2".equals(homeProductArrayList.get(i).getIs_trade())){
                             currentItem = i;
                         }
                     }
@@ -563,5 +567,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         super.setMenuVisibility(menuVisible);
         if (this.getView() != null)
             this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isAdded()){
+            if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+                animationDrawable.start();
+        }
     }
 }

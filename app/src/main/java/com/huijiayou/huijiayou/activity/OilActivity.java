@@ -172,8 +172,7 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
                 finish();
                 break;
             case R.id.btn_activityOil_zanyoudi:
-
-                startActivity(new Intent(this,InvitationActivity.class));
+                startActivity(new Intent(this,InvitationShareActivity.class));
                 break;
         }
     }

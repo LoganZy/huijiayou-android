@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
     android:background="@android:color/transparent">
 
     <LinearLayout
@@ -10,42 +9,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_dialog_share_cancel"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/share_background_shape"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
+
+        <TextView
+            android:id="@+id/tv_dialog_share_wechat"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_invite_wechat"
+            android:gravity="center"
+            android:textColor="@color/black"
             android:layout_weight="1"
-            android:gravity="center">
+            android:text="微信" />
 
-            <TextView
-                android:id="@+id/tv_dialog_share_wechat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/ic_invite_wechat"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:text="微信" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_dialog_share_wxcircle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_invite_circle"
+            android:gravity="center"
             android:layout_weight="1"
-            android:gravity="center">
+            android:textColor="@color/black"
+            android:text="朋友圈" />
 
-            <TextView
-                android:id="@+id/tv_dialog_share_wxcircle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/ic_invite_circle"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:text="朋友圈" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_dialog_share_mianduimian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/ic_invite_qr_code_hqr_code_h5_qr_code"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:text="面对面邀请" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -70,7 +67,7 @@
         android:id="@+id/btn_dialog_share_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/share_background_shape"
+        android:background="@color/white"
         android:padding="10dp"
         android:text="取消"
         android:textColor="@android:color/black"

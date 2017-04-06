@@ -40,9 +40,18 @@
                 android:textColor="@color/white"
                 android:drawableLeft="@mipmap/ic_home_gas"
                 android:textSize="47dp"
-                tools:text="9.7"/>
+                tools:text="9."/>
 
             <TextView
+                android:id="@+id/tv_itemFragmentHomeProductMain_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="38dp"
+                android:text="75"/>
+
+            <TextView
+                android:id="@+id/tv_itemFragmentHomeProductMain_discountTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -69,6 +78,7 @@
                 tools:text="6"/>
 
             <TextView
+                android:id="@+id/tv_itemFragmentHomeProductMain_monthTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"

@@ -6,10 +6,17 @@ package com.huijiayou.huijiayou.config;
 
 public class NetConfig {
 
-    //    public final static String URL_wyh = "http://wyh.oil.user.passport.com";//王远航
+//        public final static String URL = "http://wyh.oil.user.passport.com";//王远航
 //    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-    public final static String URL = "http://test.1huangjin.cn";//张孝国
+    public final static String URL = "http://test.1huangjin.cn";
+//    public final static String URL = "http://www.ihaomu.com";
 
+//    public final static String ACCOUNT = URL + "/service.php?c=account";
+//    public final static String OILCARD = URL + "/index.php?c=oilcard";
+//    public final static String PRODUCT = URL + "/index.php?c=product";
+//    public final static String ORDER = URL + "/index.php?c=order";
+//    public final static String PAY = URL + "/index.php?c=pay";
+//    public final static String MESSAGE = URL + "/message/message.php?c=msg";
 
     public final static String ACCOUNT = URL + "/passport/service.php?c=account";
     public final static String OILCARD = URL + "/pro/index.php?c=oilcard";

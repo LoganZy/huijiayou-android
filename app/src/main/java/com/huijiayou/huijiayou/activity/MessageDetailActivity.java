@@ -50,7 +50,7 @@ public class MessageDetailActivity extends BaseActivity implements NewHttpReques
         initTitle();
 
         Intent intent = getIntent();
-        Message message = (Message) intent.getSerializableExtra("message");
+        final Message message = (Message) intent.getSerializableExtra("message");
         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date(Long.parseLong(message.getCreated_at()+"000"));
         tv_ActivityMessageDetail_time.setText(simpleDateFormat1.format(date));
@@ -86,6 +86,16 @@ public class MessageDetailActivity extends BaseActivity implements NewHttpReques
 
         }else if ("3".equals(message.getJump_type())){//查看订单详情  TODO
             tv_ActivityMessageDetail_button.setText("查看详情");
+            tv_ActivityMessageDetail_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentWebViewActivity = new Intent(MessageDetailActivity.this, WebViewActivity.class);
+                    intentWebViewActivity.putExtra("title", "活动");
+                    intentWebViewActivity.putExtra("url", message.getUrl());
+                    startActivity(intentWebViewActivity);
+                    MessageDetailActivity.this.finish();
+                }
+            });
 
         }else if ("4".equals(message.getJump_type())){ //邀请好友
             tv_ActivityMessageDetail_button.setText("邀请好友");

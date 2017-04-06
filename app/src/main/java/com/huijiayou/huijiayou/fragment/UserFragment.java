@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.CancelActivity;
 import com.huijiayou.huijiayou.activity.CouponActivity;
@@ -99,6 +100,8 @@ public class UserFragment extends Fragment {
     }
 
     public void userFragmentIsLoginOrNo() {
+        if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+            animationDrawable.start();
          if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
             String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
             String user_head = PreferencesUtil.getPreferences(Constans.HEADIMGURL, "false");
@@ -234,8 +237,6 @@ public class UserFragment extends Fragment {
         if(!this.isHidden()){
             userFragmentIsLoginOrNo();
         }
-
-
     }
 
     @Override
@@ -294,6 +295,7 @@ public class UserFragment extends Fragment {
                 break;
             case R.id.imgbt_fragmentUser_message:
                 animationDrawable.stop();
+                MyApplication.isNewMessage = false;
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.ll_activity_wxbind_oil:

@@ -13,13 +13,12 @@
         android:layout_height="3dp"
         android:background="@mipmap/ic_navbar_bg" />
 
-    <com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView
+    <com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView
         android:id="@+id/bridgeWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-
-    </com.huijiayou.huijiayou.jsbridgewebview.BridgeWebView>
+    </com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView>
 
     <Button
         android:id="@+id/btn_activityInvitation_share"

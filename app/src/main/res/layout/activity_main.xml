@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_alignParentBottom="true"
-        android:background="#66000000"
+        android:background="@color/transparent_half"
         android:visibility="gone"/>
 
 
