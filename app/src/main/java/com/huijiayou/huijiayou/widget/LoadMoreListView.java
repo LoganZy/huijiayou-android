@@ -28,7 +28,6 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private Context context;
     private UltraRefreshListener mUltraRefreshListener;
 
-    private MyPullUpListViewCallBack myPullUpListViewCallBack;
     public LoadMoreListView(Context context) {
         super(context);
         this.context = context;
@@ -73,7 +72,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
                 && firstVisibleItem != 0) {
-            myPullUpListViewCallBack.scrollBottomState();
+
         }
     }
 
@@ -108,10 +107,6 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         }
     }
 
-    public void setMyPullUpListViewCallBack(
-            MyPullUpListViewCallBack myPullUpListViewCallBack) {
-        this.myPullUpListViewCallBack = myPullUpListViewCallBack;
-    }
 
 
     @Override
