@@ -14,8 +14,6 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
-import static in.srain.cube.views.ptr.PtrDefaultHandler.canChildScrollUp;
-
 /**
  * Created by Administrator on 2017/4/5 0005.
  */
@@ -28,7 +26,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private Context context;
     private UltraRefreshListener mUltraRefreshListener;
 
-    private MyPullUpListViewCallBack myPullUpListViewCallBack;
+//    private MyPullUpListViewCallBack myPullUpListViewCallBack;
     public LoadMoreListView(Context context) {
         super(context);
         this.context = context;
@@ -73,7 +71,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
                 && firstVisibleItem != 0) {
-            myPullUpListViewCallBack.scrollBottomState();
+//            myPullUpListViewCallBack.scrollBottomState();
         }
     }
 
@@ -108,10 +106,10 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         }
     }
 
-    public void setMyPullUpListViewCallBack(
-            MyPullUpListViewCallBack myPullUpListViewCallBack) {
-        this.myPullUpListViewCallBack = myPullUpListViewCallBack;
-    }
+//    public void setMyPullUpListViewCallBack(
+//            MyPullUpListViewCallBack myPullUpListViewCallBack) {
+//        this.myPullUpListViewCallBack = myPullUpListViewCallBack;
+//    }
 
 
     @Override
