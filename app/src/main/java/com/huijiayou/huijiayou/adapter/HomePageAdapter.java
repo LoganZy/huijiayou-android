@@ -189,7 +189,7 @@ public class HomePageAdapter extends PagerAdapter {
                 tvDiscount.setText("10");
             }
             ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imgView_itemFragmentHomeProductMain_sale);
-            if ("2".equals(product.getIs_trade())){
+            if ("1".equals(product.getIs_recommend())){
                 imageView.setVisibility(View.VISIBLE);
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.ic_home_pic1);
                 drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());

@@ -99,7 +99,6 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
                         if (dialog != null){
                             dialog.show();
                         }
-
                     }
 
                     @Override

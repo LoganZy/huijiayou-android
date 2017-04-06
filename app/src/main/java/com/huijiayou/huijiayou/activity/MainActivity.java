@@ -109,7 +109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                         if(orderFragment.isAdded()){
                             orderFragment.orderFragmentIsLoginOrno();
                         }
-//                            fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,orderFragment).commit();
                         break;
                     case R.id.rb_activityMain_user:
                         if (fragments != null && fragments.contains(userFragment)){
@@ -121,7 +120,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                         if (userFragment.isAdded()){
                             userFragment.userFragmentIsLoginOrNo();
                         }
-//                        fragmentManager.beginTransaction().replace(R.id.fl_mainActivity_fragmentShell,userFragment).commit();
                         break;
                 }
             }
