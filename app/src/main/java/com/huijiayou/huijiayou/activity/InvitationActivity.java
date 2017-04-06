@@ -56,7 +56,7 @@ public class InvitationActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("user_id", userId);
-                    String token = session_id.substring(session_id.indexOf("OIL_TOKEN")+8);
+                    String token = session_id.substring(session_id.indexOf("OIL_TOKEN")+10);
                     jsonObject.put("OIL_TOKEN", token);
                 } catch (JSONException e) {
                     e.printStackTrace();

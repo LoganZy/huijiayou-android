@@ -242,6 +242,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void getCity(){
         if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
             animationDrawable.start();
+        if (animationDrawable != null && !MyApplication.isNewMessage && animationDrawable.isRunning())
+            animationDrawable.stop();
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
         hashMap.put("time",time);
@@ -481,7 +483,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 if (homeProductArrayList != null && homeProductArrayList.size() > 0){
                     int currentItem = 0;
                     for (int i = 0; i < homeProductArrayList.size(); i++){
-                        if ("2".equals(homeProductArrayList.get(i).getIs_trade())){
+                        if ("1".equals(homeProductArrayList.get(i).getIs_recommend())){
                             currentItem = i;
                         }
                     }
@@ -573,8 +575,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     public void onResume() {
         super.onResume();
         if (isAdded()){
-            if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
-                animationDrawable.start();
+            getCity();
         }
     }
 }
