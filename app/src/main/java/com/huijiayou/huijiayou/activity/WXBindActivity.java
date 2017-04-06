@@ -250,18 +250,19 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
 
     public void getSMScode() {
         telephone = editActivityBindPhone.getText().toString().trim();
-        editActivityBindSms.setText(" ");
 
         if(TextUtils.isEmpty(telephone)||telephone==null){
             ToastUtils.createNormalToast(WXBindActivity.this, "请输入手机号！");
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
             ToastUtils.createNormalToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
-        }else if(TextUtils.isEmpty(SMScode)) {
+        }else{
             ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
 
-            time = 60;
-            //向服务器请求
-            startTime();
+
+            editActivityBindSms.setText("");
+            editActivityBindPhone.clearFocus();
+            editActivityBindSms.setFocusable(true);
+            editActivityBindSms.requestFocus();
             telephone = telephone.replaceAll(" ","");
             getVerificationCode( telephone);
         }
@@ -342,6 +343,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     if(is_registed==0){
                         llActivityWxbindInvit.setVisibility(View.VISIBLE);
                     }
+                    time = 60;
+                    //向服务器请求
+                    startTime();
                     ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
