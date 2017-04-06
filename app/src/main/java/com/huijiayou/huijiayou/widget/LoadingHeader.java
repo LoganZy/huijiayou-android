@@ -24,7 +24,7 @@ import in.srain.cube.views.ptr.indicator.PtrTensionIndicator;
 public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     private View view;
     private ImageView tvLoading;
-    private AnimationDrawable animation;
+    public AnimationDrawable animation;
     private PtrTensionIndicator mPtrTensionIndicator;
     PtrFrameLayout mPtrFrameLayout;
     public LoadingHeader(@NonNull Context context) {
@@ -58,7 +58,8 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
 
     @Override
     public void onUIReset(PtrFrameLayout frame) {
-        //重置
+        //刷新完成之后，UI消失之后的接口回调。
+        view.setVisibility(View.GONE);
         tvLoading.setVisibility(View.GONE);
     }
 
@@ -70,6 +71,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
         //开始刷新 显示刷新进度跟文本
+        view.setVisibility(View.VISIBLE);
         tvLoading.setVisibility(View.VISIBLE);
         animation.start();
         invalidate();
@@ -78,6 +80,7 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
         //刷新完成  设置文本 设置进度隐藏
+        view.setVisibility(View.GONE);
         tvLoading.setVisibility(View.GONE);
         animation.stop();
 
@@ -92,12 +95,13 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         if (currentPos < mOffsetToRefresh) {
             //未到达刷新线
             if (status == PtrFrameLayout.PTR_STATUS_PREPARE) {
-
+                view.setVisibility(View.GONE);
                 animation.stop();
             }
         } else if (currentPos > mOffsetToRefresh) {
             //到达或超过刷新线
             if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
+                view.setVisibility(View.VISIBLE);
                 animation.start();
             }
         }

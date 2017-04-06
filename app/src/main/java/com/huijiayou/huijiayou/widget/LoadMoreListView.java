@@ -4,19 +4,30 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.huijiayou.huijiayou.R;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+
+import static in.srain.cube.views.ptr.PtrDefaultHandler.canChildScrollUp;
+
 /**
  * Created by Administrator on 2017/4/5 0005.
  */
 
-public class LoadMoreListView extends ListView implements AbsListView.OnScrollListener {
+public class LoadMoreListView extends ListView implements AbsListView.OnScrollListener,PtrHandler {
     private View footerView;
     private int firstVisibleItem;
+    private boolean isLoadData = false;
+    private boolean isRefresh = false;
     private Context context;
+    private UltraRefreshListener mUltraRefreshListener;
+
     private MyPullUpListViewCallBack myPullUpListViewCallBack;
     public LoadMoreListView(Context context) {
         super(context);
@@ -39,6 +50,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     }
     private void initview() {
         // 为ListView设置滑动监听
+        initBottomView();
         setOnScrollListener(this);
         // 去掉底部分割线
         setFooterDividersEnabled(false);
@@ -70,14 +82,29 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         this.firstVisibleItem = firstVisibleItem;
 
         if (footerView != null) {
-            //判断可视Item是否能在当前页面完全显示
-            if (visibleItemCount == totalItemCount) {
-                // removeFooterView(footerView);
-                footerView.setVisibility(View.GONE);//隐藏底部布局
-            } else {
-                // addFooterView(footerView);
-                footerView.setVisibility(View.VISIBLE);//显示底部布局
+            //加载更多的判断
+            if(totalItemCount>1&&!isLoadData&&totalItemCount==firstVisibleItem+visibleItemCount){
+                isRefresh =false;
+                isLoadData = true;
+                addFooterView(footerView);
+                mUltraRefreshListener.addMore();
             }
+        }
+    }
+
+
+
+    //刷新完成的后调用此方法还原布局
+    public void refreshComplete(){
+        isLoadData = false;
+        if(isRefresh){
+            //获取其父控件，刷新
+            ViewParent parent = getParent();
+            if(parent instanceof PtrClassicFrameLayout){
+                ((PtrClassicFrameLayout) parent).refreshComplete();
+            }
+        }else{
+            removeFooterView(footerView);
         }
     }
 
@@ -87,4 +114,54 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     }
 
 
+    @Override
+    public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+        return !isLoadData&&checkContentCanBePulledDown(frame, content, header);
+    }
+    public static boolean checkContentCanBePulledDown(PtrFrameLayout frame, View content, View header) {
+        return !canChildScrollUp(content);
+
+    }
+
+    public static boolean canChildScrollUp(View view) {
+        if (android.os.Build.VERSION.SDK_INT < 14) {
+            if (view instanceof AbsListView) {
+                final AbsListView absListView = (AbsListView) view;
+                return absListView.getChildCount() > 0
+                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
+                        .getTop() < absListView.getPaddingTop());
+            } else {
+                return view.getScrollY() > 0;
+            }
+        } else {
+            return view.canScrollVertically(-1);
+        }
+    }
+    /**
+     * 设置ListView的监听回调
+     */
+    public void setUltraRefreshListener(UltraRefreshListener mUltraRefreshListener) {
+        this.mUltraRefreshListener = mUltraRefreshListener;
+    }
+
+    @Override
+    public void onRefreshBegin(PtrFrameLayout frame) {
+        isLoadData  =true;
+        isRefresh =true;
+        //下拉刷新的回调
+        if(mUltraRefreshListener!=null){
+
+            mUltraRefreshListener.onRefresh();
+        }
+    }
+
+
+    public interface UltraRefreshListener {
+
+        //下拉刷新
+        void onRefresh();
+
+        //上拉加载
+        void addMore();
+    }
 }
