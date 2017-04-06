@@ -115,7 +115,7 @@
                     android:id="@+id/tv_activityClose_befor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
                     android:textSize="17dp" />
@@ -134,7 +134,7 @@
                     android:textColor="#2A2A2A"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:drawableLeft="@mipmap/ic_details_recharge"
                     android:text="3000"
                     android:textSize="17dp" />

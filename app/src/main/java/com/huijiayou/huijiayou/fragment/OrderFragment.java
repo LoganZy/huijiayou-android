@@ -88,8 +88,7 @@ public class OrderFragment extends Fragment {
     private boolean isHadMore;
     private ArrayList<Record> list;
     private View view1;
-    private View footerView;
-    private int footerViewHeight;
+    private LoadingHeader footer;
 
     @Nullable
     @Override
@@ -190,8 +189,19 @@ public class OrderFragment extends Fragment {
         super.onResume();
         if(!this.isHidden()){
             orderFragmentIsLoginOrno();
+
         }
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
 
     }
 
@@ -227,8 +237,10 @@ public class OrderFragment extends Fragment {
         frameLayout.setMode(PtrFrameLayout.Mode.BOTH);
         frameLayout.setKeepHeaderWhenRefresh(true);
         //设置刷新头部
-        LoadingHeader footer = new LoadingHeader(getActivity());
-        footer.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
+        footer = new LoadingHeader(getActivity());
+
+        footer.setPadding(0, -footer.getHeight(), 0, 0);
+        //footer.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
         frameLayout.setFooterView(footer);
         frameLayout.addPtrUIHandler(footer);
 
@@ -273,7 +285,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                },3000);
+                },1500);
             }
 
             @Override
