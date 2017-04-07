@@ -2,8 +2,11 @@ package com.huijiayou.huijiayou.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +22,6 @@ import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
-import com.huijiayou.huijiayou.widget.LoadingHeader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,8 +33,8 @@ import java.util.HashMap;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import in.srain.cube.views.ptr.PtrDefaultHandler2;
-import in.srain.cube.views.ptr.PtrFrameLayout;
+
+import static com.huijiayou.huijiayou.config.NetConfig.UserOildropInfo;
 
 public class OilActivity extends BaseActivity implements NewHttpRequest.RequestCallback,View.OnClickListener{
 
@@ -63,9 +65,10 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     @Bind(R.id.btn_activityOil_zanyoudi)
     Button btn_activityOil_zanyoudi;
 
-    @Bind(R.id.pf_activityOil_view)
-    PtrFrameLayout pf_activityOil_view;
+    @Bind(R.id.swipeRefreshLayout_ActivityOil_refresh)
+    SwipeRefreshLayout swipeRefreshLayout_ActivityOil_refresh;
 
+    LinearLayoutManager linearLayoutManager;
     TextView lastSelectedTextView;
     View lastSelectedView;
 
@@ -85,52 +88,29 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
 
         lastSelectedTextView = tv_activityOil_all;
         lastSelectedView = view_activityOil_all;
-        recyclerView_ActivityOil_list.setLayoutManager(new LinearLayoutManager(this));
-        setPulltoRefresh();
-    }
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView_ActivityOil_list.setLayoutManager(linearLayoutManager);
+        recyclerView_ActivityOil_list.addOnScrollListener(new EndLessOnScrollListener());
 
-    private void setPulltoRefresh() {
-        //实例化自定义头部
-        LoadingHeader header = new LoadingHeader(this);
-        LoadingHeader footer = new LoadingHeader(this);
-        //刷新时保留头部
-        pf_activityOil_view.setMode(PtrFrameLayout.Mode.BOTH);
-        pf_activityOil_view.setKeepHeaderWhenRefresh(true);
-        //设置刷新头部
-        pf_activityOil_view.setFooterView(footer);
-        pf_activityOil_view.addPtrUIHandler(header);
-        pf_activityOil_view.setHeaderView(header);
-        pf_activityOil_view.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        pf_activityOil_view.setPtrHandler(new PtrDefaultHandler2() {
+        swipeRefreshLayout_ActivityOil_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoadMoreBegin(PtrFrameLayout frame) {
-                if (isLoad){
-                    page++;
-                    UserOildropInfo();
-                }else{
-                    ToastUtils.createNormalToast(OilActivity.this,"没有更多数据了");
-                }
-                pf_activityOil_view.refreshComplete();
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefresh() {
                 page = 1;
-                UserOildropInfo();
-                pf_activityOil_view.refreshComplete();
+                isLoad = true;
+                UserOildropInfo(false);
             }
         });
-        UserOildropInfo();
+        swipeRefreshLayout_ActivityOil_refresh.setRefreshing(true);
+        UserOildropInfo(false);
     }
 
-
-    private void UserOildropInfo(){
+    private void UserOildropInfo(boolean isLoad){
         HashMap<String,Object> hashMap = new HashMap<>();
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         hashMap.put(Constans.USER_ID,userId);
         hashMap.put("type",type); //0全部，1获取，2消耗
         hashMap.put("page",page);
-        new NewHttpRequest(this, NetConfig.ACCOUNT, NetConfig.UserOildropInfo, "jsonObject", 1, hashMap, true, this).executeTask();
+        new NewHttpRequest(this, NetConfig.ACCOUNT, UserOildropInfo, "jsonObject", 1, hashMap, isLoad, this).executeTask();
     }
 
     private void updateState(TextView tv, View view){
@@ -142,7 +122,7 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
         }
         lastSelectedTextView = tv;
         lastSelectedView = view;
-        UserOildropInfo();
+        UserOildropInfo(true);
     }
 
     @OnClick({R.id.tv_activityOil_all,R.id.tv_activityOil_get,R.id.tv_activityOil_consume,
@@ -183,13 +163,23 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         if (taskId == 1){
+            if (swipeRefreshLayout_ActivityOil_refresh.isRefreshing())
+                swipeRefreshLayout_ActivityOil_refresh.setRefreshing(false);
             try {
-                oilArrayList = new Gson().fromJson(jsonObject.get("list").toString(),
+                ArrayList<OilAdapter.Oil> oils = new Gson().fromJson(jsonObject.get("list").toString(),
                         new TypeToken<ArrayList<OilAdapter.Oil>>() {}.getType());
-                oilAdapter = new OilAdapter(oilArrayList,this);
-                recyclerView_ActivityOil_list.setAdapter(oilAdapter);
-                if (oilArrayList == null || oilArrayList.size() < 20){
+                if (page == 1){
+                    oilArrayList = oils;
+                    oilAdapter = new OilAdapter(oilArrayList,this);
+                    recyclerView_ActivityOil_list.setAdapter(oilAdapter);
+                }else{
+                    oilArrayList.addAll(oils);
+                    oilAdapter.notifyDataSetChanged();
+                }
+                if (oils == null || oils.size() < 20){
                     isLoad = false;
+                }else{
+                    isLoad = true;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -200,9 +190,54 @@ public class OilActivity extends BaseActivity implements NewHttpRequest.RequestC
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
         if (taskId == 1){
+            if (swipeRefreshLayout_ActivityOil_refresh.isRefreshing())
+                swipeRefreshLayout_ActivityOil_refresh.setRefreshing(false);
             ToastUtils.createNormalToast(this,msg.getMessage());
         }
     }
 
 
+    public class EndLessOnScrollListener extends RecyclerView.OnScrollListener{
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            //当前RecyclerView显示出来的最后一个的item的position
+            int lastPosition = -1;
+
+            //当前状态为停止滑动状态SCROLL_STATE_IDLE时
+            if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if(layoutManager instanceof GridLayoutManager){
+                    //通过LayoutManager找到当前显示的最后的item的position
+                    lastPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+                }else if(layoutManager instanceof LinearLayoutManager){
+                    lastPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                }else if(layoutManager instanceof StaggeredGridLayoutManager){
+                    //因为StaggeredGridLayoutManager的特殊性可能导致最后显示的item存在多个，所以这里取到的是一个数组
+                    //得到这个数组后再取到数组中position值最大的那个就是最后显示的position值了
+                    int[] lastPositions = new int[((StaggeredGridLayoutManager) layoutManager).getSpanCount()];
+                    ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(lastPositions);
+                    lastPosition = findMax(lastPositions);
+                }
+
+                //时判断界面显示的最后item的position是否等于itemCount总数-1也就是最后一个item的position
+                //如果相等则说明已经滑动到最后了
+                if(isLoad && lastPosition == recyclerView.getLayoutManager().getItemCount()-1){
+                    page ++;
+                    UserOildropInfo(true);
+                }
+            }
+        }
+        //找到数组中的最大值
+        private int findMax(int[] lastPositions) {
+            int max = lastPositions[0];
+            for (int value : lastPositions) {
+                if (value > max) {
+                    max = value;
+                }
+            }
+            return max;
+        }
+    }
 }

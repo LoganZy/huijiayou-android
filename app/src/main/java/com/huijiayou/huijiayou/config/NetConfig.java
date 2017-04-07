@@ -56,6 +56,7 @@ public class NetConfig {
     public final static String back ="back";//支付结果请求接口
     public final  static  String shareCodePicture = "shareCodePicture"; //分享生成二维码图片
     public final  static  String userPacketsList = "userPacketsList"; //获取当前产品可用的所有红包
+    public final  static  String feedBackForUser = "feedBackForUser"; //用户反馈接
 
 
 

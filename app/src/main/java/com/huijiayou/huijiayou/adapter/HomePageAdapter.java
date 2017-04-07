@@ -174,17 +174,13 @@ public class HomePageAdapter extends PagerAdapter {
             TextView tvName = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_name);
             tvName.setText(product.getProduct_name());
             TextView tvDiscount = (TextView) relativeLayout.findViewById(tv_itemFragmentHomeProductMain_discount);
-            TextView tvDecimal = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_decimal);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){
                 int length = String.valueOf(discount).trim().substring(String.valueOf(discount).indexOf(".")).length();
                 if (length > 2){
                     discount = CommitUtils.decimal2(discount);
                 }
-                String text = String.valueOf(discount).substring(0,String.valueOf(discount).indexOf("."));
-                String decimal = String.valueOf(discount).substring(String.valueOf(discount).indexOf("."));
-                tvDiscount.setText(text);
-                tvDecimal.setText(decimal);
+                tvDiscount.setText(String.valueOf(discount));
             }else if (discount == 10){
                 tvDiscount.setText("10");
             }
@@ -195,18 +191,10 @@ public class HomePageAdapter extends PagerAdapter {
                 drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
                 relativeLayout.setBackgroundDrawable(drawable);
             }else{
-                int id = getBackgroundId();
-                if (id == R.mipmap.ic_home_pic2){
-                    tvDiscount.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
-                    tvDecimal.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
-                    TextView tv = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_discountTag);
-                    tv.setTextColor(context.getResources().getColor(R.color.home_color_ff5755));
-                }
-                Drawable drawable = context.getResources().getDrawable(id);
+                Drawable drawable = context.getResources().getDrawable(getBackgroundId());
                 drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
                 relativeLayout.setBackgroundDrawable(drawable);
             }
-
 
             TextView tvMonth = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_month);
             if ("1".equals(product.getProduct_time())){
@@ -232,10 +220,8 @@ public class HomePageAdapter extends PagerAdapter {
             id = R.mipmap.ic_home_pic5;
         }else if (lunHui == 5){
             id = R.mipmap.ic_home_pic6;
-        }else if (lunHui == 6){
-            id = R.mipmap.ic_home_pic7;
         }
-        if (lunHui == 6){
+        if (lunHui == 5){
             lunHui = 1;
         }else {
             lunHui++;

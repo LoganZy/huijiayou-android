@@ -25,9 +25,9 @@
         android:background="@drawable/shape_activity_feeback_input_bg"
         android:textColor="@color/textColor_51586A"
         android:textSize="13dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         android:hint="您的意见对我们很重要"/>
     
     <TextView

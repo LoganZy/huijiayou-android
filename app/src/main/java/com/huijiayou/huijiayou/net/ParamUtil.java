@@ -3,7 +3,6 @@ package com.huijiayou.huijiayou.net;
 import android.text.TextUtils;
 
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.MD5;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 
@@ -94,13 +93,12 @@ public class ParamUtil {
                     value.append(params.get(arrayList.get(i)) + "&");
                 }
                 String token = PreferencesUtil.getPreferences(Constans.USER_TOKEN,"");
-                if (TextUtils.isEmpty(token)){
+                boolean isLogin = PreferencesUtil.getPreferences(Constans.ISLOGIN,false);
+                if (TextUtils.isEmpty(token) || isLogin){
                     token = "HUIJIAYOU_TOKEN";
                 }
                 value.append(token);
                 jsonObject.put("sign", MD5.md5(value.toString()));
-                LogUtil.e("sign================="+value.toString());
-                LogUtil.e("requestParams================="+jsonObject.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();

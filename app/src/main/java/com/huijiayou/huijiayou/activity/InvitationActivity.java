@@ -6,7 +6,6 @@ import android.webkit.WebSettings;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.net.DeviceUtils;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeHandler;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView;
@@ -38,10 +37,10 @@ public class InvitationActivity extends BaseActivity {
 
         final String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         final String session_id = PreferencesUtil.getPreferences("session_id","");
-//        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
-        String url = "http://192.168.10.212:8888/#/friend_invi";
-        String userAgent = bridgeWebView.getSettings().getUserAgentString();
-        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
+        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
+//        String url = "http://192.168.10.212:8888/#/friend_invi";
+//        String userAgent = bridgeWebView.getSettings().getUserAgentString();
+//        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
         bridgeWebView.getSettings().setSaveFormData(false);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
         bridgeWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -50,6 +49,8 @@ public class InvitationActivity extends BaseActivity {
         bridgeWebView.getSettings().setJavaScriptEnabled(true);
         bridgeWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
+
+        bridgeWebView.loadUrl(url);
         bridgeWebView.registerHandler("getUserInfos", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
@@ -64,7 +65,7 @@ public class InvitationActivity extends BaseActivity {
                 function.onCallBack(jsonObject.toString());
             }
         });
-        bridgeWebView.loadUrl(url);
+
     }
 
     public void shareInvitation(View view){
