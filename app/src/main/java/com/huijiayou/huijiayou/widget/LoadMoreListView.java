@@ -1,11 +1,13 @@
 package com.huijiayou.huijiayou.widget;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huijiayou.huijiayou.R;
@@ -14,8 +16,10 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
+import static in.srain.cube.views.ptr.PtrDefaultHandler.canChildScrollUp;
+
 /**
- * Created by Administrator on 2017/4/5 0005.
+ * Created by hexinhai on 2017/4/5 0005.
  */
 
 public class LoadMoreListView extends ListView implements AbsListView.OnScrollListener,PtrHandler {
@@ -25,8 +29,9 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private boolean isRefresh = false;
     private Context context;
     private UltraRefreshListener mUltraRefreshListener;
+    private ImageView tvLoading;
+    private AnimationDrawable animation;
 
-//    private MyPullUpListViewCallBack myPullUpListViewCallBack;
     public LoadMoreListView(Context context) {
         super(context);
         this.context = context;
@@ -49,7 +54,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private void initview() {
         // 为ListView设置滑动监听
         initBottomView();
-        setOnScrollListener(this);
+
         // 去掉底部分割线
         setFooterDividersEnabled(false);
 
@@ -63,7 +68,10 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         if (footerView == null) {
             footerView = LayoutInflater.from(context).inflate(
                     R.layout.headview, null);
+            tvLoading = (ImageView)footerView.findViewById(R.id.tv_headview_loading);
+            animation = (AnimationDrawable) tvLoading.getDrawable();
         }
+        setOnScrollListener(this);
         addFooterView(footerView);
     }
 
@@ -71,7 +79,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
                 && firstVisibleItem != 0) {
-//            myPullUpListViewCallBack.scrollBottomState();
+
         }
     }
 
@@ -84,6 +92,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
             if(totalItemCount>1&&!isLoadData&&totalItemCount==firstVisibleItem+visibleItemCount){
                 isRefresh =false;
                 isLoadData = true;
+                animation.start();
                 addFooterView(footerView);
                 mUltraRefreshListener.addMore();
             }
@@ -102,14 +111,12 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
                 ((PtrClassicFrameLayout) parent).refreshComplete();
             }
         }else{
+            animation.stop();
             removeFooterView(footerView);
+
         }
     }
 
-//    public void setMyPullUpListViewCallBack(
-//            MyPullUpListViewCallBack myPullUpListViewCallBack) {
-//        this.myPullUpListViewCallBack = myPullUpListViewCallBack;
-//    }
 
 
     @Override

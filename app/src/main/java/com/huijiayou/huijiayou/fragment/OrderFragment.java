@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -60,7 +59,7 @@ import retrofit2.Response;
 /**
  * Created by lugg on 2017/2/24.
  */
-public class OrderFragment extends Fragment {
+public class OrderFragment extends Fragment{
     public static final String TAG = "OrderFragment";
 
     @Bind(R.id.bt_fragment_order_login)
@@ -104,28 +103,6 @@ public class OrderFragment extends Fragment {
     }
 
     private void initListion() {
-   /* lvActivityRecordBill.setOnScrollListener(new AbsListView.OnScrollListener(){
-        public int firstVisibleItem;
-
-        @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState){
-                // 当不滚动时
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() - 1 && firstVisibleItem!=0) {
-                        isHadMore = true;
-
-                    }else {
-                        isHadMore=false;
-                    }
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                this.firstVisibleItem = firstVisibleItem;
-            }
-        });*/
         lvActivityRecordBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -211,9 +188,9 @@ public class OrderFragment extends Fragment {
         if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)) {
             initData();
 
-            llFragmentUserLogin.setVisibility(View.GONE);
+            //llFragmentUserLogin.setVisibility(View.GONE);
             //设置上拉刷新
-            setPulltoRefresh();
+           setPulltoRefresh();
          /*   if(recordAdapter!=null){
 
                 recordAdapter.getList().addAll(recordList);
@@ -250,27 +227,7 @@ public class OrderFragment extends Fragment {
 
 
         frameLayout.disableWhenHorizontalMove(true);//解决横向滑动冲突
-        frameLayout.setPtrHandler(/*new PtrDefaultHandler() {
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                frameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getRecord(1);
-                        frameLayout.refreshComplete();
-                        recordAdapter.notifyDataSetChanged();
-                    }
-                }, 10000);
-            }
-
-
-        });*/new PtrHandler2() {
+        frameLayout.setPtrHandler(new PtrHandler2() {
             @Override
             public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
                 return PtrDefaultHandler2.checkContentCanBePulledUp(frame, content, footer);
@@ -285,7 +242,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                },1500);
+                },1000);
             }
 
             @Override
@@ -302,7 +259,7 @@ public class OrderFragment extends Fragment {
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 5000);
+                }, 3000);
             }
         });
     }
@@ -388,7 +345,6 @@ public class OrderFragment extends Fragment {
 
 
     private void initView() {
-
     }
     private void initData() {
         //获取头部节省的钱数
@@ -496,6 +452,7 @@ public class OrderFragment extends Fragment {
             list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), list);
             lvActivityRecordBill.setAdapter(recordAdapter);
+
         }else {
             isHadMore = true;
             list  = new ArrayList<>();
@@ -503,13 +460,15 @@ public class OrderFragment extends Fragment {
             recordAdapter = new RecordAdapter(getActivity(), recordList);
             lvActivityRecordBill.setAdapter(recordAdapter);
             if (list.size()==0){
+                llFragmentUserLogin.setVisibility(View.GONE);
                 llFragmentNoOder.setVisibility(View.VISIBLE);
                 FragmentRecord.setVisibility(View.GONE);
             }else{
-
+                llFragmentUserLogin.setVisibility(View.GONE);
                 FragmentRecord.setVisibility(View.VISIBLE);
                 llFragmentNoOder.setVisibility(View.GONE);
             }
+
         }
 
     }
@@ -562,4 +521,6 @@ public class OrderFragment extends Fragment {
         if (this.getView() != null)
             this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
     }
+
+
 }

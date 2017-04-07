@@ -166,7 +166,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
-                ToastUtils.createNormalToast(this,result);
+                //ToastUtils.createNormalToast(this,result);
                 //		      可用以下两种方法获得code
                 //      resp.toBundle(bundle);
                 //      Resp sp = new Resp(bundle);

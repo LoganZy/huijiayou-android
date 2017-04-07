@@ -52,12 +52,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小明"/>
+                android:text="10000000000"/>
 
         </LinearLayout>
     </LinearLayout>
 
     <ScrollView
+        android:visibility="gone"
+        android:id="@+id/sv_activityDetails_DetaiasList"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -91,8 +93,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@mipmap/ic_recording_green"
-                    android:paddingLeft="30dp"
-                    android:paddingTop="3dp"
+                    android:paddingLeft="27dp"
+                    android:paddingTop="4dp"
+                    android:textSize="13dp"
                     android:text="3/6"
                     android:textColor="#6DC152"/>
                 <LinearLayout

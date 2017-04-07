@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -63,8 +64,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     TextView tvActivityLoginAgreenment;
     @Bind(R.id.iv_activityLogin_check)
     TextView ibActivityLoginAgreement;
-    @Bind(R.id.btn_activityLogin_login)
-    TextView btnActivityLogin;
     private int time = 60;
     private String telephone;
     private String SMScode;
@@ -73,6 +72,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     };
     private String invit;
     private boolean isagreement ;
+    private int is_registed;
 
 
     @Override
@@ -196,16 +196,14 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             @Override
             public void onClick(View v) {
                 telephone = editActivityLoginPhone.getText().toString().trim();
-                //editActivityLoginPhoneCode.setText(" ");
-
                 if (TextUtils.isEmpty(telephone) || telephone == null) {
                     ToastUtils.createNormalToast(LoginActivity.this, "请输入手机号！");
                 } else if (!telephone.startsWith("1") || telephone.length() != 13) {
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
-                } else if (TextUtils.isEmpty(SMScode)) {
+                } else  {
                     ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
 
-
+                    editActivityLoginPhoneCode.setText("");
                     editActivityLoginPhone.clearFocus();
                     editActivityLoginPhoneCode.setFocusable(true);
                     editActivityLoginPhoneCode.requestFocus();
@@ -287,6 +285,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     /*
     * 点击登录
     * */
+
     @OnClick(R.id.btn_activityLogin_login)
     public void onClick() {
         if (!isagreement){
@@ -366,7 +365,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
-                    int is_registed = jsonObject1.getInt("is_registed");
+                    is_registed = jsonObject1.getInt("is_registed");
                     if (is_registed == 0) {
                         ll_login_invit.setVisibility(View.VISIBLE);
                     }
@@ -398,7 +397,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
-                    ToastUtils.createNormalToast(Phone);
+                    PreferencesUtil.putPreferences(Constans.IS_REGISTED,is_registed);
+                    //ToastUtils.createNormalToast(is_registed+"");
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {
@@ -412,7 +412,11 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
-                tvActivityLoginSendPhoneCode.setClickable(true);
+        if(taskId==2){
+            tvActivityLoginSendPhoneCode.setClickable(true);
+
+        }
+
                 ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
     }
 }
