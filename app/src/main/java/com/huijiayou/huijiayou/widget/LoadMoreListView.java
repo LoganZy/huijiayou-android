@@ -19,7 +19,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import static in.srain.cube.views.ptr.PtrDefaultHandler.canChildScrollUp;
 
 /**
- * Created by Administrator on 2017/4/5 0005.
+ * Created by hexinhai on 2017/4/5 0005.
  */
 
 public class LoadMoreListView extends ListView implements AbsListView.OnScrollListener,PtrHandler {
@@ -54,7 +54,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private void initview() {
         // 为ListView设置滑动监听
         initBottomView();
-        setOnScrollListener(this);
+
         // 去掉底部分割线
         setFooterDividersEnabled(false);
 
@@ -71,7 +71,8 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
             tvLoading = (ImageView)footerView.findViewById(R.id.tv_headview_loading);
             animation = (AnimationDrawable) tvLoading.getDrawable();
         }
-      //  addFooterView(footerView);
+        setOnScrollListener(this);
+        addFooterView(footerView);
     }
 
     @Override

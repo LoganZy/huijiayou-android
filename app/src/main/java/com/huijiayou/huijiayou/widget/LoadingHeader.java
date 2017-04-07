@@ -66,6 +66,10 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
         //准备刷新
+        view.setVisibility(View.VISIBLE);
+        tvLoading.setVisibility(View.VISIBLE);
+        animation.start();
+        invalidate();
     }
 
     @Override
