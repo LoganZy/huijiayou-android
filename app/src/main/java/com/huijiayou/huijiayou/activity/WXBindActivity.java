@@ -70,6 +70,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private Handler handler = new Handler();
     private String invit;
     private boolean isagreement;
+    private int is_registed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,8 +340,8 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
                     code = jsonObject1.getInt("code");
-                    int is_registed =jsonObject1.getInt("is_registed");
-                    if(is_registed==0){
+                    is_registed = jsonObject1.getInt("is_registed");
+                    if(is_registed ==0){
                         llActivityWxbindInvit.setVisibility(View.VISIBLE);
                     }
                     time = 60;
@@ -372,6 +373,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     PreferencesUtil.putPreferences(Constans.USER_ID,id);
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     PreferencesUtil.putPreferences("phone",phone);
+                    PreferencesUtil.putPreferences(Constans.IS_REGISTED,is_registed);
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

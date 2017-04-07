@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huijiayou"]
     }
     // 支持httpclient
     useLibrary 'org.apache.http.legacy'
@@ -19,7 +20,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
 
+        wandoujia {}
+        baidu {}
+        c360 {}
+        uc {}
+        yingyongbao{}
+        xiaomi{}
+        huawei{}
+        oppo {}
+        vivo {}
+        meizu{}
+        chuizi{}
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+
+    }
     signingConfigs {
 //        debug {
 //            storeFile file('../debug.keystore')
