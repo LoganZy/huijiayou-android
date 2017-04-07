@@ -242,7 +242,7 @@ public class OrderFragment extends Fragment{
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                },1200);
+                },1000);
             }
 
             @Override

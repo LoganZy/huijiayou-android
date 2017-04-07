@@ -296,7 +296,9 @@ public class UserFragment extends Fragment {
                 startActivity(intent1);
                 break;
             case R.id.imgbt_fragmentUser_message:
+                animationDrawable.selectDrawable(0);
                 animationDrawable.stop();
+
                 MyApplication.isNewMessage = false;
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;

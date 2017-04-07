@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
@@ -35,7 +37,8 @@ public class CancelActivity extends BaseActivity {
     TextView tvActivityCancleName;
     @Bind(R.id.tv_activityCancle_version)
     TextView tvActivityCancleVersion;
-
+    @Bind(R.id.rl_activityCancel_name)
+    RelativeLayout rlActivityCancleName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +103,12 @@ public class CancelActivity extends BaseActivity {
         String telephone = PreferencesUtil.getPreferences("phone", "0");
         tvActivityCancleTelephone.setText(telephone);
         String nickName = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");
-        tvActivityCancleName.setText(nickName);
+        if(TextUtils.isEmpty(nickName)||nickName==null){
+            rlActivityCancleName.setVisibility(View.GONE);
+        }else{
+            tvActivityCancleName.setText(nickName);
+        }
+
         //获取版本号
 
         // ---get the package info---

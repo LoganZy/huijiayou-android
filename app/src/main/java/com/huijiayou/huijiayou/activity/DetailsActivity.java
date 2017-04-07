@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
@@ -51,6 +52,8 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
     SVListView myLvActivityDetail;
     @Bind(R.id.tv_activityDetail_username)
     TextView tvActivityDetailUsername;
+    @Bind(R.id.sv_activityDetails_DetaiasList)
+    ScrollView svActivityDetailsList;
     private List<OrderDetail> list;
 
     @Override
@@ -119,6 +122,7 @@ public class DetailsActivity extends BaseActivity implements NewHttpRequest.Requ
 
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
+        svActivityDetailsList.setVisibility(View.VISIBLE);
         list = new ArrayList<OrderDetail>();
         try {
             JSONArray jsonArray1 = jsonObject.getJSONArray("oil_info");
