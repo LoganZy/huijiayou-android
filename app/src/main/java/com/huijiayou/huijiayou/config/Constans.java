@@ -17,6 +17,7 @@ public class Constans {
     public final static String ACCESSTOKEN = "access_token";
     public final static String OPENID = "openid";
     public final static String UNIONID ="unionid";
+    public final static String IS_REGISTED ="is_registed";
     // public static final String APP_ID = "wxd930ea5d5a258f4f";
 
     public static class ShowMsgActivity {

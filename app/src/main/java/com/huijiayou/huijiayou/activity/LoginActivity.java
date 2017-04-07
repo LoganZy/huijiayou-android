@@ -72,6 +72,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     };
     private String invit;
     private boolean isagreement ;
+    private int is_registed;
 
 
     @Override
@@ -364,7 +365,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
-                    int is_registed = jsonObject1.getInt("is_registed");
+                    is_registed = jsonObject1.getInt("is_registed");
                     if (is_registed == 0) {
                         ll_login_invit.setVisibility(View.VISIBLE);
                     }
@@ -396,7 +397,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     PreferencesUtil.putPreferences("phone",Phone);
                     PreferencesUtil.putPreferences(Constans.NICKNAME,weixinName);
                     PreferencesUtil.putPreferences(Constans.HEADIMGURL,weixinHead);
-                    //ToastUtils.createNormalToast(Phone);
+                    PreferencesUtil.putPreferences(Constans.IS_REGISTED,is_registed);
+                    //ToastUtils.createNormalToast(is_registed+"");
                     PreferencesUtil.putPreferences(Constans.ISLOGIN,true);
                     finish();
                 } catch (JSONException e) {
