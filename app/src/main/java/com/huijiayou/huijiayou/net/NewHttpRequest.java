@@ -468,6 +468,7 @@ public class NewHttpRequest implements Runnable {
     private void loadingDialogDismiss() {
         if (dialogLoading != null) {
             dialogLoading.dismiss();
+            dialogLoading = null;
         }
     }
 

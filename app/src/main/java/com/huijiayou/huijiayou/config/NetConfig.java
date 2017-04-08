@@ -60,9 +60,9 @@ public class NetConfig {
 
 
 
-    public static final String getwelfare = URL + "/#/friend_request_details";
-    public static final String register_agreement = URL + "/#/register_agreement";
-    public static final String user_agreement = URL + "/#/user_agreement";
-    public static final String help = URL + "/#/help";
+    public static final String getwelfare = URL + "/wechat/#/friend_request_details";
+    public static final String register_agreement = URL + "/wechat/#/register_agreement";
+    public static final String user_agreement = URL + "/wechat/#/user_agreement";
+    public static final String help = URL + "/wechat/#/help";
 
 }
