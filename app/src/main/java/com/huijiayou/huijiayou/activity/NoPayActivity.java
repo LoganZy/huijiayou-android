@@ -21,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -95,29 +97,22 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
         String ctime = b.getString("ctime");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String current =  format.format(System.currentTimeMillis());
-        String[] arr1= ctime.split("\\:");
-        String[] arr =current.split("\\:");
-        if(TextUtils.equals(arr[0],arr1[0])){
-           int i =  Integer.parseInt(arr[1])- Integer.parseInt(arr1[1]);
-            if(i<15){
-               int total = 900+ Integer.parseInt(arr1[1])*60+Integer.parseInt(arr1[2])-Integer.parseInt(arr[1])*60-Integer.parseInt(arr[2]);
-                if (total>0){
-                    time1 =total%60;
-                    time2 = total/60;
-                }else {
-
-                    tvActivityNopaytime.setText("支付超时");
-                }
-
-            }else{
+        //String current =  format.format(System.currentTimeMillis());
+        try {
+            Date date = format.parse(ctime);
+            long ctime1 = date.getTime();
+            long current = System.currentTimeMillis();
+            long time =900000+ ctime1-current;
+            if(time>0){
+                time1 = (int)(time/1000)%60;
+                time2 = (int)(time/1000)/60;
+            }else {
                 tvActivityNopaytime.setText("支付超时");
-            }
-        }else{
-            tvActivityNopaytime.setText("支付超时");
 
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        LogUtil.i(arr[0]);
         String belong = b.getString("belong");
         String user_name = b.getString("user_name");
         String count = b.getString("count");
@@ -175,7 +170,7 @@ public class NoPayActivity extends BaseActivity implements NewHttpRequest.Reques
                         rightDrawable.setBounds(0, 0, rightDrawable.getMinimumWidth(), rightDrawable.getMinimumHeight());
                         tvActivityNopaytime.setCompoundDrawables(null, rightDrawable, null, null);
                         btActivityPayPay.setEnabled(false);
-
+                        btActivityPayPay.setVisibility(View.INVISIBLE);
                         isOutTime = true;
                         /*tvActivityNopaytime.setText("支付超时");
                         Intent intent = new Intent();
