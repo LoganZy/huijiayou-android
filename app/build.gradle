@@ -22,9 +22,10 @@ android {
     }
     productFlavors {
 
+        huijiayou {}
         wandoujia {}
         baidu {}
-        c360 {}
+        m360 {}
         uc {}
         yingyongbao{}
         xiaomi{}

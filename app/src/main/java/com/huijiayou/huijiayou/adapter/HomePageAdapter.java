@@ -171,8 +171,8 @@ public class HomePageAdapter extends PagerAdapter {
         for (int i = 0; i < productArrayList.size(); i++){
             Product product = productArrayList.get(i);
             RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.item_fragment_home_product_main,null,false);
-            TextView tvName = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_name);
-            tvName.setText(product.getProduct_name());
+//            TextView tvName = (TextView) relativeLayout.findViewById(R.id.tv_itemFragmentHomeProductMain_name);
+//            tvName.setText(product.getProduct_name());
             TextView tvDiscount = (TextView) relativeLayout.findViewById(tv_itemFragmentHomeProductMain_discount);
             double discount = Double.parseDouble(product.getProduct_discount())*10;
             if (discount < 10){

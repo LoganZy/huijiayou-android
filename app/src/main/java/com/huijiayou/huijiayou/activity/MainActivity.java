@@ -25,6 +25,7 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.widget.HomeFristStartDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,8 +126,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
             }
         });
         rb_activityMain_home.setChecked(true);
-
         tv_activityMain_cover.setOnClickListener(this);
+
+        boolean isFristStartHomeIntroduce = PreferencesUtil.getPreferences(Constans.IS_FRIST_START_HOME_INTRODUCE,true);
+        if (isFristStartHomeIntroduce){
+            PreferencesUtil.putPreferences(Constans.IS_FRIST_START_HOME_INTRODUCE, false);
+            new HomeFristStartDialog(this).ShowDialog();
+        }
     }
 
     //从别的页面跳转到首页 根据传的type值 选择某页
@@ -149,6 +155,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     protected void onResume() {
         super.onResume();
         checkNewMsg();
+        int code = PreferencesUtil.getPreferences(Constans.IS_REGISTED,1);
+        if (code == 0){
+            MyApplication.isNewMessage = true;
+            PreferencesUtil.putPreferences(Constans.IS_REGISTED,1);
+        }
     }
 
     @Override

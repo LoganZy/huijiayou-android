@@ -100,9 +100,9 @@ public class UserFragment extends Fragment {
     }
 
     public void userFragmentIsLoginOrNo() {
-        if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+        if (animationDrawable != null && MyApplication.isNewMessage)
             animationDrawable.start();
-        if (animationDrawable != null && !MyApplication.isNewMessage && animationDrawable.isRunning())
+        if (animationDrawable != null && !MyApplication.isNewMessage)
             animationDrawable.stop();
          if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
             String name = PreferencesUtil.getPreferences(Constans.NICKNAME, "nickname");

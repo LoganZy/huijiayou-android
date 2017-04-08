@@ -240,9 +240,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 "jsonObject",productListTaskId,hashMap,true,this).executeTask();
     }
     public void getCity(){
-        if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+        if (animationDrawable != null && MyApplication.isNewMessage)
             animationDrawable.start();
-        if (animationDrawable != null && !MyApplication.isNewMessage && animationDrawable.isRunning())
+        if (animationDrawable != null && !MyApplication.isNewMessage)
             animationDrawable.stop();
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
@@ -338,7 +338,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 break;
             case R.id.tv_fragmentHomeMmoney_200:
 //                hide(tv_fragmentHome_money_month,111);
-                calculation(200);
+                calculation(50);
                 textViewChecked(tv_fragmentHomeMmoney_200);
                 break;
             case R.id.tv_fragmentHomeMmoney_500:

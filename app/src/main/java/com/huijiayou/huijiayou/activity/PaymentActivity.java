@@ -22,7 +22,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +34,7 @@ import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.threadpool.ThreadPool;
+import com.huijiayou.huijiayou.utils.CommitUtils;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.PaymentActivityOilCarDialog;
@@ -358,7 +358,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (isUseOil){
             money = money - ((double)oil)/100;
         }
-        return money;
+        return CommitUtils.decimal2(money);
     }
 
     @Override
@@ -370,6 +370,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             rl_activityPayment_coupon.setVisibility(View.GONE);
             rl_activityPayment_inputCard.setVisibility(View.VISIBLE);
         }else if (rl_activityPayment_payment.isShown() && type_order.equals(type)){
+            UserEnableOil();
+            userPacketsList();
             rl_activityPayment_payment.setVisibility(View.GONE);
             rl_activityPayment_coupon.setVisibility(View.VISIBLE);
         }else if(rl_activityPayment_payment.isShown() && type_pay.equals(type)){
@@ -403,7 +405,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     ThreadPool.getThreadPool().execute(new Runnable() {
                         @Override
                         public void run() {
-                            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//                            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);   //沙箱
                             PayTask payTask = new PayTask(PaymentActivity.this);
                             Map<String, String> result = payTask.payV2(orderInfo,true);
                             Message message = new Message();
@@ -564,18 +566,20 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         cb_activityPayment_coupon_oil.setText("可用"+oil+"油滴抵 ¥"+oilPrice);
                         tv_activityPayment_coupon_oil.setText("油滴已抵扣"+oilPrice+"元");
                     }else{
+                        oil = 0;
                         cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                         tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                     }
                 }else{
+                    oil = 0;
                     cb_activityPayment_coupon_oil.setVisibility(View.GONE);
                     tv_activityPayment_coupon_oil.setVisibility(View.GONE);
                 }
 
             }
             else if (taskId == userPacketsListTaskId){
-                JSONObject jsonObject1 = jsonObject.getJSONObject("list");
-                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonObject1.get("noUse").toString(),
+                JSONArray jsonArray1 = jsonObject.getJSONArray("data");
+                ArrayList<CouponAdapter.Coupon> couponArrayList = new Gson().fromJson(jsonArray1.toString(),
                         new TypeToken<ArrayList<CouponAdapter.Coupon>>() {}.getType());
                 currentCoupon = null;
                 if (couponArrayList != null && couponArrayList.size() > 0){
