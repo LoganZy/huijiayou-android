@@ -88,7 +88,7 @@ public class UserFragment extends Fragment {
                 .showImageOnLoading(R.mipmap.ic_popup_huijiayou)
                 .showImageForEmptyUri(R.mipmap.ic_popup_huijiayou)
                 .build();
-        userFragmentIsLoginOrNo();
+       // userFragmentIsLoginOrNo();
         return view;
     }
 

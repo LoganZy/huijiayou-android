@@ -347,7 +347,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     time = 60;
                     //向服务器请求
                     startTime();
-                    ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                   // ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

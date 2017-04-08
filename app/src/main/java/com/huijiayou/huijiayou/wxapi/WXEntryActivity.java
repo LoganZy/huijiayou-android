@@ -65,7 +65,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     unionid = b.getString(Constans.UNIONID);
                     nickname = b.getString(Constans.NICKNAME);
                     headimgurl = b.getString(Constans.HEADIMGURL);
-                    LogUtil.i(id +"+++++++++++++++++++++"+ token);
+                   // LogUtil.i(id +"+++++++++++++++++++++"+ token);
                     HashMap<String,Object> map =new HashMap<>();
                     map.put(Constans.ACCESSTOKEN, token);
                     map.put(Constans.OPENID, id);
