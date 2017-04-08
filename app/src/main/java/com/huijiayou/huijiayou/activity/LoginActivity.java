@@ -417,6 +417,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
         }
 
-                ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
+        ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
     }
 }

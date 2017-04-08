@@ -260,7 +260,7 @@ public class UserFragment extends Fragment {
                popuDialog.dismiss();
             }
         };
-        executor.schedule(runner, 2000, TimeUnit.MILLISECONDS);
+        executor.schedule(runner, 3000, TimeUnit.MILLISECONDS);
         popuDialog.show();
 
 
