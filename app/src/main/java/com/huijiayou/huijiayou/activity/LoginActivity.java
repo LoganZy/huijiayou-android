@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -201,7 +200,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 } else if (!telephone.startsWith("1") || telephone.length() != 13) {
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 } else  {
-                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
+//                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
 
                     editActivityLoginPhoneCode.setText("");
                     editActivityLoginPhone.clearFocus();

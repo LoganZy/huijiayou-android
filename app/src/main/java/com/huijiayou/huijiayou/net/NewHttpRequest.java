@@ -287,6 +287,10 @@ public class NewHttpRequest implements Runnable {
         }
         if (code == 1106 || code == 1510){ //用户未登录
             PreferencesUtil.putPreferences(Constans.ISLOGIN,false);
+            PreferencesUtil.putPreferences(Constans.USER_TOKEN,"");
+            PreferencesUtil.putPreferences(Constans.USER_ID,"");
+            PreferencesUtil.putPreferences(Constans.USER_INVITE_CODE,"");
+            PreferencesUtil.putPreferences(Constans.USER_PHONE,"");
             Message message = new Message();
             message.what = 11;
             mHandler.sendMessage(message);

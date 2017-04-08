@@ -36,6 +36,7 @@ import com.huijiayou.huijiayou.widget.MyImageView;
 import com.huijiayou.huijiayou.widget.PopuDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -239,6 +240,7 @@ public class UserFragment extends Fragment {
         if(!this.isHidden()){
             userFragmentIsLoginOrNo();
         }
+        MobclickAgent.onPageStart(getClass().getSimpleName());
     }
 
     @Override
@@ -247,6 +249,11 @@ public class UserFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
+    }
 
     private void showOil(String oil) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

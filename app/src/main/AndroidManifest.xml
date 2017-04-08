@@ -128,11 +128,16 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="9790cd6cd623bc4b58d4bdda" /> <!-- </>值来自开发者平台取得的AppKey -->
+
         <!-- 极光推送 end -->
+
         <!--友盟多渠道打包-->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
+
+        <meta-data android:value="58b7bf9e677baa51080017c3"
+            android:name="UMENG_APPKEY"/>
         <!-- 支付宝 start -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -147,7 +152,7 @@
         <!-- 支付宝 end -->
 
         <activity android:name=".activity.PaymentActivity" />
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity android:name=".activity.DetailsActivity" />
         <activity android:name=".activity.CloseDealActivity" />
         <activity android:name=".activity.NoPayActivity" />

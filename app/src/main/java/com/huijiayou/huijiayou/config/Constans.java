@@ -7,7 +7,7 @@ package com.huijiayou.huijiayou.config;
 public class Constans {
 
 
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false;
     //微信相关
     public final static String WXBaseUrl = "https://api.weixin.qq.com/";
     public final static String WX_APP_ID = "wxc77febc13d61d07b";

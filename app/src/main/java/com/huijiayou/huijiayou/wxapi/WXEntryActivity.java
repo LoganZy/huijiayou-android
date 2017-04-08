@@ -18,6 +18,7 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -162,11 +163,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp baseResp) {
         String result = "";
         switch(baseResp.errCode) {
-
-
             case BaseResp.ErrCode.ERR_OK:
+                if (baseResp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX){
+                    finish();
+                }
                 result ="发送成功";
-                //ToastUtils.createNormalToast(this,result);
+//               ToastUtils.createNormalToast(this,result);
                 //		      可用以下两种方法获得code
                 //      resp.toBundle(bundle);
                 //      Resp sp = new Resp(bundle);
@@ -183,10 +185,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                     thread.start();
 
-         /*   try {
+            /*try {
                     thread.join();
                 } catch (InterruptedException e) {
-
                     e.printStackTrace();
                 }*/
 
@@ -196,7 +197,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         finish();
                     }
                 },6000);*/
-                // finish();
+//                 finish();
 
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:

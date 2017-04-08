@@ -110,6 +110,15 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                        int imageHeight = loadedImage.getHeight();
+//                        int imageWidth = loadedImage.getWidth();
+//                        int viewHeight = imgView_activityInvitationShare_view.getHeight();
+//                        int viewWidth = imgView_activityInvitationShare_view.getWidth();
+//                        int height,width;
+//                        if ((viewWidth / imageWidth) > (viewHeight / imageHeight)){
+//                            height = viewHeight;
+//
+//                        }
                         imgView_activityInvitationShare_view.setImageBitmap(loadedImage);
                         if (dialog != null){
                             dialog.dismiss();

@@ -41,6 +41,7 @@ import com.huijiayou.huijiayou.utils.NavbarUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import org.json.JSONArray;
@@ -338,7 +339,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 break;
             case R.id.tv_fragmentHomeMmoney_200:
 //                hide(tv_fragmentHome_money_month,111);
-                calculation(50);
+                calculation(200);
                 textViewChecked(tv_fragmentHomeMmoney_200);
                 break;
             case R.id.tv_fragmentHomeMmoney_500:
@@ -578,5 +579,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
         if (!isHidden()){
             getCity();
         }
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
 }

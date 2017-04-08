@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +27,7 @@ import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.HomeFristStartDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener ,NewHttpRequest.RequestCallback{
+public class MainActivity extends FragmentActivity implements View.OnClickListener ,NewHttpRequest.RequestCallback{
 
     @Bind(R.id.fl_mainActivity_fragmentShell)
     FrameLayout fl_mainActivity_fragmentShell;
@@ -160,6 +162,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
             MyApplication.isNewMessage = true;
             PreferencesUtil.putPreferences(Constans.IS_REGISTED,1);
         }
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -170,7 +179,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                 exitTime = System.currentTimeMillis();
                 return true;
             } else {
-                myApplication.exit();
+                ((MyApplication)getApplication()).exit();
+//                myApplication.exit();
             }
 
         }

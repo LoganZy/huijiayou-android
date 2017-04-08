@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="8"
-                    android:text="好友邀请"
+                    android:text="我的邀请"
                     android:textColor="#51586A"
                     android:textSize="13dp" />
 
