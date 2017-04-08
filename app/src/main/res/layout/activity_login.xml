@@ -216,8 +216,8 @@
             <TextView
                 android:id="@+id/iv_activityLogin_check"
                 android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 android:background="@mipmap/ic_login_check"/>
             <TextView
                 android:id="@+id/tv_activityLogin_agreenment"

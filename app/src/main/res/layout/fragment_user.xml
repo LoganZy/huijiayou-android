@@ -102,11 +102,11 @@
 
                 <ImageButton
                     android:id="@+id/imgBtn_fragmentUser_award"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="3"
+
                     android:background="@mipmap/ic_me_button" />
             </LinearLayout>
 
