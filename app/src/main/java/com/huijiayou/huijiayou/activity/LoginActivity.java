@@ -370,7 +370,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                         ll_login_invit.setVisibility(View.VISIBLE);
                     }
                     int code = jsonObject1.getInt("code");
-                    ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+               //     ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
                     time = 60;
                     //向服务器请求
                     startTime();
