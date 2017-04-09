@@ -183,7 +183,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                     thread.start();
 
-         /*   try {
+      /*      try {
                     thread.join();
                 } catch (InterruptedException e) {
 

@@ -61,6 +61,8 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
         //刷新完成之后，UI消失之后的接口回调。
         view.setVisibility(View.GONE);
         tvLoading.setVisibility(View.GONE);
+        animation.stop();
+        invalidate();
     }
 
     @Override
