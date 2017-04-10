@@ -90,11 +90,11 @@
 
     </LinearLayout>
 
-    <in.srain.cube.views.ptr.PtrFrameLayout
-        android:id="@+id/pf_activityOil_view"
-        android:layout_weight="1"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_ActivityOil_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_ActivityOil_list"
@@ -103,10 +103,7 @@
 
         </android.support.v7.widget.RecyclerView>
 
-    </in.srain.cube.views.ptr.PtrFrameLayout>
-
-
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <View
         android:layout_width="match_parent"

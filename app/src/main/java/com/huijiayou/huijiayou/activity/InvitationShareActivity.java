@@ -53,7 +53,7 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-        String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
+        String url = NetConfig.URL + "/wechat/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
         map.put("user_id",userId);
         map.put("invite_url",url);
         new NewHttpRequest(this, NetConfig.ACCOUNT,
@@ -110,6 +110,15 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                        int imageHeight = loadedImage.getHeight();
+//                        int imageWidth = loadedImage.getWidth();
+//                        int viewHeight = imgView_activityInvitationShare_view.getHeight();
+//                        int viewWidth = imgView_activityInvitationShare_view.getWidth();
+//                        int height,width;
+//                        if ((viewWidth / imageWidth) > (viewHeight / imageHeight)){
+//                            height = viewHeight;
+//
+//                        }
                         imgView_activityInvitationShare_view.setImageBitmap(loadedImage);
                         if (dialog != null){
                             dialog.dismiss();

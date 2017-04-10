@@ -8,8 +8,8 @@ public class NetConfig {
 
 //        public final static String URL = "http://wyh.oil.user.passport.com";//王远航
 //    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-    public final static String URL = "http://test.1huangjin.cn";
-//    public final static String URL = "http://www.ihaomu.com";
+//    public final static String URL = "http://test.1huangjin.cn";
+    public final static String URL = "http://www.ihaomu.com";
 
 //    public final static String ACCOUNT = URL + "/service.php?c=account";
 //    public final static String OILCARD = URL + "/index.php?c=oilcard";
@@ -56,12 +56,13 @@ public class NetConfig {
     public final static String back ="back";//支付结果请求接口
     public final  static  String shareCodePicture = "shareCodePicture"; //分享生成二维码图片
     public final  static  String userPacketsList = "userPacketsList"; //获取当前产品可用的所有红包
+    public final  static  String feedBackForUser = "feedBackForUser"; //用户反馈接
 
 
 
-    public static final String getwelfare="http://192.168.10.212:8888/#/friend_request_details";
-    public static final String register_agreement = "http://192.168.10.212:8888/#/register_agreement";
-    public static final String user_agreement = "http://192.168.10.212:8888/#/user_agreement";
-    public static final String help = "http://192.168.10.212:8888/#/help";
+    public static final String getwelfare = URL + "/wechat/#/friend_request_details";
+    public static final String register_agreement = URL + "/wechat/#/register_agreement";
+    public static final String user_agreement = URL + "/wechat/#/user_agreement";
+    public static final String help = URL + "/wechat/#/help";
 
 }

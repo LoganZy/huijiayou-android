@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -25,6 +26,8 @@ import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
+import com.huijiayou.huijiayou.widget.HomeFristStartDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +39,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener ,NewHttpRequest.RequestCallback{
+public class MainActivity extends FragmentActivity implements View.OnClickListener ,NewHttpRequest.RequestCallback{
 
     @Bind(R.id.fl_mainActivity_fragmentShell)
     FrameLayout fl_mainActivity_fragmentShell;
@@ -125,8 +128,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
             }
         });
         rb_activityMain_home.setChecked(true);
-
         tv_activityMain_cover.setOnClickListener(this);
+
+        boolean isFristStartHomeIntroduce = PreferencesUtil.getPreferences(Constans.IS_FRIST_START_HOME_INTRODUCE,true);
+        if (isFristStartHomeIntroduce){
+            PreferencesUtil.putPreferences(Constans.IS_FRIST_START_HOME_INTRODUCE, false);
+            new HomeFristStartDialog(this).ShowDialog();
+        }
     }
 
     //从别的页面跳转到首页 根据传的type值 选择某页
@@ -149,6 +157,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
     protected void onResume() {
         super.onResume();
         checkNewMsg();
+        int code = PreferencesUtil.getPreferences(Constans.IS_REGISTED,1);
+        if (code == 0){
+            MyApplication.isNewMessage = true;
+            PreferencesUtil.putPreferences(Constans.IS_REGISTED,1);
+        }
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -159,7 +179,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener ,
                 exitTime = System.currentTimeMillis();
                 return true;
             } else {
-                myApplication.exit();
+                ((MyApplication)getApplication()).exit();
+//                myApplication.exit();
             }
 
         }

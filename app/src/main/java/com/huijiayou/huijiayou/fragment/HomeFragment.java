@@ -41,6 +41,7 @@ import com.huijiayou.huijiayou.utils.NavbarUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.RechargeDetailsDialog;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import org.json.JSONArray;
@@ -240,9 +241,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 "jsonObject",productListTaskId,hashMap,true,this).executeTask();
     }
     public void getCity(){
-        if (animationDrawable != null && MyApplication.isNewMessage && !animationDrawable.isRunning())
+        if (animationDrawable != null && MyApplication.isNewMessage)
             animationDrawable.start();
-        if (animationDrawable != null && !MyApplication.isNewMessage && animationDrawable.isRunning())
+        if (animationDrawable != null && !MyApplication.isNewMessage)
             animationDrawable.stop();
         HashMap<String,Object> hashMap = new HashMap<>();
         long time = System.currentTimeMillis();
@@ -302,6 +303,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
                 break;
             case R.id.imgBtn_fragmentHome_message:
                 if (PreferencesUtil.getPreferences(Constans.ISLOGIN,false)){
+                    animationDrawable.selectDrawable(0);
                     animationDrawable.stop();
                     MyApplication.isNewMessage = false;
                     startActivity(new Intent(getActivity(), MessageActivity.class));
@@ -574,8 +576,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener,NewHt
     @Override
     public void onResume() {
         super.onResume();
-        if (isAdded()){
+        if (!isHidden()){
             getCity();
         }
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
 }

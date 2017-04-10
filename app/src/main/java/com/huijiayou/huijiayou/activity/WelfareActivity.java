@@ -46,7 +46,7 @@ public class WelfareActivity extends BaseActivity {
             public void handler(String data, CallBackFunction function) {
                 String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
                 String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-                String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
+                String url = NetConfig.URL + "/wechat/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
                 new ShareUtil().shareWebPage(WelfareActivity.this, "", "", url);
             }
         });

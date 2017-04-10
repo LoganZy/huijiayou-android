@@ -6,7 +6,7 @@ import android.webkit.WebSettings;
 
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.net.DeviceUtils;
+import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeHandler;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView;
@@ -38,10 +38,10 @@ public class InvitationActivity extends BaseActivity {
 
         final String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         final String session_id = PreferencesUtil.getPreferences("session_id","");
-//        String url = "http://192.168.10.212:8888/?user_id="+userId+"&"+session_id+"#/friend_invi";
-        String url = "http://192.168.10.212:8888/#/friend_invi";
-        String userAgent = bridgeWebView.getSettings().getUserAgentString();
-        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
+        String url = NetConfig.URL + "/wechat/?user_id="+userId+"&"+session_id+"#/friend_invi";
+//        String url = NetConfig.URL + "/wechat/#/friend_invi";
+//        String userAgent = bridgeWebView.getSettings().getUserAgentString();
+//        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
         bridgeWebView.getSettings().setSaveFormData(false);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
         bridgeWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -50,6 +50,8 @@ public class InvitationActivity extends BaseActivity {
         bridgeWebView.getSettings().setJavaScriptEnabled(true);
         bridgeWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         bridgeWebView.getSettings().setDomStorageEnabled(true);
+
+        bridgeWebView.loadUrl(url);
         bridgeWebView.registerHandler("getUserInfos", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
@@ -64,13 +66,13 @@ public class InvitationActivity extends BaseActivity {
                 function.onCallBack(jsonObject.toString());
             }
         });
-        bridgeWebView.loadUrl(url);
+
     }
 
     public void shareInvitation(View view){
         String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-        String url = "http://192.168.10.212:8888/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
+        String url = NetConfig.URL + "/wechat/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
         new ShareUtil().shareWebPage(this, "", "", url);
     }
 

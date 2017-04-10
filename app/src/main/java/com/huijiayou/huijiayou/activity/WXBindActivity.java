@@ -257,7 +257,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         }else if (!telephone.startsWith("1") || telephone.length() != 13) {
             ToastUtils.createNormalToast(WXBindActivity.this, "手机号码格式不正确，请重新输入！");
         }else{
-            ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
+//            ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
 
 
             editActivityBindSms.setText("");

@@ -19,10 +19,15 @@ public class DialogLoading {
 
     public DialogLoading(Context context){
         this.context = context;
-        dialog = new Dialog(context, R.style.dialog_bgTransparent);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setContentView(R.layout.dialog_loading);
-        animationDrawable = (AnimationDrawable) dialog.findViewById(R.id.img_dialogLoading_view).getBackground();
+        try{
+            dialog = new Dialog(context, R.style.dialog_bgTransparent);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setContentView(R.layout.dialog_loading);
+            animationDrawable = (AnimationDrawable) dialog.findViewById(R.id.img_dialogLoading_view).getBackground();
+        } catch (OutOfMemoryError oom){
+            System.gc();
+        }
+
     }
 
     public void show(){

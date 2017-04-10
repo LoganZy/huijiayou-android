@@ -15,7 +15,9 @@ import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.activity.InvitationShareActivity;
 import com.huijiayou.huijiayou.config.NetConfig;
+import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.utils.Util;
+import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -30,6 +32,7 @@ public class ShareUtil implements View.OnClickListener {
      String content;
      String url;
 
+    Dialog dialog;
     public  void shareWebPage(Activity ac, String t, String c, String u){
         activity = ac;
         title = t;
@@ -48,7 +51,7 @@ public class ShareUtil implements View.OnClickListener {
     }
 
      void initDialog(){
-        final Dialog dialog = new Dialog(activity, R.style.dialog_bgTransparent);
+        dialog = new Dialog(activity, R.style.dialog_bgTransparent);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         dialog.getWindow().setLayout(activity.getWindow().getWindowManager().getDefaultDisplay().getWidth(), LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -74,12 +77,21 @@ public class ShareUtil implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             int scene = SendMessageToWX.Req.WXSceneSession;
+            boolean isPaySupported = MyApplication.msgApi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
             switch (v.getId()){
                 case R.id.tv_dialog_share_wechat:
                     scene = SendMessageToWX.Req.WXSceneSession;
+                    if (!isPaySupported) {
+                        ToastUtils.createLongToast(activity, "您没有安装微信或者微信版本太低");
+                        return;
+                    }
                     break;
                 case R.id.tv_dialog_share_wxcircle:
                     scene = SendMessageToWX.Req.WXSceneTimeline;
+                    if (!isPaySupported) {
+                        ToastUtils.createLongToast(activity, "您没有安装微信或者微信版本太低");
+                        return;
+                    }
                     break;
                 case R.id.tv_dialog_share_mianduimian:
                     activity.startActivity(new Intent(activity, InvitationShareActivity.class));
@@ -101,6 +113,7 @@ public class ShareUtil implements View.OnClickListener {
             req.message = wxMediaMessage;
             req.scene = scene;
             MyApplication.msgApi.sendReq(req);
+            dialog.dismiss();
         }
     };
 

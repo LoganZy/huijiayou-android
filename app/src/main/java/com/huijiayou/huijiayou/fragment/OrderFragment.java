@@ -36,6 +36,7 @@ import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.LoadingHeader;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +49,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import in.srain.cube.util.LocalDisplay;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler2;
@@ -166,8 +165,8 @@ public class OrderFragment extends Fragment{
         super.onResume();
         if(!this.isHidden()){
             orderFragmentIsLoginOrno();
-
         }
+        MobclickAgent.onPageStart(getClass().getSimpleName());
 
     }
 
@@ -179,7 +178,7 @@ public class OrderFragment extends Fragment{
     @Override
     public void onPause() {
         super.onPause();
-
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
 
     public void orderFragmentIsLoginOrno() {

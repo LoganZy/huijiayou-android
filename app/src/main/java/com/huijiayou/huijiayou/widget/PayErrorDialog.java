@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
 
@@ -23,19 +22,17 @@ public class PayErrorDialog {
         this.context = context;
     }
 
-    public void CreateDialog(String message){
+    public void CreateDialog(){
         dialog = new Dialog(context, R.style.dialog_bgTransparent);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_payment_payerr, null);
-        ImageButton imgBenClose = (ImageButton) view.findViewById(R.id.imgBtn_dialogPaymentPayErr_close);
-        TextView errMessage = (TextView) view.findViewById(R.id.tv_dialogPaymentPayErr_message);
-        Button btn = (Button) view.findViewById(R.id.btn_dialogPaymentPayErr_againPay);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_login_error, null);
+        ImageButton imgBenClose = (ImageButton) view.findViewById(R.id.imgBtn_dialogLoginError_close);
+        Button btn = (Button) view.findViewById(R.id.btn_dialogLoginError_readLogin);
         imgBenClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        errMessage.setText(message);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
