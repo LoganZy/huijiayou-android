@@ -285,7 +285,7 @@ public class NewHttpRequest implements Runnable {
             loadingDialogDismiss();
             return;
         }
-        if (code == 1106 || code == 1510){ //用户未登录
+        if (code == 1106 || code == 1510){ //用户登录失效
             PreferencesUtil.putPreferences(Constans.ISLOGIN,false);
             PreferencesUtil.putPreferences(Constans.USER_TOKEN,"");
             PreferencesUtil.putPreferences(Constans.USER_ID,"");

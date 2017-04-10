@@ -38,7 +38,7 @@ public class InvitationActivity extends BaseActivity {
 
         final String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         final String session_id = PreferencesUtil.getPreferences("session_id","");
-        String url = NetConfig.URL + "/wechat/?user_id="+userId+"&"+session_id+"#/friend_invi";
+        String url = NetConfig.H5_URL + "?user_id="+userId+"&"+session_id+"#/friend_invi";
 //        String url = NetConfig.URL + "/wechat/#/friend_invi";
 //        String userAgent = bridgeWebView.getSettings().getUserAgentString();
 //        bridgeWebView.getSettings().setUserAgentString(userAgent + DeviceUtils.getHeadInfo(this));
@@ -72,7 +72,7 @@ public class InvitationActivity extends BaseActivity {
     public void shareInvitation(View view){
         String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-        String url = NetConfig.URL + "/wechat/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
+        String url = NetConfig.H5_URL + "?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
         new ShareUtil().shareWebPage(this, "", "", url);
     }
 
