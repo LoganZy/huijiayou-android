@@ -53,7 +53,7 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
         String userId = PreferencesUtil.getPreferences(Constans.USER_ID,"");
         String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
-        String url = NetConfig.URL + "/wechat/?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
+        String url = NetConfig.H5_URL + "?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
         map.put("user_id",userId);
         map.put("invite_url",url);
         new NewHttpRequest(this, NetConfig.ACCOUNT,

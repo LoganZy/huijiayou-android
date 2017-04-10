@@ -6,9 +6,9 @@ package com.huijiayou.huijiayou.config;
 
 public class NetConfig {
 
-//        public final static String URL = "http://wyh.oil.user.passport.com";//王远航
+//    public final static String URL = "http://wyh.oil.user.passport.com";//王远航
 //    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
-//    public final static String URL = "http://test.1huangjin.cn";
+//      public final static String URL = "http://test.1huangjin.cn";
     public final static String URL = "http://www.ihaomu.com";
 
 //    public final static String ACCOUNT = URL + "/service.php?c=account";
@@ -59,10 +59,12 @@ public class NetConfig {
     public final  static  String feedBackForUser = "feedBackForUser"; //用户反馈接
 
 
+    public static final String H5_URL = URL + "/wechat/";
+//    public static final String H5_URL = "http://192.168.10.212:8888/"; //test
 
-    public static final String getwelfare = URL + "/wechat/#/friend_request_details";
-    public static final String register_agreement = URL + "/wechat/#/register_agreement";
-    public static final String user_agreement = URL + "/wechat/#/user_agreement";
-    public static final String help = URL + "/wechat/#/help";
+    public static final String getwelfare = H5_URL + "#/friend_request_details";
+    public static final String register_agreement = H5_URL + "#/register_agreement";
+    public static final String user_agreement = H5_URL + "#/user_agreement";
+    public static final String help = H5_URL + "#/help";
 
 }
