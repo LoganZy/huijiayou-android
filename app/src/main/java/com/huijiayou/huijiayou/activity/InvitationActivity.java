@@ -76,4 +76,12 @@ public class InvitationActivity extends BaseActivity {
         new ShareUtil().shareWebPage(this, "", "", url);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+      /*  if (mDialog != null) {
+            mDialog.dismiss();
+        }*/
+    }
 }

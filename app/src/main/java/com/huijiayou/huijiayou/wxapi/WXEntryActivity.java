@@ -179,7 +179,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 //ToastUtils.createNormalToast("请求到code了");
 
                     String code = ((SendAuth.Resp) baseResp).code;
-                   // String code = ((SendAuth.Resp) baseResp).code;
                     get_access_token = getCodeRequest(code);
                     Thread thread = new Thread(downloadRun);
 
@@ -191,13 +190,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     e.printStackTrace();
                 }*/
 
-                /*handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                },6000);*/
-//                 finish();
 
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
