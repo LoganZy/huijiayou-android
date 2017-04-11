@@ -22,6 +22,7 @@ import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
+import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.huijiayou.huijiayou.utils.ToastUtils;
@@ -72,6 +73,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private String invit;
     private boolean isagreement ;
     private int is_registed;
+    private DialogLoading dialogLoading;
 
 
     @Override
@@ -95,7 +97,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     ToastUtils.createNormalToast("请您点击同意注册协议");
                     return;
                 }
+                dialogLoading = new DialogLoading(LoginActivity.this);
+                dialogLoading.show();
                 WetLogin();
+
                 finish();
             }
         });
@@ -219,7 +224,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Override
     protected void onResume() {
         super.onResume();
-        //code = ((SendAuth.Resp) resp).code;
     }
 
 
@@ -247,7 +251,8 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         MyApplication.msgApi.sendReq(req);
-        finish();
+       // dialogLoading.dismiss();
+       // finish();
     }
 
 
@@ -413,9 +418,12 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     public void requestError(int code, MessageEntity msg, int taskId) {
         if(taskId==2){
             tvActivityLoginSendPhoneCode.setClickable(true);
-
+        }
+        if(code==1999){
+            ToastUtils.createNormalToast(LoginActivity.this, "服务器繁忙");
+        }else {
+            ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
         }
 
-        ToastUtils.createNormalToast(LoginActivity.this, msg.getMessage());
     }
 }

@@ -383,7 +383,11 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
-        ToastUtils.createNormalToast(msg.getMessage());
+        if(code==1999){
+            ToastUtils.createNormalToast(WXBindActivity.this, "服务器繁忙");
+        }else {
+            ToastUtils.createNormalToast(WXBindActivity.this, msg.getMessage());
+        }
     }
 
     @Override

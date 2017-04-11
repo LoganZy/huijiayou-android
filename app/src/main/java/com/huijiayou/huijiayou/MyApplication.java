@@ -70,8 +70,6 @@ public class MyApplication extends Application {
     public void exit() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancelAll();
-        PreferencesUtil.putPreferences("CODE","");
-        PreferencesUtil.putPreferences(Constans.OPENID,"1");
         for (Activity activity : activityList) {
             activity.finish();
         }
