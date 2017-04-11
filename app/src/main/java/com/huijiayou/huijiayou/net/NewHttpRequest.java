@@ -2,17 +2,11 @@ package com.huijiayou.huijiayou.net;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.hsg.sdk.common.util.ConnectionUtil;
-import com.huijiayou.huijiayou.R;
-import com.huijiayou.huijiayou.activity.LoginActivity;
+import com.huijiayou.huijiayou.activity.SplashActivity;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.jsonrpc.lib.JSONRPCClient;
 import com.huijiayou.huijiayou.jsonrpc.lib.JSONRPCException;
@@ -21,6 +15,7 @@ import com.huijiayou.huijiayou.utils.DialogLoading;
 import com.huijiayou.huijiayou.utils.GsonUtil;
 import com.huijiayou.huijiayou.utils.LogUtil;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.widget.LoginErrorDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -294,6 +289,12 @@ public class NewHttpRequest implements Runnable {
             Message message = new Message();
             message.what = 11;
             mHandler.sendMessage(message);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    errorMsg(code, messageEntity);
+                }
+            });
         }
 //        if (code == 1670) {//切换通道
 //            try {
@@ -375,7 +376,7 @@ public class NewHttpRequest implements Runnable {
 //                }
 //            });
 //        }
-        else {
+        else{
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -429,24 +430,27 @@ public class NewHttpRequest implements Runnable {
             final Activity activity = mActivityReference.get();
             if (activity != null) {
                 if (msg.what == 11){
-                    final Dialog dialog = new Dialog(mactivityWeakReference.get(), R.style.dialog_bgTransparent);
-                    View view = LayoutInflater.from(mactivityWeakReference.get()).inflate(R.layout.dialog_login_error, null);
-                    ImageButton imgBenClose = (ImageButton) view.findViewById(R.id.imgBtn_dialogLoginError_close);
-                    Button btn = (Button) view.findViewById(R.id.btn_dialogLoginError_readLogin);
-                    imgBenClose.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mactivityWeakReference.get().startActivity(new Intent(mactivityWeakReference.get(), LoginActivity.class));
-                        }
-                    });
-                    dialog.setContentView(view);
-                    dialog.show();
+                    if (!(mactivityWeakReference.get() instanceof SplashActivity)){
+                        LoginErrorDialog.showDialog(mactivityWeakReference.get());
+//                        final Dialog dialog = new Dialog(mactivityWeakReference.get(), R.style.dialog_bgTransparent);
+//                        View view = LayoutInflater.from(mactivityWeakReference.get()).inflate(R.layout.dialog_login_error, null);
+//                        ImageButton imgBenClose = (ImageButton) view.findViewById(R.id.imgBtn_dialogLoginError_close);
+//                        Button btn = (Button) view.findViewById(R.id.btn_dialogLoginError_readLogin);
+//                        imgBenClose.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        btn.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                mactivityWeakReference.get().startActivity(new Intent(mactivityWeakReference.get(), LoginActivity.class));
+//                            }
+//                        });
+//                        dialog.setContentView(view);
+//                        dialog.show();
+                    }
                 }
             }
         }
