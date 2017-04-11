@@ -59,8 +59,8 @@ public class NetConfig {
     public final  static  String feedBackForUser = "feedBackForUser"; //用户反馈接
 
 
-    public static final String H5_URL = URL + "/wechat/";
-//    public static final String H5_URL = "http://192.168.10.212:8888/"; //test
+//    public static final String H5_URL = URL + "/wechat/";
+    public static final String H5_URL = "http://192.168.10.212:8888/"; //test
 
     public static final String getwelfare = H5_URL + "#/friend_request_details";
     public static final String register_agreement = H5_URL + "#/register_agreement";

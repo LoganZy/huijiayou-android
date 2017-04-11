@@ -13,6 +13,7 @@ import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,6 +117,7 @@ public class SplashActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
+        ToastUtils.createNormalToast(getApplicationContext(), msg.getMessage());
         isGetLoginStatus = true;
         if (isCountDown && isGetLoginStatus){
             if (isFristStart){

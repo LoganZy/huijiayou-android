@@ -45,6 +45,7 @@ public class WelfareActivity extends BaseActivity {
             @Override
             public void handler(String data, CallBackFunction function) {
                 String mobile = PreferencesUtil.getPreferences(Constans.USER_PHONE,"");
+                mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
                 String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
                 String url = NetConfig.H5_URL + "?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
                 new ShareUtil().shareWebPage(WelfareActivity.this, "", "", url);
