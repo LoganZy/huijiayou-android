@@ -84,7 +84,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         ButterKnife.bind(this);
         isagreement=true;
         initView();
-
+        PreferencesUtil.putPreferences("Bindisback",false);
 
 
     }
@@ -100,8 +100,6 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 dialogLoading = new DialogLoading(LoginActivity.this);
                 dialogLoading.show();
                 WetLogin();
-
-                finish();
             }
         });
         tvActivityLoginAgreenment.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +222,9 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @Override
     protected void onResume() {
         super.onResume();
+        if (PreferencesUtil.getPreferences("Bindisback",false)) {
+            finish();
+        }
     }
 
 

@@ -393,6 +393,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        
     }
 }

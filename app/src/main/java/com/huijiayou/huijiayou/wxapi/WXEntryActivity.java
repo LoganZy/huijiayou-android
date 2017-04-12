@@ -70,7 +70,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     HashMap<String,Object> map =new HashMap<>();
                     map.put(Constans.ACCESSTOKEN, token);
                     map.put(Constans.OPENID, id);
-                    new NewHttpRequest(WXEntryActivity.this, NetConfig.ACCOUNT, NetConfig.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, true, new NewHttpRequest.RequestCallback() {
+                    new NewHttpRequest(WXEntryActivity.this, NetConfig.ACCOUNT, NetConfig.WEIXIN_AUTH_POST, Constans.JSONOBJECT,1, map, false, new NewHttpRequest.RequestCallback() {
                         @Override
                         public void netWorkError() {
                             ToastUtils.createNormalToast("链接失败");
@@ -130,6 +130,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     intent.putExtra(Constans.HEADIMGURL, headimgurl);
                     intent.setClass(WXEntryActivity.this,WXBindActivity.class);
                     startActivity(intent);
+                    PreferencesUtil.putPreferences("Bindisback",true);
                     WXEntryActivity.this.finish();
                     break;
 
@@ -161,6 +162,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 //      微信返回给第三方的请求结果
     @Override
     public void onResp(BaseResp baseResp) {
+        PreferencesUtil.putPreferences("Bindisback",true);
         String result = "";
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
