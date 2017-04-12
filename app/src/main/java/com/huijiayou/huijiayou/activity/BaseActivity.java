@@ -29,14 +29,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         myApplication = (MyApplication) getApplication();
         myApplication.addActivity(this);
-
-//        if (Build.VERSION.SDK_INT >= 19) {
-////            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        }else{
-//            if (rl_common_title != null){
-//                rl_common_title.setPadding(0, 0, 0, 0);
-//            }
-//        }
     }
 
     protected void initTitle(){
