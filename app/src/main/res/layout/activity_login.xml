@@ -196,12 +196,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
         android:background="@mipmap/ic_login_pattern"
         android:padding="5dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/ll_activity_login_invit"
+        android:layout_toEndOf="@+id/ll_activity_login_invit">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
