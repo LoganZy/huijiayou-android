@@ -1,6 +1,8 @@
 package com.huijiayou.huijiayou.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -30,5 +32,18 @@ public class CommitUtils {
 
     public static double decimal2(double vlaue){
         return Double.parseDouble(new DecimalFormat("0.00").format(vlaue));
+    }
+
+    public static String getVersion(Context context){
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(),
+                    0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

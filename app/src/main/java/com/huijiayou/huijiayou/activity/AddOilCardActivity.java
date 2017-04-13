@@ -3,6 +3,7 @@ package com.huijiayou.huijiayou.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -218,8 +219,12 @@ public class AddOilCardActivity extends BaseActivity implements NewHttpRequest.R
     private void showUserNameBind(String userName){
         tv_activityAddOilCard_cardPrompt.setText("");
         tv_activityAddOilCard_cardPrompt.setVisibility(View.INVISIBLE);
-        tv_activityAddOilCard_name.setText(userName);
-        rl_activityAddOilCard_name.setVisibility(View.VISIBLE);
+        if (TextUtils.isEmpty(userName)){
+            rl_activityAddOilCard_name.setVisibility(View.GONE);
+        }else{
+            tv_activityAddOilCard_name.setText(userName);
+            rl_activityAddOilCard_name.setVisibility(View.VISIBLE);
+        }
         btn_activityAddOilCard_add.setVisibility(View.VISIBLE);
     }
 

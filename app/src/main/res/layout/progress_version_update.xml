@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:gravity="center">
+
+    <ImageView android:id="@+id/img_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginRight="5dp"/>
+
+    <TextView android:id="@+id/tv_notification_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正在下载"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/img_icon"/>
+
+    <ProgressBar android:id="@+id/progressBar_notification_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_icon"
+        android:max="100"
+        android:layout_marginTop="5dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_below="@+id/tv_notification_message"/>
+
+</RelativeLayout>

@@ -1,11 +1,16 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,6 +26,7 @@ import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.fragment.HomeFragment;
 import com.huijiayou.huijiayou.fragment.OrderFragment;
 import com.huijiayou.huijiayou.fragment.UserFragment;
+import com.huijiayou.huijiayou.manager.VersionUpdateManager;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -134,6 +140,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         if (isFristStartHomeIntroduce){
             PreferencesUtil.putPreferences(Constans.IS_FRIST_START_HOME_INTRODUCE, false);
             new HomeFristStartDialog(this).ShowDialog();
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+        }else{
+            VersionUpdateManager versionUpdateManager = new VersionUpdateManager(this);
+            versionUpdateManager.checkVersionUpdate(false);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            VersionUpdateManager versionUpdateManager = new VersionUpdateManager(this);
+            versionUpdateManager.checkVersionUpdate(false);
         }
     }
 

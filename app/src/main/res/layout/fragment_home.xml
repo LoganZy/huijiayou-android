@@ -173,6 +173,8 @@
                     android:id="@+id/tv_fragmentHome_rmb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:textSize="13dp"
                     tools:text="节省:300元"
                     android:drawablePadding="3dp"
                     android:drawableLeft="@mipmap/ic_home_rmb"/>
