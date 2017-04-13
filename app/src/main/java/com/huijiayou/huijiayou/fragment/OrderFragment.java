@@ -94,7 +94,6 @@ public class OrderFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.bind(this, view);
         isHadMore = true;
-        pages=1;
         initView();
         initListion();
        // orderFragmentIsLoginOrno();
@@ -258,7 +257,7 @@ public class OrderFragment extends Fragment{
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }
-                }, 3000);
+                }, 1000);
             }
         });
     }
@@ -367,9 +366,10 @@ public class OrderFragment extends Fragment{
             isHadMore = true;
         } else if (Mode==2) {
             // 如果是上拉加载更多
-            if(isHadMore){
-                pages = pages +1;
-            }
+            pages++;
+           /* if(isHadMore){
+
+            }*/
 
         }
 
@@ -392,7 +392,9 @@ public class OrderFragment extends Fragment{
 
                      try {
                          JSONArray jsonArray1 =  jsonObject.getJSONArray("list");
-
+                         if(jsonArray1.length()==0&&pages>1){
+                             pages--;
+                         }
 
                          LogUtil.i("请求成功");
                          recordList=new ArrayList<Record>();
@@ -438,6 +440,9 @@ public class OrderFragment extends Fragment{
              @Override
              public void requestError(int code, MessageEntity msg, int taskId) {
                  frameLayout.refreshComplete();
+                 if (pages>1){
+                     pages--;
+                 }
 
                 ToastUtils.createNormalToast( msg.getMessage());
              }
