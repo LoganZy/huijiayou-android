@@ -63,7 +63,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     TextView getTvActivityWxbindCheck;
     private String telephone;
     private String SMScode;
-   // private String invite;
     private String key;
     private int code;
     private int time = 60;
@@ -336,6 +335,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             case 1:
 
                 try {
+                    String message = jsonObject.getString("message");
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
@@ -347,7 +347,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     time = 60;
                     //向服务器请求
                     startTime();
-                   // ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                    ToastUtils.createNormalToast(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -393,6 +393,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        
+
     }
 }

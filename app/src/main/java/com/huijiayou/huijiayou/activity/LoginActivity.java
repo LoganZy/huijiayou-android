@@ -367,6 +367,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             case 1:
 
                 try {
+                    String message = jsonObject.getString("message");
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
@@ -375,7 +376,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                         ll_login_invit.setVisibility(View.VISIBLE);
                     }
                     int code = jsonObject1.getInt("code");
-               //     ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                    ToastUtils.createNormalToast(message);
                     time = 60;
                     //向服务器请求
                     startTime();
