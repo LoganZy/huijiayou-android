@@ -63,17 +63,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_login_account"/>
-        <EditText
-            android:textColorHint="@color/gray1"
-            android:textColor="@color/textColor_51586A"
-            android:textSize="13dp"
+
+        <RelativeLayout
             android:layout_marginLeft="20dp"
-            android:id="@+id/edit_activity_bind_phone"
             android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/line_login_selector"
-            android:hint="请输入手机号码"/>
+            android:layout_height="wrap_content">
+            <EditText
+                android:textColorHint="@color/gray1"
+                android:textColor="@color/textColor_51586A"
+                android:textSize="13dp"
+                android:id="@+id/edit_activity_bind_phone"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/line_login_selector"
+                android:hint="请输入手机号码"/>
+            <TextView
+                android:background="@mipmap/ic_login_clear"
+                android:id="@+id/tv_activity_wxbind_claer"
+                android:layout_marginRight="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:clickable="true"
+                android:textSize="13dp"
+                android:textColor="@color/gray1"
+                />
+
+        </RelativeLayout>
     </LinearLayout>
     <LinearLayout
         android:gravity="center"
@@ -106,19 +123,17 @@
                 android:maxLength="11"
                 android:maxLines="1"/>
             <TextView
-                android:saveEnabled="false"
+                android:enabled="false"
                 android:id="@+id/tv_activity_wxbind_sendPhoneCode"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="18dp"
                 android:clickable="true"
                 android:textColor="@color/gray1"
                 android:textSize="13dp"
                 android:text="获取验证码"
                 />
-
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
