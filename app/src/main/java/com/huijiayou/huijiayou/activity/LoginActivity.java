@@ -178,6 +178,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     String str = editActivityLoginPhoneCode.getText().toString();
                     String  newStr = str.substring(0,6);
                     editActivityLoginPhoneCode.setText(newStr);
+                    editActivityLoginPhoneCode.setSelection(6);
                 }
                 if (len>=6&&isshow){
                     tvActivityLoginLogin.setBackgroundResource(R.drawable.round_button);
@@ -241,7 +242,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     //截取新字符串
                     String newStr = str.substring(0, 13);
                     editActivityLoginPhone.setText(newStr);
-
+                    editActivityLoginPhone.setSelection(13);
 
                 }
 

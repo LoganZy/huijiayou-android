@@ -105,6 +105,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     String str = editActivityBindSms.getText().toString();
                    String  newStr = str.substring(0,6);
                     editActivityBindSms.setText(newStr);
+                    editActivityBindSms.setSelection(6);
                 }
                 if (len>=6&&isshow){
                     btnActivityWxbindBind.setBackgroundResource(R.drawable.round_button);
@@ -166,7 +167,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     //截取新字符串
                     String newStr = str.substring(0, 13);
                     editActivityBindPhone.setText(newStr);
-
+                    editActivityBindPhone.setSelection(13);
                 }
                 if (len>=13){
                     tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
