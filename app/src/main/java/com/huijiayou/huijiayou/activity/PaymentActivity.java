@@ -443,7 +443,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 intent1.putExtra("url",NetConfig.user_agreement);
                 startActivity(intent1);
                 break;
-
         }
     }
 
@@ -509,7 +508,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         UserEnableOil();
         userPacketsList();
         tv_activityPayment_coupon_card.setText(oilCard);
-        tv_activityPayment_coupon_userName.setText(oilCardName);
+        if (TextUtils.isEmpty(oilCardName)){
+            ll_activityPayment_coupon_userName.setVisibility(View.GONE);
+        }else{
+            tv_activityPayment_coupon_userName.setText(oilCardName);
+        }
         edit_activityPayment_card.setText(card);
         tv_activityPayment_coupon_payment_money.setText("支付"+calculationMoney()+"元");
     }

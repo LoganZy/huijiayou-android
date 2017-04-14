@@ -10,8 +10,6 @@ public class NetConfig {
 //    public final static String URL_zxg = "http://oilproduct.dev.wanglibao.com";//张孝国
       public final static String URL = "http://test.1huangjin.cn";
 //    public final static String URL = "http://www.ihaomu.com";
-    //public final static String URL = "http://test.1huangjin.cn";
-     public final static String URL = "http://www.ihaomu.com";
 
 //    public final static String ACCOUNT = URL + "/service.php?c=account";
 //    public final static String OILCARD = URL + "/index.php?c=oilcard";
@@ -62,8 +60,8 @@ public class NetConfig {
     public final  static  String appVersionSee = "appVersionSee"; //查询最新版本信息
 
 
-//    public static final String H5_URL = URL + "/wechat/";
-    public static final String H5_URL = "http://192.168.10.212:8888/"; //test
+    public static final String H5_URL = URL + "/wechat/";
+//    public static final String H5_URL = "http://192.168.10.212:8888/"; //test
 
     public static final String getwelfare = H5_URL + "#/friend_request_details";
     public static final String register_agreement = H5_URL + "#/register_agreement";

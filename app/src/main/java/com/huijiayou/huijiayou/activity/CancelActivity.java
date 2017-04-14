@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +12,7 @@ import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
+import com.huijiayou.huijiayou.manager.VersionUpdateManager;
 import com.huijiayou.huijiayou.net.MessageEntity;
 import com.huijiayou.huijiayou.net.NewHttpRequest;
 import com.huijiayou.huijiayou.utils.LogUtil;
@@ -62,7 +61,8 @@ public class CancelActivity extends BaseActivity {
         rlActivityVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.createNormalToast("进入版本页");
+                VersionUpdateManager versionUpdateManager = new VersionUpdateManager(CancelActivity.this);
+                versionUpdateManager.checkVersionUpdate(true);
             }
         });
         btActivityCancleOut.setOnClickListener(new View.OnClickListener() {
