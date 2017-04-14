@@ -8,9 +8,11 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -188,7 +190,7 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
                     // 创建输入流
                     InputStream is = conn.getInputStream();
                     currentTime = System.currentTimeMillis();
-                    File apkFile = new File(mSavePath + "会加油" +version.getVersion() + currentTime + ".apk");
+                    File apkFile = new File(mSavePath + "huijiayou" +version.getVersion() + currentTime + ".apk");
                     FileOutputStream fos = new FileOutputStream(apkFile);
                     int count = 0;
                     // 缓存
@@ -272,14 +274,21 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
      * 安装APK文件
      */
     private void installApk() {
-        File file = new File(mSavePath + "会加油" +version.getVersion() + currentTime + ".apk");
+        File file = new File(mSavePath + "huijiayou" +version.getVersion() + currentTime + ".apk");
         if (!file.exists()) {
             return;
         }
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);//执行动作
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");//执行的数据类型
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if(Build.VERSION.SDK_INT>=24) { //判读版本是否在7.0以上
+            Uri apkUri = FileProvider.getUriForFile(activity, "com.huijiayou.huijiayou.fileprovider", file);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        }else{
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
+        }
         activity.startActivity(intent);
         manager.cancelAll();
+        ((MyApplication)activity.getApplication()).exit();
     }
 }
