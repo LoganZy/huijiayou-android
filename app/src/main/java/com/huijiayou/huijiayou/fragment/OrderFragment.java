@@ -80,12 +80,9 @@ public class OrderFragment extends Fragment{
     @Bind(R.id.ll_fragmentUser_noOder)
     LinearLayout llFragmentNoOder;
     private List<Record> recordList;
-    private String Url;
     private RecordAdapter recordAdapter=null;
     private int pages=1;
-    private boolean isHadMore;
     private ArrayList<Record> list;
-    private View view1;
     private LoadingHeader footer;
     private boolean isRunTime=false;
 
@@ -94,7 +91,6 @@ public class OrderFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.bind(this, view);
-        isHadMore = true;
         initView();
         initListion();
        // orderFragmentIsLoginOrno();
@@ -375,14 +371,9 @@ public class OrderFragment extends Fragment{
         if (Mode==0|| Mode==1) {
             // 如果是初始化，或者是下拉刷新，则都是获取第0页数据
             pages = 1;
-            isHadMore = true;
         } else if (Mode==2) {
             // 如果是上拉加载更多
             pages++;
-           /* if(isHadMore){
-
-            }*/
-
         }
 
         recordList = new ArrayList<Record>();
@@ -464,13 +455,11 @@ public class OrderFragment extends Fragment{
     private void setadapter(List<Record> recordList,int Mode) {
 
         if(Mode==2){
-            isHadMore = false;
             list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), list);
             lvActivityRecordBill.setAdapter(recordAdapter);
 
         }else {
-            isHadMore = true;
             list  = new ArrayList<>();
             list.addAll(recordList);
             recordAdapter = new RecordAdapter(getActivity(), recordList);
