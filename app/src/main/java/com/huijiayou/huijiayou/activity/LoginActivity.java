@@ -365,7 +365,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     @OnClick(R.id.btn_activityLogin_login)
     public void onClick() {
         if (!isagreement){
-            ToastUtils.createNormalToast("请您点击同意注册协议");
+            ToastUtils.createNormalToast("请点击按钮同意注册协议");
             return;
         }
         invit = editActivityLoginInvit.getText().toString().trim();
@@ -446,7 +446,11 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     is_registed = jsonObject1.getInt("is_registed");
                     if (is_registed == 0) {
                         ll_login_invit.setVisibility(View.VISIBLE);
+                    }else if(is_registed==1) {
+
+                        ll_login_invit.setVisibility(View.GONE);
                     }
+
                     int code = jsonObject1.getInt("code");
                     ToastUtils.createNormalToast(message);
                     time = 60;

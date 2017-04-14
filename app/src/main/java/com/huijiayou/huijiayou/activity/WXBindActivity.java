@@ -61,6 +61,8 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     TextView tvActivityWxbindAgreenment;
     @Bind(R.id.tv_activity_wxbind_check)
     TextView getTvActivityWxbindCheck;
+    @Bind(R.id.tv_activity_wxbind_claer)
+    TextView tvActivityWxbindClaer;
     private String telephone;
     private String SMScode;
     private String key;
@@ -193,6 +195,12 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 }
             }
         });
+        tvActivityWxbindClaer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editActivityBindPhone.setText("");
+            }
+        });
         //获取用户的头像和姓名展示
         getUserInformation();
     }
@@ -241,7 +249,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                 break;
             case R.id.btn_activity_wxbind_Bind:
                 if (!isagreement){
-                    ToastUtils.createNormalToast("请您点击同意注册协议");
+                    ToastUtils.createNormalToast("请点击按钮同意注册协议");
                     return;
                 }
                 bindTelephone();
@@ -387,6 +395,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     is_registed = jsonObject1.getInt("is_registed");
                     if(is_registed ==0){
                         llActivityWxbindInvit.setVisibility(View.VISIBLE);
+                    }else if(is_registed==1) {
+
+                        llActivityWxbindInvit.setVisibility(View.GONE);
                     }
                     time = 60;
                     //向服务器请求
