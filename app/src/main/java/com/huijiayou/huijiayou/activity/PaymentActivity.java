@@ -94,6 +94,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.tv_activityPayment_coupon_card)
     TextView tv_activityPayment_coupon_card;  //显示加油卡号 和 油卡类型的图标 drawableRight
 
+    @Bind(R.id.ll_activityPayment_coupon_userName)
+    RelativeLayout ll_activityPayment_coupon_userName;
+
     @Bind(R.id.tv_activityPayment_coupon_userName)
     TextView tv_activityPayment_coupon_userName;  //油卡持有人姓名
 
@@ -546,7 +549,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 UserEnableOil();
                 userPacketsList();
                 tv_activityPayment_coupon_card.setText(oilCard);
-                tv_activityPayment_coupon_userName.setText(oilCardName);
+                if (TextUtils.isEmpty(oilCardName)){
+                    ll_activityPayment_coupon_userName.setVisibility(View.GONE);
+                }else{
+                    tv_activityPayment_coupon_userName.setText(oilCardName);
+                }
 
                 rl_activityPayment_inputCard.setVisibility(View.GONE);
                 rl_activityPayment_coupon.setVisibility(View.VISIBLE);

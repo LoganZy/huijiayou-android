@@ -39,10 +39,12 @@
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|fontScale"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|fontScale"
+            android:screenOrientation="portrait"
             android:theme="@style/splashActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -151,28 +153,58 @@
             android:screenOrientation="behind" />
         <!-- 支付宝 end -->
 
-        <activity android:name=".activity.PaymentActivity" />
+        <activity android:name=".activity.PaymentActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.DetailsActivity" />
-        <activity android:name=".activity.CloseDealActivity" />
-        <activity android:name=".activity.NoPayActivity" />
-        <activity android:name=".activity.OilCardActivity" />
-        <activity android:name=".activity.CouponActivity" />
-        <activity android:name=".activity.MessageActivity" />
-        <activity android:name=".activity.AddOilCardActivity" />
-        <activity android:name=".activity.OilActivity" />
-        <activity android:name=".activity.InvitationActivity" />
-        <activity android:name=".activity.MessageDetailActivity" />
-        <activity android:name=".activity.FeedbackActivity" />
-        <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.CancelActivity" />
-        <activity android:name=".activity.PayingActivity" />
-        <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.InvitationShareActivity" />
+        <activity android:name=".activity.DetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CloseDealActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.NoPayActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.OilCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CouponActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MessageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AddOilCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.OilActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.InvitationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MessageDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CancelActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PayingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HelpActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.InvitationShareActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.IntroduceActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
-        <activity android:name=".activity.WelfareActivity"></activity>
+        <activity android:name=".activity.WelfareActivity"
+            android:screenOrientation="portrait"></activity>
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.huijiayou.huijiayou.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

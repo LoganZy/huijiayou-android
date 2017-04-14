@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class IntroduceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduce);
         ButterKnife.bind(this);
+        ((MyApplication) getApplication()).addActivity(this);
 
         initImageView();
         viewPager_activityIntroduce_view.setAdapter(new IntroduceViewPager());
