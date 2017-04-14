@@ -196,13 +196,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = "取消发送";
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                ToastUtils.createLongToast(this,result);
+               // ToastUtils.createLongToast(this,result);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 result = "发送被拒绝";
-                ToastUtils.createLongToast(this,result);
+                //ToastUtils.createLongToast(this,result);
                 finish();
                 break;
             default:
