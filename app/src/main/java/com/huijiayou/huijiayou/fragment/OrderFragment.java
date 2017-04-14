@@ -87,6 +87,7 @@ public class OrderFragment extends Fragment{
     private ArrayList<Record> list;
     private View view1;
     private LoadingHeader footer;
+    private boolean isRunTime=false;
 
     @Nullable
     @Override
@@ -172,12 +173,22 @@ public class OrderFragment extends Fragment{
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if(hidden&&isRunTime){
+          frameLayout.refreshComplete();
+            Log.i("OrderFragment","+++++++++++++++++++++++++++++++");
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isRunTime=false;
     }
 
     public void orderFragmentIsLoginOrno() {
@@ -218,7 +229,6 @@ public class OrderFragment extends Fragment{
         //footer.setPadding(0, LocalDisplay.dp2px(20), 0, LocalDisplay.dp2px(20));
         frameLayout.setFooterView(footer);
         frameLayout.addPtrUIHandler(footer);
-
         frameLayout.setRatioOfHeaderHeightToRefresh(1.0f);
         frameLayout.setHeaderView(header);
         frameLayout.addPtrUIHandler(header);
@@ -228,6 +238,7 @@ public class OrderFragment extends Fragment{
         frameLayout.setPtrHandler(new PtrHandler2() {
             @Override
             public boolean checkCanDoLoadMore(PtrFrameLayout frame, View content, View footer) {
+                isRunTime=true;// 解决双重动画
                 return PtrDefaultHandler2.checkContentCanBePulledUp(frame, content, footer);
             }
 
@@ -237,6 +248,7 @@ public class OrderFragment extends Fragment{
                     @Override
                     public void run() {
                         getRecord(2);
+
                         frameLayout.refreshComplete();
                         recordAdapter.notifyDataSetChanged();
                     }

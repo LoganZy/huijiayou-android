@@ -50,6 +50,13 @@ public class LoadingHeader extends FrameLayout implements PtrUIHandler {
 
     }
 
+    public void stopFooterAnimation(){
+
+        animation.stop();
+        tvLoading.setVisibility(View.GONE);
+        view.setVisibility(View.GONE);
+    }
+
     public void setUp(PtrFrameLayout ptrFrameLayout) {
         mPtrFrameLayout = ptrFrameLayout;
         mPtrTensionIndicator = new PtrTensionIndicator();
