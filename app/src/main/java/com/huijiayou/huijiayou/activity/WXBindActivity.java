@@ -63,7 +63,6 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     TextView getTvActivityWxbindCheck;
     private String telephone;
     private String SMScode;
-   // private String invite;
     private String key;
     private int code;
     private int time = 60;
@@ -71,6 +70,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     private String invit;
     private boolean isagreement;
     private int is_registed;
+    private boolean isshow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +78,42 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         setContentView(R.layout.activity_wxbind);
         ButterKnife.bind(this);
         isagreement = true;
+       // editActivityBindPhone.requestFocus();
+
         initView();
     }
 
     private void initView() {
         setEditTextInhibitInputSpace(editActivityBindPhone);
+        editActivityBindSms.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int len = editActivityBindSms.getText().length();
+                if(len>6){
+                    String str = editActivityBindSms.getText().toString();
+                   String  newStr = str.substring(0,6);
+                    editActivityBindSms.setText(newStr);
+                }
+                if (len>=6&&isshow){
+                    btnActivityWxbindBind.setBackgroundResource(R.drawable.round_button);
+                    btnActivityWxbindBind.setEnabled(true);
+
+                }else{
+                    btnActivityWxbindBind.setBackgroundResource(R.drawable.round_button_gray);
+                    btnActivityWxbindBind.setEnabled(false);
+                }
+            }
+        });
         editActivityBindPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,17 +166,29 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     editActivityBindPhone.setText(newStr);
 
                 }
+                if (len>=13){
+                    tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
+                    tvActivityWxbindSendPhoneCode.setEnabled(true);
+                    isshow = true;
 
+                }
+
+                else {
+                    tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.gray1));
+                    tvActivityWxbindSendPhoneCode.setEnabled(false);
+                    isshow=false;
+
+                }
             }
         });
         getTvActivityWxbindCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isagreement){
-
+                    getTvActivityWxbindCheck.setBackgroundResource(R.mipmap.ic_login_check_n);
                     isagreement = false;
                 }else{
-
+                    getTvActivityWxbindCheck.setBackgroundResource(R.mipmap.ic_login_check_h);
                     isagreement = true;
                 }
             }
@@ -259,7 +301,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
         }else{
 //            ToastUtils.createNormalToast(WXBindActivity.this, "请输入短信接收到的验证码");
 
-
+            tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.gray1));
             editActivityBindSms.setText("");
             editActivityBindPhone.clearFocus();
             editActivityBindSms.setFocusable(true);
@@ -296,6 +338,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     tvActivityWxbindSendPhoneCode.setEnabled(true);
                     tvActivityWxbindSendPhoneCode.setText("重新获取");
                 } else {
+                    tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
                     tvActivityWxbindSendPhoneCode.setEnabled(false);
                     tvActivityWxbindSendPhoneCode.setText(time + "s");
                     handler.postDelayed(this, 1000);
@@ -336,6 +379,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
             case 1:
 
                 try {
+                    String message = jsonObject.getString("message");
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
@@ -347,7 +391,7 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
                     time = 60;
                     //向服务器请求
                     startTime();
-                   // ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                    ToastUtils.createNormalToast(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -383,6 +427,9 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
+        if (taskId==1){
+            tvActivityWxbindSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
+        }
         if(code==1999){
             ToastUtils.createNormalToast(WXBindActivity.this, "服务器繁忙");
         }else {
@@ -391,8 +438,13 @@ public class WXBindActivity extends BaseActivity implements NewHttpRequest.Reque
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        
+
     }
 }

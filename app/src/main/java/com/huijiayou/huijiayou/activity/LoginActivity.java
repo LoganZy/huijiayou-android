@@ -1,6 +1,7 @@
 package com.huijiayou.huijiayou.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -34,6 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,6 +68,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     TextView tvActivityLoginAgreenment;
     @Bind(R.id.iv_activityLogin_check)
     TextView ibActivityLoginAgreement;
+    @Bind(R.id.btn_activityLogin_login)
+    TextView tvActivityLoginLogin;
+    @Bind(R.id.tv_activityLogin_claer)
+    TextView tvActivityLoginClear;
     private int time = 60;
     private String telephone;
     private String SMScode;
@@ -74,6 +82,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
     private boolean isagreement ;
     private int is_registed;
     private DialogLoading dialogLoading;
+    private boolean isshow;
 
 
     @Override
@@ -83,6 +92,16 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         isagreement=true;
+      /*  editActivityLoginPhone.requestFocus();
+        Timer timer = new Timer(); //设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() { //弹出软键盘的代码
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editActivityLoginPhone, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }, 300);*/
         initView();
         PreferencesUtil.putPreferences("Bindisback",false);
 
@@ -102,6 +121,14 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                 WetLogin();
             }
         });
+
+        tvActivityLoginClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editActivityLoginPhone.setText("");
+            }
+        });
+
         tvActivityLoginAgreenment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,10 +143,10 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             @Override
             public void onClick(View v) {
                 if(isagreement){
-                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_clear);
+                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_check_n);
                     isagreement = false;
                 }else{
-                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_check);
+                    ibActivityLoginAgreement.setBackgroundResource(R.mipmap.ic_login_check_h);
                     isagreement = true;
                 }
             }
@@ -133,7 +160,36 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
         });
 
         setEditTextInhibitInputSpace(editActivityLoginPhone);
+        editActivityLoginPhoneCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int len = editActivityLoginPhoneCode.getText().length();
+                if(len>6){
+                    String str = editActivityLoginPhoneCode.getText().toString();
+                    String  newStr = str.substring(0,6);
+                    editActivityLoginPhoneCode.setText(newStr);
+                }
+                if (len>=6&&isshow){
+                    tvActivityLoginLogin.setBackgroundResource(R.drawable.round_button);
+                    tvActivityLoginLogin.setEnabled(true);
+                }
+
+                else {
+                    tvActivityLoginLogin.setBackgroundResource(R.drawable.round_button_gray);
+                    tvActivityLoginLogin.setEnabled(false);
+                }
+            }
+        });
 //        edittext 关于电话号码的逻辑
         editActivityLoginPhone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -179,15 +235,30 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             @Override
             public void afterTextChanged(Editable s) {
                 int len = editActivityLoginPhone.getText().length();
-                if (len > 13) {
+                if (len >13) {
                     int selEndIndex = Selection.getSelectionEnd(editActivityLoginPhone.getText());
                     String str = editActivityLoginPhone.getText().toString();
                     //截取新字符串
                     String newStr = str.substring(0, 13);
                     editActivityLoginPhone.setText(newStr);
 
+
                 }
 
+
+                if (len>=13){
+                    tvActivityLoginSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
+                    tvActivityLoginSendPhoneCode.setEnabled(true);
+                    isshow = true;
+
+                }
+
+                else {
+                    tvActivityLoginSendPhoneCode.setTextColor(getResources().getColor(R.color.gray1));
+                    tvActivityLoginSendPhoneCode.setEnabled(false);
+                    isshow=false;
+
+                }
             }
         });
         /*
@@ -204,7 +275,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                     ToastUtils.createNormalToast(LoginActivity.this, "手机号码格式不正确，请重新输入！");
                 } else  {
 //                    ToastUtils.createNormalToast(LoginActivity.this, "请输入短信接收到的验证码");
-
+                    tvActivityLoginSendPhoneCode.setTextColor(getResources().getColor(R.color.gray1));
                     editActivityLoginPhoneCode.setText("");
                     editActivityLoginPhone.clearFocus();
                     editActivityLoginPhoneCode.setFocusable(true);
@@ -338,11 +409,12 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             public void run() {
                 time -= 1;
                 if (time <= 0) {
-                    tvActivityLoginSendPhoneCode.setClickable(true);
+                    tvActivityLoginSendPhoneCode.setEnabled(true);
                     tvActivityLoginSendPhoneCode.setText("重新获取");
                     handler.removeCallbacksAndMessages(null);
                 } else {
-                    tvActivityLoginSendPhoneCode.setClickable(false);
+                    tvActivityLoginSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
+                    tvActivityLoginSendPhoneCode.setEnabled(false);
                     //tvActivityLoginSendPhoneCode.setEnabled(false);
                     tvActivityLoginSendPhoneCode.setText(time + "s");
                     handler.postDelayed(this, 1000);
@@ -367,6 +439,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
             case 1:
 
                 try {
+                    String message = jsonObject.getString("message");
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     String callNum = jsonObject1.getString("call_num");
                     key = jsonObject1.getString("key");
@@ -375,7 +448,7 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
                         ll_login_invit.setVisibility(View.VISIBLE);
                     }
                     int code = jsonObject1.getInt("code");
-               //     ToastUtils.createNormalToast("您已经获取了" + code + "次验证码");
+                    ToastUtils.createNormalToast(message);
                     time = 60;
                     //向服务器请求
                     startTime();
@@ -417,6 +490,9 @@ public class LoginActivity extends Activity implements NewHttpRequest.RequestCal
 
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
+        if (taskId==1){
+            tvActivityLoginSendPhoneCode.setTextColor(getResources().getColor(R.color.orange_F18B30));
+        }
         if(taskId==2){
             tvActivityLoginSendPhoneCode.setClickable(true);
         }

@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 public class CancelActivity extends BaseActivity {
 
     @Bind(R.id.bt_activityCancle_out)
-    Button btActivityCancleOut;
+    TextView btActivityCancleOut;
     @Bind(R.id.tv_activityCancle_telephone)
     TextView tvActivityCancleTelephone;
     @Bind(R.id.tv_activityCancle_name)
@@ -39,6 +39,8 @@ public class CancelActivity extends BaseActivity {
     TextView tvActivityCancleVersion;
     @Bind(R.id.rl_activityCancel_name)
     RelativeLayout rlActivityCancleName;
+    @Bind(R.id.rl_activityCancel_version)
+    RelativeLayout rlActivityVersion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,12 @@ public class CancelActivity extends BaseActivity {
     }
 
     private void initView() {
+        rlActivityVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.createNormalToast("进入版本页");
+            }
+        });
         btActivityCancleOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

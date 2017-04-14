@@ -11,6 +11,7 @@
         <!--详情界面-->
         <RelativeLayout
             android:visibility="invisible"
+            android:background="@color/bg_color"
             android:id="@+id/Fragment_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -26,10 +27,16 @@
                 android:textSize="17dp"
                 android:background="@color/white"
                 android:text="我的订单" />
+            <View
+                android:layout_below="@id/tv_commonTitle_title"
+                android:id="@+id/shade"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@mipmap/ic_navbar_bg" />
             <LinearLayout
+                android:layout_below="@id/shade"
                 android:id="@+id/ll_activity_head"
                 android:gravity="center"
-                android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:orientation="vertical"
@@ -106,6 +113,10 @@
                 android:textSize="17dp"
                 android:background="@color/white"
                 android:text="我的订单" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@mipmap/ic_navbar_bg" />
             <TextView
                 android:layout_marginTop="60dp"
                 android:layout_gravity="center_horizontal"
@@ -164,6 +175,10 @@
                 android:textSize="17dp"
                 android:background="@color/white"
                 android:text="我的订单" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@mipmap/ic_navbar_bg" />
             <TextView
                 android:layout_marginTop="60dp"
                 android:layout_gravity="center_horizontal"
