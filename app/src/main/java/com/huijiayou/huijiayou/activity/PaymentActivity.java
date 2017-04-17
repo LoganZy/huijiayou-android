@@ -22,7 +22,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -409,7 +408,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     ThreadPool.getThreadPool().execute(new Runnable() {
                         @Override
                         public void run() {
-                            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);   //沙箱
+//                            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);   //沙箱
                             PayTask payTask = new PayTask(PaymentActivity.this);
                             Map<String, String> result = payTask.payV2(orderInfo,true);
                             Message message = new Message();
