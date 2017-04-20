@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_dialog_share_cancel"
-        android:background="@color/white"
+        android:background="@color/bg_color"
         android:orientation="horizontal"
+        android:weightSum="4"
         android:padding="10dp">
-
 
         <TextView
             android:id="@+id/tv_dialog_share_wechat"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/ic_invite_wechat"
             android:gravity="center"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/tv_dialog_share_wxcircle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/ic_invite_circle"
             android:gravity="center"
@@ -35,31 +35,24 @@
             android:text="朋友圈" />
 
         <TextView
-            android:id="@+id/tv_dialog_share_mianduimian"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_dialog_share_qq"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@mipmap/ic_invite_qr_code_hqr_code_h5_qr_code"
+            android:drawableTop="@mipmap/ic_invite_qq"
             android:gravity="center"
-            android:layout_weight="1"
             android:textColor="@color/black"
-            android:text="面对面邀请" />
+            android:layout_weight="1"
+            android:text="QQ" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_dialog_share_mianduimian"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_invite_qr_code_hqr_code_h5_qr_code"
             android:gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_dialog_share_qq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/umeng_socialize_qq"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:text="QQ" />
-        </LinearLayout>
+            android:text="面对面邀请"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

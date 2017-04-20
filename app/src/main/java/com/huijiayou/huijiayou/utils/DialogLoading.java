@@ -27,7 +27,6 @@ public class DialogLoading {
         } catch (OutOfMemoryError oom){
             System.gc();
         }
-
     }
 
     public void show(){

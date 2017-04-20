@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_dialogVersionUpdateDownload_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在下载"
+            android:layout_marginBottom="5dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar_dialogVersionUpdateDownload_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:layout_below="@+id/tv_dialogVersionUpdateDownload_tag"
+            style="@android:style/Widget.ProgressBar.Horizontal"/>
+
+        <Button
+            android:id="@+id/btn_dialogVersionUpdateDownload_backstage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后台继续下载"
+            android:textColor="@color/orange_FF7320"
+            android:textSize="16dp"
+            android:background="@color/transparent"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/progressBar_dialogVersionUpdateDownload_progress"/>
+
+        <Button
+            android:id="@+id/btn_dialogVersionUpdateDownload_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:background="@color/transparent"
+            android:textColor="@color/gray"
+            android:layout_toLeftOf="@+id/btn_dialogVersionUpdateDownload_backstage"
+            android:layout_below="@+id/progressBar_dialogVersionUpdateDownload_progress"/>
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

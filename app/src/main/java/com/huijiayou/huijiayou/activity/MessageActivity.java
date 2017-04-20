@@ -222,15 +222,12 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             if (taskId == lstTaskId){
                 messageArrayList = new Gson().fromJson(jsonObject.getJSONObject("data").get("lst").toString(),
                         new TypeToken<ArrayList<Message>>() {}.getType());
-                if (type == type_all || type == type_system){
+                if (type == type_all){
                     messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick,type);
                     recyclerView_activityMessage_list.setAdapter(messageAdapter);
-                }else if (type == type_transaction || type == type_activity){
-                    messageTransactionAdapter = new MessageTransactionAdapter(messageArrayList, this, onBtnClick);
-                    recyclerView_activityMessage_list.setAdapter(messageTransactionAdapter);
                 }else{
-                    messageAdapter = new MessageAdapter(messageArrayList, this, onItemClick);
-                    recyclerView_activityMessage_list.setAdapter(messageAdapter);
+                    messageTransactionAdapter = new MessageTransactionAdapter(messageArrayList, this, onBtnClick, onItemClick);
+                    recyclerView_activityMessage_list.setAdapter(messageTransactionAdapter);
                 }
                 if (messageArrayList == null || messageArrayList.size() == 0){
                     tv_activityMessage_noData.setVisibility(View.VISIBLE);

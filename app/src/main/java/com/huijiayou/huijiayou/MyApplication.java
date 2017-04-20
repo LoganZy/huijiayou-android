@@ -8,11 +8,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.huijiayou.huijiayou.config.Constans;
-import com.huijiayou.huijiayou.utils.PreferencesUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.Tencent;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.LinkedList;
@@ -32,6 +32,7 @@ public class MyApplication extends Application {
     public List<Activity> activityList = new LinkedList<Activity>();
     public static boolean isLogin = false;
     public static boolean isNewMessage = false;
+    public static Tencent mTencent;
     //微信分享
 //    private static final String APP_ID = "wxc77febc13d61d07b";
 //    private IWXAPI api;
@@ -57,6 +58,8 @@ public class MyApplication extends Application {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+
+        mTencent =  Tencent.createInstance("1106037339", this); //初始化qq分享
     }
 
     public static Context getContext(){

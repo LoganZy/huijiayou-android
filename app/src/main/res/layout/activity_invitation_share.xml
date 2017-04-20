@@ -31,27 +31,39 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:paddingLeft="10dp">
+            android:background="@color/bg_color"
+            android:weightSum="4"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/tv_activityInvitationShare_wechat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:drawableTop="@mipmap/ic_invite_wechat"
                 android:gravity="center"
-                android:padding="10dp"
                 android:text="微信"
                 android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_activityInvitationShare_wxcircle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:drawableTop="@mipmap/ic_invite_circle"
                 android:gravity="center"
-                android:padding="10dp"
                 android:text="朋友圈"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_activityInvitationShare_qq"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/ic_invite_qq"
+                android:gravity="center"
+                android:text="QQ"
                 android:textColor="@color/black" />
 
         </LinearLayout>

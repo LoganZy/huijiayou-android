@@ -42,23 +42,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageS
         this.type = type;
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        Message message = messageArrayList.get(position);
-//        if ("oil_register".equals(message.getMtype())){
-//            return itemType_system;
-//        }else if ("oil_buy_forthwith".equals(message.getMtype()) ||
-//                "oil_buy_noforthwith".equals(message.getMtype()) ||
-//                "oil_recharge_forthwith".equals(message.getMtype()) ||
-//                "oil_recharge_noforthwith".equals(message.getMtype()) ||
-//                "oil_packets".equals(message.getMtype()) ||
-//                "oil_oildrop_friend".equals(message.getMtype())){
-//            return itemType_transactionAndActivity;
-//        }else{
-//            return itemType_system;
-//        }
-//    }
-
     @Override
     public MessageSystemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MessageSystemViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_system_layout,parent,false));

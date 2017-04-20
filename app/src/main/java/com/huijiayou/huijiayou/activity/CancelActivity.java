@@ -3,6 +3,7 @@ package com.huijiayou.huijiayou.activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -40,6 +41,7 @@ public class CancelActivity extends BaseActivity {
     RelativeLayout rlActivityCancleName;
     @Bind(R.id.rl_activityCancel_version)
     RelativeLayout rlActivityVersion;
+    VersionUpdateManager versionUpdateManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,21 @@ public class CancelActivity extends BaseActivity {
         tvTitle.setText("设置");
         initData();
         initView();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            ToastUtils.createNormalToast(this, "开始下载");
+            versionUpdateManager.showDownloadProcessDialog();
+        }else if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED){
+            if (versionUpdateManager.isForce()){
+                ((MyApplication)getApplication()).exit();
+            }else{
+                ToastUtils.createNormalToast(this, "不能为您下载更新版本");
+            }
+        }
     }
 
     private void initView() {

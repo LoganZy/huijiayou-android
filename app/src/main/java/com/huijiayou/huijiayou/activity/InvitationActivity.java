@@ -1,5 +1,6 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -8,11 +9,15 @@ import com.huijiayou.huijiayou.R;
 import com.huijiayou.huijiayou.config.Constans;
 import com.huijiayou.huijiayou.config.NetConfig;
 import com.huijiayou.huijiayou.utils.PreferencesUtil;
+import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeHandler;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.BridgeWebView;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.CallBackFunction;
 import com.huijiayou.huijiayou.widget.jsbridgewebview.DefaultHandler;
 import com.huijiayou.huijiayou.wxapi.ShareUtil;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * 好友邀请页
  */
-public class InvitationActivity extends BaseActivity {
+public class InvitationActivity extends BaseActivity implements IUiListener {
 
     @Bind(R.id.bridgeWebView)
     BridgeWebView bridgeWebView;
@@ -74,7 +79,13 @@ public class InvitationActivity extends BaseActivity {
         mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
         String invite_code = PreferencesUtil.getPreferences(Constans.USER_INVITE_CODE,"");
         String url = NetConfig.H5_URL + "?mobile="+mobile+"&invite_code="+invite_code+"#/game/main";
-        new ShareUtil().shareWebPage(this, "", "", url);
+        new ShareUtil().shareWebPage(this, "", "", url, this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Tencent.onActivityResultData(requestCode,resultCode,data,this);
     }
 
     @Override
@@ -84,5 +95,20 @@ public class InvitationActivity extends BaseActivity {
       /*  if (mDialog != null) {
             mDialog.dismiss();
         }*/
+    }
+
+    @Override
+    public void onComplete(Object o) {
+        ToastUtils.createNormalToast(this, "分享成功");
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+        ToastUtils.createLongToast(this, uiError.errorMessage);
+    }
+
+    @Override
+    public void onCancel() {
+        ToastUtils.createLongToast(this, "取消分享");
     }
 }

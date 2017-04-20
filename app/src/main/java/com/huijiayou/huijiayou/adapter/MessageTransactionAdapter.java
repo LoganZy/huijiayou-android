@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huijiayou.huijiayou.R;
@@ -26,11 +27,13 @@ public class MessageTransactionAdapter extends RecyclerView.Adapter<MessageTrans
     ArrayList<Message> messageArrayList;
     Context context;
     View.OnClickListener onBtnClickListener;
+    View.OnClickListener onItemClickListener;
 
-    public MessageTransactionAdapter(ArrayList<Message> messageArrayList, Context context, View.OnClickListener onBtnClickListener) {
+    public MessageTransactionAdapter(ArrayList<Message> messageArrayList, Context context, View.OnClickListener onBtnClickListener, View.OnClickListener onItemClickListener) {
         this.messageArrayList = messageArrayList;
         this.context = context;
         this.onBtnClickListener = onBtnClickListener;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -55,8 +58,6 @@ public class MessageTransactionAdapter extends RecyclerView.Adapter<MessageTrans
             holder.tv_itemMessageTransactionActivityLayout_button.setText("查看详情");
         }else if ("4".equals(message.getJump_type())){ //邀请好友
             holder.tv_itemMessageTransactionActivityLayout_button.setText("邀请好友");
-
-
         }
         holder.tv_itemMessageTransactionActivityLayout_content.setText(message.getContent());
         holder.tv_itemMessageTransactionActivityLayout_time.setText(simpleDateFormat1.format(date));
@@ -68,6 +69,9 @@ public class MessageTransactionAdapter extends RecyclerView.Adapter<MessageTrans
         }else{
             holder.tv_itemMessageTransactionActivityLayout_content.setTextColor(context.getResources().getColor(R.color.gray));
         }
+
+        holder.ll_itemMessageTransactionActivityLayout_content.setTag(position);
+        holder.ll_itemMessageTransactionActivityLayout_content.setOnClickListener(onItemClickListener);
     }
 
     @Override
@@ -87,6 +91,9 @@ public class MessageTransactionAdapter extends RecyclerView.Adapter<MessageTrans
 
         @Bind(R.id.tv_itemMessageTransactionActivityLayout_button)
         TextView tv_itemMessageTransactionActivityLayout_button;
+
+        @Bind(R.id.ll_itemMessageTransactionActivityLayout_content)
+        LinearLayout ll_itemMessageTransactionActivityLayout_content;
 
         public MessageTransactionAndActivityViewHolder(View itemView) {
             super(itemView);

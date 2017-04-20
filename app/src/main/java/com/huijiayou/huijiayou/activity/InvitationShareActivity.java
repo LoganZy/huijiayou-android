@@ -1,9 +1,20 @@
 package com.huijiayou.huijiayou.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.huijiayou.huijiayou.MyApplication;
 import com.huijiayou.huijiayou.R;
@@ -17,27 +28,42 @@ import com.huijiayou.huijiayou.utils.ToastUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InvitationShareActivity extends BaseActivity implements View.OnClickListener, NewHttpRequest.RequestCallback{
+import static com.huijiayou.huijiayou.MyApplication.mTencent;
+
+public class InvitationShareActivity extends BaseActivity implements View.OnClickListener, NewHttpRequest.RequestCallback, IUiListener{
 
     @Bind(R.id.imgView_activityInvitationShare_view)
     ImageView imgView_activityInvitationShare_view;
+
+    @Bind(R.id.tv_activityInvitationShare_qq)
+    TextView tv_activityInvitationShare_qq;
     DialogLoading dialog;
     private Bitmap bitmap;
+    String imageName;
+
+    boolean is_WRITE_EXTERNAL_STORAGE = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +73,25 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
         tvTitle.setText("好友邀请");
 
         dialog = new DialogLoading(this);
-        imgView_activityInvitationShare_view.setDrawingCacheEnabled(true);
         shareCodePicture();
+        imgView_activityInvitationShare_view.setDrawingCacheEnabled(true);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            is_WRITE_EXTERNAL_STORAGE = true;
+            tv_activityInvitationShare_qq.setVisibility(View.VISIBLE);
+            imageName = System.currentTimeMillis()+".png";
+            if (is_WRITE_EXTERNAL_STORAGE){
+                saveBitmap(imageName);
+            }
+        }else if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED){
+            is_WRITE_EXTERNAL_STORAGE = false;
+            tv_activityInvitationShare_qq.setVisibility(View.GONE);
+        }
     }
 
     private void shareCodePicture(){
@@ -65,34 +108,52 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
     }
 
 
-    @OnClick({R.id.tv_activityInvitationShare_wechat, R.id.tv_activityInvitationShare_wxcircle})
+    @OnClick({R.id.tv_activityInvitationShare_wechat, R.id.tv_activityInvitationShare_wxcircle, R.id.tv_activityInvitationShare_qq})
     @Override
     public void onClick(View v) {
         if (bitmap == null){
             ToastUtils.createLongToast(this,"请重新打开此页面加载图片资源,或者提交反馈");
         }else{
             boolean isPaySupported = MyApplication.msgApi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-            if (!isPaySupported) {
-                ToastUtils.createLongToast(this, "您没有安装微信或者微信版本太低");
-                return;
-            }
-            int scene = SendMessageToWX.Req.WXSceneSession;
             switch (v.getId()){
                 case R.id.tv_activityInvitationShare_wechat:
-                    scene = SendMessageToWX.Req.WXSceneSession;
+                    if (!isPaySupported) {
+                        ToastUtils.createLongToast(this, "您没有安装微信或者微信版本太低");
+                        return;
+                    }
+                    shareWX(SendMessageToWX.Req.WXSceneSession);
                     break;
                 case R.id.tv_activityInvitationShare_wxcircle:
-                    scene = SendMessageToWX.Req.WXSceneTimeline;
+                    if (!isPaySupported) {
+                        ToastUtils.createLongToast(this, "您没有安装微信或者微信版本太低");
+                        return;
+                    }
+                    shareWX(SendMessageToWX.Req.WXSceneTimeline);
+                    break;
+                case R.id.tv_activityInvitationShare_qq:
+                    shareQQ();
                     break;
             }
-            WXMediaMessage wxMediaMessage = new WXMediaMessage();
-            WXImageObject wxImageObject = new WXImageObject(bitmap);
-            wxMediaMessage.mediaObject = wxImageObject;
-            SendMessageToWX.Req req = new SendMessageToWX.Req();
-            req.message = wxMediaMessage;
-            req.scene = scene;
-            MyApplication.msgApi.sendReq(req);
         }
+    }
+
+    private void shareQQ(){
+        Bundle params = new Bundle();
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, Environment.getExternalStorageDirectory() + "/huijiayou/"+ imageName);
+        params.putString(QQShare.SHARE_TO_QQ_APP_NAME,  "会加油");
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
+//      params.putInt(QQShare.SHARE_TO_QQ_EXT_INT,  QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+        mTencent.shareToQQ(this, params, this);
+    }
+
+    private void shareWX(int scene){
+        WXMediaMessage wxMediaMessage = new WXMediaMessage();
+        WXImageObject wxImageObject = new WXImageObject(bitmap);
+        wxMediaMessage.mediaObject = wxImageObject;
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.message = wxMediaMessage;
+        req.scene = scene;
+        MyApplication.msgApi.sendReq(req);
     }
 
     @Override
@@ -111,12 +172,28 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
 
     }
 
+    private void saveBitmap(String fileName){
+        File file = new File(Environment.getExternalStorageDirectory() + "/huijiayou/");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        file = new File(Environment.getExternalStorageDirectory() + "/huijiayou/", fileName);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void requestSuccess(JSONObject jsonObject, JSONArray jsonArray, int taskId) {
         try {
-            Object invitePicture = jsonObject.get("invitePicture");
-            if (invitePicture != null){
-                ImageLoader.getInstance().loadImage(invitePicture.toString(), new ImageLoadingListener() {
+            String imageUri = jsonObject.getString("invitePicture");
+            if (!TextUtils.isEmpty(imageUri)){
+                ImageLoader.getInstance().loadImage(imageUri, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                         if (dialog != null){
@@ -146,6 +223,30 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
                         if (dialog != null){
                             dialog.dismiss();
                         }
+
+                        if (ContextCompat.checkSelfPermission(InvitationShareActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            is_WRITE_EXTERNAL_STORAGE = false;
+                            tv_activityInvitationShare_qq.setVisibility(View.GONE);
+                            new AlertDialog.Builder(InvitationShareActivity.this).setTitle("提示")
+                                    .setMessage("我们需要您赋予我们读取您的存储空间的权限,用于分享图片到QQ")
+                                    .setNegativeButton("知道了", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ActivityCompat.requestPermissions(InvitationShareActivity.this,
+                                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                                        }})
+                                    .setNeutralButton("不用了", null)
+                                    .show();
+
+                        }else {
+                            is_WRITE_EXTERNAL_STORAGE = true;
+                            tv_activityInvitationShare_qq.setVisibility(View.VISIBLE);
+                            imageName = System.currentTimeMillis()+".png";
+                            if (is_WRITE_EXTERNAL_STORAGE){
+                                saveBitmap(imageName);
+                            }
+                        }
                     }
 
                     @Override
@@ -166,5 +267,27 @@ public class InvitationShareActivity extends BaseActivity implements View.OnClic
     @Override
     public void requestError(int code, MessageEntity msg, int taskId) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Tencent.onActivityResultData(requestCode,resultCode,data,this);
+    }
+
+
+    @Override
+    public void onComplete(Object o) {
+        ToastUtils.createNormalToast(this, "分享成功");
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+        ToastUtils.createLongToast(this, uiError.errorMessage);
+    }
+
+    @Override
+    public void onCancel() {
+        ToastUtils.createLongToast(this, "取消分享");
     }
 }

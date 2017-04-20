@@ -1,24 +1,25 @@
 package com.huijiayou.huijiayou.manager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RemoteViews;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -54,12 +55,16 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
     Version version;
     private String mSavePath; /* 下载保存路径 */
 
-    private NotificationManager manager;
-    private Notification notif;
-    private android.widget.RemoteViews remoteViews;
-    private PendingIntent pendingIntent;
+//    private NotificationManager manager;
+//    private Notification notif;
+//    private android.widget.RemoteViews remoteViews;
+//    private PendingIntent pendingIntent;
+//
+//    private Intent updateIntent;
 
-    private Intent updateIntent;
+    ProgressBar progressBar;
+
+    Dialog downloadDialog;
 
     /* 下载中 */
     private static final int DOWNLOAD = 1;
@@ -82,6 +87,11 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("platform", "2");
         new NewHttpRequest(activity, NetConfig.ACCOUNT, NetConfig.appVersionSee, "jsonObject", 1, hashMap, isShow, this).executeTask();
+    }
+
+    //true强制升级
+    public boolean isForce(){
+        return "1".equals(version.getForce()) ? true : false;
     }
 
     private void showUpdateDialog(){
@@ -126,8 +136,16 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
             @Override
             public void onClick(View v) {
                 noticeDialog.dismiss();
-                ToastUtils.createNormalToast(activity, "开始下载");
-                showDownloadProcessDialog();
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+                }else{
+                    ToastUtils.createNormalToast(activity, "开始下载");
+                    showDownloadProcessDialog();
+                }
             }
         });
 
@@ -165,9 +183,53 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
         ToastUtils.createNormalToast(activity, msg.getMessage());
     }
 
+    private void showDownLoadProgree(){
+        downloadDialog = new Dialog(activity,R.style.dialog_bgTransparent);
+        View view = LayoutInflater.from(activity).inflate(R.layout.dialog_version_update_download, null);
+        downloadDialog.setCanceledOnTouchOutside(false);
+        downloadDialog.getWindow().setContentView(view);
+        downloadDialog.show();
+
+        ProgressBar progressBar = (ProgressBar) downloadDialog.findViewById(R.id.progressBar_dialogVersionUpdateDownload_progress);
+        Button backStage = (Button) downloadDialog.findViewById(R.id.btn_dialogVersionUpdateDownload_backstage);
+        Button cancel = (Button) downloadDialog.findViewById(R.id.btn_dialogVersionUpdateDownload_cancel);
+        this.progressBar = progressBar;
+        if ("1".equals(version.getForce())){
+            cancel.setVisibility(View.GONE);
+            backStage.setVisibility(View.GONE);
+            downloadDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode==KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+                        ((MyApplication)activity.getApplication()).exit();
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            });
+        }else{
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downloadDialog.dismiss();
+                    cancelUpdate = true;
+                }
+            });
+            backStage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downloadDialog.dismiss();
+                }
+            });
+        }
+
+
+    }
+
 
     long currentTime = 0;
-    private class downloadApkThread extends Thread {
+    private class DownloadApkThread extends Thread {
         @Override
         public void run() {
             try {
@@ -232,8 +294,11 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
             switch (msg.what) {
                 // 正在下载
                 case DOWNLOAD:
-                    notif.contentView.setProgressBar(R.id.progressBar_notification_progress, 100, progress, false);
-                    manager.notify(0, notif);
+//                    notif.contentView.setProgressBar(R.id.progressBar_notification_progress, 100, progress, false);
+//                    manager.notify(0, notif);
+                    if (downloadDialog != null && downloadDialog.isShowing()){
+                        progressBar.setProgress(progress);
+                    }
                     break;
                 case DOWNLOAD_FINISH:
                     installApk();
@@ -249,24 +314,25 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
     /**
      * 显示软件下载对话框
      */
-    private void showDownloadProcessDialog() {
-        updateIntent = new Intent();
-        updateIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        pendingIntent = PendingIntent.getActivity(activity, 0, updateIntent, 0);
+    public void showDownloadProcessDialog() {
+//        updateIntent = new Intent();
+//        updateIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        pendingIntent = PendingIntent.getActivity(activity, 0, updateIntent, 0);
+//
+//        manager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+//        notif = new Notification();
+//        notif.icon = R.mipmap.ic_launcher;
+//        notif.tickerText = "开始下载";
+//
+//        remoteViews = new RemoteViews(activity.getPackageName(), R.layout.progress_version_update);
+//        remoteViews.setProgressBar(R.id.progressBar_notification_progress, 100, 0, false);
+//
+//        notif.contentView = remoteViews;
+//        notif.contentIntent = pendingIntent;
+//        manager.notify(0, notif);
 
-        manager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
-        notif = new Notification();
-        notif.icon = R.mipmap.ic_launcher;
-        notif.tickerText = "开始下载";
-
-        remoteViews = new RemoteViews(activity.getPackageName(), R.layout.progress_version_update);
-        remoteViews.setProgressBar(R.id.progressBar_notification_progress, 100, 0, false);
-
-        notif.contentView = remoteViews;
-        notif.contentIntent = pendingIntent;
-        manager.notify(0, notif);
-
-        downloadApkThread task = new downloadApkThread();
+        showDownLoadProgree();
+        DownloadApkThread task = new DownloadApkThread();
         task.start();
     }
 
@@ -288,7 +354,8 @@ public class VersionUpdateManager implements NewHttpRequest.RequestCallback{
             intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
         }
         activity.startActivity(intent);
-        manager.cancelAll();
+//        manager.cancelAll();
+        downloadDialog.dismiss();
         ((MyApplication)activity.getApplication()).exit();
     }
 }

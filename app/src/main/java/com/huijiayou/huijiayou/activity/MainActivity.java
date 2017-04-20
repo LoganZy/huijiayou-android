@@ -1,16 +1,13 @@
 package com.huijiayou.huijiayou.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -80,6 +77,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     int checkNewMsgTaskId = 1;
 
+    VersionUpdateManager versionUpdateManager;
+
     private long exitTime = 0; // 按返回键的间隔
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,24 +141,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             new HomeFristStartDialog(this).ShowDialog();
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+        versionUpdateManager = new VersionUpdateManager(this);
+        versionUpdateManager.checkVersionUpdate(false);
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-
-        }else{
-            VersionUpdateManager versionUpdateManager = new VersionUpdateManager(this);
-            versionUpdateManager.checkVersionUpdate(false);
-        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            VersionUpdateManager versionUpdateManager = new VersionUpdateManager(this);
-            versionUpdateManager.checkVersionUpdate(false);
+            ToastUtils.createNormalToast(this, "开始下载");
+            versionUpdateManager.showDownloadProcessDialog();
+        }else if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED){
+            if (versionUpdateManager.isForce()){
+                ((MyApplication)getApplication()).exit();
+            }else{
+                ToastUtils.createNormalToast(this, "不能为您下载更新版本");
+            }
         }
     }
 
